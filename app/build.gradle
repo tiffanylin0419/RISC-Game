@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'factorserver.FactorServer'
+    mainClass = 'riskgame.RiskGame'
 }
 
 tasks.named('test') {
