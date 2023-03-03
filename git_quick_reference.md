@@ -7,9 +7,9 @@ create your branch ```YOUR_BRANCH```
 git clone the repo
 
 ## start coding and testing
-do some coding and write testcases for it (following NSD)
+do some coding and write testcases for it (following [NSD](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/blob/main/nsd.md))
 
-use coverage tool check coverage rate
+use coverage tool check coverage rate (set ```use trace``` in coverage configuration first time)
 
 suggest you following [gitlabci.pdf](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/blob/main/gitlabci.pdf) step4 to debug locally(it's much faster)
 debug and make sure everything is ok
