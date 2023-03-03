@@ -1,10 +1,15 @@
 Git and CI Quick Reference
 ======================================
 #### By yitao
-## Begin your project
+## Begin your project with create new feature branch
 
-create your branch ```YOUR_BRANCH```
 git clone the repo
+
+use ```git checkout -b NEW_FEATURE_BRANCH``` 
+create your new branch ```NEW_FEATURE_BRANCH``` and switch to it
+
+Or just use ```git checkout FEATURE_BRANCH``` to switch to an existing one
+
 
 ## start coding and testing
 do some coding and write testcases for it (following [NSD](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/blob/main/nsd.md))
@@ -15,6 +20,8 @@ suggest you following [gitlabci.pdf](https://gitlab.oit.duke.edu/ys386/ece651-sp
 debug and make sure everything is ok
 
 ## commit and push phase
+```git add .```
+
 now you are ready to commit!
 
 you should use ```git commit -m "what you do"```  as usual
@@ -35,7 +42,9 @@ MAKE SURE YOU KNOW WHAT AND WHERE YOU ARE PUSHING
 ```tag_name``` it is the commit tag that you assign, runner with this 
 tag will run cicd for this commit.
 if your tag doesn't match any runners tag, no runner will run pipeline 
-for you, and it will always be  stuck. You CAN LEAVE IT EMPTY since if the 
+for you, and it will always be  stuck. 
+
+You CAN LEAVE IT EMPTY since if the 
 commit is no tag, any idle can run it for you. 
 
 if you want to use tag, use ```git tag <tag-name>``` to create new tag
@@ -44,7 +53,7 @@ message, than use ```git push --tags``` to update tags in repo
 
 then you should tell the repo owner to add new runner for the tag
 (Here I have established ```ece651``` tag and matched runner in repo,
-so you can use it like ```git push master:YOUR_BRANCH ece651```)
+so you can use :```git push master:YOUR_BRANCH ece651```)
 
 eg:
 ```git push master:YOUR_BRANCH``` the new commit go through the pipeline
