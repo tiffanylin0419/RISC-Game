@@ -4,12 +4,13 @@ Git and CI Quick Reference
 ## Begin your project with create new feature branch
 
 git clone the repo
-use ```git checkout -b NEW_FEATURE_BRANCH``` 
-
+use ```git checkout -b NEW_FEATURE_BRANCH``` to
 create your new branch ```NEW_FEATURE_BRANCH``` and switch to it
 
 
-Or just use ```git checkout FEATURE_BRANCH``` to switch to an existing one
+Or just create ```FEATURE_BRANCH```on git lab and 
+
+use ```git checkout FEATURE_BRANCH``` to switch to an existing one
 
 
 ## start coding and testing
@@ -70,7 +71,7 @@ so you can use :```git push master:YOUR_BRANCH ece651```)
 
 
 eg:
-```git push master:YOUR_BRANCH``` the new commit go through the pipeline
+```git push YOUR_BRANCH:YOUR_BRANCH``` the new commit go through the pipeline
 and push it with no tag, the master branch refers to the branch in your 
 local repository that you want to push to the remote repository
 while YOUR_BRANCH is the name of the branch on the remote repository
@@ -78,9 +79,10 @@ that you want to update, any idle runner will handle it
 
 ## push wrong file or branch
 you need to roll back with ``` git reset --soft COMMIT_HASH_TO_ROLL_BACK```
-then you can push it to recover
+
+then you can push it to recover the branch
 
 ## Merge
-to do
+After you finished your work on a feature branch, you can create a merge request for testing
 
 
