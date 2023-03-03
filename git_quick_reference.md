@@ -78,9 +78,41 @@ while YOUR_BRANCH is the name of the branch on the remote repository
 that you want to update, any idle runner will handle it
 
 ## push wrong file or branch
-you need to roll back with ``` git reset --soft COMMIT_HASH_TO_ROLL_BACK```
+you need to roll back with
 
-then you can push it to recover the branch
+```git revert```: This command creates a new commit that undoes the changes 
+
+made in a previous commit, effectively removing those changes from 
+
+the Git history while preserving the commit itself. 
+
+This is a safe way to remove a commit without affecting other parts of the Git history.
+
+```git reset```: This command can be used to remove a commit from the Git history,
+
+but it is a more aggressive approach that can potentially cause data loss. 
+
+There are three different modes of git reset that can be used depending on your needs:
+
+```git reset --soft```: This mode moves the HEAD pointer to a previous commit, 
+
+but leaves the changes made in the subsequent commits in the staging area. 
+
+This effectively "undoes" the commits after the specified commit without removing them from the Git history.
+
+```git reset --mixed```(default): This mode moves the HEAD pointer to a previous commit 
+
+and removes the changes made in the subsequent commits from the staging area. 
+
+This effectively "unstages" the changes, but does not remove them from the Git history.
+
+```git reset --hard```: This mode moves the HEAD pointer to a previous commit and 
+
+completely removes the changes made in the subsequent commits. 
+
+This effectively removes the commits and the changes they made from the Git history.
+
+This mode should be used with caution, as it can cause data loss if used improperly.
 
 ## Merge
 After you finished your work on a feature branch, you can create a merge request for testing
