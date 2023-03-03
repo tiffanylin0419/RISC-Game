@@ -42,7 +42,12 @@ or when going through pipeline is not needed
 
 ```remote_repo``` default it should be ```origin```
 
-```local_branch:remote_branch``` default you should enter```master:YOUR_BRANCH```
+```local_branch:remote_branch``` default you should enter```FEATURE_BRANCH:FEATURE_BRANCH```
+
+eg: ```testing:testing```, ```main:main```
+
+avoid ```a:b``` to push you feature branch to other branch, please use merge
+
 MAKE SURE YOU KNOW WHAT AND WHERE YOU ARE PUSHING
 
 ```tag_name``` it is the commit tag that you assign, runner with this 
