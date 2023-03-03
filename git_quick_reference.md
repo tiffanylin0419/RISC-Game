@@ -11,7 +11,7 @@ do some coding and write testcases for it (following NSD)
 
 use coverage tool check coverage rate
 
-suggest you following gitlabci.pdf step4 to debug locally(it's much faster)
+suggest you following [gitlabci.pdf](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/blob/main/gitlabci.pdf) step4 to debug locally(it's much faster)
 debug and make sure everything is ok
 
 ## commit and push phase
