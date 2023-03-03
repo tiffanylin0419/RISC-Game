@@ -20,21 +20,21 @@ done
 
 
 
-#nc -N localhost 1651 > testoutput <<EOF
-#2
-#99
-#123456
-#EOF
-#cat > expectedoutput <<EOF
-#Hello, welcome to Yitao's Prime Factor Server!
-#Please enter a number:
-#2
-#Please enter a number:
-#3 3 11
-#Please enter a number:
-#2 2 2 2 2 2 3 643
-#Please enter a number:
-#EOF
-#
-#diff testoutput expectedoutput
+nc -N localhost 1651 > testoutput <<EOF
+2
+99
+123456
+EOF
+cat > expectedoutput <<EOF
+Hello, welcome to Yitao's Prime Factor Server!
+Please enter a number:
+2
+Please enter a number:
+3 3 11
+Please enter a number:
+2 2 2 2 2 2 3 643
+Please enter a number:
+EOF
+
+diff testoutput expectedoutput
 
