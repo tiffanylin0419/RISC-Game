@@ -6,7 +6,9 @@ Git and CI Quick Reference
 git clone the repo
 
 use ```git checkout -b NEW_FEATURE_BRANCH``` 
+
 create your new branch ```NEW_FEATURE_BRANCH``` and switch to it
+
 
 Or just use ```git checkout FEATURE_BRANCH``` to switch to an existing one
 
@@ -24,12 +26,17 @@ debug and make sure everything is ok
 
 now you are ready to commit!
 
+
 you should use ```git commit -m "what you do"```  as usual
+
 but make sure you write what you do clear(what you added and changed)
+
 
 here is some options for git push
 
+
 ```git push -o ci.skip remote_repo local_branch:remote_branch tag_name```
+
 
 ```-o ci.skip``` you should use it when you didn't change your code
 or when going through pipeline is not needed
@@ -47,13 +54,16 @@ for you, and it will always be  stuck.
 You CAN LEAVE IT EMPTY since if the 
 commit is no tag, any idle can run it for you. 
 
+
 if you want to use tag, use ```git tag <tag-name>``` to create new tag
 or ```git tag -a <tag-name> -m "tag message"``` to create a tag with
 message, than use ```git push --tags``` to update tags in repo
 
+
 then you should tell the repo owner to add new runner for the tag
 (Here I have established ```ece651``` tag and matched runner in repo,
 so you can use :```git push master:YOUR_BRANCH ece651```)
+
 
 eg:
 ```git push master:YOUR_BRANCH``` the new commit go through the pipeline
@@ -62,7 +72,7 @@ local repository that you want to push to the remote repository
 while YOUR_BRANCH is the name of the branch on the remote repository
 that you want to update, any idle runner will handle it
 
-## if push wrong file or branch
+## push wrong file or branch
 you need to roll back with ``` git reset --soft COMMIT_HASH_TO_ROLL_BACK```
 then you can push it to recover
 
