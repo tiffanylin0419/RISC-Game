@@ -78,12 +78,55 @@ while YOUR_BRANCH is the name of the branch on the remote repository
 that you want to update, any idle runner will handle it
 
 ## push wrong file or branch
-you need to roll back with ``` git reset --soft COMMIT_HASH_TO_ROLL_BACK```
+If you want to remove a commit from the Git history, 
 
-then you can push it to recover the branch
+you can use the git revert or git reset commands,
+
+depending on your specific needs and the state of your repository.
+
+```git revert```: This command creates a new commit that 
+
+undoes the changes made in a previous commit, 
+
+effectively removing those changes from the Git history while preserving the commit itself.
+
+This is a safe way to remove a commit without affecting other parts of the Git history.
+
+```git reset```: This command can be used to remove a commit from the Git history, 
+
+but it is a more aggressive approach that can potentially cause data loss. 
+
+There are three different modes of git reset that can be used depending on your needs:
+
+```git reset --soft```: This mode moves the HEAD pointer to a previous commit, 
+
+but leaves the changes made in the subsequent commits in the staging area.
+
+This effectively "undoes" the commits after the specified commit without removing them from the Git history.
+
+```git reset --mixed``` (default): This mode moves the HEAD pointer to a previous commit and 
+
+removes the changes made in the subsequent commits from the staging area. 
+
+This effectively "unstages" the changes, but does not remove them from the Git history.
+
+```git reset --hard```: This mode moves the HEAD pointer to a previous commit and 
+
+completely removes the changes made in the subsequent commits. 
+
+This effectively removes the commits and the changes they made from the Git history. 
+
+This mode should be used with caution, as it can cause data loss if used improperly.
+
+Before using any of these commands, it is important to make a backup of your repository or 
+
+to create a branch to experiment with, in case anything goes wrong.
 
 ## Merge
-After you finishe
-d your work on a feature branch, you can create a merge request for testing
+After you have finished your work on a feature branch, 
 
+you can create a merge request for testing
 
+it's actually a commit from source branch to target branch
+
+and after that the source branch will be deleted
