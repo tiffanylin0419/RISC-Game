@@ -83,6 +83,7 @@ you need to roll back with ``` git reset --soft COMMIT_HASH_TO_ROLL_BACK```
 then you can push it to recover the branch
 
 ## Merge
-After you finished your work on a feature branch, you can create a merge request for testing
+After you finishe
+d your work on a feature branch, you can create a merge request for testing
 
 
