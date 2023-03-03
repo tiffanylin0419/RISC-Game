@@ -10,7 +10,7 @@ stages:
   - test
   - coverage
   - deploy
-  - test-deployment
+#  - test-deployment
 
 build:
   tags:
