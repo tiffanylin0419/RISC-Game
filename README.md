@@ -4,7 +4,7 @@ Ece651 Sp23 Team 8 Repo
 [![coverage](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/badges/main/coverage.svg?job=test)](https://ys386.pages.oit.duke.edu/ece651-sp23-team8-riskgame/dashboard.html)
 
 
-branches:
+[branches:](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/branches)
 
 [-main](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/tree/main)
 
