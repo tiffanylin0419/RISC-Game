@@ -4,7 +4,6 @@ Git and CI Quick Reference
 ## Begin your project with create new feature branch
 
 git clone the repo
-
 use ```git checkout -b NEW_FEATURE_BRANCH``` 
 
 create your new branch ```NEW_FEATURE_BRANCH``` and switch to it
