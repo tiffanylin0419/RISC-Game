@@ -31,6 +31,11 @@ you should use ```git commit -m "what you do"```  as usual
 
 but make sure you write what you do clear(what you added and changed)
 
+before you push, use ```git fetch``` to retrieve any new changes 
+
+from the remote repository and update the tracking branch in your local repository
+
+without making any changes to your current working branch.
 
 here is some options for git push
 
