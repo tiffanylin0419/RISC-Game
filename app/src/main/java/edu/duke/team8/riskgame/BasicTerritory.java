@@ -6,7 +6,11 @@ public class BasicTerritory implements Territory {
   private Player owner;
   //constructor
   public BasicTerritory(String name){this.name=name;this.owner=null;}
-  public BasicTerritory(String name, Player owner){this.name=name;this.owner=owner;}
+  public BasicTerritory(String name, Player owner){
+    this.name=name;
+    this.owner=owner;
+    owner.addTerritory(this);
+  }
   //get
   @Override
   //equals
@@ -27,6 +31,9 @@ public class BasicTerritory implements Territory {
 
   @Override
   public void changeOwner(Player new_owner){
+    Player old_owner=this.owner;
+    old_owner.tryRemoveTerritory(this);
+    new_owner.addTerritory(this);
     this.owner=new_owner;
   }
 

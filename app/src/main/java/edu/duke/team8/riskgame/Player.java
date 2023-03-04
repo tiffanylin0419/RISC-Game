@@ -30,5 +30,11 @@ public abstract class Player {
   }
 
 
-  
+  public boolean tryRemoveTerritory(Territory t){
+    if(containsTerritory(t)){
+      territories.remove(t);
+      return true;
+    }
+    return false;
+  }
 }

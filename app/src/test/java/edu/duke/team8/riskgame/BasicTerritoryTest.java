@@ -41,10 +41,13 @@ public class BasicTerritoryTest {
     Player p1=new TextPlayer("red");
     Territory t = new BasicTerritory(s,p1);
     assertEquals(p1,t.getOwner());
+    assertTrue(p1.containsTerritory(t));
     Player p2=new TextPlayer("blue");
     t.changeOwner(p2);
     assertEquals(p2,t.getOwner());
     assertNotEquals(p1, t.getOwner());
+    assertFalse(p1.containsTerritory(t));
+    assertTrue(p2.containsTerritory(t));
   }
 
 }

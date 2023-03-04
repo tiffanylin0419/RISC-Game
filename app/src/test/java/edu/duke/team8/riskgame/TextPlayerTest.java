@@ -23,4 +23,16 @@ public class TextPlayerTest {
      assertFalse(p.containsTerritory(new BasicTerritory("Dkingdom")));
   }
 
+  @Test
+  public void test_tryRemoveTerritory() {
+     Player p=new TextPlayer("red");
+     String names[]={"Akingdom","Bkingdom","Ckingdom"};
+     for(String name: names){
+       p.addTerritory(new BasicTerritory(name));
+     }
+     assertTrue(p.tryRemoveTerritory(new BasicTerritory(names[0])));
+     assertFalse(p.tryRemoveTerritory(new BasicTerritory(names[0])));
+     assertTrue(p.tryRemoveTerritory(new BasicTerritory(names[1])));
+     assertFalse(p.tryRemoveTerritory(new BasicTerritory("Dkingdom")));
+  }
 }
