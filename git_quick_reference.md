@@ -134,3 +134,5 @@ you can create a merge request for testing
 it's actually a commit from source branch to target branch
 
 and after that the source branch will be deleted
+
+any question about git: [funny game to help you](https://learngitbranching.js.org/?demo=&locale=zh_CN)
