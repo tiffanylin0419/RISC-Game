@@ -1,6 +1,7 @@
 package edu.duke.team8.riskgame;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,7 +13,10 @@ public class Server {
     protected ServerSocket server;
     /** Map of the game */
     private final Map theMap;
+    /** View of the map */
     protected View mapView;
+    /** Output stream of the Server*/
+    protected PrintStream out;
     /**
      * Constructs a server with specified port
      *
@@ -24,10 +28,14 @@ public class Server {
 
     }
     public Server(ServerSocket ss, Map theMap) {
+        this(ss, theMap, System.out);
+    }
+    public Server(ServerSocket ss, Map theMap, PrintStream out) {
         this.server = ss;
         this.theMap = theMap;
         this.mapView = new MapTextView(theMap);
         this.info = mapView.displayMap();
+        this.out = out;
     }
     /**
      * @return the port of the server socket
@@ -40,16 +48,14 @@ public class Server {
         try {
 
             System.out.println("Waiting for client connection...");
-
             Socket clientSocket = server.accept();
-
             System.out.println("Client connected!");
             send(clientSocket);
 
             clientSocket.close();
             server.close();
         } catch (IOException e) {
-            System.out.println("Out/Input stream error");
+            out.println("Out/Input stream error");
         }
     }
     /**
@@ -58,9 +64,8 @@ public class Server {
      */
     public void send(Socket client) throws IOException {
 
-        PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-        System.out.println("handle");
-        out.println(info);
+        PrintWriter outInfo = new PrintWriter(client.getOutputStream(), true);
+        outInfo.println(info);
 
     }
 

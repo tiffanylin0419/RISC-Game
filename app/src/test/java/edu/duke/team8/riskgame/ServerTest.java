@@ -25,7 +25,7 @@ public class ServerTest {
         assertEquals(1236, s.getPort());
     }
     @Test()
-    public void testIOException() throws IOException {
+    public void testIOException() throws Exception {
         ServerSocket ss = new ServerSocket(1239);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
@@ -33,22 +33,26 @@ public class ServerTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m);
+            Server s = new Server(ss, m, output);
             s.run();
         });
         serverThread.start();
 
-        Socket cl_s = new Socket("localhost", 1239);
-        Client cli = new Client(cl_s, output);
-        cl_s.close();
+        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+        PrintStream output1 = new PrintStream(bytes1, true);
+        Socket cliSocket = new Socket("localhost", 1239);
+        Client cli = new Client(cliSocket, output1);
+        cliSocket.close();
         cli.run();
+
+        serverThread.join();
         ss.close();
-        assertEquals("Out/Input stream error\n", bytes.toString());
+        assertEquals("Out/Input stream error\n", bytes1.toString());
     }
     @Test
     public void testRun() throws Exception {
 
-        ServerSocket ss = new ServerSocket(1246);
+        ServerSocket ss = new ServerSocket(1256);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
@@ -61,7 +65,7 @@ public class ServerTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1246, "localhost", output);
+        Client cli = new Client(1256, "localhost", output);
         cli.run();
 
         serverThread.join();
