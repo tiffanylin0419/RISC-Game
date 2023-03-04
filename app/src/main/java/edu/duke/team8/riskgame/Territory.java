@@ -7,4 +7,6 @@ public interface Territory {
   public boolean hasOwner();
   public void changeOwner(Player new_owner);
   public Player getOwner();
+  public void addAdjacent(Territory adjacent);
+  public boolean isAdjacent(Territory adjacent);
 }

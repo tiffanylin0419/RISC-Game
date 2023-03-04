@@ -24,4 +24,12 @@ public class Game1Map implements Map {
     }
     return false;
   }
+
+   @Override
+  public void addAdjacency(Territory t1, Territory t2){
+    t1.addAdjacent(t2);
+    t2.addAdjacent(t1);
+  }
+
 }
+

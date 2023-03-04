@@ -1,17 +1,17 @@
 package edu.duke.team8.riskgame;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class BasicTerritory implements Territory {
   //field
   private String name;
   private Player owner;
-  private ArrayList<Territory> adjacent_territory;
+  private HashSet<Territory> adjacent_territory;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
     this.owner=null;
-    this.adjacent_territory=new ArrayList<Territory>();
+    this.adjacent_territory=new HashSet<Territory>();
   }
   
   //get
@@ -49,5 +49,15 @@ public class BasicTerritory implements Territory {
   @Override
   public Player getOwner(){
     return this.owner;
+  }
+
+  @Override
+  public void addAdjacent(Territory adjacent){
+    adjacent_territory.add(adjacent);
+  }
+
+  @Override
+  public boolean isAdjacent(Territory adjacent){
+    return adjacent_territory.contains(adjacent);
   }
 }

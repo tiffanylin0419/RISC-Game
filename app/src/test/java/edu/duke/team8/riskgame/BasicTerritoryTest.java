@@ -52,4 +52,16 @@ public class BasicTerritoryTest {
     assertTrue(p2.containsTerritory(t));
   }
 
+  @Test
+  public void test_addAdjacency(){
+    Territory t1 = new BasicTerritory("s1");
+    Territory t2 = new BasicTerritory("s2");
+    Territory t3 = new BasicTerritory("s3");
+    
+    t1.addAdjacent(t2);
+    assertTrue(t1.isAdjacent(t2));
+    assertFalse(t1.isAdjacent(t3));
+    t1.addAdjacent(t3);
+    assertTrue(t1.isAdjacent(t3));
+  }
 }
