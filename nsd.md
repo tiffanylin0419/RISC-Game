@@ -4,6 +4,6 @@ Class : singular noun `BasicBoard`
 
 Method : verb `addList()`;
 
-Variable : `number_server`, boolean : start with "is", "has", or "should"
+Variable : `numberServer`, boolean : start with "is", "has", or "should"
 
 Constant : `UPPER_CASE_SNAKE`
