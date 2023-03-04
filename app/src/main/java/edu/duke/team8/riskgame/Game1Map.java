@@ -29,9 +29,9 @@ public class Game1Map implements Map {
   @Override
   public Iterator<Territory> getTerritoryIterator() {
     return territories.iterator();
+  }
 
-
-   @Override
+  @Override
   public void addAdjacency(Territory t1, Territory t2){
     t1.addAdjacent(t2);
     t2.addAdjacent(t1);
