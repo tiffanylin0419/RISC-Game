@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Game1Map implements Map {
   // field
   ArrayList<Territory> territories;
+
   // constructor
   public Game1Map(){
     this.territories = new ArrayList<Territory>();
@@ -23,4 +24,12 @@ public class Game1Map implements Map {
     }
     return false;
   }
+
+   @Override
+  public void addAdjacency(Territory t1, Territory t2){
+    t1.addAdjacent(t2);
+    t2.addAdjacent(t1);
+  }
+
 }
+
