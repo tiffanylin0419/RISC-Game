@@ -8,15 +8,6 @@ Ece651 Sp23 Team 8 Repo
 
 [Project Task List](https://docs.google.com/spreadsheets/d/1T11l-u_cKE7usFyzeh6nFgeQg2giplyMUG1rpR9TXeo/edit#gid=0)
 
-## Branches
-
-[-main](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/tree/main)
-
-[-client](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/tree/client)
-
-[-server](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/tree/server)
-
-[-shared](https://gitlab.oit.duke.edu/ys386/ece651-sp23-team8-riskgame/-/tree/shared)
 
 ## Coverage
 [Detailed coverage](https://ys386.pages.oit.duke.edu/ece651-sp23-team8-riskgame/dashboard.html)
