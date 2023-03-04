@@ -1,4 +1,4 @@
-package edu.duke.tl330.battleship;
+package edu.duke.team8.riskgame;
 
 import static org.junit.jupiter.api.Assertions.*;
 

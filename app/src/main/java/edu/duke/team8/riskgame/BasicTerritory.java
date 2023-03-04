@@ -1,4 +1,4 @@
-package edu.duke.tl330.battleship;
+package edu.duke.team8.riskgame;
 
 public class BasicTerritory implements Territory {
   //field
