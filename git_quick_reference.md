@@ -38,23 +38,14 @@ sometimes you can use```git pull --rebase```（this equals to ```git fetch``` + 
 
 any question about git: [funny game to help you](https://learngitbranching.js.org/?demo=&locale=zh_CN)
 
-here is some options for git push
+4. here is some options for git push
 
-4.```git push -o ci.skip```
-
+```git push -o ci.skip```
 
 ```-o ci.skip``` you should use it when you didn't change your code
 or when going through pipeline is not needed
 
-```remote_repo``` default it should be ```origin```
-
-```local_branch:remote_branch``` default you should enter```FEATURE_BRANCH:FEATURE_BRANCH```
-
-eg: ```testing:testing```, ```main:main```
-
-avoid ```a:b``` to push you feature branch to other branch, please use merge
-
-MAKE SURE YOU KNOW WHAT AND WHERE YOU ARE PUSHING
+still have question? please play the game mentioned above.
 
 ```tag_name``` it is the commit tag that you assign, runner with this 
 tag will run cicd for this commit.
