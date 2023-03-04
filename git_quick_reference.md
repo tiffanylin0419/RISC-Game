@@ -26,7 +26,6 @@ debug and make sure everything is ok
 
 now you are ready to commit!
 
-
 you should use ```git commit -m "what you do"```  as usual
 
 but make sure you write what you do clear(what you added and changed)
