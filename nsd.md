@@ -1,7 +1,9 @@
 Ece651 Sp23 Team 8 Naming Specifications Document
 ======================================
-Method : addList();
+Class : singular noun `BasicBoard`
 
-variable : int number_server
+Method : verb `addList()`;
 
-abcdefg
+Variable : `number_server`, boolean : start with "is", "has", or "should"
+
+Constant : `UPPER_CASE_SNAKE`
