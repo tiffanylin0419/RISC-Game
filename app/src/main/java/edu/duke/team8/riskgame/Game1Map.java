@@ -1,4 +1,5 @@
-package edu.duke.tl330.battleship;
+package edu.duke.team8.riskgame;
+
 import java.util.ArrayList;
 
 public class Game1Map implements Map {
