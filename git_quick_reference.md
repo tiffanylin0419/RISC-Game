@@ -72,9 +72,9 @@ so you can use :```git push master:YOUR_BRANCH ece651```)
 
 eg:
 ```git push YOUR_BRANCH:YOUR_BRANCH``` the new commit go through the pipeline
-and push it with no tag, the master branch refers to the branch in your 
+and push it with no tag, the former YOUR_BRANCH refers to the branch in your 
 local repository that you want to push to the remote repository
-while YOUR_BRANCH is the name of the branch on the remote repository
+while the later YOUR_BRANCH is the name of the branch on the remote repository
 that you want to update, any idle runner will handle it
 
 ## push wrong file or branch
