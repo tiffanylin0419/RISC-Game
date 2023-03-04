@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Game1Map implements Map {
   // field
   ArrayList<Territory> territories;
+
   // constructor
   public Game1Map(){
     this.territories = new ArrayList<Territory>();

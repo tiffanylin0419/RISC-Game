@@ -1,16 +1,19 @@
 package edu.duke.team8.riskgame;
 
+import java.util.ArrayList;
+
 public class BasicTerritory implements Territory {
   //field
   private String name;
   private Player owner;
+  private ArrayList<Territory> adjacent_territory;
   //constructor
-  public BasicTerritory(String name){this.name=name;this.owner=null;}
-  public BasicTerritory(String name, Player owner){
+  public BasicTerritory(String name){
     this.name=name;
-    this.owner=owner;
-    owner.addTerritory(this);
+    this.owner=null;
+    this.adjacent_territory=new ArrayList<Territory>();
   }
+  
   //get
   @Override
   //equals
@@ -24,6 +27,12 @@ public class BasicTerritory implements Territory {
     return false;
   }
 
+  @Override
+  public void addOwner(Player owner){
+    this.owner=owner;
+    owner.addTerritory(this);
+  }
+  
   @Override
   public boolean hasOwner(){
     return !(this.owner==null);

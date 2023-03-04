@@ -30,7 +30,8 @@ public class BasicTerritoryTest {
     assertFalse(t1.hasOwner());
 
     Player p=new TextPlayer("red");
-    Territory t2 = new BasicTerritory(s,p);
+    Territory t2 = new BasicTerritory(s);
+    t2.addOwner(p);
     assertTrue(t2.hasOwner());
     assertEquals(p,t2.getOwner());
   }
@@ -39,7 +40,8 @@ public class BasicTerritoryTest {
   public void test_changeOwner(){
     String s = "AbcdE";
     Player p1=new TextPlayer("red");
-    Territory t = new BasicTerritory(s,p1);
+    Territory t = new BasicTerritory(s);
+    t.addOwner(p1);
     assertEquals(p1,t.getOwner());
     assertTrue(p1.containsTerritory(t));
     Player p2=new TextPlayer("blue");
