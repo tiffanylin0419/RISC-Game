@@ -1,6 +1,7 @@
 package edu.duke.team8.riskgame;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game1Map implements Map {
   // field
@@ -23,4 +24,9 @@ public class Game1Map implements Map {
     }
     return false;
   }
+  @Override
+  public Iterator<Territory> getTerritoryIterator() {
+    return territories.iterator();
+  }
+
 }
