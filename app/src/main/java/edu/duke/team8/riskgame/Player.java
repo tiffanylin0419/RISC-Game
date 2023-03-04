@@ -1,0 +1,34 @@
+package edu.duke.team8.riskgame;
+import java.util.ArrayList;
+
+public abstract class Player {
+  private ArrayList<Territory> territories;
+  private String color;
+
+  //constructor
+  public Player(String color){
+    this.territories=new ArrayList<Territory>();
+    this.color=color;
+  }
+  
+  //get
+  public String getColor(){
+    return color;
+  }
+
+  public void addTerritory(Territory t){
+    territories.add(t);
+  }
+
+  public boolean containsTerritory(Territory t){
+    for(Territory territory: territories){
+      if(territory.equals(t)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  
+}
