@@ -2,7 +2,7 @@ package edu.duke.team8.riskgame;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,16 @@ public class Game1MapTest {
       assertTrue(map.containsTerritory(new BasicTerritory(names[i])));
     }
     assertFalse(map.containsTerritory(new BasicTerritory("nope")));
+  }
+  @Test
+  public void test_get_territories_iterator() {
+    Game1Map map = new Game1Map();
+    String names[] = { "AbcdE", "hello", "num123" };
+    Territory t = new BasicTerritory(names[0]);
+    Territory t1 = new BasicTerritory(names[1]);
+    map.addTerritory(t);
+    map.addTerritory(t1);
+    assertEquals(t, map.getTerritoryIterator().next());
   }
 
   @Test

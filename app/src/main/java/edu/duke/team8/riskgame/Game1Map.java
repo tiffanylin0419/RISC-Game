@@ -1,6 +1,7 @@
 package edu.duke.team8.riskgame;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game1Map implements Map {
   // field
@@ -25,7 +26,12 @@ public class Game1Map implements Map {
     return false;
   }
 
-   @Override
+  @Override
+  public Iterator<Territory> getTerritoryIterator() {
+    return territories.iterator();
+  }
+
+  @Override
   public void addAdjacency(Territory t1, Territory t2){
     t1.addAdjacent(t2);
     t2.addAdjacent(t1);
