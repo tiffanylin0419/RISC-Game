@@ -59,3 +59,7 @@ task runClient(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath // set the classpath to include runtime dependencies
 //    args '12345' // pass any command-line arguments to the server
 }
+
+run{
+    standardInput = System.in
+}
