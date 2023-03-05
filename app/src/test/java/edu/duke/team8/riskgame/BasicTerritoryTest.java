@@ -126,7 +126,7 @@ public class BasicTerritoryTest {
      Player p3=new TextPlayer("green");
      Player p4=new TextPlayer("aa");
      Player p5=new TextPlayer("bb");
-     Territory territory=new BasicTerritory("a",p1);
+     Territory territory=new BasicTerritory("a",p2);
       //p1 4,p2 1,p3 4,p4 1,p5 4,
       territory.moveIn(new BasicUnit(4,p1));
       territory.moveIn(new BasicUnit(1,p2));
@@ -135,5 +135,7 @@ public class BasicTerritoryTest {
       territory.moveIn(new BasicUnit(4,p5));
       territory.attack();
       assertEquals(1,territory.getUnitsSize());
+      //might be wrong but less likely
+      assertTrue(territory.isOwner(p1)||territory.isOwner(p3)||territory.isOwner(p5));
   }
 }
