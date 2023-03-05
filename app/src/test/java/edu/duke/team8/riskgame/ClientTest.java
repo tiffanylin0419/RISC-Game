@@ -20,7 +20,7 @@ public class ClientTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m);
+            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -38,19 +38,29 @@ public class ClientTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m);
+            Server s = new Server(ss, m, 2);
             s.run();
         });
         serverThread.start();
 
-        Client cli = new Client(1244, "localhost", output);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Socket client = new Socket("localhost", 1244);
+        Client cli = new Client(client, output);
         cli.run();
+        assertEquals("Green\nPlanto\n", bytes.toString());
+
+
+        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+        PrintStream output1 = new PrintStream(bytes1, true);
+        Socket client1 = new Socket("localhost", 1244);
+        Client cli1 = new Client(client1, output1);
+        cli1.run();
+        assertEquals("Red\nPlanto\n", bytes1.toString());
+
         serverThread.join();
         ss.close();
-        assertEquals("Planto\n", bytes.toString());
 
     }
     @Test
@@ -62,20 +72,61 @@ public class ClientTest {
         m.addTerritory(new BasicTerritory("Aova"));
         m.addTerritory(new BasicTerritory("Bova"));
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m);
+            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
 
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
         Client cli = new Client(1234, "localhost", output);
-        String res = cli.receive();
+        cli.receive();
+        cli.display();
         serverThread.join();
         ss.close();
-        assertEquals("Planto\nDova\nAova\nBova\n", res);
+        assertEquals("Green\nPlanto\nDova\nAova\nBova\n", bytes.toString());
 
+    }
+    @Test
+    public void testDisplay() throws Exception {
+        ServerSocket ss = new ServerSocket(1334);
+        Map m = new Game1Map();
+        m.addTerritory(new BasicTerritory("Planto"));
+        Thread serverThread = new Thread(() -> {
+            Server s = new Server(ss, m, 1);
+            s.run();
+        });
+        serverThread.start();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Client cli = new Client(1334, "localhost", output);
+        cli.display();
+        assertEquals("unassigned\n", bytes.toString());
+
+        serverThread.join();
+        ss.close();
+    }
+    @Test
+    public void testDisplayMap() throws Exception {
+        ServerSocket ss = new ServerSocket(1324);
+        Map m = new Game1Map();
+        m.addTerritory(new BasicTerritory("Planto"));
+        Thread serverThread = new Thread(() -> {
+            Server s = new Server(ss, m, 1);
+            s.run();
+        });
+        serverThread.start();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Client cli = new Client(1324, "localhost", output);
+        cli.displayMap();
+        assertEquals("", bytes.toString());
+
+        serverThread.join();
+        ss.close();
     }
 
 }

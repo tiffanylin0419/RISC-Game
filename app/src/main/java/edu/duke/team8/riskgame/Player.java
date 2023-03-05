@@ -16,6 +16,14 @@ public abstract class Player {
     return color;
   }
 
+  /**
+   * Set color of player
+   * @param assignedColor is the color assigned from the server
+   */
+  public void setColor(String assignedColor){
+    color = assignedColor;
+  }
+
   public void addTerritory(Territory t){
     territories.add(t);
   }

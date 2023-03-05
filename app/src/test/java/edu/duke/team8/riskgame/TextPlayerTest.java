@@ -11,6 +11,12 @@ public class TextPlayerTest {
     assertEquals(p.getColor(),"red");
   }
   @Test
+  public void test_setColor() {
+      Player p = new TextPlayer("red");
+      p.setColor("blue");
+      assertEquals(p.getColor(),"blue");
+  }
+  @Test
   public void test_addTerritory() {
     Player p=new TextPlayer("red");
     String names[]={"Akingdom","Bkingdom","Ckingdom"};

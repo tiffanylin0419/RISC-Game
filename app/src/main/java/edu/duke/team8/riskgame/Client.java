@@ -7,9 +7,11 @@ public class Client {
     /** Client socket */
     protected Socket socket;
     /** info to be transfer */
-    protected String info;
+    protected String mapInfo;
     /** Output stream of the client*/
     protected PrintStream out;
+    /** Player owned by the client */
+    protected Player thePlayer;
     /**
      * Constructs a server with specified port
      *
@@ -18,20 +20,20 @@ public class Client {
      * @param out is the output stream of the client
      */
     public Client(int port, String host, PrintStream out) throws IOException {
-        this.socket = new Socket(host, port);
-        this.out = out;
+        this(new Socket(host, port), out);
     }
     public Client(Socket s, PrintStream out) throws IOException {
         this.socket = s;
         this.out = out;
+        this.thePlayer = new TextPlayer("unassigned");
+        this.mapInfo = new String();
     }
 
     /** execute the client */
     public void run() {
         try {
-
-            info = receive();
-            out.print(info);
+            receive();
+            display();
             socket.close();
         } catch (IOException e) {
             out.println("Out/Input stream error");
@@ -55,22 +57,28 @@ public class Client {
 
     /**
      * Receive the string info from the server
-     * @return string of the received info
      */
-    public String receive() throws IOException {
+    public void receive() throws IOException {
         InputStream inputStream = socket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
+        String color = reader.readLine();
+        thePlayer.setColor(color);
         String receLine = reader.readLine();
         while(receLine != null) {
             sb.append(receLine + "\n");
             receLine = reader.readLine();
         }
-
+        mapInfo = sb.toString();
         reader.close();
         inputStream.close();
-
-        return sb.toString();
+    }
+    public void display() {
+        out.println(thePlayer.getColor());
+        displayMap();
+    }
+    public void displayMap() {
+        out.print(mapInfo);
     }
 };
 
