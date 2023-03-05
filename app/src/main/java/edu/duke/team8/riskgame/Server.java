@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     /** info to be transfer */
@@ -17,6 +19,12 @@ public class Server {
     protected View mapView;
     /** Output stream of the Server*/
     protected PrintStream out;
+    /** Color list of players */
+    private final List<String> colorList;
+    /** List of the client sockets */
+    protected List<Socket> clients;
+    /** number of clients */
+    protected int clientNum;
     /**
      * Constructs a server with specified port
      *
@@ -28,14 +36,27 @@ public class Server {
 
     }
     public Server(ServerSocket ss, Map theMap) {
-        this(ss, theMap, System.out);
+        this(ss, theMap, System.out, 4);
     }
-    public Server(ServerSocket ss, Map theMap, PrintStream out) {
+    /**
+     * @param clientNum is the number of clients
+     */
+    public Server(ServerSocket ss, Map theMap, int clientNum) {
+        this(ss, theMap, System.out, clientNum);
+    }
+    public Server(ServerSocket ss, Map theMap, PrintStream out, int clientNum) {
         this.server = ss;
         this.theMap = theMap;
         this.mapView = new MapTextView(theMap);
         this.info = mapView.displayMap();
         this.out = out;
+        this.clients = new ArrayList<Socket>();
+        this.clientNum = clientNum;
+        this.colorList = new ArrayList<String>();
+        String colors[] = { "Green", "Red", "Blue", "Yellow" };
+        for(int i = 0; i < clientNum; i++) {
+            colorList.add(colors[i]);
+        }
     }
     /**
      * @return the port of the server socket
@@ -46,27 +67,36 @@ public class Server {
     /** Execute the server */
     public void run() {
         try {
-
-            System.out.println("Waiting for client connection...");
-            Socket clientSocket = server.accept();
-            System.out.println("Client connected!");
-            send(clientSocket);
-
-            clientSocket.close();
+            for (int i = 0; i < clientNum; i++) {
+                connectOneClient(i);
+            }
             server.close();
         } catch (IOException e) {
             out.println("Out/Input stream error");
         }
     }
+    /** Execute the server to connect with one client
+     * @param clientId is the index of the client
+     */
+    public void connectOneClient(int clientId) throws IOException {
+            System.out.println("Waiting for client " + clientId + " connection...");
+            Socket clientSocket = server.accept();
+            System.out.println("Client connected!");
+            send(clientSocket, clientId);
+
+            clientSocket.close();
+    }
     /**
      * Send string info to client
      * @param client is the socket for cclient
+     * @param clientId is the index of the client
      */
-    public void send(Socket client) throws IOException {
+    public void send(Socket client, int clientId) throws IOException {
 
         PrintWriter outInfo = new PrintWriter(client.getOutputStream(), true);
+        outInfo.println(colorList.get(clientId));
         outInfo.println(info);
-
+        outInfo.close();
     }
 
 }
