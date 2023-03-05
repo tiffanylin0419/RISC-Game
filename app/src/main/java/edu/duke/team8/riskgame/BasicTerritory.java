@@ -1,5 +1,6 @@
 package edu.duke.team8.riskgame;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BasicTerritory implements Territory {
@@ -7,11 +8,13 @@ public class BasicTerritory implements Territory {
   private String name;
   private Player owner;
   private HashSet<Territory> adjacent_territory;
+  private ArrayList<Unit> units;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
     this.owner=null;
     this.adjacent_territory=new HashSet<Territory>();
+    this.units=new ArrayList<Unit>();
   }
   public BasicTerritory(String name, Player owner){
     this(name);
@@ -90,5 +93,84 @@ public class BasicTerritory implements Territory {
       to_visit.addAll(tmp);
     }
     return false;
+  }
+  @Override
+  public void moveIn(Unit unit_in) {
+    for(Unit unit: units){
+      if(unit.getOwner()==unit_in.getOwner()){
+        unit.add(unit_in.getAmount());
+        return;
+      }
+    }
+    units.add(unit_in);
+  }
+  @Override
+  public boolean tryMoveOut(Unit unit_out) {
+    for(Unit unit: units){
+      if(unit.getOwner()==unit_out.getOwner()){
+        if(!unit.tryRemove(unit_out.getAmount())){
+          return false;
+        }
+        if (unit.getAmount()==0){
+          units.remove(unit);
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private void fight1(Unit u1,Unit u2){
+    if(u1.isSurvive() && u2.isSurvive()){
+      if(u1.doRoll()<u2.doRoll()){//u2 win
+        u1.removeOne();
+      }
+      else{//u1 win
+        u2.removeOne();
+      }
+    }
+  }
+  
+  @Override
+  public void attack() {
+    if(units.size()==2){
+      while(units.size()>1){
+        fight1(units.get(0),units.get(1));
+        ArrayList<Unit> remove=new ArrayList<Unit>();
+        for(Unit unit: units){
+          if(!unit.isSurvive()){
+            remove.add(unit);
+          }
+        }
+        for(Unit unit: remove){
+            units.remove(unit);
+        }
+      }
+    }
+    while(units.size()>1){
+      int l=units.size();
+      for(int i=0;i<l;i++){
+        fight1(units.get(i),units.get((i+1)%l));
+      }
+      ArrayList<Unit> remove=new ArrayList<Unit>();
+      for(Unit unit: units){
+        if(!unit.isSurvive()){
+          remove.add(unit);
+        }
+      }
+      for(Unit unit: remove){
+          units.remove(unit);
+        }
+    }
+  }
+
+  @Override
+  public int getUnitAmount(int n){
+    return units.get(n).getAmount();
+  }
+
+  @Override
+  public int getUnitsSize(){
+    return units.size();
   }
 }
