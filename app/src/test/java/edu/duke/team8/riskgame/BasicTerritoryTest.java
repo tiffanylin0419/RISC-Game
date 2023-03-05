@@ -83,4 +83,57 @@ public class BasicTerritoryTest {
     assertFalse(territories[0].isAdjacentSelf(territories[4]));
     assertFalse(territories[1].isAdjacentSelf(territories[4]));
   }
+
+  @Test
+  public void test_moveIn(){
+    Player p1=new TextPlayer("red");
+    Player p2=new TextPlayer("blue");
+    Player p3=new TextPlayer("green");
+    Territory territory=new BasicTerritory("a",p1);
+    //move in
+    territory.moveIn(new BasicUnit(5,p1));
+    territory.moveIn(new BasicUnit(3,p1));
+    assertEquals(8,territory.getUnitAmount(0));
+    territory.moveIn(new BasicUnit(3,p2));
+    assertEquals(8,territory.getUnitAmount(0));
+    assertEquals(3,territory.getUnitAmount(1));
+    //move out
+    territory.tryMoveOut(new BasicUnit(1,p2));
+    assertEquals(8,territory.getUnitAmount(0));
+    assertEquals(2,territory.getUnitAmount(1));
+    assertFalse(territory.tryMoveOut(new BasicUnit(9,p1)));
+    territory.tryMoveOut(new BasicUnit(8,p1));
+    assertFalse(territory.tryMoveOut(new BasicUnit(1,p3)));
+    assertEquals(2,territory.getUnitAmount(0));
+  }
+  
+  @Test
+  public void test_attack2(){
+    Player p1=new TextPlayer("red");
+    Player p2=new TextPlayer("blue");
+    Territory territory=new BasicTerritory("a",p1);
+    //p1 3,p2 2
+    territory.moveIn(new BasicUnit(3,p1));
+    territory.moveIn(new BasicUnit(2,p2));
+    territory.attack();
+    assertEquals(1,territory.getUnitsSize());
+  
+  }
+  @Test
+  public void test_attack3(){
+     Player p1=new TextPlayer("red");
+     Player p2=new TextPlayer("blue");
+     Player p3=new TextPlayer("green");
+     Player p4=new TextPlayer("aa");
+     Player p5=new TextPlayer("bb");
+     Territory territory=new BasicTerritory("a",p1);
+      //p1 4,p2 1,p3 4,p4 1,p5 4,
+      territory.moveIn(new BasicUnit(4,p1));
+      territory.moveIn(new BasicUnit(1,p2));
+      territory.moveIn(new BasicUnit(4,p3));
+      territory.moveIn(new BasicUnit(1,p4));
+      territory.moveIn(new BasicUnit(4,p5));
+      territory.attack();
+      assertEquals(1,territory.getUnitsSize());
+  }
 }

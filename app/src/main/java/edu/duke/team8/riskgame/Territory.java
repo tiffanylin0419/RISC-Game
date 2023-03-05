@@ -24,6 +24,11 @@ public interface Territory {
   public void moveIn(Unit unit_in);
 
   public boolean tryMoveOut(Unit unit_out);
-
+  
   public void attack();
+
+  public int getUnitAmount(int n);
+
+  public int getUnitsSize();
 }
+

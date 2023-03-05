@@ -32,8 +32,8 @@ public class BasicUnit implements Unit {
   }
   
   @Override
-  public boolean tryRemoveOne() {
-    return tryRemove(1);
+  public void removeOne() {
+    tryRemove(1);
   }
 
   @Override
@@ -46,6 +46,11 @@ public class BasicUnit implements Unit {
     return amount;
   }
 
+  @Override
+  public boolean isSurvive(){
+    return amount>0;
+  }
+  
   @Override
   public int doRoll() {
     Random rand = new Random();

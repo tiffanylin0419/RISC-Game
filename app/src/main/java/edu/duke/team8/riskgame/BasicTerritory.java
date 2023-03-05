@@ -119,12 +119,58 @@ public class BasicTerritory implements Territory {
     }
     return false;
   }
+
+  private void fight1(Unit u1,Unit u2){
+    if(u1.isSurvive() && u2.isSurvive()){
+      if(u1.doRoll()<u2.doRoll()){//u2 win
+        u1.removeOne();
+      }
+      else{//u1 win
+        u2.removeOne();
+      }
+    }
+  }
   
   @Override
-  public void attack() {/*
-    for(int i = units.size()-2; i >= 0; --i){
-      
-    } */
-    
+  public void attack() {
+    if(units.size()==2){
+      while(units.size()>1){
+        fight1(units.get(0),units.get(1));
+        ArrayList<Unit> remove=new ArrayList<Unit>();
+        for(Unit unit: units){
+          if(!unit.isSurvive()){
+            remove.add(unit);
+          }
+        }
+        for(Unit unit: remove){
+            units.remove(unit);
+        }
+      }
+    }
+    while(units.size()>1){
+      int l=units.size();
+      for(int i=0;i<l;i++){
+        fight1(units.get(i),units.get((i+1)%l));
+      }
+      ArrayList<Unit> remove=new ArrayList<Unit>();
+      for(Unit unit: units){
+        if(!unit.isSurvive()){
+          remove.add(unit);
+        }
+      }
+      for(Unit unit: remove){
+          units.remove(unit);
+        }
+    }
+  }
+
+  @Override
+  public int getUnitAmount(int n){
+    return units.get(n).getAmount();
+  }
+
+  @Override
+  public int getUnitsSize(){
+    return units.size();
   }
 }

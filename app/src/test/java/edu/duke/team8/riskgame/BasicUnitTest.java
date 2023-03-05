@@ -14,11 +14,12 @@ public class BasicUnitTest {
     unit.addOne();
     assertEquals(3,unit.getAmount());
     assertEquals(player,unit.getOwner());
-    assertTrue(unit.tryRemoveOne());
-    assertTrue(unit.tryRemoveOne());
+    assertTrue(unit.tryRemove(2));
     assertEquals(1,unit.getAmount());
-    assertTrue(unit.tryRemoveOne());
-    assertFalse(unit.tryRemoveOne());
+    assertTrue(unit.isSurvive());
+    unit.removeOne();
+    assertFalse(unit.tryRemove(1));
+    assertFalse(unit.isSurvive());
     
     int roll=unit.doRoll();
     assertTrue(roll<20 && 0<=roll);
