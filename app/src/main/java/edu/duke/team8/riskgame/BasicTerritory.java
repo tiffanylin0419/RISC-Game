@@ -162,6 +162,7 @@ public class BasicTerritory implements Territory {
           units.remove(unit);
         }
     }
+    changeOwner(units.get(0).getOwner());
   }
 
   @Override
