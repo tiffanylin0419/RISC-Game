@@ -19,16 +19,21 @@ public class BasicUnit implements Unit {
 
   @Override
   public void addOne() {
-    amount++;
+    add(1);
   }
 
   @Override
-  public boolean tryRemoveOne() {
-    if(amount<=1){
+  public boolean tryRemove(int n){
+    if(amount<n){
       return false;
     }
-    amount--;
+    amount-=n;
     return true;
+  }
+  
+  @Override
+  public boolean tryRemoveOne() {
+    return tryRemove(1);
   }
 
   @Override

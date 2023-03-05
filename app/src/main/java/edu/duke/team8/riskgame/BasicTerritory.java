@@ -1,5 +1,6 @@
 package edu.duke.team8.riskgame;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BasicTerritory implements Territory {
@@ -7,11 +8,13 @@ public class BasicTerritory implements Territory {
   private String name;
   private Player owner;
   private HashSet<Territory> adjacent_territory;
+  private ArrayList<Unit> units;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
     this.owner=null;
     this.adjacent_territory=new HashSet<Territory>();
+    this.units=new ArrayList<Unit>();
   }
   public BasicTerritory(String name, Player owner){
     this(name);
@@ -90,5 +93,38 @@ public class BasicTerritory implements Territory {
       to_visit.addAll(tmp);
     }
     return false;
+  }
+  @Override
+  public void moveIn(Unit unit_in) {
+    for(Unit unit: units){
+      if(unit.getOwner()==unit_in.getOwner()){
+        unit.add(unit_in.getAmount());
+        return;
+      }
+    }
+    units.add(unit_in);
+  }
+  @Override
+  public boolean tryMoveOut(Unit unit_out) {
+    for(Unit unit: units){
+      if(unit.getOwner()==unit_out.getOwner()){
+        if(!unit.tryRemove(unit_out.getAmount())){
+          return false;
+        }
+        if (unit.getAmount()==0){
+          units.remove(unit);
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  @Override
+  public void attack() {/*
+    for(int i = units.size()-2; i >= 0; --i){
+      
+    } */
+    
   }
 }

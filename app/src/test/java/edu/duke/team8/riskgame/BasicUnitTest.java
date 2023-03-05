@@ -17,6 +17,7 @@ public class BasicUnitTest {
     assertTrue(unit.tryRemoveOne());
     assertTrue(unit.tryRemoveOne());
     assertEquals(1,unit.getAmount());
+    assertTrue(unit.tryRemoveOne());
     assertFalse(unit.tryRemoveOne());
     
     int roll=unit.doRoll();
