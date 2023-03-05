@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    /** info to be transfer */
-    protected String info;
+    /** map info to be transfer */
+    protected String mapInfo;
     /** server socket*/
     protected ServerSocket server;
     /** Map of the game */
@@ -48,7 +48,7 @@ public class Server {
         this.server = ss;
         this.theMap = theMap;
         this.mapView = new MapTextView(theMap);
-        this.info = mapView.displayMap();
+        this.mapInfo = mapView.displayMap();
         this.out = out;
         this.clients = new ArrayList<Socket>();
         this.clientNum = clientNum;
@@ -95,7 +95,7 @@ public class Server {
 
         PrintWriter outInfo = new PrintWriter(client.getOutputStream(), true);
         outInfo.println(colorList.get(clientId));
-        outInfo.println(info);
+        outInfo.println(mapInfo);
         outInfo.close();
     }
 
