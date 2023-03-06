@@ -23,6 +23,7 @@ public class MapTextView implements View {
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
     @Override
     public void displayUnitInfo(StringBuilder sb, Territory t) {
         int num = t.getUnitAmount(0);

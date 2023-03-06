@@ -10,6 +10,10 @@ to do
 
 ## Files and directories
 to do
+## JavaDoc
+use `"/**"` + `enter` to generate the javaDoc automatically
+
+write some comment for complex function
 ## Variables and functions
 Class : singular noun `BasicBoard`
 
