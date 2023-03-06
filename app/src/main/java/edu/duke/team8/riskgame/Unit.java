@@ -7,7 +7,7 @@ public interface Unit {
    * @param n
    */
   public void add(int n);
-
+  
   /**
    * add 1 to amount
    */
@@ -19,7 +19,7 @@ public interface Unit {
    * @return True if sucess, False if fail
    */
   public boolean tryRemove(int n);
-
+  
   /**
    * remove 1 from amount
    * we call this function after we checked that the unit.isSurvive=True
@@ -41,7 +41,7 @@ public interface Unit {
    * @return True if amount>0, else otherwise
    */
   public boolean isSurvive();
-  
+
   /**
    * @return a random number from 0~19(inclusive)
    */
