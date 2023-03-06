@@ -23,4 +23,36 @@ public class MapTextView implements View {
         return sb.toString();
     }
 
+    @Override
+    public String displayEachPlayerInfo() {
+        Iterator<Player> it = toDisplay.getPlayerIterator();
+        StringBuilder sb = new StringBuilder();
+        while (it.hasNext()) {
+            Player player = it.next();
+            sb.append(parseOnePlayerInfo(player));
+        }
+        return sb.toString();
+    }
+
+    private String parseOnePlayerInfo(Player p) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(p.getColor() + " player:\n");
+        sb.append("-----------\n");
+        Iterator<Territory> it = p.getTerritoryIterator();
+        while (it.hasNext()) {
+            sb.append(parseEachTerritoryInfo(it.next()));
+        }
+        return sb.toString();
+    }
+
+    private String parseEachTerritoryInfo(Territory t) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<amount> units in " + t.getName() + " (next to: ");
+        Iterator<Territory> it = t.getAdjacent().iterator();
+        while (it.hasNext()) {
+            sb.append(it.next().getName() + ", ");
+        }
+        sb.append(")\n");
+        return sb.toString();
+    }
 }
