@@ -1,5 +1,6 @@
 package edu.duke.team8.riskgame;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Player {
   private ArrayList<Territory> territories;
@@ -44,5 +45,9 @@ public abstract class Player {
       return true;
     }
     return false;
+  }
+
+  public Iterator<Territory> getTerritoryIterator() {
+    return this.territories.iterator();
   }
 }

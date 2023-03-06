@@ -8,4 +8,8 @@ public interface Map {
   public Iterator<Territory> getTerritoryIterator();
 
   public void addAdjacency(Territory t1, Territory t2);
+
+  public Iterator<Player> getPlayerIterator();
+
+  public void addPlayer(Player p);
 }

@@ -7,9 +7,12 @@ public class Game1Map implements Map {
   // field
   ArrayList<Territory> territories;
 
+  ArrayList<Player> players;
+
   // constructor
   public Game1Map(){
     this.territories = new ArrayList<Territory>();
+    this.players = new ArrayList<Player>();
   }
   //
   @Override
@@ -37,5 +40,14 @@ public class Game1Map implements Map {
     t2.addAdjacent(t1);
   }
 
+  public Iterator<Player> getPlayerIterator() {
+    return this.players.iterator();
+  }
+
+  public void addPlayer(Player p) {
+    if (!players.contains(p)) {
+      players.add(p);
+    }
+  }
 }
 
