@@ -11,8 +11,10 @@ public abstract class Player {
     this.territories=new ArrayList<Territory>();
     this.color=color;
   }
-  
-  //get color of this
+
+  /**
+   * @return color
+   */
   public String getColor(){
     return color;
   }
@@ -25,12 +27,18 @@ public abstract class Player {
     color = assignedColor;
   }
 
-  //add t to territories 
+  /**
+   * add t to territories
+   * @param t
+   */
   public void addTerritory(Territory t){
     territories.add(t);
   }
 
-  //return True if territories contains t
+  /**
+   * @param t
+   * @return True if territories contains t, False otherwise
+   */
   public boolean containsTerritory(Territory t){
     for(Territory territory: territories){
       if(territory.equals(t)){
@@ -40,9 +48,11 @@ public abstract class Player {
     return false;
   }
 
-  //remove t from territories
-  //return True if suceed
-  //return Fals if t not in territories
+  /**
+   * remove t from territories
+   * @param t
+   * @return True if suceed, False if t not in territories
+   */
   public boolean tryRemoveTerritory(Territory t){
     if(containsTerritory(t)){
       territories.remove(t);
@@ -51,7 +61,9 @@ public abstract class Player {
     return false;
   }
 
-  //get iterator of territories
+  /**
+   * @return iterator of territories
+   */
   public Iterator<Territory> getTerritoryIterator() {
     return this.territories.iterator();
   }
