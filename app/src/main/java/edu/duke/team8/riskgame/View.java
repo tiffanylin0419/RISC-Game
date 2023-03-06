@@ -5,4 +5,6 @@ package edu.duke.team8.riskgame;
  */
 public interface View {
     public String displayMap();
+
+    public String displayEachPlayerInfo();
 }

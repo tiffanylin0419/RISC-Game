@@ -96,6 +96,11 @@ public class BasicTerritory implements Territory {
   }
   @Override
   public void moveIn(Unit unit_in) {
+    if(units.isEmpty()){
+      units.add(unit_in);
+      owner=unit_in.getOwner();
+      return;
+    }
     for(Unit unit: units){
       if(unit.getOwner()==unit_in.getOwner()){
         unit.add(unit_in.getAmount());
@@ -167,6 +172,9 @@ public class BasicTerritory implements Territory {
 
   @Override
   public int getUnitAmount(int n){
+    if(n>=units.size()){
+      return 0;
+    }
     return units.get(n).getAmount();
   }
 
