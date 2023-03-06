@@ -136,6 +136,7 @@ public class BasicTerritoryTest {
       territory.moveIn(new BasicUnit(4,p5));
       territory.attack();
       assertEquals(1,territory.getUnitsSize());
+      assertEquals(0,territory.getUnitAmount(1));
       //might be wrong but less likely
       //assertTrue(territory.isOwner(p1)||territory.isOwner(p3)||territory.isOwner(p5));
   }

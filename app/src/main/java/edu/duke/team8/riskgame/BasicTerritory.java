@@ -172,6 +172,9 @@ public class BasicTerritory implements Territory {
 
   @Override
   public int getUnitAmount(int n){
+    if(n>=units.size()){
+      return 0;
+    }
     return units.get(n).getAmount();
   }
 
