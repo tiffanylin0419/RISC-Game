@@ -27,9 +27,10 @@ class ClientThreadTest {
 
         cli.run();
 
+        th.interrupt();
         th.join();
         ss.close();
-        assertEquals("Red\nPlanto\n", bytes.toString());
+        assertEquals("Red\n0 units in Planto\n", bytes.toString());
 
     }
 

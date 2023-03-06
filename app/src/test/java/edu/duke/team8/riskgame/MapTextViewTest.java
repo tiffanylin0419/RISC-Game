@@ -12,7 +12,21 @@ class MapTextViewTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
         MapTextView v = new MapTextView(m);
-        assertEquals("Planto", v.displayMap());
+        assertEquals("0 units in Planto", v.displayMap());
+    }
+    @Test
+    public void testDisplayUnitInfo() throws IOException {
+        Map m = new Game1Map();
+        Territory t = new BasicTerritory("Planto");
+        Player p = new TextPlayer("Green");
+        Unit u = new BasicUnit(5, p);
+        t.moveIn(u);
+        m.addTerritory(t);
+        MapTextView v = new MapTextView(m);
+
+        StringBuilder sb = new StringBuilder();
+        v.displayUnitInfo(sb, t);
+        assertEquals("5 units in ", sb.toString());
     }
 
     private String parseExpected() {

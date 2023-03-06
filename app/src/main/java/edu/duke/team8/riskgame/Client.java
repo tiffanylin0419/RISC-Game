@@ -77,12 +77,13 @@ public class Client {
      * Specifically, it creates an instance and calls run.
      * @param args is the command line arguments.  These are currently ignored.
      * @throws IOException if creation of the ServerSocket fails.
-     */
+
     public static void main(String[] args) throws IOException {
         String hostname = "localhost"; // set the hostname of the server
         int port = 1651; // set the port number
         Client client = new Client(port, hostname); // create a new client instance
         client.run(); // connect the client to the server
     }
+    */
 };
 

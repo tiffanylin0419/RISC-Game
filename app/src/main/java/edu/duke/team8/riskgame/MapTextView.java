@@ -17,10 +17,16 @@ public class MapTextView implements View {
         StringBuilder sb = new StringBuilder();
         while(it.hasNext()) {
             Territory t = it.next();
+            displayUnitInfo(sb, t);
             sb.append(t.getName() + "\n");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
+    }
+    @Override
+    public void displayUnitInfo(StringBuilder sb, Territory t) {
+        int num = t.getUnitAmount(0);
+        sb.append(num + " units in ");
     }
 
     @Override

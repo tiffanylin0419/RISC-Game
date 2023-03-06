@@ -11,8 +11,24 @@ import java.net.Socket;
 import org.junit.jupiter.api.Test;
 
 public class ClientTest {
+    @Test
+    public void testConstructor() throws Exception {
+        ServerSocket ss = new ServerSocket(1237);
+        Map m = new Game1Map();
+        m.addTerritory(new BasicTerritory("Planto"));
+        Thread serverThread = new Thread(() -> {
+            Server s = new Server(ss, m, 1);
+            s.run();
+        });
+        serverThread.start();
+
+        Client c = new Client(1237, "localhost");
+        serverThread.interrupt();
+        serverThread.join();
+        ss.close();
+    }
     @Test()
-    public void testIOException() throws IOException {
+    public void testIOException() throws Exception {
         ServerSocket ss = new ServerSocket(1239);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
@@ -29,6 +45,7 @@ public class ClientTest {
         Client cli = new Client(cl_s, output);
         cl_s.close();
         cli.run();
+        serverThread.join();
         ss.close();
         assertEquals("Out/Input stream error\n", bytes.toString());
     }
@@ -49,7 +66,7 @@ public class ClientTest {
         Socket client = new Socket("localhost", 1244);
         Client cli = new Client(client, output);
         cli.run();
-        assertEquals("Green\nPlanto\n", bytes.toString());
+        assertEquals("Green\n0 units in Planto\n", bytes.toString());
 
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
@@ -57,8 +74,9 @@ public class ClientTest {
         Socket client1 = new Socket("localhost", 1244);
         Client cli1 = new Client(client1, output1);
         cli1.run();
-        assertEquals("Red\nPlanto\n", bytes1.toString());
+        assertEquals("Red\n0 units in Planto\n", bytes1.toString());
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
 
@@ -70,7 +88,12 @@ public class ClientTest {
         m.addTerritory(new BasicTerritory("Planto"));
         m.addTerritory(new BasicTerritory("Dova"));
         m.addTerritory(new BasicTerritory("Aova"));
-        m.addTerritory(new BasicTerritory("Bova"));
+
+        Territory t = new BasicTerritory("Grand");
+        Player p = new TextPlayer("Green");
+        Unit u = new BasicUnit(2, p);
+        t.moveIn(u);
+        m.addTerritory(t);
 
         Thread serverThread = new Thread(() -> {
             Server s = new Server(ss, m, 1);
@@ -83,9 +106,11 @@ public class ClientTest {
         Client cli = new Client(1234, "localhost", output);
         cli.receive();
         cli.display();
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
-        assertEquals("Green\nPlanto\nDova\nAova\nBova\n", bytes.toString());
+        assertEquals("Green\n0 units in Planto\n0 units in Dova\n" +
+                "0 units in Aova\n2 units in Grand\n", bytes.toString());
 
     }
     @Test
@@ -105,6 +130,7 @@ public class ClientTest {
         cli.display();
         assertEquals("unassigned\n", bytes.toString());
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
     }
@@ -125,6 +151,7 @@ public class ClientTest {
         cli.displayMap();
         assertEquals("", bytes.toString());
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
     }

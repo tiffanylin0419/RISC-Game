@@ -76,7 +76,7 @@ public class Server {
      * externally killed??
      * @param args is the command line arguments.  These are currently ignored.
      * @throws IOException if creation of the ServerSocket fails.
-     */
+
     public static void main(String[] args) throws IOException {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
@@ -84,6 +84,7 @@ public class Server {
                 new Server(1651, m, 4);
         server.run();
     }
+    */
 
 }
 

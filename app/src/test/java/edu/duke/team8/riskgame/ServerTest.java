@@ -43,6 +43,7 @@ public class ServerTest {
         cliSocket.close();
         cli.run();
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
         assertEquals("Out/Input stream error\n", bytes1.toString());
@@ -67,11 +68,12 @@ public class ServerTest {
         });
         serverThread.start();
 
-        checkClientHelper("Green\nPlanto\n");
-        checkClientHelper("Red\nPlanto\n");
-        checkClientHelper("Blue\nPlanto\n");
-        checkClientHelper("Yellow\nPlanto\n");
+        checkClientHelper("Green\n0 units in Planto\n");
+        checkClientHelper("Red\n0 units in Planto\n");
+        checkClientHelper("Blue\n0 units in Planto\n");
+        checkClientHelper("Yellow\n0 units in Planto\n");
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
 
