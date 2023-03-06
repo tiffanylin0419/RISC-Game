@@ -12,7 +12,7 @@ public abstract class Player {
     this.color=color;
   }
   
-  //get
+  //get color of this
   public String getColor(){
     return color;
   }
@@ -25,10 +25,12 @@ public abstract class Player {
     color = assignedColor;
   }
 
+  //add t to territories 
   public void addTerritory(Territory t){
     territories.add(t);
   }
 
+  //return True if territories contains t
   public boolean containsTerritory(Territory t){
     for(Territory territory: territories){
       if(territory.equals(t)){
@@ -38,7 +40,9 @@ public abstract class Player {
     return false;
   }
 
-
+  //remove t from territories
+  //return True if suceed
+  //return Fals if t not in territories
   public boolean tryRemoveTerritory(Territory t){
     if(containsTerritory(t)){
       territories.remove(t);
@@ -47,6 +51,7 @@ public abstract class Player {
     return false;
   }
 
+  //get iterator of territories
   public Iterator<Territory> getTerritoryIterator() {
     return this.territories.iterator();
   }
