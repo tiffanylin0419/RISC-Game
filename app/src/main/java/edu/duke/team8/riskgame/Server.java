@@ -17,12 +17,10 @@ public class Server {
     private final Map theMap;
     /** View of the map */
     protected View mapView;
-    /** Output stream of the Server*/
-    protected PrintStream out;
     /** Color list of players */
     private final List<String> colorList;
     /** List of the client sockets */
-    protected List<Socket> clients;
+    private List<ClientThread> clients;
     /** number of clients */
     protected int clientNum;
     /**
@@ -31,26 +29,18 @@ public class Server {
      * @param port is the port of the socket
      * @param theMap is the map of the board
      */
-    public Server(int port, Map theMap) throws IOException {
-        this(new ServerSocket(port), theMap);
-
-    }
-    public Server(ServerSocket ss, Map theMap) {
-        this(ss, theMap, System.out, 4);
+    public Server(int port, Map theMap, int clientNum) throws IOException {
+        this(new ServerSocket(port), theMap, clientNum);
     }
     /**
      * @param clientNum is the number of clients
      */
     public Server(ServerSocket ss, Map theMap, int clientNum) {
-        this(ss, theMap, System.out, clientNum);
-    }
-    public Server(ServerSocket ss, Map theMap, PrintStream out, int clientNum) {
         this.server = ss;
         this.theMap = theMap;
         this.mapView = new MapTextView(theMap);
         this.mapInfo = mapView.displayMap();
-        this.out = out;
-        this.clients = new ArrayList<Socket>();
+        this.clients = new ArrayList<ClientThread>();
         this.clientNum = clientNum;
         this.colorList = new ArrayList<String>();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
@@ -67,37 +57,35 @@ public class Server {
     /** Execute the server */
     public void run() {
         try {
-            for (int i = 0; i < clientNum; i++) {
-                connectOneClient(i);
+            for(int i = 0; i < clientNum; i++) {
+                System.out.println("Waiting for client " + i + " connection...");
+                Socket clientSocket = server.accept();
+                System.out.println("Client connected!");
+                ClientThread clientThread = new ClientThread(clientSocket, colorList.get(i), mapInfo);
+                clients.add(clientThread);
+                clientThread.start();
             }
-            server.close();
         } catch (IOException e) {
-            out.println("Out/Input stream error");
+            System.err.println("Error starting server: " + e.getMessage());
         }
     }
-    /** Execute the server to connect with one client
-     * @param clientId is the index of the client
-     */
-    public void connectOneClient(int clientId) throws IOException {
-            System.out.println("Waiting for client " + clientId + " connection...");
-            Socket clientSocket = server.accept();
-            System.out.println("Client connected!");
-            send(clientSocket, clientId);
-
-            clientSocket.close();
-    }
     /**
-     * Send string info to client
-     * @param client is the socket for cclient
-     * @param clientId is the index of the client
-     */
-    public void send(Socket client, int clientId) throws IOException {
+     * This main method runs the server, listening on port 1651.
+     * Specifically, it creates an instance and calls run.
+     * When done from the command line, this program runs until
+     * externally killed??
+     * @param args is the command line arguments.  These are currently ignored.
+     * @throws IOException if creation of the ServerSocket fails.
 
-        PrintWriter outInfo = new PrintWriter(client.getOutputStream(), true);
-        outInfo.println(colorList.get(clientId));
-        outInfo.println(mapInfo);
-        outInfo.close();
+    public static void main(String[] args) throws IOException {
+        Map m = new Game1Map();
+        m.addTerritory(new BasicTerritory("Planto"));
+        Server server =
+                new Server(1651, m, 4);
+        server.run();
     }
+    */
 
 }
+
 

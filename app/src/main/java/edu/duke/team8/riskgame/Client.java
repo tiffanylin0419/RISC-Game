@@ -17,7 +17,14 @@ public class Client {
      *
      * @param port is the port of the socket
      * @param host is the address of the server
+     */
+    public Client(int port, String host) throws IOException {
+        this(new Socket(host, port), System.out);
+    }
+
+    /**
      * @param out is the output stream of the client
+     * @throws IOException
      */
     public Client(int port, String host, PrintStream out) throws IOException {
         this(new Socket(host, port), out);
@@ -39,21 +46,6 @@ public class Client {
             out.println("Out/Input stream error");
         }
     }
-    /**
-     * Send the string info through the socket
-     * @param socket is socket used to transfer
-     * @param info is the message to be transfer
-
-    public void sendString(Socket socket, String info) throws IOException {
-    OutputStream outputStream = socket.getOutputStream();
-    PrintWriter printWriter = new PrintWriter(outputStream, true);
-
-    printWriter.println(info);
-
-    printWriter.close();
-    outputStream.close();
-    }
-     */
 
     /**
      * Receive the string info from the server
@@ -80,5 +72,18 @@ public class Client {
     public void displayMap() {
         out.print(mapInfo);
     }
+    /**
+     * This main method runs the client, on localhost and port 1651.
+     * Specifically, it creates an instance and calls run.
+     * @param args is the command line arguments.  These are currently ignored.
+     * @throws IOException if creation of the ServerSocket fails.
+
+    public static void main(String[] args) throws IOException {
+        String hostname = "localhost"; // set the hostname of the server
+        int port = 1651; // set the port number
+        Client client = new Client(port, hostname); // create a new client instance
+        client.run(); // connect the client to the server
+    }
+    */
 };
 

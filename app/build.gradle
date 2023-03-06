@@ -49,4 +49,17 @@ clover{
         html = true
     }
 }
+task runServer(type: JavaExec) {
+    main = 'edu.duke.team8.riskgame.Server' // set the main class of the server
+    classpath = sourceSets.main.runtimeClasspath // set the classpath to include runtime dependencies
+//    args '12345' // pass any command-line arguments to the server
+}
+task runClient(type: JavaExec) {
+    main = 'edu.duke.team8.riskgame.Client' // set the main class of the server
+    classpath = sourceSets.main.runtimeClasspath // set the classpath to include runtime dependencies
+//    args '12345' // pass any command-line arguments to the server
+}
 
+run{
+    standardInput = System.in
+}

@@ -21,7 +21,7 @@ public class ServerTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
-        Server s = new Server(1236, m);
+        Server s = new Server(1236, m, 4);
         assertEquals(1236, s.getPort());
     }
     @Test()
@@ -30,10 +30,8 @@ public class ServerTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, output, 1);
+            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -45,6 +43,7 @@ public class ServerTest {
         cliSocket.close();
         cli.run();
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
         assertEquals("Out/Input stream error\n", bytes1.toString());
@@ -64,67 +63,21 @@ public class ServerTest {
         m.addTerritory(new BasicTerritory("Planto"));
 
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m);
+            Server s = new Server(ss, m, 4);
             s.run();
         });
         serverThread.start();
 
-        checkClientHelper("Green\nPlanto\n");
-        checkClientHelper("Red\nPlanto\n");
-        checkClientHelper("Blue\nPlanto\n");
-        checkClientHelper("Yellow\nPlanto\n");
+        checkClientHelper("Green\n0 units in Planto\n");
+        checkClientHelper("Red\n0 units in Planto\n");
+        checkClientHelper("Blue\n0 units in Planto\n");
+        checkClientHelper("Yellow\n0 units in Planto\n");
 
+        serverThread.interrupt();
         serverThread.join();
         ss.close();
 
     }
-    @Test
-    public void testConnectOneClient() throws Exception {
 
-        ServerSocket ss = new ServerSocket(1256);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
-
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-
-        Client cli = new Client(1256, "localhost", output);
-        Thread clientThread = new Thread(() -> cli.run());
-        clientThread.start();
-
-        Server s = new Server(ss, m);
-        s.connectOneClient(1);
-
-        clientThread.join();
-        ss.close();
-        assertEquals("Red\nPlanto\n", bytes.toString());
-
-    }
-    @Test
-    public void testSend() throws Exception {
-        ServerSocket ss = new ServerSocket(1230);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-
-        Client cli = new Client(1230, "localhost", output);
-        Thread clientThread = new Thread(() -> cli.run());
-        clientThread.start();
-
-        Server s = new Server(ss, m);
-        System.out.println("Waiting for client connection...");
-        Socket client = ss.accept();
-        System.out.println("Client connected!");
-        s.send(client, 0);
-        client.close();
-
-        clientThread.join();
-        ss.close();
-        assertEquals("Green\nPlanto\n", bytes.toString());
-
-    }
 
 }
