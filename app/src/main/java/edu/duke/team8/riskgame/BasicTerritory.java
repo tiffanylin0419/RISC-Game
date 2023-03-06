@@ -5,16 +5,16 @@ import java.util.HashSet;
 
 public class BasicTerritory implements Territory {
   //field
-  private String name;
+  private final String name;
   private Player owner;
-  private HashSet<Territory> adjacent_territory;
-  private ArrayList<Unit> units;
+  private final HashSet<Territory> adjacent_territory;
+  private final ArrayList<Unit> units;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
     this.owner=null;
-    this.adjacent_territory=new HashSet<Territory>();
-    this.units=new ArrayList<Unit>();
+    this.adjacent_territory=new HashSet<>();
+    this.units=new ArrayList<>();
   }
   public BasicTerritory(String name, Player owner){
     this(name);
@@ -33,7 +33,7 @@ public class BasicTerritory implements Territory {
   public boolean equals(Object other) {
     if (other != null && other.getClass().equals(getClass())) {
       Territory otherTerritory = (Territory) other;//
-      return name == otherTerritory.getName();
+      return name.equals(otherTerritory.getName());
     }
     return false;
   }
@@ -72,14 +72,14 @@ public class BasicTerritory implements Territory {
 
   @Override
   public boolean isAdjacentSelf(Territory adjacent){
-    HashSet<Territory> to_visit=new HashSet<Territory>();
-    HashSet<Territory> visited=new HashSet<Territory>();
+    HashSet<Territory> to_visit=new HashSet<>();
+    HashSet<Territory> visited=new HashSet<>();
     to_visit.add(this);
     while(to_visit.size()>0){
       if(to_visit.contains(adjacent)){
         return true;
       }
-      HashSet<Territory> tmp=new HashSet<Territory>();
+      HashSet<Territory> tmp=new HashSet<>();
       for(Territory t: to_visit){
         HashSet<Territory> adjacents=t.getAdjacent();
         for(Territory ad_t: adjacents){
@@ -125,6 +125,13 @@ public class BasicTerritory implements Territory {
     return false;
   }
 
+  /**
+   * This function process a one-unit fight between 2 units from defender and attacker
+   * the loser will lose one unit after the fight
+   *
+   * @param u1 a unit of defender
+   * @param u2 a unit of attacker
+   */
   private void fight1(Unit u1,Unit u2){
     if(u1.isSurvive() && u2.isSurvive()){
       if(u1.doRoll()<u2.doRoll()){//u2 win
@@ -135,37 +142,49 @@ public class BasicTerritory implements Territory {
       }
     }
   }
-  
-  @Override
-  public void attack() {
-    if(units.size()==2){
-      while(units.size()>1){
-        fight1(units.get(0),units.get(1));
-        ArrayList<Unit> remove=new ArrayList<Unit>();
-        for(Unit unit: units){
-          if(!unit.isSurvive()){
-            remove.add(unit);
-          }
-        }
-        for(Unit unit: remove){
-            units.remove(unit);
-        }
-      }
-    }
+
+  /**
+   * This function process a fight between 2 players in one territory defender and attacker
+   */
+  private void oneToOneAttack(){
     while(units.size()>1){
-      int l=units.size();
-      for(int i=0;i<l;i++){
-        fight1(units.get(i),units.get((i+1)%l));
-      }
-      ArrayList<Unit> remove=new ArrayList<Unit>();
+      fight1(units.get(0),units.get(1));
+      ArrayList<Unit> remove=new ArrayList<>();
       for(Unit unit: units){
         if(!unit.isSurvive()){
           remove.add(unit);
         }
       }
       for(Unit unit: remove){
-          units.remove(unit);
+        units.remove(unit);
+      }
+    }
+  }
+
+  /**
+   * This function process a fight between multiple players in one territory
+   */
+  private void manyToOneAttack(){
+    while(units.size()>1){
+      fight1(units.get(0),units.get(1));
+      ArrayList<Unit> remove=new ArrayList<>();
+      for(Unit unit: units){
+        if(!unit.isSurvive()){
+          remove.add(unit);
         }
+      }
+      for(Unit unit: remove){
+        units.remove(unit);
+      }
+    }
+  }
+
+  @Override
+  public void attack() {
+    if(units.size()==2){
+      oneToOneAttack();
+    }else{
+      manyToOneAttack();
     }
     changeOwner(units.get(0).getOwner());
   }
