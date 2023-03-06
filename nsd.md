@@ -13,7 +13,7 @@ to do
 ## JavaDoc
 use `"/**"` + `enter` to generate the javaDoc automatically
 
-write some comment for complex function
+write some comments for complex functions
 ## Variables and functions
 Class : singular noun `BasicBoard`
 
