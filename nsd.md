@@ -10,6 +10,10 @@ to do
 
 ## Files and directories
 to do
+## JavaDoc
+use `"/**"` + `enter` to generate the javaDoc automatically
+
+write some comments for complex functions
 ## Variables and functions
 Class : singular noun `BasicBoard`
 
@@ -18,7 +22,5 @@ Method : verb `addList()`;
 Variable : `numberServer`, boolean : start with "is", "has", or "should"
 
 Constant : `UPPER_CASE_SNAKE`
-
-Variable : `number_server` 
 
 boolean : start with "is", "has", "can" or "should"
