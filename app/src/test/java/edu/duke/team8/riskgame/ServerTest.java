@@ -30,8 +30,8 @@ public class ServerTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
+        Server s = new Server(ss, m, 1);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -43,6 +43,7 @@ public class ServerTest {
         cliSocket.close();
         cli.run();
 
+        s.stop();
         serverThread.interrupt();
         serverThread.join();
         ss.close();
@@ -62,8 +63,8 @@ public class ServerTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
+        Server s = new Server(ss, m, 4);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 4);
             s.run();
         });
         serverThread.start();
@@ -73,7 +74,7 @@ public class ServerTest {
         checkClientHelper("Blue\n0 units in Planto\n");
         checkClientHelper("Yellow\n0 units in Planto\n");
 
-        serverThread.interrupt();
+        s.stop();
         serverThread.join();
         ss.close();
 
