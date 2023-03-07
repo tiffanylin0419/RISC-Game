@@ -5,11 +5,12 @@ import java.util.Iterator;
 public abstract class Player {
   private ArrayList<Territory> territories;
   private String color;
-
+  private int unitMax;
   //constructor
   public Player(String color){
     this.territories=new ArrayList<Territory>();
     this.color=color;
+    this.unitMax=0;
   }
 
   /**
@@ -25,6 +26,21 @@ public abstract class Player {
    */
   public void setColor(String assignedColor){
     color = assignedColor;
+  }
+
+  /**
+   * set unitMax of player
+   * @param unitMax
+   */
+  public void setUnitMax(int unitMax){
+    this.unitMax=unitMax;
+  }
+
+  /**
+   * @return unitMax
+   */
+  public int getUnitMax(){
+    return unitMax;
   }
 
   /**

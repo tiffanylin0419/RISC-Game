@@ -46,7 +46,9 @@ public class BasicTerritory implements Territory {
   @Override
   public void changeOwner(Player new_owner){
     Player old_owner=this.owner;
-    old_owner.tryRemoveTerritory(this);
+    if(old_owner!=null){
+      old_owner.tryRemoveTerritory(this);
+    }
     new_owner.addTerritory(this);
     this.owner=new_owner;
   }
@@ -98,7 +100,7 @@ public class BasicTerritory implements Territory {
   public void moveIn(Unit unit_in) {
     if(units.isEmpty()){
       units.add(unit_in);
-      owner=unit_in.getOwner();
+      changeOwner(unit_in.getOwner());
       return;
     }
     for(Unit unit: units){

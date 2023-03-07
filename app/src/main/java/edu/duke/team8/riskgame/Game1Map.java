@@ -11,9 +11,14 @@ public class Game1Map implements Map {
 
   // constructor
   public Game1Map(){
-    this.territories = new ArrayList<Territory>();
-    this.players = new ArrayList<Player>();
+    this.territories = new ArrayList<>();
+    this.players = new ArrayList<>();
   }
+  public  Game1Map(ArrayList<Territory> territories,ArrayList<Player> players){
+    this.territories=territories;
+    this.players=players;
+  }
+  
   //
   @Override
   public void addTerritory(Territory t){

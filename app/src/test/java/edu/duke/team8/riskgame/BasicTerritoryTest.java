@@ -1,7 +1,10 @@
 package edu.duke.team8.riskgame;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class BasicTerritoryTest {
@@ -130,7 +133,7 @@ public class BasicTerritoryTest {
      Territory territory=new BasicTerritory("a",p2);
       //p1 4,p2 1,p3 4,p4 1,p5 4,
       territory.moveIn(new BasicUnit(4,p1));
-      territory.moveIn(new BasicUnit(1,p2));
+      territory.moveIn(new BasicUnit(0,p2));
       territory.moveIn(new BasicUnit(4,p3));
       territory.moveIn(new BasicUnit(1,p4));
       territory.moveIn(new BasicUnit(4,p5));
