@@ -16,14 +16,14 @@ public class ClientTest {
         ServerSocket ss = new ServerSocket(1237);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
+        Server s = new Server(ss, m, 1);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
 
         Client c = new Client(1237, "localhost");
-        serverThread.interrupt();
+        s.stop();
         serverThread.join();
         ss.close();
     }
@@ -35,8 +35,8 @@ public class ClientTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
+        Server s = new Server(ss, m, 1);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -45,6 +45,7 @@ public class ClientTest {
         Client cli = new Client(cl_s, output);
         cl_s.close();
         cli.run();
+        s.stop();
         serverThread.join();
         ss.close();
         assertEquals("Out/Input stream error\n", bytes.toString());
@@ -55,8 +56,8 @@ public class ClientTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
 
+        Server s = new Server(ss, m, 2);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 2);
             s.run();
         });
         serverThread.start();
@@ -76,7 +77,7 @@ public class ClientTest {
         cli1.run();
         assertEquals("Red\n0 units in Planto\n", bytes1.toString());
 
-        serverThread.interrupt();
+        s.stop();
         serverThread.join();
         ss.close();
 
@@ -95,8 +96,8 @@ public class ClientTest {
         t.moveIn(u);
         m.addTerritory(t);
 
+        Server s = new Server(ss, m, 1);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -107,6 +108,7 @@ public class ClientTest {
         cli.receive();
         cli.display();
         serverThread.interrupt();
+        s.stop();
         serverThread.join();
         ss.close();
         assertEquals("Green\n0 units in Planto\n0 units in Dova\n" +
@@ -118,8 +120,8 @@ public class ClientTest {
         ServerSocket ss = new ServerSocket(1334);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
+        Server s = new Server(ss, m, 1);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -130,7 +132,7 @@ public class ClientTest {
         cli.display();
         assertEquals("unassigned\n", bytes.toString());
 
-        serverThread.interrupt();
+        s.stop();
         serverThread.join();
         ss.close();
     }
@@ -139,8 +141,8 @@ public class ClientTest {
         ServerSocket ss = new ServerSocket(1324);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
+        Server s = new Server(ss, m, 1);
         Thread serverThread = new Thread(() -> {
-            Server s = new Server(ss, m, 1);
             s.run();
         });
         serverThread.start();
@@ -151,7 +153,7 @@ public class ClientTest {
         cli.displayMap();
         assertEquals("", bytes.toString());
 
-        serverThread.interrupt();
+        s.stop();
         serverThread.join();
         ss.close();
     }

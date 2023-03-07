@@ -46,4 +46,11 @@ public class ClientThread extends Thread {
         output.close();
     }
 
+    /**
+     * Get the socket of clientThread
+     * @return socket of the thread
+     */
+    public Object getSocket() {
+        return clientSocket;
+    }
 }

@@ -54,20 +54,47 @@ public class Server {
     public int getPort() {
         return server.getLocalPort();
     }
+    public boolean hasSocket(Socket s) {
+        boolean found = false;
+        for (ClientThread client : clients) {
+            if (client.getSocket().equals(s)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
     /** Execute the server */
     public void run() {
         try {
-            for(int i = 0; i < clientNum; i++) {
-                System.out.println("Waiting for client " + i + " connection...");
+            while(true) {
+                int index = clients.size();
                 Socket clientSocket = server.accept();
                 System.out.println("Client connected!");
-                ClientThread clientThread = new ClientThread(clientSocket, colorList.get(i), mapInfo);
-                clients.add(clientThread);
-                clientThread.start();
+                if(!hasSocket(clientSocket)) {
+                    ClientThread clientThread = new ClientThread(clientSocket, colorList.get(index), mapInfo);
+                    clients.add(clientThread);
+                    clientThread.start();
+                }
             }
         } catch (IOException e) {
-            System.err.println("Error starting server: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
+    }
+
+    /**
+     * Stop the server
+     * @throws IOException if input/output stream error
+     */
+    public void stop() throws IOException {
+        // Close the server socket
+        server.close();
+
+        // Interrupt all client threads and remove them from the list
+        for (ClientThread client : clients) {
+            client.interrupt();
+        }
+        clients.clear();
     }
     /**
      * This main method runs the server, listening on port 1651.
