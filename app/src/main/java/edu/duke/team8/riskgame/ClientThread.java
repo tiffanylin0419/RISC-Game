@@ -34,11 +34,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         while (isRunning) {
-            try {
-                send();
-            } catch (IOException e) {
-                System.out.println("Clientthread Out/Input stream error");
-            }
+            send();
         }
     }
 
@@ -50,13 +46,13 @@ public class ClientThread extends Thread {
         try {
             clientSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
     /**
      * Send string info to client
      */
-    public void send() throws IOException {
+    public void send(){
         output.println(color);
         output.println(mapInfo);
         output.close();

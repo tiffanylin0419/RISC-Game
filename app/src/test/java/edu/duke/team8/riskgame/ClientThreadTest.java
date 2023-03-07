@@ -33,7 +33,8 @@ class ClientThreadTest {
         th.interrupt();
         th.join();
         ss.close();
-        assertEquals("Red\n0 units in Planto\n", bytes.toString());
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Red\n0 units in Planto\n", actual);
 
     }
     @Test
@@ -61,17 +62,13 @@ class ClientThreadTest {
         Socket mockSocket = mock(Socket.class);
         InputStream mockInputStream = mock(InputStream.class);
         OutputStream mockOutputStream = mock(OutputStream.class);
-
         // Set up mock socket
         when(mockSocket.getInputStream()).thenReturn(mockInputStream);
         when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
 
         // Create client thread with mock socket
         ClientThread clientThread = new ClientThread(mockSocket, "Red", mapView.displayMap());
-
-        // Throw IOException when read() is called on the mock input stream
-        doThrow(IOException.class).when(mockInputStream).read(any(byte[].class), anyInt(), anyInt());
-
+        doThrow(new IOException("Socket closed")).when(mockSocket).close();
         clientThread.start();
 
         clientThread.stopThread();

@@ -60,11 +60,12 @@ public class Server {
 
     /** Execute the server */
     public void run() {
-        while(isListening)
+        while(isListening) {
             try {
                 if(clients.size() < clientNum) connectOneClient();
             } catch (IOException e) {
-            System.err.println(e.getMessage());
+                System.out.println(e.getMessage());
+            }
         }
     }
     public void connectOneClient() throws IOException{
