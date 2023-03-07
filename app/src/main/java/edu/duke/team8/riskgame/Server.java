@@ -23,6 +23,8 @@ public class Server {
     private List<ClientThread> clients;
     /** number of clients */
     protected int clientNum;
+    /** Boolean indicate whether the server is listening or not*/
+    private boolean isListening;
     /**
      * Constructs a server with specified port
      *
@@ -42,6 +44,7 @@ public class Server {
         this.mapInfo = mapView.displayMap();
         this.clients = new ArrayList<ClientThread>();
         this.clientNum = clientNum;
+        this.isListening = true;
         this.colorList = new ArrayList<String>();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
         for(int i = 0; i < clientNum; i++) {
@@ -54,44 +57,36 @@ public class Server {
     public int getPort() {
         return server.getLocalPort();
     }
-    public boolean hasSocket(Socket s) {
-        boolean found = false;
-        for (ClientThread client : clients) {
-            if (client.getSocket().equals(s)) {
-                found = true;
-                break;
-            }
-        }
-        return found;
-    }
+
     /** Execute the server */
     public void run() {
-        try {
-            while(true) {
-                int index = clients.size();
-                Socket clientSocket = server.accept();
-                System.out.println("Client connected!");
-                if(!hasSocket(clientSocket)) {
-                    ClientThread clientThread = new ClientThread(clientSocket, colorList.get(index), mapInfo);
-                    clients.add(clientThread);
-                    clientThread.start();
-                }
-            }
-        } catch (IOException e) {
+        while(isListening)
+            try {
+                if(clients.size() < clientNum) connectOneClient();
+            } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
-
+    public void connectOneClient() throws IOException{
+        int index = clients.size();
+        Socket clientSocket = server.accept();
+        System.out.println("Client connected!");
+        ClientThread clientThread = new ClientThread(clientSocket, colorList.get(index), mapInfo);
+        clients.add(clientThread);
+        clientThread.start();
+    }
     /**
      * Stop the server
      * @throws IOException if input/output stream error
      */
     public void stop() throws IOException {
+        isListening = false;
         // Close the server socket
         server.close();
 
         // Interrupt all client threads and remove them from the list
         for (ClientThread client : clients) {
+            client.stopThread();
             client.interrupt();
         }
         clients.clear();

@@ -79,6 +79,29 @@ public class ServerTest {
         ss.close();
 
     }
+    @Test
+    public void testHasSocket() throws Exception {
 
+        ServerSocket ss = new ServerSocket(1219);
+        Map m = new Game1Map();
+        m.addTerritory(new BasicTerritory("Planto"));
+
+        Server s = new Server(ss, m, 4);
+        Thread serverThread = new Thread(() -> {
+            s.run();
+        });
+        serverThread.start();
+
+        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+        PrintStream output1 = new PrintStream(bytes1, true);
+        Socket cliSocket = new Socket("localhost", 1219);
+        Client cli = new Client(cliSocket, output1);
+        cli.run();
+
+        s.stop();
+        serverThread.join();
+        ss.close();
+        assertEquals("Green\n0 units in Planto\n", bytes1.toString());
+    }
 
 }

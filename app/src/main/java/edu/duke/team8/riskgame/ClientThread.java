@@ -13,6 +13,8 @@ public class ClientThread extends Thread {
     private String mapInfo;
     private final BufferedReader input;
     private final PrintWriter output;
+    /** Boolean indicate whether the thread is running or not*/
+    private boolean isRunning;
 
     /**
      * Constructor of ClientThread
@@ -27,14 +29,28 @@ public class ClientThread extends Thread {
         this.mapInfo = mapInfo;
         this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         this.output = new PrintWriter(clientSocket.getOutputStream(), true);
+        this.isRunning = true;
     }
     @Override
     public void run() {
+        while (isRunning) {
+            try {
+                send();
+            } catch (IOException e) {
+                System.out.println("Clientthread Out/Input stream error");
+            }
+        }
+    }
+
+    /**
+     * Stop the current thread
+     */
+    public void stopThread() {
+        isRunning = false;
         try {
-            send();
             clientSocket.close();
         } catch (IOException e) {
-            System.out.println("Out/Input stream error");
+            e.printStackTrace();
         }
     }
     /**
@@ -50,7 +66,7 @@ public class ClientThread extends Thread {
      * Get the socket of clientThread
      * @return socket of the thread
      */
-    public Object getSocket() {
+    public Socket getSocket() {
         return clientSocket;
     }
 }

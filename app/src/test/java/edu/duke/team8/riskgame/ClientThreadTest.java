@@ -27,6 +27,7 @@ class ClientThreadTest {
 
         cli.run();
 
+        th.stopThread();
         th.interrupt();
         th.join();
         ss.close();
