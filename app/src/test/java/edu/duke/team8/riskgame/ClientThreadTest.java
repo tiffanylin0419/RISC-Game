@@ -2,12 +2,14 @@ package edu.duke.team8.riskgame;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 class ClientThreadTest {
     @Test
@@ -49,5 +51,32 @@ class ClientThreadTest {
         ClientThread th = new ClientThread(cliSocket, "Red", mapView.displayMap());
         assertEquals(cliSocket, th.getSocket());
     }
+    @Test
+    public void testServerHandlesIOException() throws Exception {
+        Map m = new Game1Map();
+        m.addTerritory(new BasicTerritory("Planto"));
+        View mapView = new MapTextView(m);
 
+        // Create mock objects
+        Socket mockSocket = mock(Socket.class);
+        InputStream mockInputStream = mock(InputStream.class);
+        OutputStream mockOutputStream = mock(OutputStream.class);
+
+        // Set up mock socket
+        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
+        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
+
+        // Create client thread with mock socket
+        ClientThread clientThread = new ClientThread(mockSocket, "Red", mapView.displayMap());
+
+        // Throw IOException when read() is called on the mock input stream
+        doThrow(IOException.class).when(mockInputStream).read(any(byte[].class), anyInt(), anyInt());
+
+        clientThread.start();
+
+        clientThread.stopThread();
+        clientThread.interrupt();
+        clientThread.join();
+
+    }
 }
