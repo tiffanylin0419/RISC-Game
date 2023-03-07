@@ -48,7 +48,8 @@ public class ClientTest {
         s.stop();
         serverThread.join();
         ss.close();
-        assertEquals("Out/Input stream error\n", bytes.toString());
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Out/Input stream error\n", actual);
     }
     @Test
     public void testRun() throws Exception {
@@ -67,7 +68,8 @@ public class ClientTest {
         Socket client = new Socket("localhost", 1244);
         Client cli = new Client(client, output);
         cli.run();
-        assertEquals("Green\n0 units in Planto\n", bytes.toString());
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Green\n0 units in Planto\n", actual);
 
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
@@ -75,7 +77,8 @@ public class ClientTest {
         Socket client1 = new Socket("localhost", 1244);
         Client cli1 = new Client(client1, output1);
         cli1.run();
-        assertEquals("Red\n0 units in Planto\n", bytes1.toString());
+        String actual1 = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Red\n0 units in Planto\n", actual1);
 
         s.stop();
         serverThread.join();
@@ -111,8 +114,9 @@ public class ClientTest {
         s.stop();
         serverThread.join();
         ss.close();
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("Green\n0 units in Planto\n0 units in Dova\n" +
-                "0 units in Aova\n2 units in Grand\n", bytes.toString());
+                "0 units in Aova\n2 units in Grand\n", actual);
 
     }
     @Test
@@ -130,7 +134,8 @@ public class ClientTest {
         PrintStream output = new PrintStream(bytes, true);
         Client cli = new Client(1334, "localhost", output);
         cli.display();
-        assertEquals("unassigned\n", bytes.toString());
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("unassigned\n", actual);
 
         s.stop();
         serverThread.join();

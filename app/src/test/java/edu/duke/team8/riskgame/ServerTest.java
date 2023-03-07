@@ -47,14 +47,16 @@ public class ServerTest {
         serverThread.interrupt();
         serverThread.join();
         ss.close();
-        assertEquals("Out/Input stream error\n", bytes1.toString());
+        String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Out/Input stream error\n", actual);
     }
     private void checkClientHelper(String expected) throws Exception {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
         Client cli = new Client(1216, "localhost", output);
         cli.run();
-        assertEquals(expected, bytes.toString());
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals(expected, actual);
     }
     @Test
     public void testRun() throws Exception {
@@ -101,7 +103,8 @@ public class ServerTest {
         s.stop();
         serverThread.join();
         ss.close();
-        assertEquals("Green\n0 units in Planto\n", bytes1.toString());
+        String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Green\n0 units in Planto\n", actual);
     }
 
 }
