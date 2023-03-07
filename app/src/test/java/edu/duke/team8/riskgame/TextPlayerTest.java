@@ -16,6 +16,15 @@ public class TextPlayerTest {
       p.setColor("blue");
       assertEquals(p.getColor(),"blue");
   }
+
+  @Test
+  public void test_unitMax(){
+    Player p=new TextPlayer("red");
+    assertEquals(0,p.getUnitMax());
+    p.setUnitMax(3);
+    assertEquals(3,p.getUnitMax());
+  }
+  
   @Test
   public void test_addTerritory() {
     Player p=new TextPlayer("red");
