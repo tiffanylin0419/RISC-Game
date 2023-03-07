@@ -28,10 +28,17 @@ public abstract class Player {
     color = assignedColor;
   }
 
+  /**
+   * set unitMax of player
+   * @param unitMax
+   */
   public void setUnitMax(int unitMax){
     this.unitMax=unitMax;
   }
-  
+
+  /**
+   * @return unitMax
+   */
   public int getUnitMax(){
     return unitMax;
   }

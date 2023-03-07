@@ -130,7 +130,7 @@ public class BasicTerritoryTest {
      Territory territory=new BasicTerritory("a",p2);
       //p1 4,p2 1,p3 4,p4 1,p5 4,
       territory.moveIn(new BasicUnit(4,p1));
-      territory.moveIn(new BasicUnit(1,p2));
+      territory.moveIn(new BasicUnit(0,p2));
       territory.moveIn(new BasicUnit(4,p3));
       territory.moveIn(new BasicUnit(1,p4));
       territory.moveIn(new BasicUnit(4,p5));
