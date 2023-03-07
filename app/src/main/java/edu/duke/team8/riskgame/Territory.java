@@ -26,7 +26,9 @@ public interface Territory {
   public boolean hasOwner();
 
   /**
+   * must use this function when changing owner
    * change the owner to new_owner
+   * will remove this territory from old owner into new owner
    * @param new_owner the new owner
    */
   public void changeOwner(Player new_owner);
