@@ -6,14 +6,14 @@ import java.util.*;
 import static java.lang.System.out;
 
 public class V1MapFactory implements AbstractMapFactory {
-    private HashSet<BasicTerritory> territories;
+    private HashSet<Territory> territories;
 
     private final int playerAmount;
-    private ArrayList<TextPlayer> players;
+    private ArrayList<Player> players;
     private final String[] nameList = {"Green", "Red", "Blue", "Yellow"};
 //    private HashSet<TextPlayer> players;
 //
-//    private HashMap<TextPlayer, ArrayList<BasicTerritory>> map;
+//    private HashMap<TextPlayer, ArrayList<Territory>> map;
 //
 //    private int unitAmount;
 //
@@ -21,7 +21,7 @@ public class V1MapFactory implements AbstractMapFactory {
 //    private final PrintStream out;
 
 
-    public V1MapFactory(HashSet<BasicTerritory> territories, int playerAmount) {
+    public V1MapFactory(HashSet<Territory> territories, int playerAmount) {
         this.territories = territories;
         this.playerAmount = playerAmount;
         this.players = new ArrayList<>();
@@ -32,8 +32,8 @@ public class V1MapFactory implements AbstractMapFactory {
 
     @Override
     public Game1Map createMap() {
-        ArrayList<BasicTerritory> t = new ArrayList<>();
-        for (BasicTerritory territory : this.territories) {
+        ArrayList<Territory> t = new ArrayList<>();
+        for (Territory territory : this.territories) {
             t.add(territory);
         }
         return new Game1Map();
@@ -45,11 +45,11 @@ public class V1MapFactory implements AbstractMapFactory {
         }
     }
     private void allocateTerritoriesToEachPlayer() {
-        Iterator<BasicTerritory> it = territories.iterator();
+        Iterator<Territory> it = territories.iterator();
         int groups = territories.size() / playerAmount;
-        for (TextPlayer player : players) {
+        for (Player player : players) {
             for (int i = 0; i < groups; ++i) {
-                BasicTerritory territory = it.next();
+                Territory territory = it.next();
                 player.addTerritory(territory);
                 territory.setOwner(player);
             }
@@ -57,10 +57,10 @@ public class V1MapFactory implements AbstractMapFactory {
     }
 
     private void connectAdjacentTerritory() {
-        Iterator<BasicTerritory> it = territories.iterator();
+        Iterator<Territory> it = territories.iterator();
         while (it.hasNext()) {
-            BasicTerritory t = it.next();
-            for (BasicTerritory adj : territories) {
+            Territory t = it.next();
+            for (Territory adj : territories) {
                 if (t != adj) {
                     t.addAdjacent(adj);
                 }
