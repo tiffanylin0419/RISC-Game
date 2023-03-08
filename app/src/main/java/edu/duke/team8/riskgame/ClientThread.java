@@ -13,8 +13,6 @@ public class ClientThread extends Thread {
     private String mapInfo;
     private final BufferedReader input;
     private final PrintWriter output;
-    /** Boolean indicate whether the thread is running or not*/
-    private boolean isRunning;
 
     /**
      * Constructor of ClientThread
@@ -29,26 +27,12 @@ public class ClientThread extends Thread {
         this.mapInfo = mapInfo;
         this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         this.output = new PrintWriter(clientSocket.getOutputStream(), true);
-        this.isRunning = true;
     }
     @Override
     public void run() {
-        while (isRunning) {
-            send();
-        }
+        send();
     }
 
-    /**
-     * Stop the current thread
-     */
-    public void stopThread() {
-        isRunning = false;
-        try {
-            clientSocket.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
     /**
      * Send string info to client
      */
