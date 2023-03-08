@@ -29,7 +29,6 @@ class ClientThreadTest {
 
         cli.run();
 
-        th.stopThread();
         th.interrupt();
         th.join();
         ss.close();
@@ -71,7 +70,6 @@ class ClientThreadTest {
         doThrow(new IOException("Socket closed")).when(mockSocket).close();
         clientThread.start();
 
-        clientThread.stopThread();
         clientThread.interrupt();
         clientThread.join();
 

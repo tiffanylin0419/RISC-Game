@@ -65,6 +65,10 @@ public class Client {
         reader.close();
         inputStream.close();
     }
+
+    /**
+     * Display map info
+     */
     public void display() {
         out.println(thePlayer.getColor());
         displayMap();
@@ -85,5 +89,6 @@ public class Client {
         client.run(); // connect the client to the server
     }
     */
+
 };
 

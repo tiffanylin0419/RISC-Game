@@ -23,8 +23,6 @@ public class Server {
     private List<ClientThread> clients;
     /** number of clients */
     protected int clientNum;
-    /** Boolean indicate whether the server is listening or not*/
-    private boolean isListening;
     /**
      * Constructs a server with specified port
      *
@@ -44,7 +42,6 @@ public class Server {
         this.mapInfo = mapView.displayMap();
         this.clients = new ArrayList<ClientThread>();
         this.clientNum = clientNum;
-        this.isListening = true;
         this.colorList = new ArrayList<String>();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
         for(int i = 0; i < clientNum; i++) {
@@ -60,9 +57,9 @@ public class Server {
 
     /** Execute the server */
     public void run() {
-        while(isListening) {
+        for(int i = 0; i < clientNum; i++) {
             try {
-                if(clients.size() < clientNum) connectOneClient();
+                connectOneClient();
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
@@ -81,13 +78,11 @@ public class Server {
      * @throws IOException if input/output stream error
      */
     public void stop() throws IOException {
-        isListening = false;
         // Close the server socket
         server.close();
 
         // Interrupt all client threads and remove them from the list
         for (ClientThread client : clients) {
-            client.stopThread();
             client.interrupt();
         }
         clients.clear();
@@ -108,6 +103,7 @@ public class Server {
         server.run();
     }
     */
+
 
 }
 
