@@ -203,4 +203,9 @@ public class BasicTerritory implements Territory {
   public int getUnitsSize(){
     return units.size();
   }
+
+  @Override
+  public void setOwner(Player player) {
+    this.owner = player;
+  }
 }
