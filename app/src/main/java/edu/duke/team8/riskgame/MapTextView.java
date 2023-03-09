@@ -18,7 +18,8 @@ public class MapTextView implements View {
         while(it.hasNext()) {
             Territory t = it.next();
             displayUnitInfo(sb, t);
-            sb.append(t.getName() + "\n");
+            sb.append(t.getName());
+            sb.append(displayAdjacentInfo(t));
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
@@ -31,35 +32,16 @@ public class MapTextView implements View {
     }
 
     @Override
-    public String displayEachPlayerInfo() {
-        Iterator<Player> it = toDisplay.getPlayerIterator();
+    public String displayAdjacentInfo(Territory t) {
         StringBuilder sb = new StringBuilder();
-        while (it.hasNext()) {
-            Player player = it.next();
-            sb.append(parseOnePlayerInfo(player));
-        }
-        return sb.toString();
-    }
-
-    private String parseOnePlayerInfo(Player p) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(p.getColor() + " player:\n");
-        sb.append("-----------\n");
-        Iterator<Territory> it = p.getTerritoryIterator();
-        while (it.hasNext()) {
-            sb.append(parseEachTerritoryInfo(it.next()));
-        }
-        return sb.toString();
-    }
-
-    private String parseEachTerritoryInfo(Territory t) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<amount> units in " + t.getName() + " (next to: ");
+        sb.append(" (next to: ");
         Iterator<Territory> it = t.getAdjacent().iterator();
         while (it.hasNext()) {
             sb.append(it.next().getName() + ", ");
         }
-        sb.append(")\n");
+        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append(")");
         return sb.toString();
     }
 }

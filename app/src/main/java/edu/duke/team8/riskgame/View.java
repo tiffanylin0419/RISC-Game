@@ -10,7 +10,7 @@ public interface View {
      */
     public String displayMap();
 
-    public String displayEachPlayerInfo();
+//    public String displayEachPlayerInfo();
 
     /**
      * Add the current territory unit display infomation to sb
@@ -18,4 +18,6 @@ public interface View {
      * @param t is current territory
      */
     public void displayUnitInfo(StringBuilder sb, Territory t);
+
+    public String displayAdjacentInfo(Territory t);
 }

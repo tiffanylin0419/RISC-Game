@@ -29,30 +29,22 @@ class MapTextViewTest {
         assertEquals("5 units in ", sb.toString());
     }
 
-    private String parseExpected() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Yellow player:\n-----------\n");
-        sb.append("<amount> units in Aterritory (next to: Bterritory, )\n");
-        sb.append("Green player:\n-----------\n");
-        sb.append("<amount> units in Bterritory (next to: Aterritory, )\n");
-        return sb.toString();
-    }
+
     @Test
-    public void displayEachPlayerInfoTest() {
+    public void testDisplayAdjacentInfo() {
         Map map = new Game1Map();
-        TextPlayer p1 = new TextPlayer("Yellow");
-        TextPlayer p2 = new TextPlayer("Green");
-        BasicTerritory t1 = new BasicTerritory("Aterritory");
-        BasicTerritory t2 = new BasicTerritory("Bterritory");
-        p1.addTerritory(t1);
-        t1.addAdjacent(t2);
-        p2.addTerritory(t2);
-        t2.addAdjacent(t1);
-        map.addPlayer(p1);
-        map.addPlayer(p2);
-        map.addPlayer(p2);
-        MapTextView view = new MapTextView(map);
-        assertEquals(parseExpected(), view.displayEachPlayerInfo());
+        Territory t = new BasicTerritory("Planto");
+        Territory a1 = new BasicTerritory("a");
+        Territory a2 = new BasicTerritory("b");
+        Territory a3 = new BasicTerritory("c");
+        t.addAdjacent(a1);
+        t.addAdjacent(a2);
+        t.addAdjacent(a3);
+        map.addTerritory(t);
+        MapTextView v = new MapTextView(map);
+        StringBuilder sb = new StringBuilder();
+        sb.append(v.displayAdjacentInfo(t));
+        assertEquals(" (next to: a, b, c)", sb.toString());
     }
 
 }
