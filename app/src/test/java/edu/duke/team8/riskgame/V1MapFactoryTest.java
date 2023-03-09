@@ -4,29 +4,24 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class V1MapFactoryTest {
     @Test
     public void test_constructor() {
-        HashSet<Territory> territories = new HashSet<>();
-        Territory t1 = new BasicTerritory("a");
-        Territory t2 = new BasicTerritory("b");
-        territories.add(t1);
-        territories.add(t2);
-        V1MapFactory factory = new V1MapFactory(territories, 2);
-        assertEquals(true, t1.isAdjacentEnemy(t2));
-        assertEquals(false, t2.isAdjacentSelf(t1));
+        V1MapFactory factory = new V1MapFactory(2);
+        ArrayList<Territory> list = factory.getTerritories();
+        assertEquals(false, list.get(0).isAdjacentEnemy(list.get(6)));
+//        assertEquals(true, list.get(12).isAdjacentSelf(list.get(6)));
+//        assertEquals(true, list.get(12).isAdjacentEnemy(list.get(6)));
+        assertEquals(true, list.get(0).isAdjacentSelf(list.get(1)));
+
     }
 
     @Test
     public void test_createMap() {
-        HashSet<Territory> territories = new HashSet<>();
-        Territory t1 = new BasicTerritory("a");
-        Territory t2 = new BasicTerritory("b");
-        territories.add(t1);
-        territories.add(t2);
-        V1MapFactory factory = new V1MapFactory(territories, 2);
+        V1MapFactory factory = new V1MapFactory(2);
         Game1Map map = factory.createMap();
     }
 }
