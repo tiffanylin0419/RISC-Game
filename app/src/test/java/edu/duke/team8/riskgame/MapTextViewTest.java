@@ -12,7 +12,7 @@ class MapTextViewTest {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
         MapTextView v = new MapTextView(m);
-        assertEquals("0 units in Planto", v.displayMap());
+        assertEquals("0 units in Planto (next to: )", v.displayMap());
     }
     @Test
     public void testDisplayUnitInfo() throws IOException {
@@ -44,7 +44,7 @@ class MapTextViewTest {
         MapTextView v = new MapTextView(map);
         StringBuilder sb = new StringBuilder();
         sb.append(v.displayAdjacentInfo(t));
-        assertEquals(" (next to: a, b, c)", sb.toString());
+        assertEquals(" (next to: a, b, c)\n", sb.toString());
     }
 
 }

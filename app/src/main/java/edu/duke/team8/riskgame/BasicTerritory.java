@@ -1,5 +1,7 @@
 package edu.duke.team8.riskgame;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -8,12 +10,15 @@ public class BasicTerritory implements Territory {
   private final String name;
   private Player owner;
   private final HashSet<Territory> adjacent_territory;
+
+  private final ArrayList<Territory> adjList;
   private final ArrayList<Unit> units;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
     this.owner=null;
     this.adjacent_territory=new HashSet<>();
+    this.adjList = new ArrayList<>();
     this.units=new ArrayList<>();
   }
   public BasicTerritory(String name, Player owner){
@@ -65,6 +70,7 @@ public class BasicTerritory implements Territory {
   @Override
   public void addAdjacent(Territory adjacent){
     adjacent_territory.add(adjacent);
+    adjList.add(adjacent);
   }
 
   @Override
@@ -207,5 +213,10 @@ public class BasicTerritory implements Territory {
   @Override
   public void setOwner(Player player) {
     this.owner = player;
+  }
+
+  @Override
+  public ArrayList<Territory> getAdjList() {
+    return this.adjList;
   }
 }

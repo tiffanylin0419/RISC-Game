@@ -1,5 +1,6 @@
 package edu.duke.team8.riskgame;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MapTextView implements View {
@@ -31,17 +32,24 @@ public class MapTextView implements View {
         sb.append(num + " units in ");
     }
 
+    /**
+     * append adjacent territories info to string
+     * @param t
+     * @return
+     */
     @Override
     public String displayAdjacentInfo(Territory t) {
         StringBuilder sb = new StringBuilder();
         sb.append(" (next to: ");
-        Iterator<Territory> it = t.getAdjacent().iterator();
-        while (it.hasNext()) {
-            sb.append(it.next().getName() + ", ");
+        ArrayList<Territory> adj = t.getAdjList();
+        int size = adj.size();
+        for (int i = 0; i < size; ++i) {
+            sb.append(adj.get(i).getName());
+            if (i != size - 1) {
+                sb.append(", ");
+            }
         }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append(")");
+        sb.append(")\n");
         return sb.toString();
     }
 }

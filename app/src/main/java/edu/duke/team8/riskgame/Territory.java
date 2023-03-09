@@ -1,6 +1,8 @@
 package edu.duke.team8.riskgame;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public interface Territory {
   /**
@@ -12,6 +14,8 @@ public interface Territory {
    * @return adjacent_territory
    */
   public HashSet<Territory> getAdjacent();
+
+  public ArrayList<Territory> getAdjList();
 
   /**
    * @param other

@@ -59,10 +59,10 @@ public class ServerTest {
         });
         serverThread.start();
 
-        checkClientHelper("Green\n0 units in Planto\n");
-        checkClientHelper("Red\n0 units in Planto\n");
-        checkClientHelper("Blue\n0 units in Planto\n");
-        checkClientHelper("Yellow\n0 units in Planto\n");
+        checkClientHelper("Green\n0 units in Planto (next to: )\n");
+        checkClientHelper("Red\n0 units in Planto (next to: )\n");
+        checkClientHelper("Blue\n0 units in Planto (next to: )\n");
+        checkClientHelper("Yellow\n0 units in Planto (next to: )\n");
 
         s.stop();
         serverThread.join();
@@ -92,7 +92,7 @@ public class ServerTest {
         serverThread.join();
         ss.close();
         String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Green\n0 units in Planto\n", actual);
+        assertEquals("Green\n0 units in Planto (next to: )\n", actual);
     }
 
 }
