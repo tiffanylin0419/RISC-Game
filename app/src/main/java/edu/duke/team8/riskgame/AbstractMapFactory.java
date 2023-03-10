@@ -1,5 +1,10 @@
 package edu.duke.team8.riskgame;
 
 public interface AbstractMapFactory {
-    public Game1Map createMap();
+    /**
+     * enter player amount
+     * @param playAmount
+     * @return
+     */
+    public Game1Map createMap(int playAmount);
 }

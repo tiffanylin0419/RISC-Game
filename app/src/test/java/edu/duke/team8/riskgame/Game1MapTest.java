@@ -23,8 +23,8 @@ public class Game1MapTest {
 //  }
   @Test
   public void testConstructor() {
-    V1MapFactory factory = new V1MapFactory(4);
-    Game1Map map = factory.createMap();
+    V1MapFactory factory = new V1MapFactory();
+    Game1Map map = factory.createMap(4);
     assertEquals("a6", map.getTerritoryGroups().get(0).get(5).getName());
   }
   

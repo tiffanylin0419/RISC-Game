@@ -3,14 +3,13 @@ package edu.duke.team8.riskgame;
 import java.util.*;
 
 public class V1MapFactory implements AbstractMapFactory {
-    private ArrayList<Territory> territories;
+//    private ArrayList<Territory> territories;
 
     private final int territoryAmount = 24;
 
-    private final int playerAmount;
+//    private final int playerAmount;
 
-    private ArrayList<ArrayList<Territory>> territoryGroups;
-    private final String[] playerNameList = {"Green", "Red", "Blue", "Yellow"};
+//    private ArrayList<ArrayList<Territory>> territoryGroups;
     private  final String[] territoryNameList = {
             "a1", "a2", "a3", "a4", "a5", "a6",
             "b1", "b2", "b3", "b4", "b5", "b6",
@@ -18,78 +17,42 @@ public class V1MapFactory implements AbstractMapFactory {
             "d1", "d2", "d3", "d4", "d5", "d6"
     };
 
-//    private final BufferedReader inputReader;
-//    private final PrintStream out;
-
-
-    public V1MapFactory(int playerAmount) {
-        this.territories = new ArrayList<>();
-        this.playerAmount = playerAmount;
-        this.createTerritories();
-        this.territoryGroups = new ArrayList<>();
-        createTerritoryGroups();
-//        this.allocateTerritoriesToEachPlayer();
-        connectAdjacentTerritory();
-        separateTerritoriesToGroups();
-    }
-
     /**
      * create a Game1Map
      * @return
      */
     @Override
-    public Game1Map createMap() {
-        Game1Map map = new Game1Map(this.territoryGroups);
-        return map;
+    public Game1Map createMap(int playerAmount) {
+        ArrayList<Territory> territories = createTerritories();
+        connectAdjacentTerritory(territories);
+        ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
+        createTerritoryGroups(playerAmount, territoryGroups);
+        separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
+        return new Game1Map(territoryGroups);
     }
-
-//    /**
-//     * create n players
-//     */
-//    private void createPlayers() {
-//        for (int i = 0; i < this.playerAmount; ++i) {
-//            players.add(new TextPlayer(playerNameList[i]));
-//        }
-//    }
 
     /**
      * create n territory groups (n equals to playerAmount)
      */
-    private void createTerritoryGroups() {
-        for (int i = 0; i < this.playerAmount; ++i) {
+    private void createTerritoryGroups(int playerAmount, ArrayList<ArrayList<Territory>> territoryGroups) {
+        for (int i = 0; i < playerAmount; ++i) {
             territoryGroups.add(new ArrayList<>());
         }
     }
 
-    /**
-     * create 24 territories
-     */
-    private void createTerritories() {
+    private ArrayList<Territory> createTerritories() {
+        ArrayList<Territory> territories = new ArrayList<>();
         for (int i = 0; i < this.territoryAmount; ++i) {
             Territory t = new BasicTerritory(this.territoryNameList[i]);
-            this.territories.add(t);
+            territories.add(t);
         }
+        return territories;
     }
-
-//    /**
-//     * allocate m territories to each player (totally n players)
-//     */
-//    private void allocateTerritoriesToEachPlayer() {
-//        Iterator<Territory> it = territories.iterator();
-//        int groups = territoryNum / playerAmount;
-//        for (Player player : players) {
-//            for (int i = 0; i < groups; ++i) {
-//                Territory territory = it.next();
-//                player.addTerritory(territory);
-//                territory.setOwner(player);
-//            }
-//        }
-//    }
 
     /**
      * connect territories to make one be adjacent to one other territory
      */
-    private void connectAdjacentTerritory() {
+    private void connectAdjacentTerritory(ArrayList<Territory> territories) {
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 6; ++j) {
                 Territory t = territories.get(i * 4 + j);
@@ -106,21 +69,9 @@ public class V1MapFactory implements AbstractMapFactory {
     }
 
     /**
-     * for testing
-     * @return
-     */
-    public ArrayList<Territory> getTerritories() {
-        return this.territories;
-    }
-
-    public ArrayList<ArrayList<Territory>> getTerritoryGroups() {
-        return this.territoryGroups;
-    }
-
-    /**
      * separate territories as groups
      */
-    public void separateTerritoriesToGroups() {
+    public void separateTerritoriesToGroups(ArrayList<ArrayList<Territory>> territoryGroups, ArrayList<Territory> territories, int playerAmount) {
         int groups = territoryAmount / playerAmount;
         int index = 0;
         for (int num = 0; num < playerAmount; ++num) {
