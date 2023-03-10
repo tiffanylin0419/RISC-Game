@@ -19,7 +19,6 @@ public class Game1Map implements Map {
 
   public Game1Map(ArrayList<ArrayList<Territory>> t) {
     this.territories = new ArrayList<>();
-    this.territoryGroups = new ArrayList<>();
     this.territoryGroups = t;
     updateTerritory();
   }
