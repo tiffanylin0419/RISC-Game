@@ -22,7 +22,7 @@ test:
   tags:
     - ece651
   stage: test
-  script: scripts/run-tests-in-docker.sh
+  script: gradle-skeleton/scripts/run-tests-in-docker.sh
   artifacts:
     paths:
       - coverage
@@ -45,7 +45,7 @@ deploy:
   tags:
     - ece651
   stage: deploy
-  script: ./scripts/redeploy.sh
+  script: ./gradle-skeleton/scripts/redeploy.sh
 
 #test-deployment:
 #  tags:
@@ -53,4 +53,4 @@ deploy:
 #  stage: test-deployment
 #  dependencies:
 #    - deploy
-#  script: ./scripts/test-deployment.sh
+#  script: ./gradle-skeleton/scripts/test-deployment.sh
