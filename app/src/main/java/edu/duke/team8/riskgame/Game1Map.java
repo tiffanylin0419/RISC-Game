@@ -6,20 +6,35 @@ import java.util.Iterator;
 public class Game1Map implements Map {
   // field
   ArrayList<Territory> territories;
+  ArrayList<ArrayList<Territory>> territoryGroups;
 
 //  ArrayList<Player> players;
 
   // constructor
   public Game1Map(){
     this.territories = new ArrayList<>();
+    this.territoryGroups = new ArrayList<>();
 //    this.players = new ArrayList<>();
   }
-  public  Game1Map(ArrayList<Territory> territories){
-    this.territories=territories;
-//    this.players=players;
+
+  public Game1Map(ArrayList<ArrayList<Territory>> t) {
+    this.territories = new ArrayList<>();
+    this.territoryGroups = new ArrayList<>();
+    this.territoryGroups = t;
+    updateTerritory();
   }
-  
-  //
+
+  /**
+   * add Territory from territoryGroups to territories
+   */
+  private void updateTerritory() {
+    for (ArrayList<Territory> list : territoryGroups) {
+      for (Territory t : list) {
+        territories.add(t);
+      }
+    }
+  }
+
   @Override
   public void addTerritory(Territory t){
     territories.add(t);
@@ -43,6 +58,10 @@ public class Game1Map implements Map {
   public void addAdjacency(Territory t1, Territory t2){
     t1.addAdjacent(t2);
     t2.addAdjacent(t1);
+  }
+
+  public ArrayList<ArrayList<Territory>> getTerritoryGroups() {
+    return this.territoryGroups;
   }
 
 //  public Iterator<Player> getPlayerIterator() {

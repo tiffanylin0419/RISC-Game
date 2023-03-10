@@ -21,6 +21,12 @@ public class Game1MapTest {
 //    assertTrue(map.containsTerritory(new BasicTerritory(names[0])));
 //    assertTrue(map.containsTerritory(new BasicTerritory(names[1])));
 //  }
+  @Test
+  public void testConstructor() {
+    V1MapFactory factory = new V1MapFactory(4);
+    Game1Map map = factory.createMap();
+    assertEquals("a6", map.getTerritoryGroups().get(0).get(5).getName());
+  }
   
   @Test
   public void test_addTerritory_containsTerritory() {
@@ -34,6 +40,7 @@ public class Game1MapTest {
     }
     assertFalse(map.containsTerritory(new BasicTerritory("nope")));
   }
+
   @Test
   public void test_get_territories_iterator() {
     Game1Map map = new Game1Map();

@@ -5,9 +5,11 @@ import java.util.*;
 public class V1MapFactory implements AbstractMapFactory {
     private ArrayList<Territory> territories;
 
-    private final int territoryNum = 24;
+    private final int territoryAmount = 24;
 
     private final int playerAmount;
+
+    private ArrayList<ArrayList<Territory>> territoryGroups;
     private final String[] playerNameList = {"Green", "Red", "Blue", "Yellow"};
     private  final String[] territoryNameList = {
             "a1", "a2", "a3", "a4", "a5", "a6",
@@ -24,8 +26,11 @@ public class V1MapFactory implements AbstractMapFactory {
         this.territories = new ArrayList<>();
         this.playerAmount = playerAmount;
         this.createTerritories();
+        this.territoryGroups = new ArrayList<>();
+        createTerritoryGroups();
 //        this.allocateTerritoriesToEachPlayer();
-        this.connectAdjacentTerritory();
+        connectAdjacentTerritory();
+        separateTerritoriesToGroups();
     }
 
     /**
@@ -34,10 +39,7 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     @Override
     public Game1Map createMap() {
-        Game1Map map = new Game1Map();
-        for (Territory t : this.territories) {
-            map.addTerritory(t);
-        }
+        Game1Map map = new Game1Map(this.territoryGroups);
         return map;
     }
 
@@ -51,11 +53,21 @@ public class V1MapFactory implements AbstractMapFactory {
 //    }
 
     /**
+     * create n territory groups (n equals to playerAmount)
+     */
+    private void createTerritoryGroups() {
+        for (int i = 0; i < this.playerAmount; ++i) {
+            territoryGroups.add(new ArrayList<>());
+        }
+    }
+
+    /**
      * create 24 territories
      */
     private void createTerritories() {
-        for (int i = 0; i < this.territoryNum; ++i) {
-            this.territories.add(new BasicTerritory(territoryNameList[i]));
+        for (int i = 0; i < this.territoryAmount; ++i) {
+            Territory t = new BasicTerritory(this.territoryNameList[i]);
+            this.territories.add(t);
         }
     }
 
@@ -99,5 +111,23 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     public ArrayList<Territory> getTerritories() {
         return this.territories;
+    }
+
+    public ArrayList<ArrayList<Territory>> getTerritoryGroups() {
+        return this.territoryGroups;
+    }
+
+    /**
+     * separate territories as groups
+     */
+    public void separateTerritoriesToGroups() {
+        int groups = territoryAmount / playerAmount;
+        int index = 0;
+        for (int num = 0; num < playerAmount; ++num) {
+            for (int i = 0; i < groups; ++i) {
+                territoryGroups.get(num).add(territories.get(index));
+                ++index;
+            }
+        }
     }
 }

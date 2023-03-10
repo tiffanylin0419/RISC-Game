@@ -25,4 +25,21 @@ public class V1MapFactoryTest {
         Game1Map map = factory.createMap();
         assertEquals(factory.getTerritories().get(0), map.getTerritoryIterator().next());
     }
+
+    @Test
+    public void testSeparateTerritoryGroups() {
+        V1MapFactory factory = new V1MapFactory(4);
+        ArrayList<Territory> territories1 = factory.getTerritoryGroups().get(0);
+        assertEquals("a6", territories1.get(5).getName());
+        assertEquals("c1", factory.getTerritories().get(12).getName());
+        ArrayList<Territory> territories2 = factory.getTerritoryGroups().get(2);
+        assertEquals("c1", territories2.get(0).getName());
+    }
+
+    @Test
+    public void testGetTerritoriesAndGetTerritoryGroups() {
+        V1MapFactory factory = new V1MapFactory(4);
+        ArrayList<Territory> territories = factory.getTerritoryGroups().get(0);
+        assertEquals("a6", territories.get(5).getName());
+    }
 }
