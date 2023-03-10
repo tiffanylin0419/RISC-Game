@@ -7,16 +7,16 @@ public class Game1Map implements Map {
   // field
   ArrayList<Territory> territories;
 
-  ArrayList<Player> players;
+//  ArrayList<Player> players;
 
   // constructor
   public Game1Map(){
     this.territories = new ArrayList<>();
-    this.players = new ArrayList<>();
+//    this.players = new ArrayList<>();
   }
-  public  Game1Map(ArrayList<Territory> territories,ArrayList<Player> players){
+  public  Game1Map(ArrayList<Territory> territories){
     this.territories=territories;
-    this.players=players;
+//    this.players=players;
   }
   
   //
@@ -45,14 +45,14 @@ public class Game1Map implements Map {
     t2.addAdjacent(t1);
   }
 
-  public Iterator<Player> getPlayerIterator() {
-    return this.players.iterator();
-  }
+//  public Iterator<Player> getPlayerIterator() {
+//    return this.players.iterator();
+//  }
 
-  public void addPlayer(Player p) {
-    if (!players.contains(p)) {
-      players.add(p);
-    }
-  }
+//  public void addPlayer(Player p) {
+//    if (!players.contains(p)) {
+//      players.add(p);
+//    }
+//  }
 }
 

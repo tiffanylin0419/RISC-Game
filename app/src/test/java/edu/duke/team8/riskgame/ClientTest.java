@@ -69,7 +69,7 @@ public class ClientTest {
         Client cli = new Client(client, output);
         cli.run();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Green\n0 units in Planto\n", actual);
+        assertEquals("Green\n0 units in Planto (next to: )\n", actual);
 
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
@@ -78,7 +78,7 @@ public class ClientTest {
         Client cli1 = new Client(client1, output1);
         cli1.run();
         String actual1 = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Red\n0 units in Planto\n", actual1);
+        assertEquals("Red\n0 units in Planto (next to: )\n", actual1);
 
         s.stop();
         serverThread.join();
@@ -115,8 +115,8 @@ public class ClientTest {
         serverThread.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Green\n0 units in Planto\n0 units in Dova\n" +
-                "0 units in Aova\n2 units in Grand\n", actual);
+        assertEquals("Green\n0 units in Planto (next to: )\n0 units in Dova (next to: )\n" +
+                "0 units in Aova (next to: )\n2 units in Grand (next to: )\n", actual);
 
     }
     @Test

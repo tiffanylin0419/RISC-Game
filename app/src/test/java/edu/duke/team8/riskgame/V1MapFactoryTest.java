@@ -9,19 +9,20 @@ import java.util.HashSet;
 
 public class V1MapFactoryTest {
     @Test
-    public void test_constructor() {
+    public void testConstructor() {
         V1MapFactory factory = new V1MapFactory(2);
-        ArrayList<Territory> list = factory.getTerritories();
-        assertEquals(false, list.get(0).isAdjacentEnemy(list.get(6)));
-//        assertEquals(true, list.get(12).isAdjacentSelf(list.get(6)));
-//        assertEquals(true, list.get(12).isAdjacentEnemy(list.get(6)));
-        assertEquals(true, list.get(0).isAdjacentSelf(list.get(1)));
-
+        ArrayList<Territory> territories = factory.getTerritories();
+        Game1Map map = factory.createMap();
+        assertEquals(24, factory.getTerritories().size());
+        assertEquals("a1", factory.getTerritories().get(0).getName());
+        assertEquals("a6", factory.getTerritories().get(5).getName());
+        assertEquals("d6", factory.getTerritories().get(23).getName());
     }
 
     @Test
-    public void test_createMap() {
+    public void testCreateMap() {
         V1MapFactory factory = new V1MapFactory(2);
         Game1Map map = factory.createMap();
+        assertEquals(factory.getTerritories().get(0), map.getTerritoryIterator().next());
     }
 }

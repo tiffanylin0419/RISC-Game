@@ -33,7 +33,7 @@ class ClientThreadTest {
         th.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Red\n0 units in Planto\n", actual);
+        assertEquals("Red\n0 units in Planto (next to: )\n", actual);
 
     }
     @Test
