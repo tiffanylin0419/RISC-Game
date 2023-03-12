@@ -3,18 +3,22 @@
  */
 package edu.duke.ece651.team8.client;
 
-import edu.duke.ece651.team8.shared.MyName;
+import edu.duke.ece651.team8.shared.Client;
+import java.io.IOException;
 
 
 public class App {
-  public String getMessage() {
-    return "Hello from the client for "+ MyName.getName();
+  /**
+   * This main method runs the client, on localhost and port 1651.
+   * Specifically, it creates an instance and calls run.
+   * @param args is the command line arguments.  These are currently ignored.
+   * @throws IOException if creation of the ServerSocket fails.
+  */
+  public static void main(String[] args) throws IOException {
+    String hostname = "localhost"; // set the hostname of the server
+    int port = 1651; // set the port number
+    Client client = new Client(port, hostname); // create a new client instance
+    client.run(); // connect the client to the server
   }
-  public static void main(String[] args) {
-    App a = new App();
-    System.out.println(a.getMessage());
-    for (int i = 0; i < args.length; i++) {
-      System.out.println("args["+i+"]="+ args[i]);
-    }
-  }
+
 }

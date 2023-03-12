@@ -21,6 +21,9 @@ public class Server {
     private List<ClientThread> clients;
     /** number of clients */
     protected int clientNum;
+    /** Boolean indicate whether the server is listening or not*/
+    private boolean isListening;
+
     /**
      * Constructs a server with specified port
      *
@@ -35,16 +38,18 @@ public class Server {
      */
     public Server(ServerSocket ss, Map theMap, int clientNum) {
         this.server = ss;
-        this.theMap = theMap;
-        this.mapView = new MapTextView(theMap);
-        this.mapInfo = mapView.displayMap();
-        this.clients = new ArrayList<ClientThread>();
-        this.clientNum = clientNum;
         this.colorList = new ArrayList<String>();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
         for(int i = 0; i < clientNum; i++) {
             colorList.add(colors[i]);
         }
+        this.theMap = theMap;
+        this.mapView = new MapTextView(theMap);
+        this.mapInfo = mapView.displayMap(colorList);
+        this.clients = new ArrayList<ClientThread>();
+        this.clientNum = clientNum;
+        this.isListening = true;
+
     }
     /**
      * @return the port of the server socket
@@ -55,19 +60,23 @@ public class Server {
 
     /** Execute the server */
     public void run() {
-        for(int i = 0; i < clientNum; i++) {
+        while(isListening) {
             try {
-                connectOneClient();
+                connectOneGame();
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
+
     }
-    public void connectOneClient() throws IOException{
-        int index = clients.size();
-        Socket clientSocket = server.accept();
-        System.out.println("Client connected!");
-        ClientThread clientThread = new ClientThread(clientSocket, colorList.get(index), mapInfo);
+    public void connectOneGame() throws IOException{
+        List<Socket> oneGameClients = new ArrayList<>();
+        for(int i = 0; i < clientNum; i++) {
+            Socket clientSocket = server.accept();
+            oneGameClients.add(clientSocket);
+            System.out.println("Client connected!");
+        }
+        ClientThread clientThread = new ClientThread(oneGameClients, colorList, mapInfo);
         clients.add(clientThread);
         clientThread.start();
     }
@@ -76,6 +85,7 @@ public class Server {
      * @throws IOException if input/output stream error
      */
     public void stop() throws IOException {
+        isListening = false;
         // Close the server socket
         server.close();
 
@@ -85,22 +95,7 @@ public class Server {
         }
         clients.clear();
     }
-    /**
-     * This main method runs the server, listening on port 1651.
-     * Specifically, it creates an instance and calls run.
-     * When done from the command line, this program runs until
-     * externally killed??
-     * @param args is the command line arguments.  These are currently ignored.
-     * @throws IOException if creation of the ServerSocket fails.
 
-    public static void main(String[] args) throws IOException {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
-        Server server =
-                new Server(1651, m, 4);
-        server.run();
-    }
-    */
 
 
 }
