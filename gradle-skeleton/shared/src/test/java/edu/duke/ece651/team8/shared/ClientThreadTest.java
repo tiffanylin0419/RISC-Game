@@ -15,8 +15,8 @@ class ClientThreadTest {
     @Test
     public void testRun() throws Exception {
         ServerSocket ss = new ServerSocket(1231);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(1);
         View mapView = new MapTextView(m);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -37,7 +37,15 @@ class ClientThreadTest {
         th.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Red\nRed Player:\n-------------\n0 units in Planto (next to: )\n", actual);
+        assertEquals("Red\n" +
+                "Red Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a3)\n" +
+                "0 units in a3 (next to: a4)\n" +
+                "0 units in a4 (next to: a5)\n" +
+                "0 units in a5 (next to: a6)\n" +
+                "0 units in a6 (next to: )\n", actual);
 
     }
 
