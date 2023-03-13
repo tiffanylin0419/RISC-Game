@@ -20,7 +20,6 @@ public class MapTextView implements View {
         for(int i = 0; i < groups.size(); i++) {
             sb.append(color.get(i) + " Player:\n-------------\n");
             for(Territory t : groups.get(i)) {
-
                 displayUnitInfo(sb, t);
                 sb.append(t.getName());
                 sb.append(displayAdjacentInfo(t));

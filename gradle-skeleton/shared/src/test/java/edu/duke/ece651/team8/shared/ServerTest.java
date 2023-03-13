@@ -22,8 +22,8 @@ public class ServerTest {
     }
     @Test()
     public void testIOException() throws Exception {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(1);
         View mapView = new MapTextView(m);
 
         // Create mock objects
@@ -75,62 +75,37 @@ public class ServerTest {
         checkClientHelper(bytes, cli, "Green\n" +
                 "Green Player:\n" +
                 "-------------\n" +
-                "0 units in a1 (next to: a5, a2)\n" +
-                "0 units in a2 (next to: a6, a3)\n" +
-                "0 units in a3 (next to: b1, a4)\n" +
-                "0 units in a4 (next to: b2, a5)\n" +
-                "0 units in a5 (next to: b3, a6, b3, a6)\n" +
-                "0 units in a6 (next to: b4, b4, b1)\n" +
-                "0 units in b1 (next to: b5, b2)\n" +
-                "0 units in b2 (next to: b6, b3)\n" +
-                "0 units in b3 (next to: c1, b4, c1, b4)\n" +
-                "0 units in b4 (next to: c2, c2, b5)\n" +
-                "0 units in b5 (next to: c3, b6)\n" +
-                "0 units in b6 (next to: c4, c1)\n" +
+                "0 units in a1 (next to: b1, a2)\n" +
+                "0 units in a2 (next to: b2, a3)\n" +
+                "0 units in a3 (next to: b3, a4)\n" +
+                "0 units in a4 (next to: b4, a5)\n" +
+                "0 units in a5 (next to: b5, a6)\n" +
+                "0 units in a6 (next to: b6)\n" +
                 "Red Player:\n" +
                 "-------------\n" +
-                "0 units in c1 (next to: c5, c2, c2)\n" +
-                "0 units in c2 (next to: c6, c3)\n" +
-                "0 units in c3 (next to: c4)\n" +
-                "0 units in c4 (next to: c5)\n" +
-                "0 units in c5 (next to: c6)\n" +
-                "0 units in c6 (next to: )\n" +
-                "0 units in d1 (next to: )\n" +
-                "0 units in d2 (next to: )\n" +
-                "0 units in d3 (next to: )\n" +
-                "0 units in d4 (next to: )\n" +
-                "0 units in d5 (next to: )\n" +
-                "0 units in d6 (next to: )\n" +
-                "");
+                "0 units in b1 (next to: b2)\n" +
+                "0 units in b2 (next to: b3)\n" +
+                "0 units in b3 (next to: b4)\n" +
+                "0 units in b4 (next to: b5)\n" +
+                "0 units in b5 (next to: b6)\n" +
+                "0 units in b6 (next to: )\n");
         checkClientHelper(bytes1, cli1, "Red\n" +
                 "Green Player:\n" +
                 "-------------\n" +
-                "0 units in a1 (next to: a5, a2)\n" +
-                "0 units in a2 (next to: a6, a3)\n" +
-                "0 units in a3 (next to: b1, a4)\n" +
-                "0 units in a4 (next to: b2, a5)\n" +
-                "0 units in a5 (next to: b3, a6, b3, a6)\n" +
-                "0 units in a6 (next to: b4, b4, b1)\n" +
-                "0 units in b1 (next to: b5, b2)\n" +
-                "0 units in b2 (next to: b6, b3)\n" +
-                "0 units in b3 (next to: c1, b4, c1, b4)\n" +
-                "0 units in b4 (next to: c2, c2, b5)\n" +
-                "0 units in b5 (next to: c3, b6)\n" +
-                "0 units in b6 (next to: c4, c1)\n" +
+                "0 units in a1 (next to: b1, a2)\n" +
+                "0 units in a2 (next to: b2, a3)\n" +
+                "0 units in a3 (next to: b3, a4)\n" +
+                "0 units in a4 (next to: b4, a5)\n" +
+                "0 units in a5 (next to: b5, a6)\n" +
+                "0 units in a6 (next to: b6)\n" +
                 "Red Player:\n" +
                 "-------------\n" +
-                "0 units in c1 (next to: c5, c2, c2)\n" +
-                "0 units in c2 (next to: c6, c3)\n" +
-                "0 units in c3 (next to: c4)\n" +
-                "0 units in c4 (next to: c5)\n" +
-                "0 units in c5 (next to: c6)\n" +
-                "0 units in c6 (next to: )\n" +
-                "0 units in d1 (next to: )\n" +
-                "0 units in d2 (next to: )\n" +
-                "0 units in d3 (next to: )\n" +
-                "0 units in d4 (next to: )\n" +
-                "0 units in d5 (next to: )\n" +
-                "0 units in d6 (next to: )\n");
+                "0 units in b1 (next to: b2)\n" +
+                "0 units in b2 (next to: b3)\n" +
+                "0 units in b3 (next to: b4)\n" +
+                "0 units in b4 (next to: b5)\n" +
+                "0 units in b5 (next to: b6)\n" +
+                "0 units in b6 (next to: )\n");
 
         s.stop();
         serverThread.join();

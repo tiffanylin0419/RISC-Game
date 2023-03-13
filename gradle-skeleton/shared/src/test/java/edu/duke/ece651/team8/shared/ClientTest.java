@@ -52,40 +52,39 @@ public class ClientTest {
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("Out/Input stream error\n", actual);
     }
-//    @Test
-//    public void testRun() throws Exception {
-//        ServerSocket ss = new ServerSocket(1244);
-//        Map m = new Game1Map();
-//        m.addTerritory(new BasicTerritory("Planto"));
-//
-//        Server s = new Server(ss, m, 2);
-//        Thread serverThread = new Thread(() -> {
-//            s.run();
-//        });
-//        serverThread.start();
-//
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        PrintStream output = new PrintStream(bytes, true);
-//        Socket client = new Socket("localhost", 1244);
-//        Client cli = new Client(client, output);
-//        cli.run();
-//        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//        assertEquals("Green\nGreen Player:\n-------------\n0 units in Planto (next to: )\n", actual);
-//
-//
-//        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
-//        PrintStream output1 = new PrintStream(bytes1, true);
-//        Socket client1 = new Socket("localhost", 1244);
-//        Client cli1 = new Client(client1, output1);
-//        cli1.run();
-//        String actual1 = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//        assertEquals("Red\nGreen Player:\n-------------\n0 units in Planto (next to: )\n", actual1);
-//
-//        s.stop();
-//        serverThread.join();
-//        ss.close();
-//
-//    }
+    @Test
+    public void testRun() throws Exception {
+        ServerSocket ss = new ServerSocket(1244);
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(1);
+
+        Server s = new Server(ss, m, 1);
+        Thread serverThread = new Thread(() -> {
+            s.run();
+        });
+        serverThread.start();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Socket client = new Socket("localhost", 1244);
+        Client cli = new Client(client, output);
+        cli.run();
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+        assertEquals("Green\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a3)\n" +
+                "0 units in a3 (next to: a4)\n" +
+                "0 units in a4 (next to: a5)\n" +
+                "0 units in a5 (next to: a6)\n" +
+                "0 units in a6 (next to: )\n", actual);
+
+        s.stop();
+        serverThread.join();
+        ss.close();
+
+    }
 //    @Test
 //    public void testReceive() throws Exception {
 //        ServerSocket ss = new ServerSocket(1234);
