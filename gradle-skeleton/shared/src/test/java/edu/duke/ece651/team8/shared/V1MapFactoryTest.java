@@ -19,6 +19,14 @@ public class V1MapFactoryTest {
         for (int i = 0; i < 6; ++i) {
             assertEquals("a" + (i + 1), it.next().getName());
         }
+        Game1Map map2 = factory.createMap(3);
+        int count = 0;
+        it = map2.getTerritoryIterator();
+        while (it.hasNext()) {
+            it.next();
+            ++count;
+        }
+        assertEquals(18, count);
     }
 
 //    @Test
