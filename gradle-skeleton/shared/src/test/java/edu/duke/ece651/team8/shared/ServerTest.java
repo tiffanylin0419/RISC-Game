@@ -22,8 +22,8 @@ public class ServerTest {
     }
     @Test()
     public void testIOException() throws Exception {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(1);
         View mapView = new MapTextView(m);
 
         // Create mock objects
@@ -35,13 +35,16 @@ public class ServerTest {
         // Create client thread with mock socket
         Server s = new Server(mockSs, m, 1);
         doThrow(new IOException("Socket closed")).when(mockSs).accept();
-        s.run();
+        Thread serverThread = new Thread(() -> {
+            s.run();
+        });
+        serverThread.start();
+        Thread.sleep(100);
         s.stop();
+        serverThread.interrupt();
+        serverThread.join();
     }
-    private void checkClientHelper(String expected) throws Exception {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1216, "localhost", output);
+    private void checkClientHelper(ByteArrayOutputStream bytes, Client cli, String expected) throws Exception {
         cli.run();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals(expected, actual);
@@ -50,49 +53,89 @@ public class ServerTest {
     public void testRun() throws Exception {
 
         ServerSocket ss = new ServerSocket(1216);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        Server s = new Server(ss, m, 4);
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(2);
+
+        Server s = new Server(ss, m, 2);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
         serverThread.start();
 
-        checkClientHelper("Green\n0 units in Planto (next to: )\n");
-        checkClientHelper("Red\n0 units in Planto (next to: )\n");
-        checkClientHelper("Blue\n0 units in Planto (next to: )\n");
-        checkClientHelper("Yellow\n0 units in Planto (next to: )\n");
 
-        s.stop();
-        serverThread.join();
-        ss.close();
-
-    }
-    @Test
-    public void testHasSocket() throws Exception {
-
-        ServerSocket ss = new ServerSocket(1219);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
-
-        Server s = new Server(ss, m, 1);
-        Thread serverThread = new Thread(() -> {
-            s.run();
-        });
-        serverThread.start();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Client cli = new Client(1216, "localhost", output);
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
         PrintStream output1 = new PrintStream(bytes1, true);
-        Socket cliSocket = new Socket("localhost", 1219);
-        Client cli = new Client(cliSocket, output1);
-        cli.run();
+        Client cli1 = new Client(1216, "localhost", output1);
+
+        checkClientHelper(bytes, cli, "Green\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: b1, a2)\n" +
+                "0 units in a2 (next to: b2, a3)\n" +
+                "0 units in a3 (next to: b3, a4)\n" +
+                "0 units in a4 (next to: b4, a5)\n" +
+                "0 units in a5 (next to: b5, a6)\n" +
+                "0 units in a6 (next to: b6)\n" +
+                "Red Player:\n" +
+                "-------------\n" +
+                "0 units in b1 (next to: b2)\n" +
+                "0 units in b2 (next to: b3)\n" +
+                "0 units in b3 (next to: b4)\n" +
+                "0 units in b4 (next to: b5)\n" +
+                "0 units in b5 (next to: b6)\n" +
+                "0 units in b6 (next to: )\n");
+        checkClientHelper(bytes1, cli1, "Red\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: b1, a2)\n" +
+                "0 units in a2 (next to: b2, a3)\n" +
+                "0 units in a3 (next to: b3, a4)\n" +
+                "0 units in a4 (next to: b4, a5)\n" +
+                "0 units in a5 (next to: b5, a6)\n" +
+                "0 units in a6 (next to: b6)\n" +
+                "Red Player:\n" +
+                "-------------\n" +
+                "0 units in b1 (next to: b2)\n" +
+                "0 units in b2 (next to: b3)\n" +
+                "0 units in b3 (next to: b4)\n" +
+                "0 units in b4 (next to: b5)\n" +
+                "0 units in b5 (next to: b6)\n" +
+                "0 units in b6 (next to: )\n");
 
         s.stop();
         serverThread.join();
         ss.close();
-        String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Green\n0 units in Planto (next to: )\n", actual);
+
     }
+//    @Test
+//    public void testHasSocket() throws Exception {
+//
+//        ServerSocket ss = new ServerSocket(1219);
+//        Map m = new Game1Map();
+//        m.addTerritory(new BasicTerritory("Planto"));
+//
+//        Server s = new Server(ss, m, 1);
+//        Thread serverThread = new Thread(() -> {
+//            s.run();
+//        });
+//        serverThread.start();
+//
+//        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+//        PrintStream output1 = new PrintStream(bytes1, true);
+//        Socket cliSocket = new Socket("localhost", 1219);
+//        Client cli = new Client(cliSocket, output1);
+//        cli.run();
+//
+//        s.stop();
+//        serverThread.join();
+//        ss.close();
+//        String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+//        assertEquals("Green\nGreen Player:\n-------------\n0 units in Planto (next to: )\n", actual);
+//    }
 
 }

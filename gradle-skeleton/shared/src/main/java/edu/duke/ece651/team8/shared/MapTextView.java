@@ -2,6 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class MapTextView implements View {
     /**
@@ -13,16 +14,20 @@ public class MapTextView implements View {
         this.toDisplay = toDisplay;
     }
     @Override
-    public String displayMap() {
-        Iterator<Territory> it = toDisplay.getTerritoryIterator();
+    public String displayMap(List<String> color) {
+        ArrayList<ArrayList<Territory>> groups = toDisplay.getTerritoryGroups();
         StringBuilder sb = new StringBuilder();
-        while(it.hasNext()) {
-            Territory t = it.next();
-            displayUnitInfo(sb, t);
-            sb.append(t.getName());
-            sb.append(displayAdjacentInfo(t));
+        for(int i = 0; i < groups.size(); i++) {
+            sb.append(color.get(i) + " Player:\n-------------\n");
+            for(Territory t : groups.get(i)) {
+                displayUnitInfo(sb, t);
+                sb.append(t.getName());
+                sb.append(displayAdjacentInfo(t));
+            }
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if(sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         return sb.toString();
     }
 

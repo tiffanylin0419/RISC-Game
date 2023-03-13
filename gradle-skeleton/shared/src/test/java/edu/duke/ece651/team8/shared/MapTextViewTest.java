@@ -3,16 +3,30 @@ package edu.duke.ece651.team8.shared;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTextViewTest {
     @Test
     public void testDisplayMap() throws IOException {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(1);
         MapTextView v = new MapTextView(m);
-        assertEquals("0 units in Planto (next to: )", v.displayMap());
+        List<String> colorList = new ArrayList<String>();
+        String colors[] = { "Green", "Red", "Blue", "Yellow" };
+        for(int i = 0; i < 4; i++) {
+            colorList.add(colors[i]);
+        }
+        assertEquals("Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a3)\n" +
+                "0 units in a3 (next to: a4)\n" +
+                "0 units in a4 (next to: a5)\n" +
+                "0 units in a5 (next to: a6)\n" +
+                "0 units in a6 (next to: )", v.displayMap(colorList));
     }
     @Test
     public void testDisplayUnitInfo() throws IOException {

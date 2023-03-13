@@ -1,5 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 public interface Map {
 
@@ -20,7 +21,7 @@ public interface Map {
    * @return territories's iterator
    */
   public Iterator<Territory> getTerritoryIterator();
-
+  public ArrayList<ArrayList<Territory>> getTerritoryGroups();
   /**
    * add adjacent connection between t1 and t2
    * will update the adjacent_territory field in t1 and t2

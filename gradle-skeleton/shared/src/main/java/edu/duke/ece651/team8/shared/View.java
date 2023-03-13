@@ -1,5 +1,8 @@
 package edu.duke.ece651.team8.shared;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * View pattern of the game
  */
@@ -8,7 +11,7 @@ public interface View {
      * Get map string
      * @return the string of map infomation
      */
-    public String displayMap();
+    public String displayMap(List<String> color);
 
 //    public String displayEachPlayerInfo();
 
