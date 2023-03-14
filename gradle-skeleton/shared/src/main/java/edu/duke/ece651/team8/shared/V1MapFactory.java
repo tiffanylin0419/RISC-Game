@@ -35,7 +35,7 @@ public class V1MapFactory implements AbstractMapFactory {
         ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
         createTerritoryGroups(playerAmount, territoryGroups);
         separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
-        Game1Map theMap=new Game1Map(territoryGroups);
+        Game1Map theMap=new Game1Map(territories);
         connectAdjacentTerritory(playerAmount, theMap);
         return theMap;
     }
