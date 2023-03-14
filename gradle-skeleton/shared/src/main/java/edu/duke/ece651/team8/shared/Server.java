@@ -15,8 +15,6 @@ public class Server {
     private final Map theMap;
     /** View of the map */
     protected View mapView;
-    /** Color list of players */
-    private final List<String> colorList;
     /** List of players*/
     private final ArrayList<Player> players;
     /** List of the client sockets */
@@ -40,11 +38,7 @@ public class Server {
      */
     public Server(ServerSocket ss, Map theMap, int clientNum, ArrayList<Player> players) {
         this.server = ss;
-        this.colorList = new ArrayList<>();
         this.players = players;
-        for(int i = 0; i < clientNum; i++) {
-            colorList.add(players.get(i).getColor());
-        }
         this.theMap = theMap;
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(players);
@@ -77,6 +71,12 @@ public class Server {
             oneGameClients.add(clientSocket);
             System.out.println("Client connected!");
         }
+
+        List<String> colorList= new ArrayList<>();
+        for(int i = 0; i < clientNum; i++) {
+            colorList.add(players.get(i).getColor());
+        }
+
         ClientThread clientThread = new ClientThread(oneGameClients, colorList, mapInfo);
         clients.add(clientThread);
         clientThread.start();
@@ -96,9 +96,6 @@ public class Server {
         }
         clients.clear();
     }
-
-
-
 }
 
 
