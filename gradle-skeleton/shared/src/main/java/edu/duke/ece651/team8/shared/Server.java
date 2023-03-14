@@ -17,6 +17,8 @@ public class Server {
     protected View mapView;
     /** Color list of players */
     private final List<String> colorList;
+    /** List of players*/
+    private final ArrayList<Player> players;
     /** List of the client sockets */
     private List<ClientThread> clients;
     /** number of clients */
@@ -38,14 +40,16 @@ public class Server {
      */
     public Server(ServerSocket ss, Map theMap, int clientNum) {
         this.server = ss;
-        this.colorList = new ArrayList<String>();
+        this.colorList = new ArrayList<>();
+        this.players = new ArrayList<>();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
         for(int i = 0; i < clientNum; i++) {
             colorList.add(colors[i]);
+            players.add(new Player(colors[i]));
         }
         this.theMap = theMap;
         this.mapView = new MapTextView(theMap);
-        this.mapInfo = mapView.displayMap(colorList);
+        this.mapInfo = mapView.displayMap(players);
         this.clients = new ArrayList<ClientThread>();
         this.clientNum = clientNum;
         this.isListening = true;

@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class Player {
+public class Player {
   private ArrayList<Territory> territories;
   private String color;
   private int unitMax;

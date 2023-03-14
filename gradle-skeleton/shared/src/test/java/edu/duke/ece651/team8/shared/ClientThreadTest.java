@@ -27,8 +27,12 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<Socket>();
         List<String> color = new ArrayList<>();
         color.add("Red");
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Red"));
+
         clis.add(cliSocket);
-        ClientThread th = new ClientThread(clis, color, mapView.displayMap(color));
+        ClientThread th = new ClientThread(clis, color, mapView.displayMap(players));
         th.start();
 
         cli.run();
@@ -66,8 +70,12 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<Socket>();
         List<String> color = new ArrayList<>();
         color.add("Red");
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Red"));
+
         clis.add(mockSocket);
-        ClientThread clientThread = new ClientThread(clis, color, mapView.displayMap(color));
+        ClientThread clientThread = new ClientThread(clis, color, mapView.displayMap(players));
         doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
         clientThread.start();
 

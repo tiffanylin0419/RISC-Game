@@ -11,7 +11,7 @@ public interface View {
      * Get map string
      * @return the string of map infomation
      */
-    public String displayMap(List<String> color);
+    public String displayMap(ArrayList<Player> players) ;
 
 //    public String displayEachPlayerInfo();
 

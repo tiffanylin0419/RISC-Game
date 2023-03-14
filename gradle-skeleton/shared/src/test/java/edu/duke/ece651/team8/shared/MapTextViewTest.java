@@ -14,10 +14,11 @@ class MapTextViewTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
         MapTextView v = new MapTextView(m);
-        List<String> colorList = new ArrayList<String>();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
+
+        ArrayList<Player> players=new ArrayList<>();
         for(int i = 0; i < 4; i++) {
-            colorList.add(colors[i]);
+            players.add(new Player(colors[i]));
         }
         assertEquals("Green Player:\n" +
                 "-------------\n" +
@@ -26,7 +27,7 @@ class MapTextViewTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)", v.displayMap(colorList));
+                "0 units in a6 (next to: a5)", v.displayMap(players));
     }
     @Test
     public void testDisplayUnitInfo() throws IOException {
