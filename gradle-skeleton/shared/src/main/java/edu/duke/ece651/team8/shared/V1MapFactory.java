@@ -43,6 +43,17 @@ public class V1MapFactory implements AbstractMapFactory {
         }
     }
 
+    /**
+     * create n Players (n equals to playerAmount)
+     */
+    public ArrayList<Player> createPlayers(int playerAmount,String colors[]) {
+        ArrayList<Player> players=new ArrayList<>();
+        for (int i = 0; i < playerAmount; ++i) {
+            players.add(new Player(colors[i]));
+        }
+        return players;
+    }
+
     private ArrayList<Territory> createTerritories(int playerAmount) {
         ArrayList<Territory> territories = new ArrayList<>();
         for (int i = 0; i < playerAmount * 6; ++i) {

@@ -32,21 +32,22 @@ public class Server {
      * @param port is the port of the socket
      * @param theMap is the map of the board
      */
-    public Server(int port, Map theMap, int clientNum) throws IOException {
-        this(new ServerSocket(port), theMap, clientNum);
+    public Server(int port, Map theMap, int clientNum,ArrayList<Player> players) throws IOException {
+        this(new ServerSocket(port), theMap, clientNum,players);
     }
     /**
      * @param clientNum is the number of clients
      */
-    public Server(ServerSocket ss, Map theMap, int clientNum) {
+    public Server(ServerSocket ss, Map theMap, int clientNum, ArrayList<Player> players) {
         this.server = ss;
         this.colorList = new ArrayList<>();
-        this.players = new ArrayList<>();
+        this.players = players;
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
         for(int i = 0; i < clientNum; i++) {
             colorList.add(colors[i]);
-            players.add(new Player(colors[i]));
+            //players.add(new Player(colors[i]));
         }
+        //this.players=players;
         this.theMap = theMap;
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(theMap,players);
