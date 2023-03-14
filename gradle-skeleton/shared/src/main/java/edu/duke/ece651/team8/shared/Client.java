@@ -70,7 +70,7 @@ public class Client {
      * Display map info
      */
     public void display() {
-        out.println("Player color is "+color);
+        out.println(color);
         displayMap();
     }
     public void displayMap() {
