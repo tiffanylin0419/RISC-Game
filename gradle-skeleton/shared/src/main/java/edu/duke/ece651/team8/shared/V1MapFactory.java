@@ -25,16 +25,15 @@ public class V1MapFactory implements AbstractMapFactory {
         this.colors= new String[]{ "Green", "Red", "Blue", "Yellow" };
         this.territories= new ArrayList<>();
     }
+
     /**
-     * create a Game1Map
-     * @return
+     *
+     * @param playerAmount
+     * @return create a Game1Map
      */
     @Override
     public Game1Map createMap(int playerAmount) {
         this.territories = createTerritories(playerAmount);
-        ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
-        createTerritoryGroups(playerAmount, territoryGroups);
-        separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
         Game1Map theMap=new Game1Map(territories);
         connectAdjacentTerritory(playerAmount, theMap);
         return theMap;
@@ -42,6 +41,8 @@ public class V1MapFactory implements AbstractMapFactory {
 
     /**
      * create n territory groups (n equals to playerAmount)
+     * @param playerAmount
+     * @param territoryGroups
      */
     private void createTerritoryGroups(int playerAmount, ArrayList<ArrayList<Territory>> territoryGroups) {
         for (int i = 0; i < playerAmount; ++i) {
@@ -51,6 +52,8 @@ public class V1MapFactory implements AbstractMapFactory {
 
     /**
      * create n Players (n equals to playerAmount) with their territories inside
+     * @param playerAmount
+     * @return list of players
      */
     public ArrayList<Player> createPlayers(int playerAmount) {
         //this.territories = createTerritories(playerAmount);

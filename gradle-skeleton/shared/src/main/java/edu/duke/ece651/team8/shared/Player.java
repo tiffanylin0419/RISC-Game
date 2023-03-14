@@ -12,6 +12,11 @@ public class Player {
     this.color=color;
     this.unitMax=0;
   }
+  //constructor
+  public Player(String color, int unitMax){
+    this(color);
+    this.unitMax=unitMax;
+  }
 
   /**
    * @return color
