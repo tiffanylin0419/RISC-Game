@@ -26,10 +26,8 @@ class ClientThreadTest {
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
         List<String> color = new ArrayList<>();
-        color.add("Red");
-
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Red"));
+        color.add("Green");
+        ArrayList<Player> players=factory.createPlayers(1);
 
         clis.add(cliSocket);
         ClientThread th = new ClientThread(clis, color, mapView.displayMap(m,players));
@@ -41,8 +39,8 @@ class ClientThreadTest {
         th.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Red\n" +
-                "Red Player:\n" +
+        assertEquals("Green\n" +
+                "Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: a2)\n" +
                 "0 units in a2 (next to: a1, a3)\n" +

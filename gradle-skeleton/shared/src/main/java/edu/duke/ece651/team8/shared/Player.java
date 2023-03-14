@@ -44,6 +44,11 @@ public class Player {
   }
 
   /**
+   * @return territories
+   */
+  public ArrayList<Territory> getTerritores(){return territories;}
+
+  /**
    * add t to territories
    * @param t
    */

@@ -13,7 +13,7 @@ public class MapTextView implements View {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < groups.size(); i++) {
             sb.append(players.get(i).getColor() + " Player:\n-------------\n");
-            for(Territory t : groups.get(i)) {
+            for(Territory t : players.get(i).getTerritores()) {
                 displayUnitInfo(sb, t);
                 sb.append(t.getName());
                 sb.append(displayAdjacentInfo(t));

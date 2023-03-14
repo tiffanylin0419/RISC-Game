@@ -15,15 +15,11 @@ import static org.mockito.Mockito.*;
 public class ServerTest {
     @Test
     public void testConstructor() throws IOException {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        ArrayList<Player> players =new ArrayList<>();
-        players.add(new Player("Green"));
-        players.add(new Player("Red"));
-        players.add(new Player("Blue"));
-        players.add(new Player("Yellow"));
 
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(4);
+        ArrayList<Player> players=factory.createPlayers(4);
         Server s = new Server(1236, m, 4,players);
         assertEquals(1236, s.getPort());
     }
@@ -67,9 +63,7 @@ public class ServerTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(2);
 
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Green"));
-        players.add(new Player("Red"));
+        ArrayList<Player> players=factory.createPlayers(2);
 
         Server s = new Server(ss, m, 2, players);
         Thread serverThread = new Thread(() -> {

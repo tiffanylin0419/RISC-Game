@@ -12,6 +12,8 @@ public class V1MapFactory implements AbstractMapFactory {
 
     private String[] colors;
 
+    private ArrayList<Territory> territories;
+
     public V1MapFactory() {
         this.territoryAmount = 6;
         this.territoryNameList = new String[] {
@@ -21,6 +23,7 @@ public class V1MapFactory implements AbstractMapFactory {
                 "d1", "d2", "d3", "d4", "d5", "d6"
         };
         this.colors= new String[]{ "Green", "Red", "Blue", "Yellow" };
+        this.territories= new ArrayList<>();
     }
     /**
      * create a Game1Map
@@ -28,7 +31,7 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     @Override
     public Game1Map createMap(int playerAmount) {
-        ArrayList<Territory> territories = createTerritories(playerAmount);
+        this.territories = createTerritories(playerAmount);
         ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
         createTerritoryGroups(playerAmount, territoryGroups);
         separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
@@ -47,17 +50,20 @@ public class V1MapFactory implements AbstractMapFactory {
     }
 
     /**
-     * create n Players (n equals to playerAmount)
+     * create n Players (n equals to playerAmount) with their territories inside
      */
     public ArrayList<Player> createPlayers(int playerAmount) {
-        ArrayList<Territory> territories = createTerritories(playerAmount);
+        //this.territories = createTerritories(playerAmount);
         ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
         createTerritoryGroups(playerAmount, territoryGroups);
         separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
-
         ArrayList<Player> players=new ArrayList<>();
         for (int i = 0; i < playerAmount; ++i) {
-            players.add(new TextPlayer(colors[i]));
+            Player p=new TextPlayer(colors[i]);
+            for (Territory t: territoryGroups.get(i)){
+                p.addTerritory(t);
+            }
+            players.add(p);
         }
         return players;
     }
