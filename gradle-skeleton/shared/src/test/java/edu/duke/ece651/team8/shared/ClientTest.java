@@ -52,14 +52,14 @@ public class ClientTest {
         serverThread.start();
 
         Socket cl_s = new Socket("localhost", 1239);
-        Client cli = new Client(cl_s, output);
+        Client cli = new Client(cl_s, output,System.in);
         cl_s.close();
         cli.run();
         s.stop();
         serverThread.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Out/Input stream error\n", actual);
+        assertEquals("Socket closed\n", actual);
     }
     @Test
     public void testRun() throws Exception {
@@ -78,7 +78,7 @@ public class ClientTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
         Socket client = new Socket("localhost", 1244);
-        Client cli = new Client(client, output);
+        Client cli = new Client(client, output, System.in);
         cli.run();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("Green\n" +
@@ -89,7 +89,7 @@ public class ClientTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)\n", actual);
+                "0 units in a6 (next to: a5)", actual);
 
         s.stop();
         serverThread.join();
@@ -147,7 +147,7 @@ public class ClientTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1334, "localhost", output);
+        Client cli = new Client(1334, "localhost", output, System.in);
         cli.display();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("\n", actual);
@@ -173,7 +173,7 @@ public class ClientTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1324, "localhost", output);
+        Client cli = new Client(1324, "localhost", output, System.in);
         cli.displayMap();
         assertEquals("", bytes.toString());
 

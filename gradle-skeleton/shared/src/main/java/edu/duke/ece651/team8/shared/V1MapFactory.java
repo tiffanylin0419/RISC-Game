@@ -42,7 +42,7 @@ public class V1MapFactory implements AbstractMapFactory {
         ArrayList<Player> players=new ArrayList<>();
         ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
-            players.add(createPlayer(i,playerAmount,territories));
+            players.add(createPlayer(i,territories));
         }
         return players;
     }
@@ -50,10 +50,9 @@ public class V1MapFactory implements AbstractMapFactory {
     /**
      * create a player with its color and territories info
      * @param num
-     * @param playerNum
      * @return Player
      */
-    private Player createPlayer(int num, int playerNum, ArrayList<Territory> territories){
+    private Player createPlayer(int num, ArrayList<Territory> territories){
         Player player=new TextPlayer(colors[num]);
         for (int i = 0; i < territoryAmount; ++i) {
             player.addTerritory(territories.get(6*num+i));
