@@ -71,8 +71,9 @@ public class BasicTerritoryTest {
     Player p1=new TextPlayer("red");
     Player p2=new TextPlayer("blue");
 
-    Map map = new Game1Map();
+
     Territory territories[]={new BasicTerritory("a",p1),new BasicTerritory("b",p1),new BasicTerritory("c",p1),new BasicTerritory("d",p2),new BasicTerritory("e",p1)};
+    Map map = new Game1Map();
     for(Territory t: territories){
       map.addTerritory(t);
     }

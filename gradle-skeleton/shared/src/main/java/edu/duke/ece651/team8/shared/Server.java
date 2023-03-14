@@ -15,8 +15,8 @@ public class Server {
     private final Map theMap;
     /** View of the map */
     protected View mapView;
-    /** Color list of players */
-    private final List<String> colorList;
+    /** List of players*/
+    private final ArrayList<Player> players;
     /** List of the client sockets */
     private List<ClientThread> clients;
     /** number of clients */
@@ -30,26 +30,21 @@ public class Server {
      * @param port is the port of the socket
      * @param theMap is the map of the board
      */
-    public Server(int port, Map theMap, int clientNum) throws IOException {
-        this(new ServerSocket(port), theMap, clientNum);
+    public Server(int port, Map theMap, int clientNum,ArrayList<Player> players) throws IOException {
+        this(new ServerSocket(port), theMap, clientNum,players);
     }
     /**
      * @param clientNum is the number of clients
      */
-    public Server(ServerSocket ss, Map theMap, int clientNum) {
+    public Server(ServerSocket ss, Map theMap, int clientNum, ArrayList<Player> players) {
         this.server = ss;
-        this.colorList = new ArrayList<String>();
-        String colors[] = { "Green", "Red", "Blue", "Yellow" };
-        for(int i = 0; i < clientNum; i++) {
-            colorList.add(colors[i]);
-        }
+        this.players = players;
         this.theMap = theMap;
-        this.mapView = new MapTextView(theMap);
-        this.mapInfo = mapView.displayMap(colorList);
-        this.clients = new ArrayList<ClientThread>();
+        this.mapView = new MapTextView();
+        this.mapInfo = mapView.displayMap(players);
+        this.clients = new ArrayList<>();
         this.clientNum = clientNum;
         this.isListening = true;
-
     }
     /**
      * @return the port of the server socket
@@ -68,7 +63,6 @@ public class Server {
                 System.out.println(e.getMessage());
             }
         }
-
     }
     public void connectOneGame() throws IOException{
         List<Socket> oneGameClients = new ArrayList<>();
@@ -77,6 +71,12 @@ public class Server {
             oneGameClients.add(clientSocket);
             System.out.println("Client connected!");
         }
+
+        List<String> colorList= new ArrayList<>();
+        for(int i = 0; i < clientNum; i++) {
+            colorList.add(players.get(i).getColor());
+        }
+
         ClientThread clientThread = new ClientThread(oneGameClients, colorList, mapInfo);
         clients.add(clientThread);
         clientThread.start();
@@ -96,9 +96,6 @@ public class Server {
         }
         clients.clear();
     }
-
-
-
 }
 
 

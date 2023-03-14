@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -14,17 +15,19 @@ import static org.mockito.Mockito.*;
 public class ServerTest {
     @Test
     public void testConstructor() throws IOException {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        Server s = new Server(1236, m, 4);
+
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(4);
+        ArrayList<Player> players=factory.createPlayers(4,m);
+        Server s = new Server(1236, m, 4,players);
         assertEquals(1236, s.getPort());
     }
     @Test()
     public void testIOException() throws Exception {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
-        View mapView = new MapTextView(m);
+        View mapView = new MapTextView();
 
         // Create mock objects
         ServerSocket mockSs = mock(ServerSocket.class);
@@ -32,8 +35,11 @@ public class ServerTest {
         // Set up mock socket
         when(mockSs.accept()).thenReturn(mockSocket);
 
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Green"));
+
         // Create client thread with mock socket
-        Server s = new Server(mockSs, m, 1);
+        Server s = new Server(mockSs, m, 1,players);
         doThrow(new IOException("Socket closed")).when(mockSs).accept();
         Thread serverThread = new Thread(() -> {
             s.run();
@@ -57,7 +63,9 @@ public class ServerTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(2);
 
-        Server s = new Server(ss, m, 2);
+        ArrayList<Player> players=factory.createPlayers(2,m);
+
+        Server s = new Server(ss, m, 2, players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });

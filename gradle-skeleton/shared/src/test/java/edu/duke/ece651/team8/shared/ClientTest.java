@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,11 @@ public class ClientTest {
         ServerSocket ss = new ServerSocket(1237);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
-        Server s = new Server(ss, m, 1);
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Green"));
+
+        Server s = new Server(ss, m, 1,players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -36,7 +41,11 @@ public class ClientTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Server s = new Server(ss, m, 1);
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Green"));
+
+        Server s = new Server(ss, m, 1,players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -58,7 +67,9 @@ public class ClientTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
 
-        Server s = new Server(ss, m, 1);
+        ArrayList<Player> players=factory.createPlayers(1,m);
+
+        Server s = new Server(ss, m, 1,players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -124,7 +135,11 @@ public class ClientTest {
         ServerSocket ss = new ServerSocket(1334);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
-        Server s = new Server(ss, m, 1);
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Green"));
+
+        Server s = new Server(ss, m, 1,players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -146,7 +161,11 @@ public class ClientTest {
         ServerSocket ss = new ServerSocket(1324);
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
-        Server s = new Server(ss, m, 1);
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Green"));
+
+        Server s = new Server(ss, m, 1, players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });

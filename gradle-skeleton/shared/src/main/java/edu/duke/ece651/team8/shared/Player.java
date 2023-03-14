@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class Player {
+public class Player {
   private ArrayList<Territory> territories;
   private String color;
   private int unitMax;
@@ -11,6 +11,11 @@ public abstract class Player {
     this.territories=new ArrayList<Territory>();
     this.color=color;
     this.unitMax=0;
+  }
+  //constructor
+  public Player(String color, int unitMax){
+    this(color);
+    this.unitMax=unitMax;
   }
 
   /**
@@ -42,6 +47,11 @@ public abstract class Player {
   public int getUnitMax(){
     return unitMax;
   }
+
+  /**
+   * @return territories
+   */
+  public ArrayList<Territory> getTerritores(){return territories;}
 
   /**
    * add t to territories

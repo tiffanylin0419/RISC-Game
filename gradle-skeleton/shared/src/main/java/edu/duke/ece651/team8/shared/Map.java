@@ -27,7 +27,6 @@ public interface Map {
    */
   public ArrayList<Territory> getTerritories();
 
-  public ArrayList<ArrayList<Territory>> getTerritoryGroups();
   /**
    * add adjacent connection between t1 and t2
    * will update the adjacent_territory field in t1 and t2

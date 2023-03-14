@@ -1,25 +1,17 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 
 public class MapTextView implements View {
-    /**
-     * The map to display
-     */
-    private final Map toDisplay;
 
-    public MapTextView(Map toDisplay) {
-        this.toDisplay = toDisplay;
-    }
+    public MapTextView() {}
     @Override
-    public String displayMap(List<String> color) {
-        ArrayList<ArrayList<Territory>> groups = toDisplay.getTerritoryGroups();
+    public String displayMap(ArrayList<Player> players) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < groups.size(); i++) {
-            sb.append(color.get(i) + " Player:\n-------------\n");
-            for(Territory t : groups.get(i)) {
+        for(Player player:players) {
+            sb.append(player.getColor() + " Player:\n-------------\n");
+            for(Territory t : player.getTerritores()) {
                 displayUnitInfo(sb, t);
                 sb.append(t.getName());
                 sb.append(displayAdjacentInfo(t));
@@ -40,7 +32,7 @@ public class MapTextView implements View {
     /**
      * append adjacent territories info to string
      * @param t
-     * @return
+     * @return adjacent info string
      */
     @Override
     public String displayAdjacentInfo(Territory t) {
