@@ -76,36 +76,36 @@ public class ServerTest {
                 "Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: b1, a2)\n" +
-                "0 units in a2 (next to: b2, a3)\n" +
-                "0 units in a3 (next to: b3, a4)\n" +
-                "0 units in a4 (next to: b4, a5)\n" +
-                "0 units in a5 (next to: b5, a6)\n" +
-                "0 units in a6 (next to: b6)\n" +
+                "0 units in a2 (next to: a1, b2, a3)\n" +
+                "0 units in a3 (next to: a2, b3, a4)\n" +
+                "0 units in a4 (next to: a3, b4, a5)\n" +
+                "0 units in a5 (next to: a4, b5, a6)\n" +
+                "0 units in a6 (next to: a5, b6)\n" +
                 "Red Player:\n" +
                 "-------------\n" +
-                "0 units in b1 (next to: b2)\n" +
-                "0 units in b2 (next to: b3)\n" +
-                "0 units in b3 (next to: b4)\n" +
-                "0 units in b4 (next to: b5)\n" +
-                "0 units in b5 (next to: b6)\n" +
-                "0 units in b6 (next to: )\n");
+                "0 units in b1 (next to: a1, b2)\n" +
+                "0 units in b2 (next to: a2, b1, b3)\n" +
+                "0 units in b3 (next to: a3, b2, b4)\n" +
+                "0 units in b4 (next to: a4, b3, b5)\n" +
+                "0 units in b5 (next to: a5, b4, b6)\n" +
+                "0 units in b6 (next to: a6, b5)\n");
         checkClientHelper(bytes1, cli1, "Red\n" +
                 "Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: b1, a2)\n" +
-                "0 units in a2 (next to: b2, a3)\n" +
-                "0 units in a3 (next to: b3, a4)\n" +
-                "0 units in a4 (next to: b4, a5)\n" +
-                "0 units in a5 (next to: b5, a6)\n" +
-                "0 units in a6 (next to: b6)\n" +
+                "0 units in a2 (next to: a1, b2, a3)\n" +
+                "0 units in a3 (next to: a2, b3, a4)\n" +
+                "0 units in a4 (next to: a3, b4, a5)\n" +
+                "0 units in a5 (next to: a4, b5, a6)\n" +
+                "0 units in a6 (next to: a5, b6)\n" +
                 "Red Player:\n" +
                 "-------------\n" +
-                "0 units in b1 (next to: b2)\n" +
-                "0 units in b2 (next to: b3)\n" +
-                "0 units in b3 (next to: b4)\n" +
-                "0 units in b4 (next to: b5)\n" +
-                "0 units in b5 (next to: b6)\n" +
-                "0 units in b6 (next to: )\n");
+                "0 units in b1 (next to: a1, b2)\n" +
+                "0 units in b2 (next to: a2, b1, b3)\n" +
+                "0 units in b3 (next to: a3, b2, b4)\n" +
+                "0 units in b4 (next to: a4, b3, b5)\n" +
+                "0 units in b5 (next to: a5, b4, b6)\n" +
+                "0 units in b6 (next to: a6, b5)\n");
 
         s.stop();
         serverThread.join();
