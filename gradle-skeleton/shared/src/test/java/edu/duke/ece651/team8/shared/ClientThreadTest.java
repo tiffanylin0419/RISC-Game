@@ -21,7 +21,7 @@ class ClientThreadTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1231, "localhost", output);
+        Client cli = new Client(1231, "localhost", output, System.in);
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
@@ -47,7 +47,7 @@ class ClientThreadTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)\n", actual);
+                "0 units in a6 (next to: a5)", actual);
     }
 
     @Test

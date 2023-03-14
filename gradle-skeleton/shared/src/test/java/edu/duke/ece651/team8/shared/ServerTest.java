@@ -74,11 +74,11 @@ public class ServerTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1216, "localhost", output);
+        Client cli = new Client(1216, "localhost", output, System.in);
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
         PrintStream output1 = new PrintStream(bytes1, true);
-        Client cli1 = new Client(1216, "localhost", output1);
+        Client cli1 = new Client(1216, "localhost", output1, System.in);
 
         checkClientHelper(bytes, cli, "Green\n" +
                 "Green Player:\n" +
@@ -96,7 +96,7 @@ public class ServerTest {
                 "0 units in b3 (next to: a3, b2, b4)\n" +
                 "0 units in b4 (next to: a4, b3, b5)\n" +
                 "0 units in b5 (next to: a5, b4, b6)\n" +
-                "0 units in b6 (next to: a6, b5)\n");
+                "0 units in b6 (next to: a6, b5)");
         checkClientHelper(bytes1, cli1, "Red\n" +
                 "Green Player:\n" +
                 "-------------\n" +
@@ -113,7 +113,7 @@ public class ServerTest {
                 "0 units in b3 (next to: a3, b2, b4)\n" +
                 "0 units in b4 (next to: a4, b3, b5)\n" +
                 "0 units in b5 (next to: a5, b4, b6)\n" +
-                "0 units in b6 (next to: a6, b5)\n");
+                "0 units in b6 (next to: a6, b5)");
 
         s.stop();
         serverThread.join();

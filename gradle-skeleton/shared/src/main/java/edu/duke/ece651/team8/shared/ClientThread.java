@@ -6,11 +6,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientThread extends Thread {
     private List<Socket> clientSockets;
+
+    private List<PrintWriter> outputs;
     private List<String> colors;
+
+    final String END_OF_TURN = "END_OF_TURN\n";
     private String mapInfo;
 
     /**
@@ -19,34 +24,41 @@ public class ClientThread extends Thread {
      * @param colors is colorList assigned to these clients
      * @param mapInfo is map information
      */
-    public ClientThread(List<Socket> clientSockets, List<String> colors, String mapInfo){
+    public ClientThread(List<Socket> clientSockets, List<String> colors, String mapInfo) throws IOException{
         this.clientSockets = clientSockets;
         this.colors = colors;
         this.mapInfo = mapInfo;
+        this.outputs = new ArrayList<>();
+        for(Socket cs : clientSockets){
+            outputs.add(new PrintWriter(cs.getOutputStream()));
+        }
     }
     @Override
     public void run() {
         try {
             for(int i = 0; i < clientSockets.size(); i++) {
-                send(colors.get(i), clientSockets.get(i));
+                send(colors.get(i), outputs.get(i));
+                send(mapInfo,outputs.get(i));
+
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }finally {
+            for(PrintWriter output:outputs){
+                output.close();
+            }
         }
     }
 
     /**
      * Send infomation to one client
-     * @param color is the color assigned to the client
-     * @param client is the socket of the client
      */
-    public void send(String color, Socket client) throws IOException {
-        BufferedReader input = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        PrintWriter output = new PrintWriter(client.getOutputStream(), true);
-        output.println(color);
-        output.println(mapInfo);
-        output.close();
+    public void send(String message, PrintWriter output) throws IOException {
+        output.println(message);
+        output.print(END_OF_TURN);
+        output.flush(); // flush the output buffer
     }
+
 
 
 }
