@@ -9,8 +9,6 @@ public class V1MapFactory implements AbstractMapFactory {
 
     private String[] colors;
 
-    private ArrayList<Territory> territories;
-
     public V1MapFactory() {
         this.territoryAmount = 6;
         this.territoryNameList = new String[] {
@@ -20,7 +18,6 @@ public class V1MapFactory implements AbstractMapFactory {
                 "d1", "d2", "d3", "d4", "d5", "d6"
         };
         this.colors= new String[]{ "Green", "Red", "Blue", "Yellow" };
-        this.territories= new ArrayList<>();
     }
 
     /**
@@ -30,8 +27,7 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     @Override
     public Game1Map createMap(int playerAmount) {
-        createTerritories(playerAmount);
-        Game1Map theMap=new Game1Map(territories);
+        Game1Map theMap=new Game1Map(createTerritories(playerAmount));
         connectAdjacentTerritory(playerAmount, theMap);
         return theMap;
     }
@@ -42,10 +38,11 @@ public class V1MapFactory implements AbstractMapFactory {
      * @param playerAmount
      * @return list of players
      */
-    public ArrayList<Player> createPlayers(int playerAmount) {
+    public ArrayList<Player> createPlayers(int playerAmount, Map theMap) {
         ArrayList<Player> players=new ArrayList<>();
+        ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
-            players.add(createPlayer(i,playerAmount));
+            players.add(createPlayer(i,playerAmount,territories));
         }
         return players;
     }
@@ -56,7 +53,7 @@ public class V1MapFactory implements AbstractMapFactory {
      * @param playerNum
      * @return Player
      */
-    private Player createPlayer(int num, int playerNum){
+    private Player createPlayer(int num, int playerNum, ArrayList<Territory> territories){
         Player player=new TextPlayer(colors[num]);
         for (int i = 0; i < territoryAmount; ++i) {
             player.addTerritory(territories.get(6*num+i));
@@ -68,13 +65,13 @@ public class V1MapFactory implements AbstractMapFactory {
      * create 6*playerAmount of territories
      * @param playerAmount
      */
-    private void createTerritories(int playerAmount) {
+    private ArrayList<Territory> createTerritories(int playerAmount) {
         ArrayList<Territory> territories = new ArrayList<>();
         for (int i = 0; i < playerAmount * 6; ++i) {
             Territory t = new BasicTerritory(this.territoryNameList[i]);
             territories.add(t);
         }
-        this.territories =  territories;
+        return territories;
     }
 
     /**
@@ -84,6 +81,7 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     private void connectAdjacentTerritory(int playerAmount, Map theMap) {
         //up, left, down, right
+        ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
             for (int j = 0; j < 6; ++j) {
                 if (i != playerAmount - 1) {

@@ -67,7 +67,7 @@ public class ClientTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
 
-        ArrayList<Player> players=factory.createPlayers(1);
+        ArrayList<Player> players=factory.createPlayers(1,m);
 
         Server s = new Server(ss, m, 1,players);
         Thread serverThread = new Thread(() -> {

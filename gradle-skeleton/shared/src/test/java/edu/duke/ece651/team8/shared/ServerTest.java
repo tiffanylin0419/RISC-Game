@@ -19,7 +19,7 @@ public class ServerTest {
 
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(4);
-        ArrayList<Player> players=factory.createPlayers(4);
+        ArrayList<Player> players=factory.createPlayers(4,m);
         Server s = new Server(1236, m, 4,players);
         assertEquals(1236, s.getPort());
     }
@@ -63,7 +63,7 @@ public class ServerTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(2);
 
-        ArrayList<Player> players=factory.createPlayers(2);
+        ArrayList<Player> players=factory.createPlayers(2,m);
 
         Server s = new Server(ss, m, 2, players);
         Thread serverThread = new Thread(() -> {

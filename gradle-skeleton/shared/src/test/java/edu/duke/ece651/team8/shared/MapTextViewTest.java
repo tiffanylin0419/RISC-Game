@@ -14,7 +14,7 @@ class MapTextViewTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
         MapTextView v = new MapTextView();
-        ArrayList<Player> players=factory.createPlayers(1);
+        ArrayList<Player> players=factory.createPlayers(1,m);
         assertEquals("Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: a2)\n" +

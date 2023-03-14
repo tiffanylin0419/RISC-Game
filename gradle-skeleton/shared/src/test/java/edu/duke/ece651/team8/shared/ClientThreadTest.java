@@ -27,7 +27,7 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<Socket>();
         List<String> color = new ArrayList<>();
         color.add("Green");
-        ArrayList<Player> players=factory.createPlayers(1);
+        ArrayList<Player> players=factory.createPlayers(1,m);
 
         clis.add(cliSocket);
         ClientThread th = new ClientThread(clis, color, mapView.displayMap(players));
