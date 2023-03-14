@@ -60,6 +60,7 @@ public class Server {
 
     /** Execute the server */
     public void run() {
+        //add input player number
         while(isListening) {
             try {
                 connectOneGame();

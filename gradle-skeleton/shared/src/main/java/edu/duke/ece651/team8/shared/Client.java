@@ -11,8 +11,8 @@ public class Client {
     protected String mapInfo;
     /** Output stream of the client*/
     protected PrintStream out;
-    /** Player owned by the client */
-    protected Player thePlayer;
+    /**client player color*/
+    protected String color;
     /**
      * Constructs a server with specified port
      *
@@ -33,8 +33,8 @@ public class Client {
     public Client(Socket s, PrintStream out) throws IOException {
         this.socket = s;
         this.out = out;
-        this.thePlayer = new TextPlayer("unassigned");
         this.mapInfo = new String();
+        this.color= new String();
     }
 
     /** execute the client */
@@ -55,8 +55,7 @@ public class Client {
         InputStream inputStream = socket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
-        String color = reader.readLine();
-        thePlayer.setColor(color);
+        color = reader.readLine();
         String receLine = reader.readLine();
         while(receLine != null) {
             sb.append(receLine + "\n");
@@ -71,7 +70,7 @@ public class Client {
      * Display map info
      */
     public void display() {
-        out.println(thePlayer.getColor());
+        out.println("Player color is "+color);
         displayMap();
     }
     public void displayMap() {
