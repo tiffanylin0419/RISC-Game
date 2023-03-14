@@ -44,6 +44,7 @@ public class ClientThread extends Thread {
         BufferedReader input = new BufferedReader(new InputStreamReader(client.getInputStream()));
         PrintWriter output = new PrintWriter(client.getOutputStream(), true);
         output.println(color);
+        output.println("20");
         output.println(mapInfo);
         output.close();
     }

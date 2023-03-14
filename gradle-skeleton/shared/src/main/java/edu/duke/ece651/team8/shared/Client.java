@@ -56,7 +56,9 @@ public class Client {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
         String color = reader.readLine();
+        int num = Integer.parseInt(reader.readLine());
         thePlayer.setColor(color);
+        thePlayer.setUnitMax(num);
         String receLine = reader.readLine();
         while(receLine != null) {
             sb.append(receLine + "\n");
