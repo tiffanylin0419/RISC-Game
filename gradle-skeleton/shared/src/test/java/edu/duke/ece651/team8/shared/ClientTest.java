@@ -67,8 +67,7 @@ public class ClientTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
 
-        String colors[]={"Green", "Red", "Blue", "Yellow"};
-        ArrayList<Player> players=factory.createPlayers(1,colors);
+        ArrayList<Player> players=factory.createPlayers(1);
 
         Server s = new Server(ss, m, 1,players);
         Thread serverThread = new Thread(() -> {

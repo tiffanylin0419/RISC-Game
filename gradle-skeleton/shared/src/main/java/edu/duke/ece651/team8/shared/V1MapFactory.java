@@ -46,7 +46,8 @@ public class V1MapFactory implements AbstractMapFactory {
     /**
      * create n Players (n equals to playerAmount)
      */
-    public ArrayList<Player> createPlayers(int playerAmount,String colors[]) {
+    public ArrayList<Player> createPlayers(int playerAmount) {
+        String colors[] = { "Green", "Red", "Blue", "Yellow" };
         ArrayList<Player> players=new ArrayList<>();
         for (int i = 0; i < playerAmount; ++i) {
             players.add(new Player(colors[i]));

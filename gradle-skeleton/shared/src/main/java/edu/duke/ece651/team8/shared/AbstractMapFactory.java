@@ -10,5 +10,5 @@ public interface AbstractMapFactory {
      */
     public Game1Map createMap(int playAmount);
 
-    public ArrayList<Player> createPlayers(int playerAmount, String colors[]);
+    public ArrayList<Player> createPlayers(int playerAmount);
 }

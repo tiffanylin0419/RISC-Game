@@ -54,7 +54,6 @@ public class Server {
         this.clients = new ArrayList<ClientThread>();
         this.clientNum = clientNum;
         this.isListening = true;
-
     }
     /**
      * @return the port of the server socket
