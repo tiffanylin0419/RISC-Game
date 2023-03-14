@@ -10,6 +10,8 @@ public class V1MapFactory implements AbstractMapFactory {
 //    private ArrayList<ArrayList<Territory>> territoryGroups;
     private String[] territoryNameList;
 
+    private String[] colors;
+
     public V1MapFactory() {
         this.territoryAmount = 6;
         this.territoryNameList = new String[] {
@@ -18,6 +20,7 @@ public class V1MapFactory implements AbstractMapFactory {
                 "c1", "c2", "c3", "c4", "c5", "c6",
                 "d1", "d2", "d3", "d4", "d5", "d6"
         };
+        this.colors= new String[]{ "Green", "Red", "Blue", "Yellow" };
     }
     /**
      * create a Game1Map
@@ -47,10 +50,14 @@ public class V1MapFactory implements AbstractMapFactory {
      * create n Players (n equals to playerAmount)
      */
     public ArrayList<Player> createPlayers(int playerAmount) {
-        String colors[] = { "Green", "Red", "Blue", "Yellow" };
+        ArrayList<Territory> territories = createTerritories(playerAmount);
+        ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
+        createTerritoryGroups(playerAmount, territoryGroups);
+        separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
+
         ArrayList<Player> players=new ArrayList<>();
         for (int i = 0; i < playerAmount; ++i) {
-            players.add(new Player(colors[i]));
+            players.add(new TextPlayer(colors[i]));
         }
         return players;
     }

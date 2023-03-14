@@ -42,16 +42,13 @@ public class Server {
         this.server = ss;
         this.colorList = new ArrayList<>();
         this.players = players;
-        String colors[] = { "Green", "Red", "Blue", "Yellow" };
         for(int i = 0; i < clientNum; i++) {
-            colorList.add(colors[i]);
-            //players.add(new Player(colors[i]));
+            colorList.add(players.get(i).getColor());
         }
-        //this.players=players;
         this.theMap = theMap;
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(theMap,players);
-        this.clients = new ArrayList<ClientThread>();
+        this.clients = new ArrayList<>();
         this.clientNum = clientNum;
         this.isListening = true;
     }
