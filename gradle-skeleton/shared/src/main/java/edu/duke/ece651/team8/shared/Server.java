@@ -48,8 +48,8 @@ public class Server {
             players.add(new Player(colors[i]));
         }
         this.theMap = theMap;
-        this.mapView = new MapTextView(theMap);
-        this.mapInfo = mapView.displayMap(players);
+        this.mapView = new MapTextView();
+        this.mapInfo = mapView.displayMap(theMap,players);
         this.clients = new ArrayList<ClientThread>();
         this.clientNum = clientNum;
         this.isListening = true;

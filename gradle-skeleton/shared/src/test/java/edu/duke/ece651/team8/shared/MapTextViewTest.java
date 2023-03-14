@@ -13,7 +13,7 @@ class MapTextViewTest {
     public void testDisplayMap() throws IOException {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
-        MapTextView v = new MapTextView(m);
+        MapTextView v = new MapTextView();
         String colors[] = { "Green", "Red", "Blue", "Yellow" };
 
         ArrayList<Player> players=new ArrayList<>();
@@ -27,7 +27,7 @@ class MapTextViewTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)", v.displayMap(players));
+                "0 units in a6 (next to: a5)", v.displayMap(m,players));
     }
     @Test
     public void testDisplayUnitInfo() throws IOException {
@@ -37,7 +37,7 @@ class MapTextViewTest {
         Unit u = new BasicUnit(5, p);
         t.moveIn(u);
         m.addTerritory(t);
-        MapTextView v = new MapTextView(m);
+        MapTextView v = new MapTextView();
 
         StringBuilder sb = new StringBuilder();
         v.displayUnitInfo(sb, t);
@@ -56,7 +56,7 @@ class MapTextViewTest {
         t.addAdjacent(a2);
         t.addAdjacent(a3);
         map.addTerritory(t);
-        MapTextView v = new MapTextView(map);
+        MapTextView v = new MapTextView();
         StringBuilder sb = new StringBuilder();
         sb.append(v.displayAdjacentInfo(t));
         assertEquals(" (next to: a, b, c)\n", sb.toString());

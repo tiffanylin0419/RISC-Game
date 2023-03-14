@@ -17,7 +17,7 @@ class ClientThreadTest {
         ServerSocket ss = new ServerSocket(1231);
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
-        View mapView = new MapTextView(m);
+        View mapView = new MapTextView();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
@@ -32,7 +32,7 @@ class ClientThreadTest {
         players.add(new Player("Red"));
 
         clis.add(cliSocket);
-        ClientThread th = new ClientThread(clis, color, mapView.displayMap(players));
+        ClientThread th = new ClientThread(clis, color, mapView.displayMap(m,players));
         th.start();
 
         cli.run();
@@ -56,7 +56,7 @@ class ClientThreadTest {
     public void testServerHandlesIOException() throws Exception {
         Map m = new Game1Map();
         m.addTerritory(new BasicTerritory("Planto"));
-        View mapView = new MapTextView(m);
+        View mapView = new MapTextView();
 
         // Create mock objects
         Socket mockSocket = mock(Socket.class);
@@ -75,7 +75,7 @@ class ClientThreadTest {
         players.add(new Player("Red"));
 
         clis.add(mockSocket);
-        ClientThread clientThread = new ClientThread(clis, color, mapView.displayMap(players));
+        ClientThread clientThread = new ClientThread(clis, color, mapView.displayMap(m,players));
         doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
         clientThread.start();
 

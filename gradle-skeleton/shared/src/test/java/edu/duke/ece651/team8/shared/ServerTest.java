@@ -24,7 +24,7 @@ public class ServerTest {
     public void testIOException() throws Exception {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
-        View mapView = new MapTextView(m);
+        View mapView = new MapTextView();
 
         // Create mock objects
         ServerSocket mockSs = mock(ServerSocket.class);

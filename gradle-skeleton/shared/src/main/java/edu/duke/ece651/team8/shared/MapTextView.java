@@ -5,18 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MapTextView implements View {
-    /** The map to display*/
-    private final Map toDisplay;
 
-    /** List of players*/
-    //private final ArrayList<Player> players;
-
-    public MapTextView(Map toDisplay) {
-        this.toDisplay = toDisplay;
-    }
+    public MapTextView() {}
     @Override
-    public String displayMap(ArrayList<Player> players) {
-        ArrayList<ArrayList<Territory>> groups = toDisplay.getTerritoryGroups();
+    public String displayMap(Map theMap, ArrayList<Player> players) {
+        ArrayList<ArrayList<Territory>> groups = theMap.getTerritoryGroups();
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < groups.size(); i++) {
             sb.append(players.get(i).getColor() + " Player:\n-------------\n");
