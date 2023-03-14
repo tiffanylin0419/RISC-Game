@@ -3,11 +3,8 @@ package edu.duke.ece651.team8.shared;
 import java.util.*;
 
 public class V1MapFactory implements AbstractMapFactory {
-//    private ArrayList<Territory> territories;
-
     private final int territoryAmount;
 
-//    private ArrayList<ArrayList<Territory>> territoryGroups;
     private String[] territoryNameList;
 
     private String[] colors;
@@ -33,22 +30,12 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     @Override
     public Game1Map createMap(int playerAmount) {
-        this.territories = createTerritories(playerAmount);
+        createTerritories(playerAmount);
         Game1Map theMap=new Game1Map(territories);
         connectAdjacentTerritory(playerAmount, theMap);
         return theMap;
     }
 
-    /**
-     * create n territory groups (n equals to playerAmount)
-     * @param playerAmount
-     * @param territoryGroups
-     */
-    private void createTerritoryGroups(int playerAmount, ArrayList<ArrayList<Territory>> territoryGroups) {
-        for (int i = 0; i < playerAmount; ++i) {
-            territoryGroups.add(new ArrayList<>());
-        }
-    }
 
     /**
      * create n Players (n equals to playerAmount) with their territories inside
@@ -56,34 +43,47 @@ public class V1MapFactory implements AbstractMapFactory {
      * @return list of players
      */
     public ArrayList<Player> createPlayers(int playerAmount) {
-        //this.territories = createTerritories(playerAmount);
-        ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
-        createTerritoryGroups(playerAmount, territoryGroups);
-        separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
         ArrayList<Player> players=new ArrayList<>();
         for (int i = 0; i < playerAmount; ++i) {
-            Player p=new TextPlayer(colors[i]);
-            for (Territory t: territoryGroups.get(i)){
-                p.addTerritory(t);
-            }
-            players.add(p);
+            players.add(createPlayer(i,playerAmount));
         }
         return players;
     }
 
-    private ArrayList<Territory> createTerritories(int playerAmount) {
+    /**
+     * create a player with its color and territories info
+     * @param num
+     * @param playerNum
+     * @return Player
+     */
+    private Player createPlayer(int num, int playerNum){
+        Player player=new TextPlayer(colors[num]);
+        for (int i = 0; i < territoryAmount; ++i) {
+            player.addTerritory(territories.get(6*num+i));
+        }
+        return player;
+    }
+
+    /**
+     * create 6*playerAmount of territories
+     * @param playerAmount
+     */
+    private void createTerritories(int playerAmount) {
         ArrayList<Territory> territories = new ArrayList<>();
         for (int i = 0; i < playerAmount * 6; ++i) {
             Territory t = new BasicTerritory(this.territoryNameList[i]);
             territories.add(t);
         }
-        return territories;
+        this.territories =  territories;
     }
 
-
+    /**
+     * connect the territories in theMap
+     * @param playerAmount
+     * @param theMap
+     */
     private void connectAdjacentTerritory(int playerAmount, Map theMap) {
         //up, left, down, right
-        ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
             for (int j = 0; j < 6; ++j) {
                 if (i != playerAmount - 1) {
@@ -92,19 +92,6 @@ public class V1MapFactory implements AbstractMapFactory {
                 if (j % 6 != 5) {
                     theMap.addAdjacency(territories.get(i * 6 + j),territories.get(i * 6 + j + 1));
                 }
-            }
-        }
-    }
-
-    /**
-     * separate territories as groups
-     */
-    public void separateTerritoriesToGroups(ArrayList<ArrayList<Territory>> territoryGroups, ArrayList<Territory> territories, int playerAmount) {
-        int index = 0;
-        for (int num = 0; num < playerAmount; ++num) {
-            for (int i = 0; i < territoryAmount; ++i) {
-                territoryGroups.get(num).add(territories.get(index));
-                ++index;
             }
         }
     }
