@@ -135,7 +135,7 @@ public class ClientTest {
         Client cli = new Client(1334, "localhost", output);
         cli.display();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("unassigned\n", actual);
+        assertEquals("\n", actual);
 
         s.stop();
         serverThread.join();
