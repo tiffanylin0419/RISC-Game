@@ -22,7 +22,7 @@ class MapTextViewTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)", v.displayMap(m,players));
+                "0 units in a6 (next to: a5)", v.displayMap(players));
     }
     @Test
     public void testDisplayUnitInfo() throws IOException {

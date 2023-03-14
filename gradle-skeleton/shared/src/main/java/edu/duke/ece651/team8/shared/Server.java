@@ -47,7 +47,7 @@ public class Server {
         }
         this.theMap = theMap;
         this.mapView = new MapTextView();
-        this.mapInfo = mapView.displayMap(theMap,players);
+        this.mapInfo = mapView.displayMap(players);
         this.clients = new ArrayList<>();
         this.clientNum = clientNum;
         this.isListening = true;
@@ -69,7 +69,6 @@ public class Server {
                 System.out.println(e.getMessage());
             }
         }
-
     }
     public void connectOneGame() throws IOException{
         List<Socket> oneGameClients = new ArrayList<>();

@@ -30,7 +30,7 @@ class ClientThreadTest {
         ArrayList<Player> players=factory.createPlayers(1);
 
         clis.add(cliSocket);
-        ClientThread th = new ClientThread(clis, color, mapView.displayMap(m,players));
+        ClientThread th = new ClientThread(clis, color, mapView.displayMap(players));
         th.start();
 
         cli.run();
@@ -73,7 +73,7 @@ class ClientThreadTest {
         players.add(new Player("Red"));
 
         clis.add(mockSocket);
-        ClientThread clientThread = new ClientThread(clis, color, mapView.displayMap(m,players));
+        ClientThread clientThread = new ClientThread(clis, color, mapView.displayMap(players));
         doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
         clientThread.start();
 
