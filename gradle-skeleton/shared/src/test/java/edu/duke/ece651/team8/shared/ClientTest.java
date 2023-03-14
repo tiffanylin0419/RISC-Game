@@ -74,11 +74,11 @@ public class ClientTest {
                 "Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: a2)\n" +
-                "0 units in a2 (next to: a3)\n" +
-                "0 units in a3 (next to: a4)\n" +
-                "0 units in a4 (next to: a5)\n" +
-                "0 units in a5 (next to: a6)\n" +
-                "0 units in a6 (next to: )\n", actual);
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)\n", actual);
 
         s.stop();
         serverThread.join();

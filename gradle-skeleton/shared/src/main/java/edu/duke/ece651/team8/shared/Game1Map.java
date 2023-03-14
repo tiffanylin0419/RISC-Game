@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 public class Game1Map implements Map {
   // field
-  ArrayList<Territory> territories;
-  ArrayList<ArrayList<Territory>> territoryGroups;
+  private ArrayList<Territory> territories;
+  private ArrayList<ArrayList<Territory>> territoryGroups;
 
 //  ArrayList<Player> players;
 
@@ -53,6 +53,10 @@ public class Game1Map implements Map {
     return territories.iterator();
   }
 
+  @Override
+  public ArrayList<Territory> getTerritories(){
+    return territories;
+  }
   @Override
   public void addAdjacency(Territory t1, Territory t2){
     t1.addAdjacent(t2);

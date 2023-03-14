@@ -26,11 +26,12 @@ public class V1MapFactory implements AbstractMapFactory {
     @Override
     public Game1Map createMap(int playerAmount) {
         ArrayList<Territory> territories = createTerritories(playerAmount);
-        connectAdjacentTerritory(playerAmount, territories);
         ArrayList<ArrayList<Territory>> territoryGroups = new ArrayList<>();
         createTerritoryGroups(playerAmount, territoryGroups);
         separateTerritoriesToGroups(territoryGroups, territories, playerAmount);
-        return new Game1Map(territoryGroups);
+        Game1Map theMap=new Game1Map(territoryGroups);
+        connectAdjacentTerritory(playerAmount, theMap);
+        return theMap;
     }
 
     /**
@@ -51,17 +52,17 @@ public class V1MapFactory implements AbstractMapFactory {
         return territories;
     }
 
-    private void connectAdjacentTerritory(int playerAmount, ArrayList<Territory> territories) {
+
+    private void connectAdjacentTerritory(int playerAmount, Map theMap) {
+        //up, left, down, right
+        ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
             for (int j = 0; j < 6; ++j) {
-                Territory t = territories.get(i * 6 + j);
                 if (i != playerAmount - 1) {
-                    Territory adj = territories.get((i + 1) * 6 + j);
-                    t.addAdjacent(adj);
+                    theMap.addAdjacency(territories.get(i * 6 + j),territories.get((i + 1) * 6 + j));
                 }
                 if (j % 6 != 5) {
-                    Territory adj = territories.get(i * 6 + j + 1);
-                    t.addAdjacent(adj);
+                    theMap.addAdjacency(territories.get(i * 6 + j),territories.get(i * 6 + j + 1));
                 }
             }
         }
