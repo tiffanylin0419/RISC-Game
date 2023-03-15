@@ -43,12 +43,9 @@ public class BasicTerritoryTest {
     Territory t = new BasicTerritory(s,p1);
     assertTrue(t.isOwner(p1));
     assertTrue(p1.containsTerritory(t));
-    Player p2=new TextPlayer("blue");
-    t.changeOwner(p2);
-    assertTrue(t.isOwner(p2));
+    t.changeOwner();
     assertFalse(t.isOwner(p1));
     assertFalse(p1.containsTerritory(t));
-    assertTrue(p2.containsTerritory(t));
   }
 
   @Test
@@ -105,7 +102,7 @@ public class BasicTerritoryTest {
     assertEquals(2,territory.getUnitAmount(1));
     territory.moveOut(new BasicUnit(8,p1));
     assertEquals(2,territory.getUnitAmount(0));
-    assertEquals(0,territory.getOwnerUnitAmount());
+    assertEquals(2,territory.getOwnerUnitAmount());
     assertFalse(territory.isOwner(p1));
   }
   
@@ -152,17 +149,17 @@ public class BasicTerritoryTest {
 
     Player p1=players.get(0);
     theMap.getTerritories().get(0).moveIn(new BasicUnit(5,p1));
+    theMap.getTerritories().get(0).moveOut(new BasicUnit(2,p1));
     theMap.getTerritories().get(1).moveIn(new BasicUnit(4,p1));
     theMap.getTerritories().get(2).moveIn(new BasicUnit(3,p1));
     theMap.getTerritories().get(3).moveIn(new BasicUnit(2,p1));
     theMap.getTerritories().get(4).moveIn(new BasicUnit(1,p1));
     theMap.getTerritories().get(5).moveIn(new BasicUnit(9,p1));
 
-
     assertEquals(1,theMap.getTerritories().get(0).getUnitsSize());
-    assertEquals(5,theMap.getTerritories().get(0).getUnitAmount(0));
+    assertEquals(3,theMap.getTerritories().get(0).getUnitAmount(0));
     assertTrue(theMap.getTerritories().get(0).isOwner(p1));
-    assertEquals(5,theMap.getTerritories().get(0).getOwnerUnitAmount());
+    assertEquals(3,theMap.getTerritories().get(0).getOwnerUnitAmount());
 
   }
 }

@@ -49,21 +49,20 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public void changeOwner(Player new_owner){
+  public void changeOwner(){
     Player old_owner=this.owner;
     if(old_owner!=null){
       old_owner.tryRemoveTerritory(this);
     }
-    if(new_owner!=null) {
-      new_owner.addTerritory(this);
+    if (units.size()==0){
+      this.owner=null;
     }
-    this.owner=new_owner;
+    else{
+      this.owner=units.get(0).getOwner();
+      this.owner.addTerritory(this);
+    }
   }
 
-  /*  @Override
-  public Player getOwner(){
-    return this.owner;
-    }*/
   @Override
   public boolean isOwner(Player owner){
     if(this.owner==null){
@@ -111,7 +110,7 @@ public class BasicTerritory implements Territory {
   public void moveIn(Unit unit_in) {
     if(units.isEmpty()){
       units.add(unit_in);
-      changeOwner(unit_in.getOwner());
+      changeOwner();
       return;
     }
     for(Unit unit: units){
@@ -130,7 +129,7 @@ public class BasicTerritory implements Territory {
         if (unit.getAmount()==0){
           units.remove(unit);
           if(isOwner(unit.getOwner())){
-            changeOwner(null);
+            changeOwner();
           }
         }
         return;
@@ -195,7 +194,7 @@ public class BasicTerritory implements Territory {
   @Override
   public void attack() {
     if(units.size()==0){
-      changeOwner(null);
+      changeOwner();
       return;
     }
     else if(units.size()==2){
@@ -203,7 +202,7 @@ public class BasicTerritory implements Territory {
     }else{
       manyToOneAttack();
     }
-    changeOwner(units.get(0).getOwner());
+    changeOwner();
   }
 
   @Override

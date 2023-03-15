@@ -35,7 +35,7 @@ public interface Territory {
    * will remove this territory from old owner into new owner
    * @param new_owner the new owner
    */
-  public void changeOwner(Player new_owner);
+  public void changeOwner();
 
   /**
    * check if input is the owner
