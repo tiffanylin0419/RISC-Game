@@ -107,6 +107,7 @@ public class BasicTerritoryTest {
     assertEquals(2,territory.getUnitAmount(1));
     territory.moveOut(new BasicUnit(8,p1));
     assertEquals(2,territory.getUnitAmount(0));
+    assertEquals(0,territory.getOwnerUnitAmount());
     assertTrue(territory.isOwner(p1));
   }
   
@@ -120,7 +121,6 @@ public class BasicTerritoryTest {
     territory.moveIn(new BasicUnit(2,p2));
     territory.attack();
     assertEquals(1,territory.getUnitsSize());
-  
   }
   @Test
   public void test_attack3(){
@@ -136,9 +136,11 @@ public class BasicTerritoryTest {
       territory.moveIn(new BasicUnit(4,p3));
       territory.moveIn(new BasicUnit(1,p4));
       territory.moveIn(new BasicUnit(4,p5));
+      assertEquals(4,territory.getOwnerUnitAmount());
       territory.attack();
       assertEquals(1,territory.getUnitsSize());
       assertEquals(0,territory.getUnitAmount(1));
+
       //might be wrong but less likely
       //assertTrue(territory.isOwner(p1)||territory.isOwner(p3)||territory.isOwner(p5));
   }

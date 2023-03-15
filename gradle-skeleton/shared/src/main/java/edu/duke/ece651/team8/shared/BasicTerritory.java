@@ -212,6 +212,16 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
+  public int getOwnerUnitAmount(){
+    for(Unit unit: units){
+      if(unit.getOwner().equals(owner)){
+        return unit.getAmount();
+      }
+    }
+    return 0;
+  }
+
+  @Override
   public int getUnitsSize(){
     return units.size();
   }

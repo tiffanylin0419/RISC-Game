@@ -96,6 +96,11 @@ public interface Territory {
   public int getUnitAmount(int n);
 
   /**
+   * @return the amount of units of the owner of the territory
+   */
+  public int getOwnerUnitAmount();
+
+  /**
    * @return size of units
    */
   public int getUnitsSize();
