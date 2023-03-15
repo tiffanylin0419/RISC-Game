@@ -33,12 +33,14 @@ public interface Territory {
    * must use this function when changing owner
    * change the owner to new_owner
    * will remove this territory from old owner into new owner
+   *
    * @param new_owner the new owner
    */
   public void changeOwner();
 
   /**
    * check if input is the owner
+   *
    * @param owner
    * @return True if input is the owner, False if otherwise
    */
@@ -46,6 +48,7 @@ public interface Territory {
 
   /**
    * add adjacent into adjacent_territory
+   *
    * @param adjacent
    */
   public void addAdjacent(Territory adjacent);
@@ -61,6 +64,7 @@ public interface Territory {
 
   /**
    * input territory has different owner as this
+   *
    * @param adjacent
    * @return True if input is adjacent to this, False otherwise
    * adjacent mean that it is directly adjacent to this
@@ -70,12 +74,14 @@ public interface Territory {
   /**
    * add unit_in into units
    * will modify existing list if units have unit that has the same owner
+   *
    * @param unit_in
    */
   public void moveIn(Unit unit_in);
 
   /**
    * move out the amount of units
+   *
    * @param unit_out
    */
   public void moveOut(Unit unit_out);
@@ -104,6 +110,4 @@ public interface Territory {
    * @return size of units
    */
   public int getUnitsSize();
-
-  public void setOwner(Player player);
 }

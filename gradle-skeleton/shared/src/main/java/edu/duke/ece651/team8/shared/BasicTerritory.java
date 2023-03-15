@@ -229,11 +229,6 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public void setOwner(Player player) {
-    this.owner = player;
-  }
-
-  @Override
   public ArrayList<Territory> getAdjList() {
     return this.adjList;
   }
