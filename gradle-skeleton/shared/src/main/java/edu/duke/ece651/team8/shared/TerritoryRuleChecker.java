@@ -7,11 +7,10 @@ public class TerritoryRuleChecker extends MovementRuleChecker {
 
     /**
      * check if territory exists in map
-     * @param theMap
      * @param action
      * @return
      */
-    protected String checkMyRule(Map theMap, Action action){
+    protected String checkMyRule(Action action){
         if(action.getSource()==null){
             return "Source "+action.getSourceText()+" not in map";
         }

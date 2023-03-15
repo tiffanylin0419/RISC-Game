@@ -7,16 +7,16 @@ public class OwnershipRuleChecker extends MovementRuleChecker {
 
     /**
      * check if the source and destination belongs to who it should belong to
-     * @param theMap
      * @param action
      * @return
      */
-    protected String checkMyRule(Map theMap, Action action){
-        if(action.getCount()<=action.getSource().getOwnerUnitAmount()){
-            return null;
+    protected String checkMyRule(Action action){
+        if(!action.isValidSource()){
+            return "Cannot choose "+action.getSourceText()+" as source for this action";
         }
-        else{
-            return "Requested "+action.getCount()+" units, but only have "+action.getSource().getOwnerUnitAmount();
+        else if(!action.isValidDestination()){
+            return "Cannot choose "+action.getDestinationText()+" as destination for this action";
         }
+        return null;
     }
 }

@@ -39,7 +39,7 @@ class MoveActionTest {
     }
 
     @Test
-    void test_isValidSource_Destination(){
+    void test_isValidSource_Destination_Path(){
         V1MapFactory factory = new V1MapFactory();
         Game1Map map = factory.createMap(4);
         ArrayList<Player> players=factory.createPlayers(4,map);
@@ -61,11 +61,12 @@ class MoveActionTest {
 
         Action action4=new MoveAction(players.get(0),"a1","b2",3,map);
         assertFalse(action4.isValidDestination());
+        assertFalse(action4.isValidPath());
 
-    }
 
-    @Test
-    void test_isValidDestination(){
-
+        Action action5=new MoveAction(players.get(0),"a2","a3",3,map);
+        action5.getSource().moveIn(new BasicUnit(4,players.get(0)));
+        action5.getDestination().moveIn(new BasicUnit(6,players.get(0)));
+        assertTrue(action5.isValidPath());
     }
 }
