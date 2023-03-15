@@ -15,7 +15,7 @@ public class TerritoryRuleChecker extends MovementRuleChecker {
         if(action.getSource()==null){
             return "Source "+action.getSourceText()+" not in map";
         }
-        if(action.getDestination()==null){
+        else if(action.getDestination()==null){
             return "Destination "+action.getDestinationText()+" not in map";
         }
         return null;

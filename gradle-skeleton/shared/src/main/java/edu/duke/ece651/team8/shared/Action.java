@@ -41,6 +41,17 @@ public abstract class Action {
     protected abstract void doAction(Map theMap);
 
     /**
+     * check if source is valid for the player
+     * @return
+     */
+    protected abstract boolean isValidSource();
+
+    /**
+     * check if detination is valid for the player
+     * @return
+     */
+    protected abstract boolean isValidDestination();
+    /**
      * @return player
      */
     public Player getPlayer(){return player;}

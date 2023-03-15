@@ -37,4 +37,35 @@ class MoveActionTest {
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(4,d.getUnitAmount(1));
     }
+
+    @Test
+    void test_isValidSource_Destination(){
+        V1MapFactory factory = new V1MapFactory();
+        Game1Map map = factory.createMap(4);
+        ArrayList<Player> players=factory.createPlayers(4,map);
+
+        ArrayList<Territory> territories=map.getTerritories();
+        Territory s=territories.get(0);
+        Territory d=territories.get(7);
+        s.moveIn(new BasicUnit(4,players.get(0)));
+        d.moveIn(new BasicUnit(5,players.get(1)));
+
+        Action action1=new MoveAction(players.get(0),"a1","b2",3,map);
+        assertTrue(action1.isValidSource());
+
+        Action action2=new MoveAction(players.get(1),"a1","b2",3,map);
+        assertFalse(action2.isValidSource());
+
+        Action action3=new MoveAction(players.get(1),"a1","b2",3,map);
+        assertTrue(action3.isValidDestination());
+
+        Action action4=new MoveAction(players.get(0),"a1","b2",3,map);
+        assertFalse(action4.isValidDestination());
+
+    }
+
+    @Test
+    void test_isValidDestination(){
+
+    }
 }

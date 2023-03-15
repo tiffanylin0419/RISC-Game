@@ -31,6 +31,7 @@ class TerritoryRuleCheckerTest {
         Action action2 =new MoveAction(p1,"a9","a2",3,theMap);
         assertEquals("Source a9 not in map",checker.checkMyRule(theMap,action2));
 
-
+        Action action3 =new MoveAction(p1,"a1","a2",3,theMap);
+        assertNull(checker.checkMyRule(theMap,action3));
     }
 }
