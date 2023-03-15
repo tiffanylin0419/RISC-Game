@@ -7,12 +7,11 @@ public class PathRuleChecker  extends MovementRuleChecker {
 
     /**
      * check if the source can connect to destination
-     * @param theMap
      * @param action
      * @return
      */
-    protected String checkMyRule(Map theMap, Action action){
-
-        return null;
+    protected String checkMyRule(Action action){
+        //action.isValidPath()
+        return "";
     }
 }

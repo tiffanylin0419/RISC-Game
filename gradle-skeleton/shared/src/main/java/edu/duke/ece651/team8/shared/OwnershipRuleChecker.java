@@ -7,11 +7,10 @@ public class OwnershipRuleChecker extends MovementRuleChecker {
 
     /**
      * check if the source and destination belongs to who it should belong to
-     * @param theMap
      * @param action
      * @return
      */
-    protected String checkMyRule(Map theMap, Action action){
+    protected String checkMyRule(Action action){
         if(!action.isValidSource()){
             return "Cannot choose "+action.getSourceText()+" as source for this action";
         }

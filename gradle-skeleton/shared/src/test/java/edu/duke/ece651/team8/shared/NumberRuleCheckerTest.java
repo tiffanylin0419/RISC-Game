@@ -24,13 +24,13 @@ class NumberRuleCheckerTest {
 
         MovementRuleChecker checker= new NumberRuleChecker(null) ;
         Action action1 =new MoveAction(p1,"a1","a3",3,theMap);
-        assertNull(checker.checkMyRule(theMap,action1));
+        assertNull(checker.checkMyRule(action1));
 
         Action action2 =new MoveAction(p1,"a1","a3",5,theMap);
-        assertNull(checker.checkAllRule(theMap,action2));
+        assertNull(checker.checkAllRule(action2));
 
         Action action3 =new MoveAction(p1,"a1","a3",6,theMap);
-        assertEquals("Requested 6 units, but only have 5",checker.checkAllRule(theMap,action3));
+        assertEquals("Requested 6 units, but only have 5",checker.checkAllRule(action3));
 
 
 

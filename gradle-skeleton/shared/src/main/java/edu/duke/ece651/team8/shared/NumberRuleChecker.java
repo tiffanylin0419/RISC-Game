@@ -7,11 +7,10 @@ public class NumberRuleChecker extends MovementRuleChecker {
 
     /**
      * check if count of the action is small enough to be conducted
-     * @param theMap
      * @param action
      * @return
      */
-    protected String checkMyRule(Map theMap, Action action){
+    protected String checkMyRule(Action action){
         if(action.getCount()<=action.getSource().getOwnerUnitAmount()){
             return null;
         }
