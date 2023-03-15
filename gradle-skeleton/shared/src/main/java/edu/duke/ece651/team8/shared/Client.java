@@ -9,7 +9,7 @@ public class Client {
     protected Socket socket;
     /** OutStream to server */
     PrintWriter output;
-    /** InputStreams from server */
+    /** InputStream from server */
     InputStream inputStream;
     /** Reader for server message*/
     BufferedReader reader;
@@ -50,6 +50,7 @@ public class Client {
         this.inputStream = socket.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
         this.input = new BufferedReader(new InputStreamReader(in));
+        output = new PrintWriter(s.getOutputStream());
     }
 
     /** execute the client */
@@ -59,12 +60,6 @@ public class Client {
             receiveMapInfo();
             display();
             doInitialPlacement();
-//            receive();
-//            receive();
-//            receive();
-//            receive();
-//            receiveMapInfo();
-//            displayMap();
             reader.close();
             inputStream.close();
             socket.close();
@@ -86,7 +81,6 @@ public class Client {
         }
         buffer = sb.toString();
     }
-
     public void send(String message) throws IOException {
         output.println(message);
         output.print(END_OF_TURN);
@@ -106,23 +100,6 @@ public class Client {
         receive();
         mapInfo = buffer;
     }
-//    /**
-//     * Receive the string info from the server
-//     */
-//    public void receive() throws IOException {
-//        InputStream inputStream = socket.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//        StringBuilder sb = new StringBuilder();
-//        color = reader.readLine();
-//        String receLine = reader.readLine();
-//        while(receLine != null) {
-//            sb.append(receLine + "\n");
-//            receLine = reader.readLine();
-//        }
-//        mapInfo = sb.toString();
-//        reader.close();
-//        inputStream.close();
-//    }
 
     public void doInitialPlacement()throws IOException{
         receive();
@@ -140,8 +117,7 @@ public class Client {
                 break;
             }
         }
-        receive();
-        out.print(buffer);
+
     }
 
     public void tryDoPlacementChoice(String prompt,BufferedReader input)throws Exception{
@@ -149,10 +125,6 @@ public class Client {
         String s = input.readLine();
         if(isNonNegativeInt(s)){
             send(s);
-            receive();
-            if (!buffer.equals("valid")) {
-                throw new IllegalArgumentException(buffer);
-            }
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
         }

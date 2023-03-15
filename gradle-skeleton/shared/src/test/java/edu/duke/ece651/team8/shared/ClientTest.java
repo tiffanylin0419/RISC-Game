@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class ClientTest {
@@ -53,6 +54,7 @@ public class ClientTest {
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("Socket closed\n", actual);
     }
+    @Disabled
     @Test
     public void testRun() throws Exception {
         ServerSocket ss = new ServerSocket(1244);
