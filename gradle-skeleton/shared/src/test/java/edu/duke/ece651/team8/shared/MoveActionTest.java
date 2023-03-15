@@ -64,8 +64,4 @@ class MoveActionTest {
 
     }
 
-    @Test
-    void test_isValidDestination(){
-
-    }
 }
