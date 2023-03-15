@@ -11,7 +11,9 @@ public class PathRuleChecker  extends MovementRuleChecker {
      * @return
      */
     protected String checkMyRule(Action action){
-        //action.isValidPath()
-        return "";
+        if(action.isValidPath()){
+            return null;
+        }
+        return "Units in "+action.getSourceText()+" cannot go to "+action.getDestinationText();
     }
 }
