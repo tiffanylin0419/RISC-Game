@@ -1,11 +1,11 @@
 package edu.duke.ece651.team8.shared;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BasicTerritoryTest {
   @Test
@@ -13,8 +13,6 @@ public class BasicTerritoryTest {
     String s = "AbcdE";
     Territory t = new BasicTerritory(s);
     assertEquals(t.getName(), "AbcdE");
-    return;
-
   }
 
   @Test
@@ -22,8 +20,8 @@ public class BasicTerritoryTest {
     String s = "AbcdE";
     Territory t1 = new BasicTerritory(s);
     Territory t2 = new BasicTerritory(s);
-    assertTrue(t1.equals(t2));
-    assertFalse(t1.equals(s));
+    assertEquals(t1,t2);
+    assertNotEquals(t1,s);
   }
 
   @Test
@@ -143,5 +141,28 @@ public class BasicTerritoryTest {
 
       //might be wrong but less likely
       //assertTrue(territory.isOwner(p1)||territory.isOwner(p3)||territory.isOwner(p5));
+  }
+
+  @Test
+  public void test_getOwnerUnitAmount(){
+
+    AbstractMapFactory factory = new V1MapFactory();
+    Map theMap = factory.createMap(1);
+    ArrayList<Player> players=factory.createPlayers(1,theMap);
+
+    Player p1=players.get(0);
+    theMap.getTerritories().get(0).moveIn(new BasicUnit(5,p1));
+    theMap.getTerritories().get(1).moveIn(new BasicUnit(4,p1));
+    theMap.getTerritories().get(2).moveIn(new BasicUnit(3,p1));
+    theMap.getTerritories().get(3).moveIn(new BasicUnit(2,p1));
+    theMap.getTerritories().get(4).moveIn(new BasicUnit(1,p1));
+    theMap.getTerritories().get(5).moveIn(new BasicUnit(9,p1));
+
+
+    assertEquals(1,theMap.getTerritories().get(0).getUnitsSize());
+    assertEquals(5,theMap.getTerritories().get(0).getUnitAmount(0));
+    assertTrue(theMap.getTerritories().get(0).isOwner(p1));
+    assertEquals(5,theMap.getTerritories().get(0).getOwnerUnitAmount());
+
   }
 }

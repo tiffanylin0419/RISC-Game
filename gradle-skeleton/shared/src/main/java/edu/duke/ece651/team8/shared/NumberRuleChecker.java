@@ -12,7 +12,7 @@ public class NumberRuleChecker extends MovementRuleChecker {
      * @return
      */
     protected String checkMyRule(Map theMap, Action action){
-        if(action.getSource().getOwnerUnitAmount()<action.getCount()){
+        if(action.getCount()<=action.getSource().getOwnerUnitAmount()){
             return null;
         }
         else{

@@ -5,14 +5,30 @@ public abstract class Action {
     private Territory source;
     private Territory destination;
     private int count;
-    //constructor
-    public Action(Player player, String source, String destination, int count){
-        this.player=player;
-        this.source=new BasicTerritory(source);
-        this.destination=new BasicTerritory(destination);
-        this.count=count;
-    }
+    /**
+     * constructor
+     * source and destination will ber null if there is no territory named this stored in theMap
+     * @param player
+     * @param source
+     * @param destination
+     * @param count
+     * @param theMap
+     */
+    public Action(Player player, String source, String destination, int count, Map theMap) {
+        this.player = player;
+        this.source = null;
+        this.destination = null;
+        this.count = count;
 
+        for(Territory t: theMap.getTerritories()){
+            if(t.getName().equals(source)){
+                this.source=t;
+            }
+            if(t.getName().equals(destination)){
+                this.destination=t;
+            }
+        }
+    }
     /**
      * conduct the action
      * must apply rule checker before calling this function
