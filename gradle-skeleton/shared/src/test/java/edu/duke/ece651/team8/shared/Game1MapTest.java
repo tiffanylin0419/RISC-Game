@@ -25,7 +25,7 @@ public class Game1MapTest {
   public void testConstructor() {
     V1MapFactory factory = new V1MapFactory();
     Game1Map map = factory.createMap(4);
-    assertEquals("a6", map.getTerritoryGroups().get(0).get(5).getName());
+    assertEquals("a6", map.getTerritories().get(5).getName());
   }
   
   @Test

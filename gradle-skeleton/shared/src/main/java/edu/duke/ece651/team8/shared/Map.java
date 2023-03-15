@@ -21,7 +21,12 @@ public interface Map {
    * @return territories's iterator
    */
   public Iterator<Territory> getTerritoryIterator();
-  public ArrayList<ArrayList<Territory>> getTerritoryGroups();
+
+  /**
+   * @return territories
+   */
+  public ArrayList<Territory> getTerritories();
+
   /**
    * add adjacent connection between t1 and t2
    * will update the adjacent_territory field in t1 and t2

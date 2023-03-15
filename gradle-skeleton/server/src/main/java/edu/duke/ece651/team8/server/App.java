@@ -6,6 +6,7 @@ package edu.duke.ece651.team8.server;
 import edu.duke.ece651.team8.shared.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class App {
@@ -20,7 +21,8 @@ public class App {
     public static void main(String[] args) throws IOException {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(4);
-        Server server = new Server(1651, m, 4);
+        ArrayList<Player> players=factory.createPlayers(4,m);
+        Server server = new Server(1651, m, 4,players);
         server.run();
     }
 

@@ -13,8 +13,6 @@ public class V1MapFactoryTest {
     public void testCreateMap() {
         V1MapFactory factory = new V1MapFactory();
         Game1Map map = factory.createMap(4);
-        ArrayList<ArrayList<Territory>> groups = map.getTerritoryGroups();
-        assertEquals(4, groups.size());
         Iterator<Territory> it = map.getTerritoryIterator();
         for (int i = 0; i < 6; ++i) {
             assertEquals("a" + (i + 1), it.next().getName());

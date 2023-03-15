@@ -5,14 +5,24 @@ import java.io.*;
 import java.net.*;
 /** Client pattern of the game*/
 public class Client {
-    /** Client socket */
+    /** Client socket for communicate with server */
     protected Socket socket;
-    /** info to be transfer */
-    protected String mapInfo;
+    /** */
+    InputStream inputStream;
+    /***/
+    BufferedReader reader;
+    /** Buffer for message from server */
+    protected String buffer;
     /** Output stream of the client*/
     protected PrintStream out;
-    /** Player owned by the client */
-    protected Player thePlayer;
+    /** Input stream of the client*/
+    protected BufferedReader input;
+    /** info to be transfer */
+    protected String mapInfo;
+    /**client player color*/
+    protected String color;
+
+    final String END_OF_TURN = "END_OF_TURN";
     /**
      * Constructs a server with specified port
      *
@@ -20,60 +30,105 @@ public class Client {
      * @param host is the address of the server
      */
     public Client(int port, String host) throws IOException {
-        this(new Socket(host, port), System.out);
+        this(new Socket(host, port), System.out, System.in);
     }
 
     /**
      * @param out is the output stream of the client
      * @throws IOException
      */
-    public Client(int port, String host, PrintStream out) throws IOException {
-        this(new Socket(host, port), out);
+    public Client(int port, String host, PrintStream out, InputStream in) throws IOException {
+        this(new Socket(host, port), out,in);
     }
-    public Client(Socket s, PrintStream out) throws IOException {
+    public Client(Socket s, PrintStream out,InputStream in) throws IOException {
         this.socket = s;
         this.out = out;
-        this.thePlayer = new TextPlayer("unassigned");
         this.mapInfo = new String();
+        this.color= new String();
+        this.inputStream = socket.getInputStream();
+        this.reader = new BufferedReader(new InputStreamReader(inputStream));
+        this.input = new BufferedReader(new InputStreamReader(in));
     }
 
     /** execute the client */
     public void run() {
         try {
-            receive();
+            receiveColor();
+            receiveMapInfo();
             display();
+            reader.close();
+            inputStream.close();
             socket.close();
         } catch (IOException e) {
-            out.println("Out/Input stream error");
+            out.println(e.getMessage());
         }
     }
 
     /**
-     * Receive the string info from the server
+     * Receive the string info from the server into serverBuffer, NEED close the bufferReader after use this function
      */
     public void receive() throws IOException {
-        InputStream inputStream = socket.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
-        String color = reader.readLine();
-        int num = Integer.parseInt(reader.readLine());
-        thePlayer.setColor(color);
-        thePlayer.setUnitMax(num);
+        sb.append(reader.readLine());
         String receLine = reader.readLine();
-        while(receLine != null) {
-            sb.append(receLine + "\n");
+        while(!receLine.equals(END_OF_TURN)) {
+            sb.append("\n"+receLine);
             receLine = reader.readLine();
         }
-        mapInfo = sb.toString();
-        reader.close();
-        inputStream.close();
+        buffer = sb.toString();
+    }
+
+    /**
+     * receive color string from server
+     * @throws IOException
+     */
+    public void receiveColor()throws  IOException{
+        receive();
+        color = buffer;
+    }
+
+    public void receiveMapInfo()throws  IOException{
+        receive();
+        mapInfo = buffer;
+    }
+//    /**
+//     * Receive the string info from the server
+//     */
+//    public void receive() throws IOException {
+//        InputStream inputStream = socket.getInputStream();
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//        StringBuilder sb = new StringBuilder();
+//        color = reader.readLine();
+//        String receLine = reader.readLine();
+//        while(receLine != null) {
+//            sb.append(receLine + "\n");
+//            receLine = reader.readLine();
+//        }
+//        mapInfo = sb.toString();
+//        reader.close();
+//        inputStream.close();
+//    }
+
+    public void doInitialPlacement()throws IOException{
+        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        String prompt = "please do your initial placement";
+        tryDoPlacementChoice(prompt,input);
+    }
+
+    public static String tryDoPlacementChoice(String prompt,BufferedReader input)throws IOException{
+        System.out.print(prompt);
+        String s = input.readLine();
+        //send(s);
+        //receive(s);
+        return s;
     }
 
     /**
      * Display map info
      */
     public void display() {
-        out.println(thePlayer.getColor());
+        out.println(color);
         displayMap();
     }
     public void displayMap() {

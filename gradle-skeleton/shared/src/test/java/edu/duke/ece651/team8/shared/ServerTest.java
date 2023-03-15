@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -14,17 +15,19 @@ import static org.mockito.Mockito.*;
 public class ServerTest {
     @Test
     public void testConstructor() throws IOException {
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        Server s = new Server(1236, m, 4);
+
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(4);
+        ArrayList<Player> players=factory.createPlayers(4,m);
+        Server s = new Server(1236, m, 4,players);
         assertEquals(1236, s.getPort());
     }
     @Test()
     public void testIOException() throws Exception {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(1);
-        View mapView = new MapTextView(m);
+        View mapView = new MapTextView();
 
         // Create mock objects
         ServerSocket mockSs = mock(ServerSocket.class);
@@ -32,8 +35,11 @@ public class ServerTest {
         // Set up mock socket
         when(mockSs.accept()).thenReturn(mockSocket);
 
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Green"));
+
         // Create client thread with mock socket
-        Server s = new Server(mockSs, m, 1);
+        Server s = new Server(mockSs, m, 1,players);
         doThrow(new IOException("Socket closed")).when(mockSs).accept();
         Thread serverThread = new Thread(() -> {
             s.run();
@@ -57,7 +63,9 @@ public class ServerTest {
         AbstractMapFactory factory = new V1MapFactory();
         Map m = factory.createMap(2);
 
-        Server s = new Server(ss, m, 2);
+        ArrayList<Player> players=factory.createPlayers(2,m);
+
+        Server s = new Server(ss, m, 2, players);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -66,46 +74,46 @@ public class ServerTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1216, "localhost", output);
+        Client cli = new Client(1216, "localhost", output, System.in);
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
         PrintStream output1 = new PrintStream(bytes1, true);
-        Client cli1 = new Client(1216, "localhost", output1);
+        Client cli1 = new Client(1216, "localhost", output1, System.in);
 
         checkClientHelper(bytes, cli, "Green\n" +
                 "Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: b1, a2)\n" +
-                "0 units in a2 (next to: b2, a3)\n" +
-                "0 units in a3 (next to: b3, a4)\n" +
-                "0 units in a4 (next to: b4, a5)\n" +
-                "0 units in a5 (next to: b5, a6)\n" +
-                "0 units in a6 (next to: b6)\n" +
+                "0 units in a2 (next to: a1, b2, a3)\n" +
+                "0 units in a3 (next to: a2, b3, a4)\n" +
+                "0 units in a4 (next to: a3, b4, a5)\n" +
+                "0 units in a5 (next to: a4, b5, a6)\n" +
+                "0 units in a6 (next to: a5, b6)\n" +
                 "Red Player:\n" +
                 "-------------\n" +
-                "0 units in b1 (next to: b2)\n" +
-                "0 units in b2 (next to: b3)\n" +
-                "0 units in b3 (next to: b4)\n" +
-                "0 units in b4 (next to: b5)\n" +
-                "0 units in b5 (next to: b6)\n" +
-                "0 units in b6 (next to: )\n");
+                "0 units in b1 (next to: a1, b2)\n" +
+                "0 units in b2 (next to: a2, b1, b3)\n" +
+                "0 units in b3 (next to: a3, b2, b4)\n" +
+                "0 units in b4 (next to: a4, b3, b5)\n" +
+                "0 units in b5 (next to: a5, b4, b6)\n" +
+                "0 units in b6 (next to: a6, b5)");
         checkClientHelper(bytes1, cli1, "Red\n" +
                 "Green Player:\n" +
                 "-------------\n" +
                 "0 units in a1 (next to: b1, a2)\n" +
-                "0 units in a2 (next to: b2, a3)\n" +
-                "0 units in a3 (next to: b3, a4)\n" +
-                "0 units in a4 (next to: b4, a5)\n" +
-                "0 units in a5 (next to: b5, a6)\n" +
-                "0 units in a6 (next to: b6)\n" +
+                "0 units in a2 (next to: a1, b2, a3)\n" +
+                "0 units in a3 (next to: a2, b3, a4)\n" +
+                "0 units in a4 (next to: a3, b4, a5)\n" +
+                "0 units in a5 (next to: a4, b5, a6)\n" +
+                "0 units in a6 (next to: a5, b6)\n" +
                 "Red Player:\n" +
                 "-------------\n" +
-                "0 units in b1 (next to: b2)\n" +
-                "0 units in b2 (next to: b3)\n" +
-                "0 units in b3 (next to: b4)\n" +
-                "0 units in b4 (next to: b5)\n" +
-                "0 units in b5 (next to: b6)\n" +
-                "0 units in b6 (next to: )\n");
+                "0 units in b1 (next to: a1, b2)\n" +
+                "0 units in b2 (next to: a2, b1, b3)\n" +
+                "0 units in b3 (next to: a3, b2, b4)\n" +
+                "0 units in b4 (next to: a4, b3, b5)\n" +
+                "0 units in b5 (next to: a5, b4, b6)\n" +
+                "0 units in b6 (next to: a6, b5)");
 
         s.stop();
         serverThread.join();
