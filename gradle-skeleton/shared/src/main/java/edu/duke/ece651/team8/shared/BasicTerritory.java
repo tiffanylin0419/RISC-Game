@@ -49,21 +49,25 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public void changeOwner(Player new_owner){
+  public void changeOwner(){
     Player old_owner=this.owner;
     if(old_owner!=null){
       old_owner.tryRemoveTerritory(this);
     }
-    new_owner.addTerritory(this);
-    this.owner=new_owner;
+    if (units.size()==0){
+      this.owner=null;
+    }
+    else{
+      this.owner=units.get(0).getOwner();
+      this.owner.addTerritory(this);
+    }
   }
 
-  /*  @Override
-  public Player getOwner(){
-    return this.owner;
-    }*/
   @Override
   public boolean isOwner(Player owner){
+    if(this.owner==null){
+      return false;
+    }
     return this.owner==owner;
   }
 
@@ -106,7 +110,7 @@ public class BasicTerritory implements Territory {
   public void moveIn(Unit unit_in) {
     if(units.isEmpty()){
       units.add(unit_in);
-      changeOwner(unit_in.getOwner());
+      changeOwner();
       return;
     }
     for(Unit unit: units){
@@ -118,19 +122,16 @@ public class BasicTerritory implements Territory {
     units.add(unit_in);
   }
   @Override
-  public boolean tryMoveOut(Unit unit_out) {
+  public void moveOut(Unit unit_out){
     for(Unit unit: units){
       if(unit.getOwner()==unit_out.getOwner()){
-        if(!unit.tryRemove(unit_out.getAmount())){
-          return false;
-        }
+        unit.remove(unit_out.getAmount());
         if (unit.getAmount()==0){
           units.remove(unit);
         }
-        return true;
+        return;
       }
     }
-    return false;
   }
 
   /**
@@ -189,12 +190,16 @@ public class BasicTerritory implements Territory {
 
   @Override
   public void attack() {
-    if(units.size()==2){
+    if(units.size()==0){
+      changeOwner();
+      return;
+    }
+    else if(units.size()==2){
       oneToOneAttack();
     }else{
       manyToOneAttack();
     }
-    changeOwner(units.get(0).getOwner());
+    changeOwner();
   }
 
   @Override
@@ -206,13 +211,18 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public int getUnitsSize(){
-    return units.size();
+  public int getOwnerUnitAmount(){
+    for(Unit unit: units){
+      if(unit.getOwner().equals(owner)){
+        return unit.getAmount();
+      }
+    }
+    return 0;
   }
 
   @Override
-  public void setOwner(Player player) {
-    this.owner = player;
+  public int getUnitsSize(){
+    return units.size();
   }
 
   @Override

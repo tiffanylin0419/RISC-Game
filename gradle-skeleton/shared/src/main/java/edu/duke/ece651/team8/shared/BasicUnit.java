@@ -23,17 +23,13 @@ public class BasicUnit implements Unit {
   }
 
   @Override
-  public boolean tryRemove(int n){
-    if(amount<n){
-      return false;
-    }
+  public void remove(int n){
     amount-=n;
-    return true;
   }
   
   @Override
   public void removeOne() {
-    tryRemove(1);
+    remove(1);
   }
 
   @Override

@@ -14,11 +14,10 @@ public interface Unit {
   public void addOne();
 
   /**
-   * try to remove n from amount
+   * remove n from amount
    * @param n
-   * @return True if sucess, False if fail
    */
-  public boolean tryRemove(int n);
+  public void remove(int n);
   
   /**
    * remove 1 from amount
