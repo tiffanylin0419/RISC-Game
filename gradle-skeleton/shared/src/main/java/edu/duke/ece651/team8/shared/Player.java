@@ -87,10 +87,4 @@ public class Player {
     return false;
   }
 
-  /**
-   * @return iterator of territories
-   */
-  public Iterator<Territory> getTerritoryIterator() {
-    return this.territories.iterator();
-  }
 }

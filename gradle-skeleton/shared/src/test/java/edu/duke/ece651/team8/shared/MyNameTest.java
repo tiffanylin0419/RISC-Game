@@ -12,4 +12,5 @@ public class MyNameTest {
     Assertions.assertEquals("team8", MyName.getName());
   }
 
+
 }
