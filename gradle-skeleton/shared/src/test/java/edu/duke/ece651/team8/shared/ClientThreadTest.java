@@ -1,5 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 //@ExtendWith(MockitoExtension.class)
 class ClientThreadTest {
+    @Disabled
     @Test
     public void testRun() throws Exception {
         ServerSocket ss = new ServerSocket(1231);

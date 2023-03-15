@@ -1,7 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
 import edu.duke.ece651.team8.shared.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientTest {
     @Test
@@ -54,6 +55,28 @@ public class ClientTest {
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("Socket closed\n", actual);
     }
+    @Test
+    public void testIisNonNegativeInt()throws IOException{
+        ServerSocket ss = new ServerSocket(1244);
+        AbstractMapFactory factory = new V1MapFactory();
+        Map m = factory.createMap(1);
+
+        ArrayList<Player> players=factory.createPlayers(1,m);
+
+        Server s = new Server(ss, m, 1,players);
+        Thread serverThread = new Thread(() -> {
+            s.run();
+        });
+        serverThread.start();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Socket client = new Socket("localhost", 1244);
+        Client cli = new Client(client, output, System.in);
+        assertThrows(NumberFormatException.class,()->cli.isNonNegativeInt("svin"));
+        assertFalse(cli.isNonNegativeInt("-10"));
+        assertTrue(cli.isNonNegativeInt("123"));
+    }
+
     @Disabled
     @Test
     public void testRun() throws Exception {
