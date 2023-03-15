@@ -31,10 +31,8 @@ public interface Territory {
 
   /**
    * must use this function when changing owner
-   * change the owner to new_owner
+   * update the territory's owner
    * will remove this territory from old owner into new owner
-   *
-   * @param new_owner the new owner
    */
   public void changeOwner();
 

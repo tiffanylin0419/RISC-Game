@@ -128,9 +128,6 @@ public class BasicTerritory implements Territory {
         unit.remove(unit_out.getAmount());
         if (unit.getAmount()==0){
           units.remove(unit);
-          if(isOwner(unit.getOwner())){
-            changeOwner();
-          }
         }
         return;
       }

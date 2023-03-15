@@ -102,8 +102,8 @@ public class BasicTerritoryTest {
     assertEquals(2,territory.getUnitAmount(1));
     territory.moveOut(new BasicUnit(8,p1));
     assertEquals(2,territory.getUnitAmount(0));
-    assertEquals(2,territory.getOwnerUnitAmount());
-    assertFalse(territory.isOwner(p1));
+    assertEquals(0,territory.getOwnerUnitAmount());
+    assertTrue(territory.isOwner(p1));
   }
   
   @Test
@@ -160,6 +160,7 @@ public class BasicTerritoryTest {
     assertEquals(3,theMap.getTerritories().get(0).getUnitAmount(0));
     assertTrue(theMap.getTerritories().get(0).isOwner(p1));
     assertEquals(3,theMap.getTerritories().get(0).getOwnerUnitAmount());
+
 
   }
 }
