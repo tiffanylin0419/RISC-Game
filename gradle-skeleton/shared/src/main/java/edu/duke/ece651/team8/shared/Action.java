@@ -45,10 +45,16 @@ public abstract class Action {
      */
     public Player getPlayer(){return player;}
 
+    /**
+     * @return sourceText
+     */
     public String getSourceText(){
         return sourceText;
     }
 
+    /**
+     * @return destinationText
+     */
     public String getDestinationText(){
         return destinationText;
     }
