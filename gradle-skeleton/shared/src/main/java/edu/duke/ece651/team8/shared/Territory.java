@@ -75,12 +75,10 @@ public interface Territory {
   public void moveIn(Unit unit_in);
 
   /**
-   * pass in any declared unit
-   * will check if the units list have unit that has same owner and move out the amount
+   * move out the amount of units
    * @param unit_out
-   * @return True if sucessfully moved out the unit, False otherwise
    */
-  public boolean tryMoveOut(Unit unit_out);
+  public void moveOut(Unit unit_out);
 
   /**
    * resolve the condition when the units list have a size > 1

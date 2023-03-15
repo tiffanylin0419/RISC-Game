@@ -102,12 +102,10 @@ public class BasicTerritoryTest {
     assertEquals(8,territory.getUnitAmount(0));
     assertEquals(3,territory.getUnitAmount(1));
     //move out
-    territory.tryMoveOut(new BasicUnit(1,p2));
+    territory.moveOut(new BasicUnit(1,p2));
     assertEquals(8,territory.getUnitAmount(0));
     assertEquals(2,territory.getUnitAmount(1));
-    assertFalse(territory.tryMoveOut(new BasicUnit(9,p1)));
-    territory.tryMoveOut(new BasicUnit(8,p1));
-    assertFalse(territory.tryMoveOut(new BasicUnit(1,p3)));
+    territory.moveOut(new BasicUnit(8,p1));
     assertEquals(2,territory.getUnitAmount(0));
     assertTrue(territory.isOwner(p1));
   }

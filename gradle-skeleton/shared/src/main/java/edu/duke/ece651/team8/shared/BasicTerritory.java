@@ -118,19 +118,16 @@ public class BasicTerritory implements Territory {
     units.add(unit_in);
   }
   @Override
-  public boolean tryMoveOut(Unit unit_out) {
+  public void moveOut(Unit unit_out){
     for(Unit unit: units){
       if(unit.getOwner()==unit_out.getOwner()){
-        if(!unit.tryRemove(unit_out.getAmount())){
-          return false;
-        }
+        unit.remove(unit_out.getAmount());
         if (unit.getAmount()==0){
           units.remove(unit);
         }
-        return true;
+        return;
       }
     }
-    return false;
   }
 
   /**

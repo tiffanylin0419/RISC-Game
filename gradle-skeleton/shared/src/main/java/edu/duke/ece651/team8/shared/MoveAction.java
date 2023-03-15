@@ -18,7 +18,7 @@ public class MoveAction extends Action{
                 mapDestination=t;
             }
         }
-        mapSource.tryMoveOut(new BasicUnit(super.getCount(),player));
+        mapSource.moveOut(new BasicUnit(super.getCount(),player));
         mapDestination.moveIn(new BasicUnit(super.getCount(),player));
         return;
     }
