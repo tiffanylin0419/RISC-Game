@@ -54,7 +54,9 @@ public class BasicTerritory implements Territory {
     if(old_owner!=null){
       old_owner.tryRemoveTerritory(this);
     }
-    new_owner.addTerritory(this);
+    if(new_owner!=null) {
+      new_owner.addTerritory(this);
+    }
     this.owner=new_owner;
   }
 
@@ -64,6 +66,9 @@ public class BasicTerritory implements Territory {
     }*/
   @Override
   public boolean isOwner(Player owner){
+    if(this.owner==null){
+      return false;
+    }
     return this.owner==owner;
   }
 
@@ -186,7 +191,11 @@ public class BasicTerritory implements Territory {
 
   @Override
   public void attack() {
-    if(units.size()==2){
+    if(units.size()==0){
+      changeOwner(null);
+      return;
+    }
+    else if(units.size()==2){
       oneToOneAttack();
     }else{
       manyToOneAttack();

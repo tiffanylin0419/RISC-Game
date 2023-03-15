@@ -32,7 +32,8 @@ class MoveActionTest {
         //assume it is checked already
         action2.doAction(map,players.get(0));
         assertEquals(0,s.getUnitAmount(0));
-        //assertEquals(false,s.isOwner(players.get(0)));
+        s.attack();
+        assertEquals(false,s.isOwner(players.get(0)));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(4,d.getUnitAmount(1));
     }
