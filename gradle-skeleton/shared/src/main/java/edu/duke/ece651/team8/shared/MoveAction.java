@@ -14,6 +14,9 @@ public class MoveAction extends Action{
     protected void doAction(Map theMap){
         getSource().moveOut(new BasicUnit(super.getCount(),super.getPlayer()));
         getDestination().moveIn(new BasicUnit(super.getCount(),super.getPlayer()));
-        return;
     }
+    protected boolean isValidPath(){
+        return getSource().isAdjacentSelf(getDestination());
+    }
+
 }

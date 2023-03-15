@@ -54,6 +54,13 @@ public abstract class Action {
     /**
      * @return player
      */
+
+    /**
+     * check if the path from source to destination is valid
+     * @return
+     */
+    protected abstract boolean isValidPath();
+
     public Player getPlayer(){return player;}
 
     /**
