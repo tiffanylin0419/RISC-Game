@@ -2,6 +2,8 @@ package edu.duke.ece651.team8.shared;
 
 public abstract class Action {
     private Player player;
+    private String sourceText;
+    private String destinationText;
     private Territory source;
     private Territory destination;
     private int count;
@@ -16,6 +18,8 @@ public abstract class Action {
      */
     public Action(Player player, String source, String destination, int count, Map theMap) {
         this.player = player;
+        this.sourceText=source;
+        this.destinationText=destination;
         this.source = null;
         this.destination = null;
         this.count = count;
@@ -40,6 +44,14 @@ public abstract class Action {
      * @return player
      */
     public Player getPlayer(){return player;}
+
+    public String getSourceText(){
+        return sourceText;
+    }
+
+    public String getDestinationText(){
+        return destinationText;
+    }
     /**
      * @return source
      */

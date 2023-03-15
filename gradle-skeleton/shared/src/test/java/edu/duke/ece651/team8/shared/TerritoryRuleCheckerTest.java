@@ -25,11 +25,11 @@ class TerritoryRuleCheckerTest {
 
         MovementRuleChecker checker= new TerritoryRuleChecker(new NumberRuleChecker(null)) ;
         Action action1 =new MoveAction(p1,"a1","a7",3,theMap);
-        assertEquals("Destination not in map",checker.checkMyRule(theMap,action1));
+        assertEquals("Destination a7 not in map",checker.checkMyRule(theMap,action1));
 
 
         Action action2 =new MoveAction(p1,"a9","a2",3,theMap);
-        assertEquals("Source not in map",checker.checkMyRule(theMap,action2));
+        assertEquals("Source a9 not in map",checker.checkMyRule(theMap,action2));
 
 
     }

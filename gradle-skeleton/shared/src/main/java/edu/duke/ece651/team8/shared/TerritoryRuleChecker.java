@@ -13,10 +13,10 @@ public class TerritoryRuleChecker extends MovementRuleChecker {
      */
     protected String checkMyRule(Map theMap, Action action){
         if(action.getSource()==null){
-            return "Source not in map";
+            return "Source "+action.getSourceText()+" not in map";
         }
         if(action.getDestination()==null){
-            return "Destination not in map";
+            return "Destination "+action.getDestinationText()+" not in map";
         }
         return null;
     }
