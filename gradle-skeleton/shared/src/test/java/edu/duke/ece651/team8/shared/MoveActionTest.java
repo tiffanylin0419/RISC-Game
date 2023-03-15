@@ -21,16 +21,16 @@ class MoveActionTest {
         s.moveIn(new BasicUnit(4,players.get(0)));
         d.moveIn(new BasicUnit(5,players.get(1)));
 
-        Action action1=new MoveAction("a1","b2",3);
+        Action action1=new MoveAction(players.get(0),"a1","b2",3);
         //assume it is checked already
-        action1.doAction(map,players.get(0));
+        action1.doAction(map);
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(3,d.getUnitAmount(1));
 
-        Action action2=new MoveAction("a1","b2",1);
+        Action action2=new MoveAction(players.get(0),"a1","b2",1);
         //assume it is checked already
-        action2.doAction(map,players.get(0));
+        action2.doAction(map);
         assertEquals(0,s.getUnitAmount(0));
         s.attack();
         assertEquals(false,s.isOwner(players.get(0)));

@@ -1,11 +1,13 @@
 package edu.duke.ece651.team8.shared;
 
 public abstract class Action {
+    private Player player;
     private Territory source;
     private Territory destination;
     private int count;
     //constructor
-    public Action(String source, String destination, int count){
+    public Action(Player player, String source, String destination, int count){
+        this.player=player;
         this.source=new BasicTerritory(source);
         this.destination=new BasicTerritory(destination);
         this.count=count;
@@ -15,10 +17,13 @@ public abstract class Action {
      * conduct the action
      * must apply rule checker before calling this function
      * @param theMap
-     * @param player
      */
-    protected abstract void doAction(Map theMap,Player player);
+    protected abstract void doAction(Map theMap);
 
+    /**
+     * @return player
+     */
+    public Player getPlayer(){return player;}
     /**
      * @return source
      */

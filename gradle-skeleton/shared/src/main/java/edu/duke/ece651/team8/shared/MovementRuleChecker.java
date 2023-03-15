@@ -12,26 +12,24 @@ public abstract class MovementRuleChecker {
     /**
      * check all rules that are connected after next
      * @param theMap
-     * @param thePlayer
      * @return null if obey rule, return String as the error message if do not obey
      */
-    protected abstract String checkMyRule(Map theMap, Player thePlayer, Action action);
+    protected abstract String checkMyRule(Map theMap, Action action);
 
     /**
      * check one rule
      * @param theMap
-     * @param thePlayer
      * @return null if obey rule, return String as the error message if do not obey
      */
-    public String checkAllRule(Map theMap, Player thePlayer, Action action){
+    public String checkAllRule(Map theMap, Action action){
         // if we fail our own rule: stop the placement is not legal
-        String s = checkMyRule(theMap,thePlayer, action);
+        String s = checkMyRule(theMap,action);
         if (s != null) {
             return s;
         }
         // other wise, ask the rest of the chain.
         if (next != null) {
-            return next.checkAllRule(theMap,thePlayer,action);
+            return next.checkAllRule(theMap,action);
         }
         // if there are no more rules, then the placement is legal
         return null;
