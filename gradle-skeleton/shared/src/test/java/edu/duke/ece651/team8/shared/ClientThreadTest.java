@@ -72,4 +72,61 @@ class ClientThreadTest {
         clientThread.join();
 
     }
+    @Test
+    public void testIssueOrders() throws Exception {
+        String END_OF_TURN = "END_OF_TURN\n";
+        ServerSocket ss = new ServerSocket(1231);
+        AbstractMapFactory factory = new V1MapFactory();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Socket s = new Socket("localhost", 1231);
+        Client cli = new Client(s, output, System.in);
+        PrintWriter cliOutput = new PrintWriter(s.getOutputStream(), true);
+
+        Socket cliSocket = ss.accept();
+        List<Socket> clis = new ArrayList<Socket>();
+
+        clis.add(cliSocket);
+        ClientThread th = new ClientThread(clis, factory);
+        th.start();
+
+        cli.receiveColor();
+        cli.receiveMapInfo();
+        cli.receive();
+        cliOutput.println("M");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("3");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("a1");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("a2");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        th.interrupt();
+        th.join();
+
+        cliOutput.close();
+        ss.close();
+//        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+//        assertEquals("Green\n" +
+//                "Green Player:\n" +
+//                "-------------\n" +
+//                "0 units in a1 (next to: a2)\n" +
+//                "0 units in a2 (next to: a1, a3)\n" +
+//                "0 units in a3 (next to: a2, a4)\n" +
+//                "0 units in a4 (next to: a3, a5)\n" +
+//                "0 units in a5 (next to: a4, a6)\n" +
+//                "0 units in a6 (next to: a5)", actual);
+    }
 }

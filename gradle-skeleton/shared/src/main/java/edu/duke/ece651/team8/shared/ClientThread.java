@@ -132,7 +132,7 @@ public class ClientThread extends Thread {
         StringBuilder sb = new StringBuilder();
         sb.append(reader.readLine());
         String receLine = reader.readLine();
-        while(!receLine.equals(END_OF_TURN)) {
+        while(!receLine.equals("END_OF_TURN")) {   //!!!!
             sb.append("\n"+receLine);
             receLine = reader.readLine();
         }
