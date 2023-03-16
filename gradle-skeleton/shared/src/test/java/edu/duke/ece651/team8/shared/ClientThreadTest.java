@@ -1,16 +1,23 @@
 package edu.duke.ece651.team8.shared;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+
+//@ExtendWith(MockitoExtension.class)
 class ClientThreadTest {
     @Test
     public void testRun() throws Exception {
@@ -73,6 +80,46 @@ class ClientThreadTest {
 
     }
     @Test
+    public void testHandlesIOExceptionInRun() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
+        ServerSocket ss = new ServerSocket(1231);
+
+        // Create mock objects
+        BufferedReader mockReader = mock(BufferedReader.class);
+        List<BufferedReader> r = new ArrayList<>();
+        r.add(mockReader);
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Socket s = new Socket("localhost", 1231);
+        Client cli = new Client(s, output, System.in);
+        PrintWriter cliOutput = new PrintWriter(s.getOutputStream(), true);
+
+        Socket cliSocket = ss.accept();
+        List<Socket> clis = new ArrayList<Socket>();
+        clis.add(cliSocket);
+
+        ClientThread clientThread = new ClientThread(clis, factory);
+        // Set the mock BufferedReader object on the clientThread
+        when(mockReader.readLine()).thenThrow(new IOException("Socket closed"));
+        Field readerField = ClientThread.class.getDeclaredField("readers");
+        readerField.setAccessible(true);
+        readerField.set(clientThread, r);
+        clientThread.start();
+
+        cli.receiveColor();
+        cli.receiveMapInfo();
+        cli.receive();
+        cliOutput.println("M");
+        String END_OF_TURN = "END_OF_TURN\n";
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        clientThread.interrupt();
+        clientThread.join();
+
+    }
+    @Test
     public void testIssueOrders() throws Exception {
         String END_OF_TURN = "END_OF_TURN\n";
         ServerSocket ss = new ServerSocket(1231);
@@ -86,7 +133,6 @@ class ClientThreadTest {
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
-
         clis.add(cliSocket);
         ClientThread th = new ClientThread(clis, factory);
         th.start();
@@ -110,6 +156,29 @@ class ClientThreadTest {
 
         cli.receive();
         cliOutput.println("a2");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cliOutput.println("M");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("3");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("a1");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("a2");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cliOutput.println("commit");
         cliOutput.print(END_OF_TURN);
         cliOutput.flush(); // flush the output buffer
 

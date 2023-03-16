@@ -56,6 +56,12 @@ public class Client {
             receiveColor();
             receiveMapInfo();
             display();
+//            receive();
+//            receive();
+//            receive();
+//            receive();
+//            receiveMapInfo();
+//            displayMap();
             reader.close();
             inputStream.close();
             socket.close();
