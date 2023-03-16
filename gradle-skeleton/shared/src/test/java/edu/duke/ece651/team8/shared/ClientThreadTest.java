@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -78,36 +79,46 @@ class ClientThreadTest {
         clientThread.join();
 
     }
-//    @Test
-//    public void testServerHandlesIOExceptionInRun() throws Exception {
-//        AbstractMapFactory factory = new V1MapFactory();
-//
-//        // Create mock objects
-//        Socket mockSocket = mock(Socket.class);
-//        InputStream mockInputStream = mock(InputStream.class);
-//        OutputStream mockOutputStream = mock(OutputStream.class);
-//        BufferedReader mockReader = mock(BufferedReader.class);
-//        // Set up mock socket
-//        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
-//        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
-//        whenNew(BufferedReader.class).withArguments(new InputStreamReader(mockInputStream))
-//                .thenReturn(mockReader);
-//
-//        // Create client thread with mock socket
-//        List<Socket> clis = new ArrayList<Socket>();
-//
-//        ArrayList<Player> players=new ArrayList<>();
-//        players.add(new Player("Red"));
-//
-//        clis.add(mockSocket);
-//        ClientThread clientThread = new ClientThread(clis, factory);
-//        doThrow(new IOException("Socket closed")).when(mockReader.readLine());
-//        clientThread.start();
-//
-//        clientThread.interrupt();
-//        clientThread.join();
-//
-//    }
+    @Test
+    public void testHandlesIOExceptionInRun() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
+        ServerSocket ss = new ServerSocket(1231);
+
+        // Create mock objects
+        BufferedReader mockReader = mock(BufferedReader.class);
+        List<BufferedReader> r = new ArrayList<>();
+        r.add(mockReader);
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        Socket s = new Socket("localhost", 1231);
+        Client cli = new Client(s, output, System.in);
+        PrintWriter cliOutput = new PrintWriter(s.getOutputStream(), true);
+
+        Socket cliSocket = ss.accept();
+        List<Socket> clis = new ArrayList<Socket>();
+        clis.add(cliSocket);
+
+        ClientThread clientThread = new ClientThread(clis, factory);
+        // Set the mock BufferedReader object on the clientThread
+        when(mockReader.readLine()).thenThrow(new IOException("Socket closed"));
+        Field readerField = ClientThread.class.getDeclaredField("readers");
+        readerField.setAccessible(true);
+        readerField.set(clientThread, r);
+        clientThread.start();
+
+        cli.receiveColor();
+        cli.receiveMapInfo();
+        cli.receive();
+        cliOutput.println("M");
+        String END_OF_TURN = "END_OF_TURN\n";
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        clientThread.interrupt();
+        clientThread.join();
+
+    }
     @Test
     public void testIssueOrders() throws Exception {
         String END_OF_TURN = "END_OF_TURN\n";
@@ -122,7 +133,6 @@ class ClientThreadTest {
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
-
         clis.add(cliSocket);
         ClientThread th = new ClientThread(clis, factory);
         th.start();

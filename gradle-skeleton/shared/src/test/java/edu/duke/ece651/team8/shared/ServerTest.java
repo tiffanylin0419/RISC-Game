@@ -57,9 +57,7 @@ public class ServerTest {
         ServerSocket ss = new ServerSocket(1216);
 
         AbstractMapFactory factory = new V1MapFactory();
-        Map m = factory.createMap(2);
 
-        ArrayList<Player> players=factory.createPlayers(2,m);
 
         Server s = new Server(ss, 2, factory);
         Thread serverThread = new Thread(() -> {

@@ -21,7 +21,7 @@ public class ClientThread extends Thread {
     /** Output stream of the client*/
     private List<String> colors;
 
-    final String END_OF_TURN = "END_OF_TURN\n";
+    final String END_OF_TURN = "END_OF_TURN";
     private String mapInfo;
     /** Map of the game */
     private final Map theMap;
@@ -66,6 +66,12 @@ public class ClientThread extends Thread {
         try {
             sendInitialConfig();
             issueOrders();
+//            for(int i = 0; i < clientSockets.size(); i++) {
+//                //send color and initial map information to players
+//                mapInfo = mapView.displayMap(players);
+//                send(mapInfo,outputs.get(i));
+//                //receive initial placements from players
+//            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }finally {
@@ -132,7 +138,7 @@ public class ClientThread extends Thread {
      */
     public void send(String message, PrintWriter output) {
         output.println(message);
-        output.print(END_OF_TURN);
+        output.println(END_OF_TURN);
         output.flush(); // flush the output buffer
     }
     public void receive(BufferedReader reader) throws IOException {
