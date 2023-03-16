@@ -118,7 +118,7 @@ public class Client {
                 break;
             }
         }
-
+        receive();
     }
 
     public void tryDoPlacementChoice(String prompt,BufferedReader input)throws Exception{
