@@ -20,9 +20,7 @@ public class App {
     */
     public static void main(String[] args) throws IOException {
         AbstractMapFactory factory = new V1MapFactory();
-        Map m = factory.createMap(4);
-        ArrayList<Player> players=factory.createPlayers(4,m);
-        Server server = new Server(1651, m, 4,players);
+        Server server = new Server(1651, 4, factory);
         server.run();
     }
 

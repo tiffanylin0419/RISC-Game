@@ -15,14 +15,10 @@ import org.junit.jupiter.api.Test;
 public class ClientTest {
     @Test
     public void testConstructor() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
         ServerSocket ss = new ServerSocket(1237);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Green"));
-
-        Server s = new Server(ss, m, 1,players);
+        Server s = new Server(ss, 1, factory);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -35,17 +31,13 @@ public class ClientTest {
     }
     @Test()
     public void testIOException() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
         ServerSocket ss = new ServerSocket(1239);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
 
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Green"));
-
-        Server s = new Server(ss, m, 1,players);
+        Server s = new Server(ss, 1, factory);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -65,11 +57,8 @@ public class ClientTest {
     public void testRun() throws Exception {
         ServerSocket ss = new ServerSocket(1244);
         AbstractMapFactory factory = new V1MapFactory();
-        Map m = factory.createMap(1);
 
-        ArrayList<Player> players=factory.createPlayers(1,m);
-
-        Server s = new Server(ss, m, 1,players);
+        Server s = new Server(ss, 1, factory);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -132,14 +121,10 @@ public class ClientTest {
 //    }
     @Test
     public void testDisplay() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
         ServerSocket ss = new ServerSocket(1334);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Green"));
-
-        Server s = new Server(ss, m, 1,players);
+        Server s = new Server(ss, 1,factory);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
@@ -158,14 +143,10 @@ public class ClientTest {
     }
     @Test
     public void testDisplayMap() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
         ServerSocket ss = new ServerSocket(1324);
-        Map m = new Game1Map();
-        m.addTerritory(new BasicTerritory("Planto"));
 
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Green"));
-
-        Server s = new Server(ss, m, 1, players);
+        Server s = new Server(ss, 1, factory);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
