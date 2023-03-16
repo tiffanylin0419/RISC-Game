@@ -11,16 +11,11 @@ public class Server {
     protected String mapInfo;
     /** server socket*/
     protected ServerSocket server;
-    /** Map of the game */
-    private final Map theMap;
-    /** View of the map */
-    protected View mapView;
-    /** List of players*/
-    private final ArrayList<Player> players;
     /** List of the client sockets */
     private List<ClientThread> clients;
     /** number of clients */
     protected int clientNum;
+    protected AbstractMapFactory factory;
     /** Boolean indicate whether the server is listening or not*/
     private boolean isListening;
 
@@ -28,22 +23,18 @@ public class Server {
      * Constructs a server with specified port
      *
      * @param port is the port of the socket
-     * @param theMap is the map of the board
      */
-    public Server(int port, Map theMap, int clientNum,ArrayList<Player> players) throws IOException {
-        this(new ServerSocket(port), theMap, clientNum,players);
+    public Server(int port, int clientNum, AbstractMapFactory factory) throws IOException {
+        this(new ServerSocket(port), clientNum, factory);
     }
     /**
      * @param clientNum is the number of clients
      */
-    public Server(ServerSocket ss, Map theMap, int clientNum, ArrayList<Player> players) {
+    public Server(ServerSocket ss, int clientNum, AbstractMapFactory factory) {
         this.server = ss;
-        this.players = players;
-        this.theMap = theMap;
-        this.mapView = new MapTextView();
-        this.mapInfo = mapView.displayMap(players);
         this.clients = new ArrayList<>();
         this.clientNum = clientNum;
+        this.factory = factory;
         this.isListening = true;
     }
     /**
@@ -72,12 +63,7 @@ public class Server {
             System.out.println("Client connected!");
         }
 
-        List<String> colorList= new ArrayList<>();
-        for(int i = 0; i < clientNum; i++) {
-            colorList.add(players.get(i).getColor());
-        }
-
-        ClientThread clientThread = new ClientThread(oneGameClients, colorList, mapInfo);
+        ClientThread clientThread = new ClientThread(oneGameClients, factory);
         clients.add(clientThread);
         clientThread.start();
     }

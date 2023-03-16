@@ -18,16 +18,12 @@ public class ServerTest {
 
 
         AbstractMapFactory factory = new V1MapFactory();
-        Map m = factory.createMap(4);
-        ArrayList<Player> players=factory.createPlayers(4,m);
-        Server s = new Server(1236, m, 4,players);
+        Server s = new Server(1236, 4, factory);
         assertEquals(1236, s.getPort());
     }
     @Test()
     public void testIOException() throws Exception {
         AbstractMapFactory factory = new V1MapFactory();
-        Map m = factory.createMap(1);
-        View mapView = new MapTextView();
 
         // Create mock objects
         ServerSocket mockSs = mock(ServerSocket.class);
@@ -39,7 +35,7 @@ public class ServerTest {
         players.add(new Player("Green"));
 
         // Create client thread with mock socket
-        Server s = new Server(mockSs, m, 1,players);
+        Server s = new Server(mockSs, 1, factory);
         doThrow(new IOException("Socket closed")).when(mockSs).accept();
         Thread serverThread = new Thread(() -> {
             s.run();
@@ -65,7 +61,7 @@ public class ServerTest {
 
         ArrayList<Player> players=factory.createPlayers(2,m);
 
-        Server s = new Server(ss, m, 2, players);
+        Server s = new Server(ss, 2, factory);
         Thread serverThread = new Thread(() -> {
             s.run();
         });
