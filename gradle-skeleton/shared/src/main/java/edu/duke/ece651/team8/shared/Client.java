@@ -119,6 +119,7 @@ public class Client {
             }
         }
         receive();
+        out.print(buffer);
     }
 
     public void tryDoPlacementChoice(String prompt,BufferedReader input)throws Exception{
