@@ -75,7 +75,7 @@ public class ClientThread extends Thread {
         }
     }
 
-    public void sendInitialConfig()throws IOException{
+    public void sendInitialConfig() {
         for(int i = 0; i < clientSockets.size(); i++) {
             //send color and initial map information to players
             send(colors.get(i), outputs.get(i));
@@ -93,14 +93,21 @@ public class ClientThread extends Thread {
             String prompt = "You are the " + colors.get(i) + " player, what would you like to do?";
             send(prompt, outputs.get(i));
             receive(readers.get(i));
+            doOneCommit(i);
+        }
+    }
+    public void doOneCommit(int index) throws IOException {
+        while(!buffer.equals("commit")) {
             if (buffer.equals("M")) {
-                doMoveOrder(i);
+                doMoveOrder(index);
             }
+            receive(readers.get(index));
         }
     }
     public void doOneTransmission(int index, String prompt) throws IOException {
         send(prompt, outputs.get(index));
         receive(readers.get(index));
+        System.out.println(buffer);
     }
 
     /**
@@ -123,7 +130,7 @@ public class ClientThread extends Thread {
     /**
      * Send infomation to one client
      */
-    public void send(String message, PrintWriter output) throws IOException {
+    public void send(String message, PrintWriter output) {
         output.println(message);
         output.print(END_OF_TURN);
         output.flush(); // flush the output buffer

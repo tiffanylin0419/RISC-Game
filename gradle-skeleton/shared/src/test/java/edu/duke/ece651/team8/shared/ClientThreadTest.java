@@ -1,16 +1,22 @@
 package edu.duke.ece651.team8.shared;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+
+//@ExtendWith(MockitoExtension.class)
 class ClientThreadTest {
     @Test
     public void testRun() throws Exception {
@@ -72,6 +78,36 @@ class ClientThreadTest {
         clientThread.join();
 
     }
+//    @Test
+//    public void testServerHandlesIOExceptionInRun() throws Exception {
+//        AbstractMapFactory factory = new V1MapFactory();
+//
+//        // Create mock objects
+//        Socket mockSocket = mock(Socket.class);
+//        InputStream mockInputStream = mock(InputStream.class);
+//        OutputStream mockOutputStream = mock(OutputStream.class);
+//        BufferedReader mockReader = mock(BufferedReader.class);
+//        // Set up mock socket
+//        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
+//        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
+//        whenNew(BufferedReader.class).withArguments(new InputStreamReader(mockInputStream))
+//                .thenReturn(mockReader);
+//
+//        // Create client thread with mock socket
+//        List<Socket> clis = new ArrayList<Socket>();
+//
+//        ArrayList<Player> players=new ArrayList<>();
+//        players.add(new Player("Red"));
+//
+//        clis.add(mockSocket);
+//        ClientThread clientThread = new ClientThread(clis, factory);
+//        doThrow(new IOException("Socket closed")).when(mockReader.readLine());
+//        clientThread.start();
+//
+//        clientThread.interrupt();
+//        clientThread.join();
+//
+//    }
     @Test
     public void testIssueOrders() throws Exception {
         String END_OF_TURN = "END_OF_TURN\n";
@@ -110,6 +146,29 @@ class ClientThreadTest {
 
         cli.receive();
         cliOutput.println("a2");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cliOutput.println("M");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("3");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("a1");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cli.receive();
+        cliOutput.println("a2");
+        cliOutput.print(END_OF_TURN);
+        cliOutput.flush(); // flush the output buffer
+
+        cliOutput.println("commit");
         cliOutput.print(END_OF_TURN);
         cliOutput.flush(); // flush the output buffer
 
