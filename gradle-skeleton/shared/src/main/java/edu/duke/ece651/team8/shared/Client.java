@@ -1,6 +1,5 @@
 
 package edu.duke.ece651.team8.shared;
-import edu.duke.ece651.team8.shared.*;
 
 import java.io.*;
 import java.net.*;
@@ -9,18 +8,18 @@ public class Client {
     /** Client socket for communicate with server */
     protected Socket socket;
     /** OutStream to server */
-    PrintWriter output;
+    protected PrintWriter output;
     /** InputStreams from server */
-    InputStream inputStream;
+    protected InputStream inputStream;
     /** Reader for server message*/
-    BufferedReader reader;
+    protected BufferedReader reader;
     /** Buffer for message from server */
     protected String buffer;
     /** Output stream of the client*/
     protected PrintStream out;
     /** Input stream of the client, like terminal input*/
     protected BufferedReader input;
-    /** info to be transfer */
+    /** info to be transferred, entered by user */
     protected String mapInfo;
     /**client player color*/
     protected String color;
@@ -32,25 +31,22 @@ public class Client {
      * @param port is the port of the socket
      * @param host is the address of the server
      */
-    public Client(int port, String host) throws IOException {
-        this(new Socket(host, port), System.out, System.in);
+    public Client(int port, String host,BufferedReader in) throws IOException {
+        this(new Socket(host, port), System.out, in);
     }
 
     /**
      * @param out is the output stream of the client
-     * @throws IOException
      */
-    public Client(int port, String host, PrintStream out, InputStream in) throws IOException {
+    public Client(int port, String host, PrintStream out, BufferedReader in) throws IOException {
         this(new Socket(host, port), out,in);
     }
-    public Client(Socket s, PrintStream out,InputStream in) throws IOException {
+    public Client(Socket s, PrintStream out,BufferedReader in) throws IOException {
         this.socket = s;
         this.out = out;
-        this.mapInfo = new String();
-        this.color= new String();
         this.inputStream = socket.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
-        this.input = new BufferedReader(new InputStreamReader(in));
+        this.input = in;
         output = new PrintWriter(s.getOutputStream());
     }
 
@@ -60,7 +56,8 @@ public class Client {
             receiveColor();
             receiveMapInfo();
             display();
-            doInitialPlacement();
+            //doInitialPlacement();
+            doOneOrder();
             reader.close();
             inputStream.close();
             socket.close();
@@ -77,12 +74,12 @@ public class Client {
         sb.append(reader.readLine());
         String receLine = reader.readLine();
         while(!receLine.equals(END_OF_TURN)) {
-            sb.append("\n"+receLine);
+            sb.append("\n").append(receLine);
             receLine = reader.readLine();
         }
         buffer = sb.toString();
     }
-    public void send(String message) throws IOException {
+    public void send(String message) {
         output.println(message);
         output.print(END_OF_TURN);
         output.flush(); // flush the output buffer
@@ -90,7 +87,6 @@ public class Client {
 
     /**
      * receive color string from server
-     * @throws IOException
      */
     public void receiveColor()throws  IOException{
         receive();
@@ -132,13 +128,86 @@ public class Client {
         }
     }
 
-    boolean isNonNegativeInt(String number){
-        if(Integer.parseInt(number) >= 0){
-            return true;
-        }
-        return false;
+    public boolean isNonNegativeInt(String number){
+        return Integer.parseInt(number) >= 0;
     }
 
+    public void doOneOrder()throws IOException{
+        receive();
+        String choice;
+        while (true) {
+            try {
+                choice = tryChooseOneAction(buffer,input);
+            } catch (IllegalArgumentException e) {
+                out.println(e.getMessage());
+                out.println("Please input an valid placement!");
+                continue;
+            }
+            break;
+        }
+       if (choice.equals("M")) {
+            receive();
+            doOneMove();
+        }else{
+            doOneAttack();
+        }
+    }
+
+    public String tryChooseOneAction(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
+        out.print(prompt);
+        String s = input.readLine();
+        if(isValidChoice(s)){
+            send(s);
+            return s;
+        }else{
+            throw new IllegalArgumentException("Units number should be non_negative number");
+        }
+    }
+
+    public Boolean isValidChoice(String s){
+        return s.equals("M")||s.equals("A")||s.equals("D");
+    }
+
+    public void doOneMove()throws IllegalArgumentException,IOException{
+        receive();
+        while (true) {
+            try {
+                trySendUnitReadNumber(buffer,input);
+            } catch (IllegalArgumentException e) {
+                out.println(e.getMessage());
+                out.println("Please input a valid unit number!");
+                continue;
+            }
+            break;
+        }
+        receive();
+        trySendSourceTerritory(buffer,input);
+        receive();
+        trySendDestinationTerritory(buffer,input);
+    }
+    public void trySendUnitReadNumber(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
+        out.println(prompt);
+        String s = input.readLine();
+        if(isNonNegativeInt(s)){
+            send(s);
+        }else{
+            throw new IllegalArgumentException("Units number should be non_negative number");
+        }
+    }
+
+    public void trySendSourceTerritory(String prompt,BufferedReader input)throws IOException{
+        out.println(prompt);
+        String s = input.readLine();
+        send(s);
+    }
+
+    public void trySendDestinationTerritory(String prompt,BufferedReader input)throws IOException{
+        trySendSourceTerritory(prompt,input);
+    }
+
+    public void doOneAttack(){
+        //to do
+    }
     /**
      * Display map info
      */
@@ -151,5 +220,5 @@ public class Client {
     }
 
 
-};
+}
 

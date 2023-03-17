@@ -3,9 +3,7 @@ package edu.duke.ece651.team8.shared;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -55,6 +53,7 @@ public class ServerTest {
     @Disabled
     @Test
     public void testRun() throws Exception {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
         ServerSocket ss = new ServerSocket(1216);
 
@@ -70,11 +69,11 @@ public class ServerTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1216, "localhost", output, System.in);
+        Client cli = new Client(1216, "localhost", output, in);
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
         PrintStream output1 = new PrintStream(bytes1, true);
-        Client cli1 = new Client(1216, "localhost", output1, System.in);
+        Client cli1 = new Client(1216, "localhost", output1, in);
 
         checkClientHelper(bytes, cli, "Green\n" +
                 "Green Player:\n" +

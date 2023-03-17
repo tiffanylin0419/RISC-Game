@@ -65,7 +65,7 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             sendInitialConfig();
-            doInitialPlacement();
+            //doInitialPlacement();
             issueOrders();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players
@@ -162,14 +162,14 @@ public class ClientThread extends Thread {
      */
     public void issueOrders() throws IOException{
         for(int i = 0; i < clientSockets.size(); i++) {
-            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?";
+            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
             send(prompt, outputs.get(i));
             receive(readers.get(i));
             doOneCommit(i);
         }
     }
     public void doOneCommit(int index) throws IOException {
-        while(!buffer.equals("commit")) {
+        while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
                 doMoveOrder(index);
             }
@@ -211,7 +211,7 @@ public class ClientThread extends Thread {
         StringBuilder sb = new StringBuilder();
         sb.append(reader.readLine());
         String receLine = reader.readLine();
-        while(!receLine.equals("END_OF_TURN")) {   //!!!!
+        while(!receLine.equals(END_OF_TURN)) {   //!!!!
             sb.append("\n"+receLine);
             receLine = reader.readLine();
         }
