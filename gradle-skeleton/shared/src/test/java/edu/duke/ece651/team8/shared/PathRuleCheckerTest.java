@@ -25,7 +25,6 @@ class PathRuleCheckerTest {
         MovementRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
         Action action1 =new MoveAction(p1,"a1","a4",3,theMap);
         assertNull(checker.checkAllRule(action1));
-
         theMap.getTerritories().get(1).moveOut(new BasicUnit(4,p1));
         theMap.getTerritories().get(1).attack();
         //assertFalse(theMap.getTerritories().get(1).isOwner(p1));

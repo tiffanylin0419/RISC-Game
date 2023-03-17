@@ -103,7 +103,7 @@ public class BasicTerritoryTest {
     territory.moveOut(new BasicUnit(8,p1));
     assertEquals(2,territory.getUnitAmount(0));
     assertEquals(0,territory.getOwnerUnitAmount());
-    assertTrue(territory.isOwner(p1));
+    assertFalse(territory.isOwner(p1));
   }
   
   @Test
