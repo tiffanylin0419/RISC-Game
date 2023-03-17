@@ -65,6 +65,7 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             sendInitialConfig();
+            doInitialPlacement();
             issueOrders();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players
@@ -90,7 +91,70 @@ public class ClientThread extends Thread {
         }
     }
 
+    private ArrayList<Territory> getTerritories(String color) {
+        for (Player player : players) {
+            if (player.getColor().equals(color)) {
+                return player.getTerritores();
+            }
+        }
+        return null;
+    }
+
+    public boolean checkUnitNumValid(int curr) {
+        int input = Integer.parseInt(buffer);
+        if (input > curr) {
+            throw new IllegalArgumentException("Unit amount is not valid!\n");
+        }
+        return true;
+    }
+    private void setUnitInTerritory(Territory t) {
+        int amount = Integer.parseInt(buffer);
+        Unit unit = new BasicUnit(amount, t.getOwner());
+        t.moveIn(unit);
+    }
+
+    private void endPlacementPhase() throws IOException {
+        String prompt = "Placement phase is done!";
+        for (int i = 0; i < clientSockets.size(); ++i) {
+            send(prompt, outputs.get(i));
+        }
+    }
+
     /**
+     * init placement of units
+     * @throws IOException
+     */
+    public void doInitialPlacement() throws IOException{
+        String num = Integer.toString(placementTimes);
+        String prompt = "Please enter the units you would like to place in ";
+        for(int i = 0; i < clientSockets.size(); i++) {
+            send(num, outputs.get(i));
+            int curr = this.unitAmount;
+            ArrayList<Territory> territories = getTerritories(colors.get(i));
+            int size = territories.size();
+            for (int j = 0; j < size - 1; ++j) {
+                while (true) {
+                    Territory t = territories.get(j);
+                    send(prompt + t.getName(), outputs.get(i));
+                    try {
+                        receive(readers.get(i));
+                        checkUnitNumValid(curr);
+                        setUnitInTerritory(t);
+                        curr -= Integer.parseInt(buffer);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        continue;
+                    }
+                    break;
+                }
+            }
+            Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
+            territories.get(size - 1).moveIn(unit);
+        }
+        endPlacementPhase();
+    }
+
+     /**
      * Issue orders (Move and Attack) for every client
      * @throws IOException
      */

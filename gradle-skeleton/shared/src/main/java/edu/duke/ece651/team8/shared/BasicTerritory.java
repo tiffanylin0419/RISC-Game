@@ -229,4 +229,10 @@ public class BasicTerritory implements Territory {
   public ArrayList<Territory> getAdjList() {
     return this.adjList;
   }
+
+  @Override
+  public Player getOwner() {
+    return this.owner;
+
+  }
 }
