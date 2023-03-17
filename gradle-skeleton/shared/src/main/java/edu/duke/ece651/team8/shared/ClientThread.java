@@ -142,9 +142,11 @@ public class ClientThread extends Thread {
                         setUnitInTerritory(t);
                         curr -= Integer.parseInt(buffer);
                     } catch (Exception e) {
+                        send("invalid", outputs.get(i));
                         System.out.println(e.getMessage());
                         continue;
                     }
+                    send("valid", outputs.get(i));
                     break;
                 }
             }

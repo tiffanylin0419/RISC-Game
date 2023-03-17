@@ -149,6 +149,10 @@ public class Client {
         String s = input.readLine();
         if(isNonNegativeInt(s)){
             send(s);
+            receive();
+            if (!buffer.equals("valid")) {
+                throw new IllegalArgumentException(buffer);
+            }
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
         }
