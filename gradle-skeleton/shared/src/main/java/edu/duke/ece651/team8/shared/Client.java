@@ -10,7 +10,7 @@ public class Client {
     protected Socket socket;
     /** OutStream to server */
     PrintWriter output;
-    /** InputStream from server */
+    /** InputStreams from server */
     InputStream inputStream;
     /** Reader for server message*/
     BufferedReader reader;
