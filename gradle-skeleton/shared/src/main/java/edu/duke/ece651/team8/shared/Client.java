@@ -7,21 +7,23 @@ import java.net.*;
 public class Client {
     /** Client socket for communicate with server */
     protected Socket socket;
-    /** */
+    /** OutStream to server */
+    PrintWriter output;
+    /** InputStreams from server */
     InputStream inputStream;
-    /***/
+    /** Reader for server message*/
     BufferedReader reader;
     /** Buffer for message from server */
     protected String buffer;
     /** Output stream of the client*/
     protected PrintStream out;
-    /** Input stream of the client*/
+    /** Input stream of the client, like terminal input*/
     protected BufferedReader input;
     /** info to be transfer */
     protected String mapInfo;
     /**client player color*/
     protected String color;
-
+    /** Delimiter*/
     final String END_OF_TURN = "END_OF_TURN";
     /**
      * Constructs a server with specified port
@@ -56,6 +58,7 @@ public class Client {
             receiveColor();
             receiveMapInfo();
             display();
+            doInitialPlacement();
 //            receive();
 //            receive();
 //            receive();
@@ -82,6 +85,12 @@ public class Client {
             receLine = reader.readLine();
         }
         buffer = sb.toString();
+    }
+
+    public void send(String message) throws IOException {
+        output.println(message);
+        output.print(END_OF_TURN);
+        output.flush(); // flush the output buffer
     }
 
     /**
@@ -116,18 +125,40 @@ public class Client {
 //    }
 
     public void doInitialPlacement()throws IOException{
-        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-        String prompt = "please do your initial placement";
-        tryDoPlacementChoice(prompt,input);
+        receive();
+        int placementTimes = Integer.parseInt(buffer);
+        for(int i = 0; i < placementTimes;i++){
+            receive();
+            while (true) {
+                try {
+                    tryDoPlacementChoice(buffer, input);
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                    out.println("Please input an valid placement!");
+                    continue;
+                }
+                break;
+            }
+        }
+        receive();
+        out.print(buffer);
     }
 
-    public static String tryDoPlacementChoice(String prompt,BufferedReader input)throws IOException{
-        System.out.print(prompt);
+    public void tryDoPlacementChoice(String prompt,BufferedReader input)throws Exception{
+        out.print(prompt);
         String s = input.readLine();
-        //send(s);
-        //receive(s);
-        return s;
+        if(isNonNegativeInt(s)){
+            send(s);
+        }else{
+            throw new IllegalArgumentException("Units number should be non_negative number");
+        }
+    }
+
+    boolean isNonNegativeInt(String number){
+        if(Integer.parseInt(number) >= 0){
+            return true;
+        }
+        return false;
     }
 
     /**
