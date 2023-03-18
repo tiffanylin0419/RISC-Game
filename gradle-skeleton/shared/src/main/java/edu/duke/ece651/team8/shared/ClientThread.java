@@ -64,7 +64,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
-            sendInitialConfig();
+//            sendInitialConfig();
             //doInitialPlacement();
             issueOrders();
 //            for(int i = 0; i < clientSockets.size(); i++) {
@@ -165,14 +165,15 @@ public class ClientThread extends Thread {
             String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
             send(prompt, outputs.get(i));
             receive(readers.get(i));
+            System.out.println(buffer);
             doOneCommit(i);
         }
     }
     public void doOneCommit(int index) throws IOException {
-        while(!buffer.equals("D")) {
-            if (buffer.equals("M")) {
+        if(!buffer.equals("D")) {
+            if (buffer.equals("Move")) {
                 doMoveOrder(index);
-            }
+            }//else{}
             receive(readers.get(index));
         }
     }
@@ -191,13 +192,13 @@ public class ClientThread extends Thread {
         doOneTransmission(index, "Please enter the number of units to move:");
         int num = Integer.parseInt(buffer);
 
-        doOneTransmission(index, "Please enter the source territory:");
-        String source = buffer;
-
-        doOneTransmission(index, "Please enter the destination territory:");
-        String destination = buffer;
-        Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
-        ac.doAction(theMap);
+//        doOneTransmission(index, "Please enter the source territory:");
+//        String source = buffer;
+//
+//        doOneTransmission(index, "Please enter the destination territory:");
+//        String destination = buffer;
+//        Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
+//        ac.doAction(theMap);
     }
     /**
      * Send infomation to one client
@@ -209,7 +210,9 @@ public class ClientThread extends Thread {
     }
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append(reader.readLine());
+        String ss = reader.readLine();
+        System.out.println(ss);
+        sb.append(ss);
         String receLine = reader.readLine();
         while(!receLine.equals(END_OF_TURN)) {   //!!!!
             sb.append("\n"+receLine);

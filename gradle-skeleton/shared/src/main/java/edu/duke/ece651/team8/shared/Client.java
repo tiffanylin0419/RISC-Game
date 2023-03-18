@@ -53,9 +53,9 @@ public class Client {
     /** execute the client */
     public void run() {
         try {
-            receiveColor();
-            receiveMapInfo();
-            display();
+//            receiveColor();
+//            receiveMapInfo();
+//            display();
             //doInitialPlacement();
             doOneOrder();
             reader.close();
@@ -140,15 +140,15 @@ public class Client {
                 choice = tryChooseOneAction(buffer,input);
             } catch (IllegalArgumentException e) {
                 out.println(e.getMessage());
-                out.println("Please input an valid placement!");
+                System.out.println("Please input an valid placement!");
                 continue;
             }
             break;
         }
+        System.out.println("==========="+choice + "===========");
        if (choice.equals("M")) {
-            receive();
             doOneMove();
-        }else{
+        }else if(choice.equals("A")){
             doOneAttack();
         }
     }
@@ -156,15 +156,17 @@ public class Client {
     public String tryChooseOneAction(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.print(prompt);
         String s = input.readLine();
+        System.out.println("xxxxxx"+s + "xxxxxx");
         if(isValidChoice(s)){
             send(s);
+
             return s;
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
         }
     }
 
-    public Boolean isValidChoice(String s){
+    public boolean isValidChoice(String s){
         return s.equals("M")||s.equals("A")||s.equals("D");
     }
 

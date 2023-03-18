@@ -21,7 +21,8 @@ class ClientThreadTest {
         PrintStream output = new PrintStream(bytes, true);
         return  new Client(port, host, output, input);
     }
-    @Disabled
+
+
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -29,7 +30,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "M\n2\na1\na2\n");
+        Client cli = createClient(1231,"localhost", bytes, "M\n6\na1\na3\nD\nL\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
