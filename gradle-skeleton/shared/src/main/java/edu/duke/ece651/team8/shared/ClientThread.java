@@ -170,8 +170,8 @@ public class ClientThread extends Thread {
         }
     }
     public void doOneCommit(int index) throws IOException {
-        if(!buffer.equals("D")) {
-            if (buffer.equals("Move")) {
+        while(!buffer.equals("D")) {
+            if (buffer.equals("M")) {
                 doMoveOrder(index);
             }//else{}
             receive(readers.get(index));
@@ -192,13 +192,13 @@ public class ClientThread extends Thread {
         doOneTransmission(index, "Please enter the number of units to move:");
         int num = Integer.parseInt(buffer);
 
-//        doOneTransmission(index, "Please enter the source territory:");
-//        String source = buffer;
-//
-//        doOneTransmission(index, "Please enter the destination territory:");
-//        String destination = buffer;
-//        Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
-//        ac.doAction(theMap);
+        doOneTransmission(index, "Please enter the source territory:");
+        String source = buffer;
+
+        doOneTransmission(index, "Please enter the destination territory:");
+        String destination = buffer;
+        Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
+        ac.doAction(theMap);
     }
     /**
      * Send infomation to one client
@@ -214,6 +214,7 @@ public class ClientThread extends Thread {
         System.out.println(ss);
         sb.append(ss);
         String receLine = reader.readLine();
+//        System.out.println(receLine);
         while(!receLine.equals(END_OF_TURN)) {   //!!!!
             sb.append("\n"+receLine);
             receLine = reader.readLine();

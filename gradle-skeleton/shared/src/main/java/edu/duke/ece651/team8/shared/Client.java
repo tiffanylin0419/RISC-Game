@@ -81,7 +81,7 @@ public class Client {
     }
     public void send(String message) {
         output.println(message);
-        output.print(END_OF_TURN);
+        output.println(END_OF_TURN);
         output.flush(); // flush the output buffer
     }
 
@@ -156,10 +156,10 @@ public class Client {
     public String tryChooseOneAction(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.print(prompt);
         String s = input.readLine();
-        System.out.println("xxxxxx"+s + "xxxxxx");
-        if(isValidChoice(s)){
-            send(s);
 
+        if(isValidChoice(s)){
+            System.out.println("xxxxxx"+s + "xxxxxx");
+            send(s);
             return s;
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
