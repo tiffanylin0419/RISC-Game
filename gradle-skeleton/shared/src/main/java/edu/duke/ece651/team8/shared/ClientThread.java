@@ -65,8 +65,8 @@ public class ClientThread extends Thread {
     public void run() {
         try {
 //            sendInitialConfig();
-            //doInitialPlacement();
-            issueOrders();
+            doInitialPlacement();
+//            issueOrders();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players
 //                mapInfo = mapView.displayMap(players);
@@ -103,7 +103,7 @@ public class ClientThread extends Thread {
     public boolean checkUnitNumValid(int curr) {
         int input = Integer.parseInt(buffer);
         if (input > curr) {
-            throw new IllegalArgumentException("Unit amount is not valid!\n");
+            throw new IllegalArgumentException("Unit amount is not valid!");
         }
         return true;
     }
@@ -114,7 +114,7 @@ public class ClientThread extends Thread {
     }
 
     private void endPlacementPhase() throws IOException {
-        String prompt = "Placement phase is done!";
+        String prompt = "Placement phase is done!\n";
         for (int i = 0; i < clientSockets.size(); ++i) {
             send(prompt, outputs.get(i));
         }
@@ -135,18 +135,18 @@ public class ClientThread extends Thread {
             for (int j = 0; j < size - 1; ++j) {
                 while (true) {
                     Territory t = territories.get(j);
-                    send(prompt + t.getName(), outputs.get(i));
+                    send(prompt + t.getName() + "\n", outputs.get(i));
                     try {
                         receive(readers.get(i));
                         checkUnitNumValid(curr);
                         setUnitInTerritory(t);
                         curr -= Integer.parseInt(buffer);
                     } catch (Exception e) {
-                        send("invalid", outputs.get(i));
                         System.out.println(e.getMessage());
+                        send("invalid\n", outputs.get(i));
                         continue;
                     }
-                    send("valid", outputs.get(i));
+                    send("valid\n", outputs.get(i));
                     break;
                 }
             }

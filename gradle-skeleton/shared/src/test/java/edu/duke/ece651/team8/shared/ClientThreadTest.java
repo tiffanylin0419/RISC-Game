@@ -30,7 +30,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "M\n6\na1\na3\nD\nL\n");
+        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\n6\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
@@ -45,15 +45,18 @@ class ClientThreadTest {
         th.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Green\n" +
-                "Green Player:\n" +
-                "-------------\n" +
-                "0 units in a1 (next to: a2)\n" +
-                "0 units in a2 (next to: a1, a3)\n" +
-                "0 units in a3 (next to: a2, a4)\n" +
-                "0 units in a4 (next to: a3, a5)\n" +
-                "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)", actual);
+//        assertEquals("Green\n" +
+//                "Green Player:\n" +
+//                "-------------\n" +
+//                "0 units in a1 (next to: a2)\n" +
+//                "0 units in a2 (next to: a1, a3)\n" +
+//                "0 units in a3 (next to: a2, a4)\n" +
+//                "0 units in a4 (next to: a3, a5)\n" +
+//                "0 units in a5 (next to: a4, a6)\n" +
+//                "0 units in a6 (next to: a5)", actual);
+        assertEquals("Please enter the units you would like to place in a1\n" +
+                "Please enter the units you would like to place in a3\n" +
+                "Please enter the units you would like to place in a5\n", actual);
     }
 
     @Disabled

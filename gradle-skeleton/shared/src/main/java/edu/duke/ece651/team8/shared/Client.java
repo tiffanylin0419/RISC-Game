@@ -56,8 +56,8 @@ public class Client {
 //            receiveColor();
 //            receiveMapInfo();
 //            display();
-            //doInitialPlacement();
-            doOneOrder();
+            doInitialPlacement();
+//            doOneOrder();
             reader.close();
             inputStream.close();
             socket.close();
@@ -98,17 +98,22 @@ public class Client {
         mapInfo = buffer;
     }
 
-    public void doInitialPlacement()throws IOException{
+    public void doInitialPlacement() throws IOException{
         receive();
         int placementTimes = Integer.parseInt(buffer);
         for(int i = 0; i < placementTimes;i++){
-            receive();
+//            receive();
             while (true) {
                 try {
+                    receive();
                     tryDoPlacementChoice(buffer, input);
+                    receive();
+                    if (buffer.equals("invalid")) {
+                        continue;
+                    }
                 } catch (Exception e) {
                     out.println(e.getMessage());
-                    out.println("Please input an valid placement!");
+                    out.println("Please input a valid placement!");
                     continue;
                 }
                 break;
