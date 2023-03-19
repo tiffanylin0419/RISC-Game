@@ -30,7 +30,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "37\n1\n2\n3\n4\n5\n6\n");
+        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\n6\nM\n6\na1\na2\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
@@ -45,24 +45,91 @@ class ClientThreadTest {
         th.join();
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//        assertEquals("Green\n" +
-//                "Green Player:\n" +
-//                "-------------\n" +
-//                "0 units in a1 (next to: a2)\n" +
-//                "0 units in a2 (next to: a1, a3)\n" +
-//                "0 units in a3 (next to: a2, a4)\n" +
-//                "0 units in a4 (next to: a3, a5)\n" +
-//                "0 units in a5 (next to: a4, a6)\n" +
-//                "0 units in a6 (next to: a5)", actual);
-        assertEquals("Please enter the units you would like to place in a1\ninvalid\n\n" +
-                        "Please enter the units you would like to place in a1\nvalid\n\n" +
+
+        assertEquals("Green\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)\n"+
+                "Please enter the units you would like to place in a1\nvalid\n\n" +
                 "Please enter the units you would like to place in a3\nvalid\n\n" +
                 "Please enter the units you would like to place in a5\nvalid\n\n" +
                 "Please enter the units you would like to place in a1\nvalid\n\n" +
                 "Please enter the units you would like to place in a3\nvalid\n\n" +
-                "Placement phase is done!\n", actual);
+                "Placement phase is done!\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)oneUnits number should be non_negative number\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)onePlease enter the number of units to move:\n"+
+                "Please enter the source territory:\n"+
+                "Please enter the destination territory:\n"+
+                "Please enter the destination territory:", actual);
     }
 
+    @Test
+    public void testIOExceptionInRun() throws Exception {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        ServerSocket ss = new ServerSocket(1231);
+        AbstractMapFactory factory = new V1MapFactory();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n1\n2\n3\n4\n5\n6\nM\n-6\n6\na1\na2\nD\n");
+
+        Socket cliSocket = ss.accept();
+        List<Socket> clis = new ArrayList<>();
+
+        clis.add(cliSocket);
+        ClientThread th = new ClientThread(clis, factory);
+        th.start();
+
+        cli.run();
+
+        th.interrupt();
+        th.join();
+        ss.close();
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+
+        assertEquals("Green\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)\n"+
+                "Please enter the units you would like to place in a1\n"+
+                "Units number should be non_negative number\n"+"Please input a valid placement!\n"+
+                "Please enter the units you would like to place in a1\ninvalid\n\n" +
+                "Please enter the units you would like to place in a1\nvalid\n\n" +
+                "Please enter the units you would like to place in a3\nvalid\n\n" +
+                "Please enter the units you would like to place in a5\nvalid\n\n" +
+                "Please enter the units you would like to place in a1\nvalid\n\n" +
+                "Please enter the units you would like to place in a3\nvalid\n\n" +
+                "Placement phase is done!\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)oneUnits number should be non_negative number\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)onePlease enter the number of units to move:\n"+
+                "Units number should be non_negative number\n"+
+                "Please input a valid unit number!\n"+
+                "Please enter the number of units to move:\n"+
+                "Please enter the source territory:\n"+
+                "Please enter the destination territory:\n"+
+                "Please enter the destination territory:", actual);
+    }
     @Disabled
     @Test
     public void testServerHandlesIOException() throws Exception {

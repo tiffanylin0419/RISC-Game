@@ -64,9 +64,9 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
-//            sendInitialConfig();
+            sendInitialConfig();
             doInitialPlacement();
-//            issueOrders();
+            issueOrders();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players
 //                mapInfo = mapView.displayMap(players);
@@ -135,18 +135,19 @@ public class ClientThread extends Thread {
             for (int j = 0; j < size - 1; ++j) {
                 while (true) {
                     Territory t = territories.get(j);
+                    System.out.println("======="+j+"=======");
                     send(prompt + t.getName() + "\n", outputs.get(i));
                     try {
                         receive(readers.get(i));
                         checkUnitNumValid(curr);
                         setUnitInTerritory(t);
                         curr -= Integer.parseInt(buffer);
+                        send("valid\n", outputs.get(i));
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         send("invalid\n", outputs.get(i));
                         continue;
                     }
-                    send("valid\n", outputs.get(i));
                     break;
                 }
             }
@@ -180,7 +181,7 @@ public class ClientThread extends Thread {
     public void doOneTransmission(int index, String prompt) throws IOException {
         send(prompt, outputs.get(index));
         receive(readers.get(index));
-        System.out.println(buffer);
+        System.out.println("receive from client: "+buffer);
     }
 
     /**

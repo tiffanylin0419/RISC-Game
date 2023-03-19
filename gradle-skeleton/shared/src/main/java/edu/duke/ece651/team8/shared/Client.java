@@ -53,11 +53,11 @@ public class Client {
     /** execute the client */
     public void run() {
         try {
-//            receiveColor();
-//            receiveMapInfo();
-//            display();
+            receiveColor();
+            receiveMapInfo();
+            display();
             doInitialPlacement();
-//            doOneOrder();
+            doOneOrder();
             reader.close();
             inputStream.close();
             socket.close();
@@ -120,7 +120,6 @@ public class Client {
                     break;
                 }
             }
-
         }
         receive();
         out.print(buffer);
@@ -143,21 +142,25 @@ public class Client {
     public void doOneOrder()throws IOException{
         receive();
         String choice;
-        while (true) {
-            try {
-                choice = tryChooseOneAction(buffer,input);
-            } catch (IllegalArgumentException e) {
-                out.println(e.getMessage());
-                System.out.println("Please input an valid placement!");
-                continue;
+        while(true) {
+            while (true) {
+                try {
+                    choice = tryChooseOneAction(buffer, input);
+                } catch (IllegalArgumentException e) {
+                    out.println(e.getMessage());
+                    System.out.println("Please input an valid action choice");
+                    continue;
+                }
+                break;
             }
-            break;
-        }
-        System.out.println("==========="+choice + "===========");
-       if (choice.equals("M")) {
-            doOneMove();
-        }else if(choice.equals("A")){
-            doOneAttack();
+            System.out.println("===========" + choice + "===========");
+            if (choice.equals("M")) {
+                doOneMove();
+            } else if (choice.equals("A")) {
+                doOneAttack();
+            }else{
+                break;
+            }
         }
     }
 
@@ -226,7 +229,7 @@ public class Client {
         displayMap();
     }
     public void displayMap() {
-        out.print(mapInfo);
+        out.println(mapInfo);
     }
 
 
