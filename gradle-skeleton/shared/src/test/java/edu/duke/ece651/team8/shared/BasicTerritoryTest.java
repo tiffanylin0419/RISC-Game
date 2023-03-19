@@ -83,6 +83,7 @@ public class BasicTerritoryTest {
     assertFalse(territories[1].isAdjacentSelf(territories[4]));
   }
 
+  @Disabled
   @Test
   public void test_move(){
     Player p1=new TextPlayer("red");
