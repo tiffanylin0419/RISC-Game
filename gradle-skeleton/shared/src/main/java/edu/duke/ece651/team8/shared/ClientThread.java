@@ -178,15 +178,26 @@ public class ClientThread extends Thread {
      * @throws IOException
      */
     public void doOneCommit(int index) throws IOException {
+//        List<attackAction> aa = new ArrayList<>();
         while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
                 doMoveOrder(index);
             } else if (buffer.equals("A")) {
-                doAttackOrder(index);
+//                aa.add(doAttackOrder(index));
             }
             receive(readers.get(index));
         }
+//        for(attackAction a : aa) {
+//            a.doAction();
+//        }
     }
+
+    /**
+     * Conduct one command transmission between client and server
+     * @param index is index of current client
+     * @param prompt is info to send to client
+     * @throws IOException
+     */
     public void doOneTransmission(int index, String prompt) throws IOException {
         send(prompt, outputs.get(index));
         receive(readers.get(index));
@@ -216,8 +227,8 @@ public class ClientThread extends Thread {
      * @param index is index of current client
      * @throws IOException
      */
-    public void doAttackOrder(int index) throws IOException{
-        doOneTransmission(index, "Please enter the number of units to move:");
+    public Action doAttackOrder(int index) throws IOException{
+        doOneTransmission(index, "Please enter the number of units to attack:");
         int num = Integer.parseInt(buffer);
 
         doOneTransmission(index, "Please enter the source territory:");
@@ -225,8 +236,9 @@ public class ClientThread extends Thread {
 
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
-        Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
-        ac.doAction(theMap);
+        Action ac;
+        ac = new MoveAction(players.get(index), source, destination, num, theMap); //Change move to attack
+        return ac;
     }
     /**
      * Send infomation to one client
@@ -236,6 +248,12 @@ public class ClientThread extends Thread {
         output.println(END_OF_TURN);
         output.flush(); // flush the output buffer
     }
+
+    /**
+     * Receive message to buffer from the input reader
+     * @param reader is the bufferedreader of current client
+     * @throws IOException
+     */
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
         String ss = reader.readLine();
