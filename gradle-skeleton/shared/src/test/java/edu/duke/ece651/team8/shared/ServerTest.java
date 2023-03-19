@@ -46,11 +46,12 @@ public class ServerTest {
         serverThread.join();
     }
     private void checkClientHelper(ByteArrayOutputStream bytes, Client cli, String expected) throws Exception {
-        cli.run();
+        cli.receiveColor();
+        cli.receiveMapInfo();
+        cli.display();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals(expected, actual);
     }
-    @Disabled
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -65,7 +66,6 @@ public class ServerTest {
             s.run();
         });
         serverThread.start();
-
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
@@ -91,7 +91,7 @@ public class ServerTest {
                 "0 units in b3 (next to: a3, b2, b4)\n" +
                 "0 units in b4 (next to: a4, b3, b5)\n" +
                 "0 units in b5 (next to: a5, b4, b6)\n" +
-                "0 units in b6 (next to: a6, b5)");
+                "0 units in b6 (next to: a6, b5)\n");
         checkClientHelper(bytes1, cli1, "Red\n" +
                 "Green Player:\n" +
                 "-------------\n" +
@@ -108,37 +108,11 @@ public class ServerTest {
                 "0 units in b3 (next to: a3, b2, b4)\n" +
                 "0 units in b4 (next to: a4, b3, b5)\n" +
                 "0 units in b5 (next to: a5, b4, b6)\n" +
-                "0 units in b6 (next to: a6, b5)");
+                "0 units in b6 (next to: a6, b5)\n");
 
         s.stop();
         serverThread.join();
         ss.close();
 
     }
-//    @Test
-//    public void testHasSocket() throws Exception {
-//
-//        ServerSocket ss = new ServerSocket(1219);
-//        Map m = new Game1Map();
-//        m.addTerritory(new BasicTerritory("Planto"));
-//
-//        Server s = new Server(ss, m, 1);
-//        Thread serverThread = new Thread(() -> {
-//            s.run();
-//        });
-//        serverThread.start();
-//
-//        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
-//        PrintStream output1 = new PrintStream(bytes1, true);
-//        Socket cliSocket = new Socket("localhost", 1219);
-//        Client cli = new Client(cliSocket, output1);
-//        cli.run();
-//
-//        s.stop();
-//        serverThread.join();
-//        ss.close();
-//        String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//        assertEquals("Green\nGreen Player:\n-------------\n0 units in Planto (next to: )\n", actual);
-//    }
-
 }
