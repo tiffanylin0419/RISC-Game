@@ -102,22 +102,25 @@ public class Client {
         receive();
         int placementTimes = Integer.parseInt(buffer);
         for(int i = 0; i < placementTimes;i++){
-//            receive();
-            while (true) {
-                try {
-                    receive();
-                    tryDoPlacementChoice(buffer, input);
-                    receive();
-                    if (buffer.equals("invalid")) {
+            while(true) {
+                receive();
+                while (true) {
+                    try {
+                        tryDoPlacementChoice(buffer, input);
+                    } catch (Exception e) {
+                        out.println(e.getMessage());
+                        out.println("Please input a valid placement!");
                         continue;
                     }
-                } catch (Exception e) {
-                    out.println(e.getMessage());
-                    out.println("Please input a valid placement!");
-                    continue;
+                    break;
                 }
-                break;
+                receive();
+                out.println(buffer);
+                if (buffer.equals("valid\n")) {
+                    break;
+                }
             }
+
         }
         receive();
         out.print(buffer);

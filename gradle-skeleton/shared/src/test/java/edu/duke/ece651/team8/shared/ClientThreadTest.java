@@ -30,7 +30,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\n6\n");
+        Client cli = createClient(1231,"localhost", bytes, "37\n1\n2\n3\n4\n5\n6\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
