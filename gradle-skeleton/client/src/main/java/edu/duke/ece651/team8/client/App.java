@@ -4,7 +4,10 @@
 package edu.duke.ece651.team8.client;
 
 import edu.duke.ece651.team8.shared.Client;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 public class App {
@@ -15,9 +18,10 @@ public class App {
    * @throws IOException if creation of the ServerSocket fails.
   */
   public static void main(String[] args) throws IOException {
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     String hostname = "localhost"; // set the hostname of the server
     int port = 1651; // set the port number
-    Client client = new Client(port, hostname); // create a new client instance
+    Client client = new Client(port, hostname,in); // create a new client instance
     client.run(); // connect the client to the server
   }
 

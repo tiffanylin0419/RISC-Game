@@ -65,6 +65,7 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             sendInitialConfig();
+            doInitialPlacement();
             issueOrders();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players
@@ -90,30 +91,97 @@ public class ClientThread extends Thread {
         }
     }
 
+    private ArrayList<Territory> getTerritories(String color) {
+        for (Player player : players) {
+            if (player.getColor().equals(color)) {
+                return player.getTerritores();
+            }
+        }
+        return null;
+    }
+
+    public boolean checkUnitNumValid(int curr) {
+        int input = Integer.parseInt(buffer);
+        if (input > curr) {
+            throw new IllegalArgumentException("Unit amount is not valid!");
+        }
+        return true;
+    }
+    private void setUnitInTerritory(Territory t) {
+        int amount = Integer.parseInt(buffer);
+        Unit unit = new BasicUnit(amount, t.getOwner());
+        t.moveIn(unit);
+    }
+
+    private void endPlacementPhase() throws IOException {
+        String prompt = "Placement phase is done!\n";
+        for (int i = 0; i < clientSockets.size(); ++i) {
+            send(prompt, outputs.get(i));
+        }
+    }
+
     /**
+     * init placement of units
+     * @throws IOException
+     */
+    public void doInitialPlacement() throws IOException{
+        String num = Integer.toString(placementTimes);
+        String prompt = "Please enter the units you would like to place in ";
+        for(int i = 0; i < clientSockets.size(); i++) {
+            send(num, outputs.get(i));
+            int curr = this.unitAmount;
+            ArrayList<Territory> territories = getTerritories(colors.get(i));
+            int size = territories.size();
+            for (int j = 0; j < size - 1; ++j) {
+                while (true) {
+                    Territory t = territories.get(j);
+                    System.out.println("======="+j+"=======");
+                    send(prompt + t.getName() + "\n", outputs.get(i));
+                    try {
+                        receive(readers.get(i));
+                        checkUnitNumValid(curr);
+                        setUnitInTerritory(t);
+                        curr -= Integer.parseInt(buffer);
+                        send("valid\n", outputs.get(i));
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        send("invalid\n", outputs.get(i));
+                        continue;
+                    }
+                    break;
+                }
+            }
+            Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
+            territories.get(size - 1).moveIn(unit);
+        }
+        endPlacementPhase();
+    }
+
+     /**
      * Issue orders (Move and Attack) for every client
      * @throws IOException
      */
     public void issueOrders() throws IOException{
         for(int i = 0; i < clientSockets.size(); i++) {
-            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?";
+            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
             send(prompt, outputs.get(i));
             receive(readers.get(i));
+            System.out.println(buffer);
             doOneCommit(i);
         }
     }
     public void doOneCommit(int index) throws IOException {
-        while(!buffer.equals("commit")) {
+        while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
                 doMoveOrder(index);
-            }
+            }//else{}
             receive(readers.get(index));
         }
     }
     public void doOneTransmission(int index, String prompt) throws IOException {
         send(prompt, outputs.get(index));
         receive(readers.get(index));
-        System.out.println(buffer);
+        System.out.println("receive from client: "+buffer);
     }
 
     /**
@@ -143,9 +211,12 @@ public class ClientThread extends Thread {
     }
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append(reader.readLine());
+        String ss = reader.readLine();
+        System.out.println(ss);
+        sb.append(ss);
         String receLine = reader.readLine();
-        while(!receLine.equals("END_OF_TURN")) {   //!!!!
+//        System.out.println(receLine);
+        while(!receLine.equals(END_OF_TURN)) {   //!!!!
             sb.append("\n"+receLine);
             receLine = reader.readLine();
         }

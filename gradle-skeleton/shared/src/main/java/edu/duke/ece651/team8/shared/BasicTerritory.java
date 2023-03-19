@@ -132,6 +132,7 @@ public class BasicTerritory implements Territory {
         return;
       }
     }
+
   }
 
   /**
@@ -228,5 +229,17 @@ public class BasicTerritory implements Territory {
   @Override
   public ArrayList<Territory> getAdjList() {
     return this.adjList;
+  }
+
+  @Override
+  public Player getOwner() {
+    return this.owner;
+
+  }
+
+  @Override
+  public Player setOwner(Player player) {
+    this.owner = player;
+    return this.owner;
   }
 }

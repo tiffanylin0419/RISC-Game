@@ -56,6 +56,7 @@ public class V1MapFactory implements AbstractMapFactory {
         Player player=new TextPlayer(colors[num]);
         for (int i = 0; i < territoryAmount; ++i) {
             player.addTerritory(territories.get(6*num+i));
+            territories.get(6 * num + i).setOwner(player);
         }
         return player;
     }

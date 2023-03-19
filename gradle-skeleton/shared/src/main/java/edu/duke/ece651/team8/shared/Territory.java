@@ -108,4 +108,8 @@ public interface Territory {
    * @return size of units
    */
   public int getUnitsSize();
+
+  public Player getOwner();
+
+  public Player setOwner(Player player);
 }
