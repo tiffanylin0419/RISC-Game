@@ -164,10 +164,9 @@ public class ClientThread extends Thread {
                 String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
                 send(prompt, outputs.get(i));
                 receive(readers.get(i));
-                System.out.println(buffer);
                 doOneCommit(i);
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -178,18 +177,18 @@ public class ClientThread extends Thread {
      * @throws IOException
      */
     public void doOneCommit(int index) throws IOException {
-//        List<attackAction> aa = new ArrayList<>();
+        List<AttackAction> aa = new ArrayList<>();
         while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
                 doMoveOrder(index);
             } else if (buffer.equals("A")) {
-//                aa.add(doAttackOrder(index));
+                aa.add(doAttackOrder(index));
             }
             receive(readers.get(index));
         }
-//        for(attackAction a : aa) {
-//            a.doAction();
-//        }
+        for(AttackAction a : aa) {
+            a.doAction(theMap);
+        }
     }
 
     /**
@@ -225,9 +224,10 @@ public class ClientThread extends Thread {
     /**
      * Conduct attack order with attack message from client
      * @param index is index of current client
+     * @return current step attack action
      * @throws IOException
      */
-    public Action doAttackOrder(int index) throws IOException{
+    public AttackAction doAttackOrder(int index) throws IOException{
         doOneTransmission(index, "Please enter the number of units to attack:");
         int num = Integer.parseInt(buffer);
 
@@ -236,8 +236,7 @@ public class ClientThread extends Thread {
 
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
-        Action ac;
-        ac = new MoveAction(players.get(index), source, destination, num, theMap); //Change move to attack
+        AttackAction ac = new AttackAction(players.get(index), source, destination, num, theMap); //Change move to attack
         return ac;
     }
     /**

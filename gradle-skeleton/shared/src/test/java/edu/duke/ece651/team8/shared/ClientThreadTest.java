@@ -113,76 +113,39 @@ class ClientThreadTest {
         clientThread.join();
 
     }
-    @Disabled
     @Test
-    public void testIssueOrders() throws Exception {
+    public void testIssueOrdersAttack() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String END_OF_TURN = "END_OF_TURN";
         ServerSocket ss = new ServerSocket(1231);
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-        Socket s = new Socket("localhost", 1231);
-        Client cli = new Client(s, output, in);
-        PrintWriter cliOutput = new PrintWriter(s.getOutputStream(), true);
+        Client cli = createClient(1231,"localhost", bytes, "A\n1\na1\nb1\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
         ClientThread th = new ClientThread(clis, factory);
-        th.start();
+        // create a new thread and start it
+        Thread thread = new Thread(() -> {
+            th.issueOrders();
+        });
+        thread.start();
 
-        cli.receiveColor();
-        cli.receiveMapInfo();
-        cli.receive();
-        cliOutput.println("M");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cli.receive();
-        cliOutput.println("3");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cli.receive();
-        cliOutput.println("a1");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cli.receive();
-        cliOutput.println("a2");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cliOutput.println("M");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cli.receive();
-        cliOutput.println("3");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cli.receive();
-        cliOutput.println("a1");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cli.receive();
-        cliOutput.println("a2");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        cliOutput.println("commit");
-        cliOutput.print(END_OF_TURN);
-        cliOutput.flush(); // flush the output buffer
-
-        th.interrupt();
-        th.join();
-
-        cliOutput.close();
+        cli.doOneOrder();
+        thread.interrupt();
+        thread.join();
         ss.close();
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+
+        assertEquals("You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)onePlease enter the number of units to attack:\n"+
+                "Please enter the source territory:\n"+
+                "Please enter the destination territory:\n"+
+                "Please enter the destination territory:", actual);
     }
 
 

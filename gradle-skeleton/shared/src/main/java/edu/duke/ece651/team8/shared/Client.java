@@ -157,7 +157,7 @@ public class Client {
             if (choice.equals("M")) {
                 doOneMove();
             } else if (choice.equals("A")) {
-                doOneAttack();
+                doOneMove(); //looks like the same as doOneMove  used to be doOneAttack here
             }else{
                 break;
             }
