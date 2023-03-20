@@ -54,23 +54,33 @@ class ClientThreadTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)\n"+
-                "Please enter the units you would like to place in a1\nvalid\n\n" +
-                "Please enter the units you would like to place in a3\nvalid\n\n" +
-                "Please enter the units you would like to place in a5\nvalid\n\n" +
-                "Please enter the units you would like to place in a1\nvalid\n\n" +
-                "Please enter the units you would like to place in a3\nvalid\n\n" +
-                "Placement phase is done!\n"+
-                "You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)oneUnits number should be non_negative number\n"+
-                "You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)onePlease enter the number of units to move:\n"+
-                "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n"+
+                "0 units in a6 (next to: a5)\n" +
+                "Please enter the units you would like to place in a1\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a3\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a5\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a1\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a3\n" +
+                "valid\n" +
+                "\n" +
+                "Placement phase is done!\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)onePlease enter the number of units to move:\n" +
+                "Please enter the source territory:\n" +
+                "Please enter the destination territory:\n" +
                 "Please enter the destination territory:", actual);
     }
 
@@ -133,7 +143,7 @@ class ClientThreadTest {
         });
         thread.start();
 
-        cli.doOneOrder();
+        cli.doOneTurn();
         thread.interrupt();
         thread.join();
         ss.close();
