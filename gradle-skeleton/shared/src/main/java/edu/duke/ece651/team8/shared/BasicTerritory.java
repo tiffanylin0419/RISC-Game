@@ -234,7 +234,6 @@ public class BasicTerritory implements Territory {
   @Override
   public Player getOwner() {
     return this.owner;
-
   }
 
   @Override
