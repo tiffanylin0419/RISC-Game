@@ -18,8 +18,6 @@ public class ClientThread extends Thread {
     private List<BufferedReader> readers;
     /** Buffer for message from clients */
     protected String buffer;
-    /** Output stream of the client*/
-    private List<String> colors;
 
     final String END_OF_TURN = "END_OF_TURN";
     private String mapInfo;
@@ -49,10 +47,6 @@ public class ClientThread extends Thread {
         this.players = factory.createPlayers(clientSockets.size(), theMap);
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(players);
-        this.colors = new ArrayList<>();
-        for(int i = 0; i < clientNum; i++) {
-            colors.add(players.get(i).getColor());
-        }
         for(Socket cs : clientSockets){
             outputs.add(new PrintWriter(cs.getOutputStream()));
             InputStream is= cs.getInputStream();
@@ -83,7 +77,7 @@ public class ClientThread extends Thread {
     public void sendInitialConfig() {
         for(int i = 0; i < clientSockets.size(); i++) {
             //send color and initial map information to players
-            send(colors.get(i), outputs.get(i));
+            send(players.get(i).getColor(), outputs.get(i));
             send(mapInfo,outputs.get(i));
             //receive initial placements from players
         }
@@ -153,7 +147,7 @@ public class ClientThread extends Thread {
     public void issueOrders() {
         try {
             for (int i = 0; i < clientSockets.size(); i++) {
-                String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
+                String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
                 send(prompt, outputs.get(i));
                 receive(readers.get(i));
                 doOneCommit(i);
