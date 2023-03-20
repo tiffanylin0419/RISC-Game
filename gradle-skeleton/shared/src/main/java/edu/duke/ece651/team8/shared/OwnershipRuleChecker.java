@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
-public class OwnershipRuleChecker extends MovementRuleChecker {
-    public OwnershipRuleChecker(MovementRuleChecker next){
+public class OwnershipRuleChecker extends ActionRuleChecker {
+    public OwnershipRuleChecker(ActionRuleChecker next){
         super(next);
     }
 

@@ -13,5 +13,6 @@ plugins {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'edu.duke.ece651.team8.server.App'
+//    mainClassName = 'edu.duke.ece651.team8.server.App'
+    getMainClass().set('edu.duke.ece651.team8.server.App')
 }

@@ -22,7 +22,7 @@ class PathRuleCheckerTest {
         theMap.getTerritories().get(2).moveIn(new BasicUnit(3,p1));
         theMap.getTerritories().get(3).moveIn(new BasicUnit(2,p1));
 
-        MovementRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+        ActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
         Action action1 =new MoveAction(p1,"a1","a4",3,theMap);
         assertNull(checker.checkAllRule(action1));
         theMap.getTerritories().get(1).moveOut(new BasicUnit(4,p1));

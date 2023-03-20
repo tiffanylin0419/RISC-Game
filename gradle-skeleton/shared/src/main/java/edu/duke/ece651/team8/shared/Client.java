@@ -188,7 +188,8 @@ public class Client {
             if (choice.equals("M")) {
                 while(doOneMove()!=""){}
             } else if (choice.equals("A")) {
-                doOneAttack();
+                while(doOneAttack()!=""){}
+
             }else{
                 break;
             }
@@ -293,10 +294,11 @@ public class Client {
     /**
      * user do attack phase
      * @throws IOException if something wrong with receive
+     * @return null if not actually conduct
      */
-    public void doOneAttack()throws IOException{
+    public String doOneAttack()throws IOException{
         //to do
-        doOneMove();
+        return doOneMove();
     }
     /**
      * Display map info

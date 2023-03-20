@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
-public class PathRuleChecker  extends MovementRuleChecker {
-    public PathRuleChecker(MovementRuleChecker next){
+public class PathRuleChecker  extends ActionRuleChecker {
+    public PathRuleChecker(ActionRuleChecker next){
         super(next);
     }
 

@@ -38,5 +38,11 @@ public interface Map {
   /**
    * @return checker
    */
-  public MovementRuleChecker getChecker();
+  public ActionRuleChecker getChecker();
+
+  /**
+   * Do combats in all territory
+   * @return the outcome information for all the combats
+   */
+  public String doCombats();
 }
