@@ -213,7 +213,7 @@ public class Client {
             send(s);
             return s;
         }else{
-            throw new IllegalArgumentException("Action should be \"M\"(move) \"A\"(attack) or \"D\"(done) ");
+            throw new IllegalArgumentException("Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)");
         }
     }
 

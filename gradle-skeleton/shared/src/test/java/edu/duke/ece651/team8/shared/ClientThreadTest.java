@@ -64,11 +64,13 @@ class ClientThreadTest {
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
-                "(D)oneUnits number should be non_negative number\n"+
+                "(D)one\n"+
+                "Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
-                "(D)onePlease enter the number of units to move:\n"+
+                "(D)one\n"+
+                "Please enter the number of units to move:\n"+
                 "Please enter the source territory:\n"+
                 "Please enter the destination territory:\n"+
                 "Please enter the destination territory:", actual);
@@ -118,11 +120,13 @@ class ClientThreadTest {
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
-                "(D)oneUnits number should be non_negative number\n"+
+                "(D)one\n"+
+                "Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
-                "(D)onePlease enter the number of units to move:\n"+
+                "(D)one\n"+
+                "Please enter the number of units to move:\n"+
                 "Units number should be non_negative number\n"+
                 "Please input a valid unit number!\n"+
                 "Please enter the number of units to move:\n"+

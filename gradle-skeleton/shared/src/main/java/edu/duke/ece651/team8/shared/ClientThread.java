@@ -163,7 +163,7 @@ public class ClientThread extends Thread {
      */
     public void issueOrders() throws IOException{
         for(int i = 0; i < clientSockets.size(); i++) {
-            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
+            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one\n";
             send(prompt, outputs.get(i));
             receive(readers.get(i));
             System.out.println(buffer);
