@@ -94,7 +94,7 @@ public class ClientThread extends Thread {
     private void setUnitInTerritory(Territory t) {
         int amount = Integer.parseInt(buffer);
         Unit unit = new BasicUnit(amount, t.getOwner());
-        t.addUnit(unit);
+        t.moveIn(unit);
     }
 
     private void endPlacementPhase() {
@@ -169,7 +169,7 @@ public class ClientThread extends Thread {
         List<AttackAction> aa = new ArrayList<>();
         while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
-                doMoveOrder(index);
+                while(doMoveOrder(index)!=null){}
             } else if (buffer.equals("A")) {
                 aa.add(doAttackOrder(index));
             }
@@ -197,7 +197,7 @@ public class ClientThread extends Thread {
      * @param index is index of current client
      * @throws IOException
      */
-    public void doMoveOrder(int index) throws IOException{
+    public String doMoveOrder(int index) throws IOException{
         doOneTransmission(index, "Please enter the number of units to move:");
         int num = Integer.parseInt(buffer);
 
@@ -207,7 +207,15 @@ public class ClientThread extends Thread {
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
         Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
-        ac.doAction(theMap);
+        String errorMessage=theMap.getChecker().checkAllRule(ac);
+        if(errorMessage==null) {
+            send("", outputs.get(index));
+            ac.doAction(theMap);
+        }
+        else{
+            send(errorMessage, outputs.get(index));
+        }
+        return errorMessage;
     }
 
     /**

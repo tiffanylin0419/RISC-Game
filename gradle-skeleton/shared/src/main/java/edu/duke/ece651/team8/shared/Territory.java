@@ -72,7 +72,6 @@ public interface Territory {
   /**
    * add unit_in into units
    * will modify existing list if units have unit that has the same owner
-   *
    * @param unit_in
    */
   public void moveIn(Unit unit_in);
@@ -113,5 +112,4 @@ public interface Territory {
 
   public Player setOwner(Player player);
 
-  public void addUnit(Unit unit);
 }

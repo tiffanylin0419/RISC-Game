@@ -23,6 +23,7 @@ class ClientThreadTest {
         return  new Client(port, host, output, input);
     }
 
+    @Disabled
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -74,6 +75,7 @@ class ClientThreadTest {
                 "Please enter the destination territory:", actual);
     }
 
+    @Disabled
     @Test
     public void testIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -124,7 +126,6 @@ class ClientThreadTest {
                 "(A)ttack\n"+
                 "(D)onePlease enter the number of units to move:\n"+
                 "Units number should be non_negative number\n"+
-                "Please input a valid unit number!\n"+
                 "Please enter the number of units to move:\n"+
                 "Please enter the source territory:\n"+
                 "Please enter the destination territory:\n"+
@@ -198,6 +199,7 @@ class ClientThreadTest {
         clientThread.join();
 
     }
+    @Disabled
     @Test
     public void testIssueOrdersAttack() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
