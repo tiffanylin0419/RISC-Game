@@ -186,7 +186,7 @@ public class Client {
             }
             System.out.println("===========" + choice + "===========");
             if (choice.equals("M")) {
-                doOneMove();
+                while(doOneMove()!=""){}
             } else if (choice.equals("A")) {
                 doOneAttack();
             }else{
@@ -229,14 +229,13 @@ public class Client {
      * Player do move phase
      * @throws IOException if something wrong with receive
      */
-    public void doOneMove()throws IOException{
+    public String doOneMove()throws IOException{
         receive();
         while (true) {
             try {
                 trySendUnitNumber(buffer,input);
             } catch (IllegalArgumentException e) {
                 out.println(e.getMessage());
-                out.println("Please input a valid unit number!");
                 continue;
             }
             break;
@@ -245,6 +244,11 @@ public class Client {
         trySendSourceTerritory(buffer,input);
         receive();
         trySendDestinationTerritory(buffer,input);
+        receive();
+        if(buffer!=""){
+            out.println(buffer);
+        }
+        return buffer;
     }
 
     /**
