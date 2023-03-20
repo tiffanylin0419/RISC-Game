@@ -218,8 +218,9 @@ public class Client {
         trySendSourceTerritory(prompt,input);
     }
 
-    public void doOneAttack(){
+    public void doOneAttack()throws IOException{
         //to do
+        doOneMove();
     }
     /**
      * Display map info
