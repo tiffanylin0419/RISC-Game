@@ -58,7 +58,7 @@ public class Game1Map implements Map {
     StringBuilder outcomes = new StringBuilder();
     for(Territory t : territories) {
       t.attack();
-      outcomes.append("Player " + t.getOwner() + " wins combat in " + t.getName() + "\n");
+      outcomes.append("Player " + t.getOwner().getColor() + " wins combat in " + t.getName() + "\n");
     }
     return outcomes.toString();
   }

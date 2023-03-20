@@ -58,6 +58,7 @@ public class Client {
             display();
             doInitialPlacement();
             doOneTurn();
+            receiveOutcome();
             reader.close();
             inputStream.close();
             socket.close();
@@ -106,6 +107,10 @@ public class Client {
     public void receiveMapInfo()throws  IOException{
         receive();
         mapInfo = buffer;
+    }
+    public void receiveOutcome()throws  IOException{
+        receive();
+        out.println(buffer);
     }
 
     /**
