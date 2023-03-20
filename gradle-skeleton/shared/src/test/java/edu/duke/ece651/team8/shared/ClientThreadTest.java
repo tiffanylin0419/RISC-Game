@@ -56,10 +56,10 @@ class ClientThreadTest {
                 "0 units in a5 (next to: a4, a6)\n" +
                 "0 units in a6 (next to: a5)\n"+
                 "Please enter the units you would like to place in a1\nvalid\n\n" +
+                "Please enter the units you would like to place in a2\nvalid\n\n" +
                 "Please enter the units you would like to place in a3\nvalid\n\n" +
+                "Please enter the units you would like to place in a4\nvalid\n\n" +
                 "Please enter the units you would like to place in a5\nvalid\n\n" +
-                "Please enter the units you would like to place in a1\nvalid\n\n" +
-                "Please enter the units you would like to place in a3\nvalid\n\n" +
                 "Placement phase is done!\n"+
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
