@@ -35,14 +35,8 @@ public interface Map {
    */
   public void addAdjacency(Territory t1, Territory t2);
 
-//  /**
-//   * @return player's iterator
-//   */
-//  public Iterator<Player> getPlayerIterator();
-
-//  /**
-//   * add p to players
-//   * @param p
-//   */
-//  public void addPlayer(Player p);
+  /**
+   * @return checker
+   */
+  public MovementRuleChecker getChecker();
 }
