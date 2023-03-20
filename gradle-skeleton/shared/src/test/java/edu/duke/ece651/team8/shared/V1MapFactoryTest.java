@@ -27,6 +27,24 @@ public class V1MapFactoryTest {
         assertEquals(18, count);
     }
 
+    @Test
+    public void test_territory(){
+        V1MapFactory factory =new V1MapFactory();
+        Map theMap = factory.createMap(4);
+        ArrayList<Player> players = factory.createPlayers(4, theMap);
+        String s="";
+        for(int i = 0; i < 4; i++) {
+            ArrayList<Territory> territories = players.get(i).getTerritores();
+            int size = territories.size();
+
+            for (int j = 0; j < size ; ++j) {
+                Territory t = territories.get(j);
+                s+=t.getName();
+            }
+        }
+        assertEquals("a1a2a3a4a5a6b1b2b3b4b5b6c1c2c3c4c5c6d1d2d3d4d5d6",s);
+    }
+
 //    @Test
 //    public void testConstructor() {
 //        V1MapFactory factory = new V1MapFactory(2);
