@@ -54,38 +54,113 @@ class ClientThreadTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)\n" +
-                "Please enter the units you would like to place in a1\n" +
-                "valid\n" +
-                "\n" +
-                "Please enter the units you would like to place in a3\n" +
-                "valid\n" +
-                "\n" +
-                "Please enter the units you would like to place in a5\n" +
-                "valid\n" +
-                "\n" +
-                "Please enter the units you would like to place in a1\n" +
-                "valid\n" +
-                "\n" +
-                "Please enter the units you would like to place in a3\n" +
-                "valid\n" +
-                "\n" +
-                "Placement phase is done!\n" +
-                "You are the Green player, what would you like to do?\n" +
-                "(M)ove\n" +
-                "(A)ttack\n" +
-                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
-                "You are the Green player, what would you like to do?\n" +
-                "(M)ove\n" +
-                "(A)ttack\n" +
-                "(D)onePlease enter the number of units to move:\n" +
-                "Please enter the source territory:\n" +
-                "Please enter the destination territory:\n" +
+                "0 units in a6 (next to: a5)\n"+
+                "Please enter the units you would like to place in a1\nvalid\n\n" +
+                "Please enter the units you would like to place in a2\nvalid\n\n" +
+                "Please enter the units you would like to place in a3\nvalid\n\n" +
+                "Please enter the units you would like to place in a4\nvalid\n\n" +
+                "Please enter the units you would like to place in a5\nvalid\n\n" +
+                "Placement phase is done!\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)onePlease enter the number of units to move:\n"+
+                "Please enter the source territory:\n"+
+                "Please enter the destination territory:\n"+
                 "Please enter the destination territory:", actual);
     }
 
     @Test
-    public void testHandlesIOExceptionInIssueOrder() throws Exception {
+    public void testIOExceptionInRun() throws Exception {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        ServerSocket ss = new ServerSocket(1231);
+        AbstractMapFactory factory = new V1MapFactory();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n1\n2\n3\n4\n5\n6\nM\n-6\n6\na1\na2\nD\n");
+
+        Socket cliSocket = ss.accept();
+        List<Socket> clis = new ArrayList<>();
+
+        clis.add(cliSocket);
+        ClientThread th = new ClientThread(clis, factory);
+        th.start();
+
+        cli.run();
+
+        th.interrupt();
+        th.join();
+        ss.close();
+        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+
+        assertEquals("Green\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)\n"+
+                "Please enter the units you would like to place in a1\n"+
+                "Units number should be non_negative number\n"+"Please input a valid placement!\n"+
+                "Please enter the units you would like to place in a1\ninvalid\n\n" +
+                "Please enter the units you would like to place in a1\nvalid\n\n" +
+                "Please enter the units you would like to place in a2\nvalid\n\n" +
+                "Please enter the units you would like to place in a3\nvalid\n\n" +
+                "Please enter the units you would like to place in a4\nvalid\n\n" +
+                "Please enter the units you would like to place in a5\nvalid\n\n" +
+                "Placement phase is done!\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
+                "You are the Green player, what would you like to do?\n"+
+                "(M)ove\n"+
+                "(A)ttack\n"+
+                "(D)onePlease enter the number of units to move:\n"+
+                "Units number should be non_negative number\n"+
+                "Please input a valid unit number!\n"+
+                "Please enter the number of units to move:\n"+
+                "Please enter the source territory:\n"+
+                "Please enter the destination territory:\n"+
+                "Please enter the destination territory:", actual);
+    }
+    @Disabled
+    @Test
+    public void testServerHandlesIOException() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
+
+        // Create mock objects
+        Socket mockSocket = mock(Socket.class);
+        InputStream mockInputStream = mock(InputStream.class);
+        OutputStream mockOutputStream = mock(OutputStream.class);
+        // Set up mock socket
+        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
+        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
+
+        // Create client thread with mock socket
+        List<Socket> clis = new ArrayList<>();
+
+        ArrayList<Player> players=new ArrayList<>();
+        players.add(new Player("Red"));
+
+        clis.add(mockSocket);
+        ClientThread clientThread = new ClientThread(clis, factory);
+        doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
+        clientThread.start();
+
+        clientThread.interrupt();
+        clientThread.join();
+
+    }
+    @Disabled
+    @Test
+    public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         AbstractMapFactory factory = new V1MapFactory();
         ServerSocket ss = new ServerSocket(1231);
