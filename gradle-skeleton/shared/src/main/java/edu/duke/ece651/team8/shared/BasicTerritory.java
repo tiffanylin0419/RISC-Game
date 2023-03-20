@@ -242,4 +242,9 @@ public class BasicTerritory implements Territory {
     this.owner = player;
     return this.owner;
   }
+
+  @Override
+  public void addUnit(Unit unit) {
+    this.units.add(unit);
+  }
 }

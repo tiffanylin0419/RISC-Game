@@ -110,7 +110,7 @@ public class ClientThread extends Thread {
     private void setUnitInTerritory(Territory t) {
         int amount = Integer.parseInt(buffer);
         Unit unit = new BasicUnit(amount, t.getOwner());
-        t.moveIn(unit);
+        t.addUnit(unit);
     }
 
     private void endPlacementPhase() throws IOException {
@@ -132,10 +132,13 @@ public class ClientThread extends Thread {
             int curr = this.unitAmount;
             ArrayList<Territory> territories = getTerritories(colors.get(i));
             int size = territories.size();
+//            for (int j = 0; j < size - 1; ++j) {
+//                System.out.println("-------"+territories.get(j).getName()+"--------");
+//            }
             for (int j = 0; j < size - 1; ++j) {
                 while (true) {
                     Territory t = territories.get(j);
-                    System.out.println("======="+j+"=======");
+                    System.out.println("======="+t.getName()+"=======");
                     send(prompt + t.getName() + "\n", outputs.get(i));
                     try {
                         receive(readers.get(i));
@@ -143,12 +146,11 @@ public class ClientThread extends Thread {
                         setUnitInTerritory(t);
                         curr -= Integer.parseInt(buffer);
                         send("valid\n", outputs.get(i));
+                        break;
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         send("invalid\n", outputs.get(i));
-                        continue;
                     }
-                    break;
                 }
             }
             Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());

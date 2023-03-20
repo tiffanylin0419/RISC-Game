@@ -112,4 +112,6 @@ public interface Territory {
   public Player getOwner();
 
   public Player setOwner(Player player);
+
+  public void addUnit(Unit unit);
 }
