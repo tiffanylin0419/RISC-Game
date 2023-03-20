@@ -1,11 +1,11 @@
 package edu.duke.ece651.team8.shared;
 
 //use: new NoCollisionRuleChecker<T>(new InBoundsRuleChecker<T>(null))
-public abstract class MovementRuleChecker {
-    private final MovementRuleChecker next;
+public abstract class ActionRuleChecker {
+    private final ActionRuleChecker next;
 
     //constructor
-    public MovementRuleChecker(MovementRuleChecker next){
+    public ActionRuleChecker(ActionRuleChecker next){
         this.next=next;
     }
 

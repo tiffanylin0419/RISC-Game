@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
-public class NumberRuleChecker extends MovementRuleChecker {
-    public NumberRuleChecker(MovementRuleChecker next){
+public class NumberRuleChecker extends ActionRuleChecker {
+    public NumberRuleChecker(ActionRuleChecker next){
         super(next);
     }
 
