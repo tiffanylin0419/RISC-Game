@@ -25,7 +25,7 @@ public class ClientThread extends Thread {
     private final Map theMap;
     /** View of the map */
     protected View mapView;
-    private int clientNum;
+
     private final ArrayList<Player> players;
 
     private final int placementTimes = 5;
@@ -38,7 +38,6 @@ public class ClientThread extends Thread {
      */
     public ClientThread(List<Socket> clientSockets, AbstractMapFactory factory) throws IOException{
         this.clientSockets = clientSockets;
-        this.clientNum = clientSockets.size();
         this.mapInfo = mapInfo;
         this.outputs = new ArrayList<>();
         this.inputStreams = new ArrayList<>();
