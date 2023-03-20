@@ -51,5 +51,8 @@ public class Game1Map implements Map {
     t1.addAdjacent(t2);
     t2.addAdjacent(t1);
   }
+
+  @Override
+  public MovementRuleChecker getChecker(){return checker;}
 }
 
