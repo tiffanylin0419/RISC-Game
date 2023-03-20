@@ -64,7 +64,7 @@ class ClientThreadTest {
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
-                "(D)oneUnits number should be non_negative number\n"+
+                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
@@ -118,7 +118,7 @@ class ClientThreadTest {
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
-                "(D)oneUnits number should be non_negative number\n"+
+                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
                 "(A)ttack\n"+
