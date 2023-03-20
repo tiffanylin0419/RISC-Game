@@ -110,10 +110,10 @@ class ClientThreadTest {
                 "Units number should be non_negative number\n"+"Please input a valid placement!\n"+
                 "Please enter the units you would like to place in a1\ninvalid\n\n" +
                 "Please enter the units you would like to place in a1\nvalid\n\n" +
+                "Please enter the units you would like to place in a2\nvalid\n\n" +
                 "Please enter the units you would like to place in a3\nvalid\n\n" +
+                "Please enter the units you would like to place in a4\nvalid\n\n" +
                 "Please enter the units you would like to place in a5\nvalid\n\n" +
-                "Please enter the units you would like to place in a1\nvalid\n\n" +
-                "Please enter the units you would like to place in a3\nvalid\n\n" +
                 "Placement phase is done!\n"+
                 "You are the Green player, what would you like to do?\n"+
                 "(M)ove\n"+
