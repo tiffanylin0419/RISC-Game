@@ -108,18 +108,18 @@ public class BasicTerritory implements Territory {
   }
   @Override
   public void moveIn(Unit unit_in) {
-    if(units.isEmpty()){
-      units.add(unit_in);
-      changeOwner();
+    if(this.units.isEmpty()){
+      this.units.add(unit_in);
+      this.owner=unit_in.getOwner();
       return;
     }
-    for(Unit unit: units){
+    for(Unit unit: this.units){
       if(unit.getOwner()==unit_in.getOwner()){
         unit.add(unit_in.getAmount());
         return;
       }
     }
-    units.add(unit_in);
+    this.units.add(unit_in);
   }
   @Override
   public void moveOut(Unit unit_out){
@@ -243,8 +243,4 @@ public class BasicTerritory implements Territory {
     return this.owner;
   }
 
-  @Override
-  public void addUnit(Unit unit) {
-    this.units.add(unit);
-  }
 }

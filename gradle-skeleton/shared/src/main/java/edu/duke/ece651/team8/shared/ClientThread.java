@@ -94,7 +94,7 @@ public class ClientThread extends Thread {
     private void setUnitInTerritory(Territory t) {
         int amount = Integer.parseInt(buffer);
         Unit unit = new BasicUnit(amount, t.getOwner());
-        t.addUnit(unit);
+        t.moveIn(unit);
     }
 
     private void endPlacementPhase() {
