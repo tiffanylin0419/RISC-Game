@@ -57,7 +57,7 @@ public class Client {
             receiveMapInfo();
             display();
             doInitialPlacement();
-            doOneOrder();
+            doOneTurn();
             reader.close();
             inputStream.close();
             socket.close();
@@ -67,7 +67,7 @@ public class Client {
     }
 
     /**
-     * Receive the string info from the server into serverBuffer, NEED close the bufferReader after use this function
+     * Receive the string info from the server into serverBuffer
      */
     public void receive() throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -79,6 +79,11 @@ public class Client {
         }
         buffer = sb.toString();
     }
+
+    /**
+     * Send one message to server
+     * @param message the message to send
+     */
     public void send(String message) {
         output.println(message);
         output.println(END_OF_TURN);
@@ -87,17 +92,28 @@ public class Client {
 
     /**
      * receive color string from server
+     * @throws IOException if something wrong with receive
      */
     public void receiveColor()throws  IOException{
         receive();
         color = buffer;
     }
 
+    /**
+     * receive map information from server
+     * @throws IOException if something wrong with receive
+     */
     public void receiveMapInfo()throws  IOException{
         receive();
         mapInfo = buffer;
     }
 
+    /**
+     * do initial placement phase, user need to input
+     * the number she wants to place in a specific territory
+     * if input is invalid, she needs to re-input
+     * @throws IOException if something wrong with receive
+     */
     public void doInitialPlacement() throws IOException{
         receive();
         int placementTimes = Integer.parseInt(buffer);
@@ -106,7 +122,7 @@ public class Client {
                 receive();
                 while (true) {
                     try {
-                        tryDoPlacementChoice(buffer, input);
+                        tryInputUnitNumberToPlace(buffer, input);
                     } catch (Exception e) {
                         out.println(e.getMessage());
                         out.println("Please input a valid placement!");
@@ -125,7 +141,13 @@ public class Client {
         out.print(buffer);
     }
 
-    public void tryDoPlacementChoice(String prompt,BufferedReader input)throws Exception{
+    /**
+     * User input the unit number to place
+     * @param prompt the prompt for placement
+     * @param input the input buffer
+     * @throws Exception if something wrong with receive
+     */
+    public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
         out.print(prompt);
         String s = input.readLine();
         if(isNonNegativeInt(s)){
@@ -135,11 +157,20 @@ public class Client {
         }
     }
 
+    /**
+     * Determine if a string is a non-negative number string
+     * @param number the string to be judged
+     * @return true is >=0. Otherwise, false
+     */
     public boolean isNonNegativeInt(String number){
         return Integer.parseInt(number) >= 0;
     }
 
-    public void doOneOrder()throws IOException{
+    /**
+     * Player do her turn
+     * @throws IOException if something wrong with receive
+     */
+    public void doOneTurn()throws IOException{
         receive();
         String choice;
         while(true) {
@@ -164,6 +195,14 @@ public class Client {
         }
     }
 
+    /**
+     * player choose one action order to do
+     * @param prompt to prompt for action choices
+     * @param input the input buffer
+     * @return input choice string
+     * @throws IllegalArgumentException illegal input choice
+     * @throws IOException if something wrong with receive
+     */
     public String tryChooseOneAction(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.print(prompt);
         String s = input.readLine();
@@ -173,19 +212,28 @@ public class Client {
             send(s);
             return s;
         }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
+            throw new IllegalArgumentException("Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)");
         }
     }
 
+    /**
+     * Determine if a string is a valid choice string
+     * @param s the string to be judged
+     * @return true valid. Otherwise, false
+     */
     public boolean isValidChoice(String s){
         return s.equals("M")||s.equals("A")||s.equals("D");
     }
 
-    public void doOneMove()throws IllegalArgumentException,IOException{
+    /**
+     * Player do move phase
+     * @throws IOException if something wrong with receive
+     */
+    public void doOneMove()throws IOException{
         receive();
         while (true) {
             try {
-                trySendUnitReadNumber(buffer,input);
+                trySendUnitNumber(buffer,input);
             } catch (IllegalArgumentException e) {
                 out.println(e.getMessage());
                 out.println("Please input a valid unit number!");
@@ -198,7 +246,15 @@ public class Client {
         receive();
         trySendDestinationTerritory(buffer,input);
     }
-    public void trySendUnitReadNumber(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
+
+    /**
+     * try to send a valid unit number
+     * @param prompt the prompt for input
+     * @param input input buffer
+     * @throws IllegalArgumentException invalid unit number input
+     * @throws IOException if something wrong with receive
+     */
+    public void trySendUnitNumber(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.println(prompt);
         String s = input.readLine();
         if(isNonNegativeInt(s)){
@@ -208,18 +264,35 @@ public class Client {
         }
     }
 
+    /**
+     * try to send source territory
+     * @param prompt the prompt for input
+     * @param input input buffer
+     * @throws IOException if something wrong with receive
+     */
     public void trySendSourceTerritory(String prompt,BufferedReader input)throws IOException{
         out.println(prompt);
         String s = input.readLine();
         send(s);
     }
 
+    /**
+     * try to send destination territory
+     * @param prompt the prompt for input
+     * @param input input buffer
+     * @throws IOException if something wrong with receive
+     */
     public void trySendDestinationTerritory(String prompt,BufferedReader input)throws IOException{
         trySendSourceTerritory(prompt,input);
     }
 
-    public void doOneAttack(){
+    /**
+     * user do attack phase
+     * @throws IOException if something wrong with receive
+     */
+    public void doOneAttack()throws IOException{
         //to do
+        doOneMove();
     }
     /**
      * Display map info
@@ -228,6 +301,10 @@ public class Client {
         out.println(color);
         displayMap();
     }
+
+    /**
+     * Display map to out
+     */
     public void displayMap() {
         out.println(mapInfo);
     }

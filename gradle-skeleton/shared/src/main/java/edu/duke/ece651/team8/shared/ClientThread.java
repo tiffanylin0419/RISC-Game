@@ -18,8 +18,6 @@ public class ClientThread extends Thread {
     private List<BufferedReader> readers;
     /** Buffer for message from clients */
     protected String buffer;
-    /** Output stream of the client*/
-    private List<String> colors;
 
     final String END_OF_TURN = "END_OF_TURN";
     private String mapInfo;
@@ -49,10 +47,6 @@ public class ClientThread extends Thread {
         this.players = factory.createPlayers(clientSockets.size(), theMap);
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(players);
-        this.colors = new ArrayList<>();
-        for(int i = 0; i < clientNum; i++) {
-            colors.add(players.get(i).getColor());
-        }
         for(Socket cs : clientSockets){
             outputs.add(new PrintWriter(cs.getOutputStream()));
             InputStream is= cs.getInputStream();
@@ -73,9 +67,7 @@ public class ClientThread extends Thread {
 //                send(mapInfo,outputs.get(i));
 //                //receive initial placements from players
 //            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }finally {
+        } finally {
             for(PrintWriter output:outputs){
                 output.close();
             }
@@ -85,20 +77,12 @@ public class ClientThread extends Thread {
     public void sendInitialConfig() {
         for(int i = 0; i < clientSockets.size(); i++) {
             //send color and initial map information to players
-            send(colors.get(i), outputs.get(i));
+            send(players.get(i).getColor(), outputs.get(i));
             send(mapInfo,outputs.get(i));
             //receive initial placements from players
         }
     }
 
-    private ArrayList<Territory> getTerritories(String color) {
-        for (Player player : players) {
-            if (player.getColor().equals(color)) {
-                return player.getTerritores();
-            }
-        }
-        return null;
-    }
 
     public boolean checkUnitNumValid(int curr) {
         int input = Integer.parseInt(buffer);
@@ -113,7 +97,7 @@ public class ClientThread extends Thread {
         t.addUnit(unit);
     }
 
-    private void endPlacementPhase() throws IOException {
+    private void endPlacementPhase() {
         String prompt = "Placement phase is done!\n";
         for (int i = 0; i < clientSockets.size(); ++i) {
             send(prompt, outputs.get(i));
@@ -124,13 +108,13 @@ public class ClientThread extends Thread {
      * init placement of units
      * @throws IOException
      */
-    public void doInitialPlacement() throws IOException{
+    public void doInitialPlacement(){
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
         for(int i = 0; i < clientSockets.size(); i++) {
             send(num, outputs.get(i));
             int curr = this.unitAmount;
-            ArrayList<Territory> territories = getTerritories(colors.get(i));
+            ArrayList<Territory> territories = players.get(i).getTerritores();
             int size = territories.size();
 //            for (int j = 0; j < size - 1; ++j) {
 //                System.out.println("-------"+territories.get(j).getName()+"--------");
@@ -163,23 +147,45 @@ public class ClientThread extends Thread {
      * Issue orders (Move and Attack) for every client
      * @throws IOException
      */
-    public void issueOrders() throws IOException{
-        for(int i = 0; i < clientSockets.size(); i++) {
-            String prompt = "You are the " + colors.get(i) + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
-            send(prompt, outputs.get(i));
-            receive(readers.get(i));
-            System.out.println(buffer);
-            doOneCommit(i);
+    public void issueOrders() {
+        try {
+            for (int i = 0; i < clientSockets.size(); i++) {
+                String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
+                send(prompt, outputs.get(i));
+                receive(readers.get(i));
+                doOneCommit(i);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
+
+    /**
+     * Conduct one commit on server side
+     * @param index is index of current client
+     * @throws IOException
+     */
     public void doOneCommit(int index) throws IOException {
+        List<AttackAction> aa = new ArrayList<>();
         while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
                 doMoveOrder(index);
-            }//else{}
+            } else if (buffer.equals("A")) {
+                aa.add(doAttackOrder(index));
+            }
             receive(readers.get(index));
         }
+        for(AttackAction a : aa) {
+            a.doAction(theMap);
+        }
     }
+
+    /**
+     * Conduct one command transmission between client and server
+     * @param index is index of current client
+     * @param prompt is info to send to client
+     * @throws IOException
+     */
     public void doOneTransmission(int index, String prompt) throws IOException {
         send(prompt, outputs.get(index));
         receive(readers.get(index));
@@ -203,6 +209,25 @@ public class ClientThread extends Thread {
         Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
         ac.doAction(theMap);
     }
+
+    /**
+     * Conduct attack order with attack message from client
+     * @param index is index of current client
+     * @return current step attack action
+     * @throws IOException
+     */
+    public AttackAction doAttackOrder(int index) throws IOException{
+        doOneTransmission(index, "Please enter the number of units to attack:");
+        int num = Integer.parseInt(buffer);
+
+        doOneTransmission(index, "Please enter the source territory:");
+        String source = buffer;
+
+        doOneTransmission(index, "Please enter the destination territory:");
+        String destination = buffer;
+        AttackAction ac = new AttackAction(players.get(index), source, destination, num, theMap); //Change move to attack
+        return ac;
+    }
     /**
      * Send infomation to one client
      */
@@ -211,6 +236,12 @@ public class ClientThread extends Thread {
         output.println(END_OF_TURN);
         output.flush(); // flush the output buffer
     }
+
+    /**
+     * Receive message to buffer from the input reader
+     * @param reader is the bufferedreader of current client
+     * @throws IOException
+     */
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
         String ss = reader.readLine();

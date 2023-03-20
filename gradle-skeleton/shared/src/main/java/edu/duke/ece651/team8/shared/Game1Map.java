@@ -7,14 +7,20 @@ public class Game1Map implements Map {
   // field
   private ArrayList<Territory> territories;
 
+  private MovementRuleChecker checker;
+
   //constructor
   public Game1Map() {
     this.territories = new ArrayList<>();
+    this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
   }
 
   //constructor
   public Game1Map(ArrayList<Territory> territories) {
+
     this.territories = territories;
+    this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+
   }
 
   @Override
@@ -45,5 +51,8 @@ public class Game1Map implements Map {
     t1.addAdjacent(t2);
     t2.addAdjacent(t1);
   }
+
+  @Override
+  public MovementRuleChecker getChecker(){return checker;}
 }
 
