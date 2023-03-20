@@ -89,14 +89,6 @@ public class ClientThread extends Thread {
         }
     }
 
-    private ArrayList<Territory> getTerritories(String color) {
-        for (Player player : players) {
-            if (player.getColor().equals(color)) {
-                return player.getTerritores();
-            }
-        }
-        return null;
-    }
 
     public boolean checkUnitNumValid(int curr) {
         int input = Integer.parseInt(buffer);
@@ -128,7 +120,7 @@ public class ClientThread extends Thread {
         for(int i = 0; i < clientSockets.size(); i++) {
             send(num, outputs.get(i));
             int curr = this.unitAmount;
-            ArrayList<Territory> territories = getTerritories(colors.get(i));
+            ArrayList<Territory> territories = players.get(i).getTerritores();
             int size = territories.size();
             for (int j = 0; j < size - 1; ++j) {
                 while (true) {
