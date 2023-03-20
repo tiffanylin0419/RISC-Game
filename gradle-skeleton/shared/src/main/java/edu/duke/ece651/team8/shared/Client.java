@@ -176,7 +176,6 @@ public class Client {
         while(true) {
             while (true) {
                 try {
-
                     choice = tryChooseOneAction(buffer, input);
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
