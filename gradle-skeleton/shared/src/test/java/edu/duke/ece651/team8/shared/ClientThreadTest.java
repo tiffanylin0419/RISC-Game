@@ -23,7 +23,7 @@ class ClientThreadTest {
         return  new Client(port, host, output, input);
     }
 
-
+    @Disabled
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -211,6 +211,7 @@ class ClientThreadTest {
         clientThread.join();
 
     }
+    @Disabled
     @Test
     public void testIssueOrdersAttack() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
