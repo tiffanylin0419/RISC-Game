@@ -86,7 +86,8 @@ public class ClientThread extends Thread {
 
     public boolean checkUnitNumValid(int curr) {
         int input = Integer.parseInt(buffer);
-        if (input > curr) {
+        int diff = curr - input;
+        if (diff < 1) {
             throw new IllegalArgumentException("Unit amount is not valid!");
         }
         return true;

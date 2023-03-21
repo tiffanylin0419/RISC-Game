@@ -74,7 +74,6 @@ class ClientThreadTest {
                 "Please enter the destination territory:\n"+
                 "Please enter the destination territory:", actual);
     }
-
     @Disabled
     @Test
     public void testIOExceptionInRun() throws Exception {
@@ -83,7 +82,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n1\n2\n3\n4\n5\n6\nM\n-6\n6\na1\na2\nD\n");
+        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n0\n2\n3\n4\n5\n6\nM\n-6\n6\na1\na2\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
