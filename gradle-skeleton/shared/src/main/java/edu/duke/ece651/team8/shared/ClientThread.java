@@ -83,9 +83,17 @@ public class ClientThread extends Thread {
         }
     }
 
-
+    /**
+     * curr is the left units
+     * size is the num of territory, and the index is the current round of placement
+     * @param curr
+     * @param index
+     * @param size
+     * @return
+     */
     public boolean checkUnitNumValid(int curr, int index, int size) {
         int input = Integer.parseInt(buffer);
+        // the left rounds
         int diff = size - index - 1;
         if (diff > (curr - input)) {
             throw new IllegalArgumentException("Unit amount is not valid!");
