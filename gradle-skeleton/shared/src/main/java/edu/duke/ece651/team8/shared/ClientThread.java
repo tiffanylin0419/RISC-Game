@@ -60,6 +60,7 @@ public class ClientThread extends Thread {
             sendInitialConfig();
             doInitialPlacement();
             issueOrders();
+            reportResults();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players
 //                mapInfo = mapView.displayMap(players);
@@ -142,6 +143,17 @@ public class ClientThread extends Thread {
         endPlacementPhase();
     }
 
+    /**
+     * Report result after each turn of the game
+     */
+    public void reportResults() {
+        String outcome = theMap.doCombats();
+        for (int i = 0; i < clientSockets.size(); i++) {
+            send(outcome, outputs.get(i));
+            mapInfo = mapView.displayMap(players);
+            send(mapInfo,outputs.get(i));
+        }
+    }
      /**
      * Issue orders (Move and Attack) for every client
      * @throws IOException
@@ -165,17 +177,13 @@ public class ClientThread extends Thread {
      * @throws IOException
      */
     public void doOneCommit(int index) throws IOException {
-        List<AttackAction> aa = new ArrayList<>();
         while(!buffer.equals("D")) {
             if (buffer.equals("M")) {
                 while(doMoveOrder(index)!=null){}
             } else if (buffer.equals("A")) {
-                aa.add(doAttackOrder(index));
+                while(doAttackOrder(index) != null) {}
             }
             receive(readers.get(index));
-        }
-        for(AttackAction a : aa) {
-            a.doAction(theMap);
         }
     }
 
@@ -190,7 +198,17 @@ public class ClientThread extends Thread {
         receive(readers.get(index));
         System.out.println("receive from client: "+buffer);
     }
-
+    public String orderRuleCheck(Action ac, int index) {
+        String errorMessage=theMap.getChecker().checkAllRule(ac);
+        if(errorMessage==null) {
+            send("", outputs.get(index));
+            ac.doAction(theMap);
+        }
+        else{
+            send(errorMessage, outputs.get(index));
+        }
+        return errorMessage;
+    }
     /**
      * Conduct move order with move message from client
      * @param index is index of current client
@@ -206,15 +224,7 @@ public class ClientThread extends Thread {
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
         Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
-        String errorMessage=theMap.getChecker().checkAllRule(ac);
-        if(errorMessage==null) {
-            send("", outputs.get(index));
-            ac.doAction(theMap);
-        }
-        else{
-            send(errorMessage, outputs.get(index));
-        }
-        return errorMessage;
+        return orderRuleCheck(ac, index);
     }
 
     /**
@@ -223,7 +233,7 @@ public class ClientThread extends Thread {
      * @return current step attack action
      * @throws IOException
      */
-    public AttackAction doAttackOrder(int index) throws IOException{
+    public String doAttackOrder(int index) throws IOException{
         doOneTransmission(index, "Please enter the number of units to attack:");
         int num = Integer.parseInt(buffer);
 
@@ -233,7 +243,7 @@ public class ClientThread extends Thread {
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(players.get(index), source, destination, num, theMap); //Change move to attack
-        return ac;
+        return orderRuleCheck(ac, index);
     }
     /**
      * Send infomation to one client

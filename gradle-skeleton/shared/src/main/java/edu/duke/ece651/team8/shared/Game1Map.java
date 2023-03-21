@@ -7,7 +7,7 @@ public class Game1Map implements Map {
   // field
   private ArrayList<Territory> territories;
 
-  private MovementRuleChecker checker;
+  private ActionRuleChecker checker;
 
   //constructor
   public Game1Map() {
@@ -53,6 +53,16 @@ public class Game1Map implements Map {
   }
 
   @Override
-  public MovementRuleChecker getChecker(){return checker;}
+  public ActionRuleChecker getChecker(){return checker;}
+  public String doCombats() {
+    StringBuilder outcomes = new StringBuilder();
+    for(Territory t : territories) {
+      if(t.getUnitsSize() > 1) {
+        t.attack();
+        outcomes.append("Player " + t.getOwner().getColor() + " wins combat in " + t.getName() + "\n");
+      }
+    }
+    return outcomes.toString();
+  }
 }
 
