@@ -25,7 +25,7 @@ test:
   script: gradle-skeleton/scripts/run-tests-in-docker.sh
   artifacts:
     paths:
-      - gradle-skeleton/coverage
+      - ./gradle-skeleton/coverage
   coverage: '/TOTAL COVERAGE: \d+\%/'
 
 
