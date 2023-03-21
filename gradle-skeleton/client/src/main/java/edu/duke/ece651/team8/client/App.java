@@ -19,7 +19,7 @@ public class App {
   */
   public static void main(String[] args) throws IOException {
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    String hostname = "localhost"; // set the hostname of the server
+    String hostname = "localhost"; // set the hostname of the server, vcm.duke.edu...
     int port = 1651; // set the port number
     Client client = new Client(port, hostname,in); // create a new client instance
     client.run(); // connect the client to the server
