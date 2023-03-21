@@ -23,7 +23,7 @@ class ClientThreadTest {
         return  new Client(port, host, output, input);
     }
 
-    @Disabled
+
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -31,7 +31,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\n6\nM\n6\na1\na2\nD\n");
+        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\n6\nM\n1\na1\na2\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
@@ -71,8 +71,15 @@ class ClientThreadTest {
                 "(A)ttack\n"+
                 "(D)onePlease enter the number of units to move:\n"+
                 "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n"+
-                "Please enter the destination territory:", actual);
+                "Please enter the destination territory:\n\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "3 units in a2 (next to: a1, a3)\n" +
+                "3 units in a3 (next to: a2, a4)\n" +
+                "4 units in a4 (next to: a3, a5)\n" +
+                "5 units in a5 (next to: a4, a6)\n" +
+                "21 units in a6 (next to: a5)\n", actual);
     }
     @Disabled
     @Test
@@ -127,38 +134,44 @@ class ClientThreadTest {
                 "Units number should be non_negative number\n"+
                 "Please enter the number of units to move:\n"+
                 "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n"+
-                "Please enter the destination territory:", actual);
+                "Please enter the destination territory:\n\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "3 units in a2 (next to: a1, a3)\n" +
+                "3 units in a3 (next to: a2, a4)\n" +
+                "4 units in a4 (next to: a3, a5)\n" +
+                "5 units in a5 (next to: a4, a6)\n" +
+                "21 units in a6 (next to: a5)\n", actual);
     }
-    @Disabled
-    @Test
-    public void testServerHandlesIOException() throws Exception {
-        AbstractMapFactory factory = new V1MapFactory();
-
-        // Create mock objects
-        Socket mockSocket = mock(Socket.class);
-        InputStream mockInputStream = mock(InputStream.class);
-        OutputStream mockOutputStream = mock(OutputStream.class);
-        // Set up mock socket
-        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
-        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
-
-        // Create client thread with mock socket
-        List<Socket> clis = new ArrayList<>();
-
-        ArrayList<Player> players=new ArrayList<>();
-        players.add(new Player("Red"));
-
-        clis.add(mockSocket);
-        ClientThread clientThread = new ClientThread(clis, factory);
-        doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
-        clientThread.start();
-
-        clientThread.interrupt();
-        clientThread.join();
-
-    }
-    @Disabled
+//    @Disabled
+//    @Test
+//    public void testServerHandlesIOException() throws Exception {
+//        AbstractMapFactory factory = new V1MapFactory();
+//
+//        // Create mock objects
+//        Socket mockSocket = mock(Socket.class);
+//        InputStream mockInputStream = mock(InputStream.class);
+//        OutputStream mockOutputStream = mock(OutputStream.class);
+//        // Set up mock socket
+//        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
+//        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
+//
+//        // Create client thread with mock socket
+//        List<Socket> clis = new ArrayList<>();
+//
+//        ArrayList<Player> players=new ArrayList<>();
+//        players.add(new Player("Red"));
+//
+//        clis.add(mockSocket);
+//        ClientThread clientThread = new ClientThread(clis, factory);
+//        doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
+//        clientThread.start();
+//
+//        clientThread.interrupt();
+//        clientThread.join();
+//
+//    }
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -198,7 +211,6 @@ class ClientThreadTest {
         clientThread.join();
 
     }
-    @Disabled
     @Test
     public void testIssueOrdersAttack() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -207,11 +219,15 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "A\n1\na1\nb1\nD\n");
+        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+        Client cli = createClient(1231,"localhost", bytes, "A\n0\na1\nb1\nD\n");
+        Client cli1 = createClient(1231,"localhost", bytes1, "D\n");
 
         Socket cliSocket = ss.accept();
+        Socket cliSocket1 = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
+        clis.add(cliSocket1);
         ClientThread th = new ClientThread(clis, factory);
         // create a new thread and start it
         Thread thread = new Thread(() -> {
@@ -220,6 +236,7 @@ class ClientThreadTest {
         thread.start();
 
         cli.doOneTurn();
+        cli1.doOneTurn();
         thread.interrupt();
         thread.join();
         ss.close();
@@ -230,8 +247,7 @@ class ClientThreadTest {
                 "(A)ttack\n"+
                 "(D)onePlease enter the number of units to attack:\n"+
                 "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n"+
-                "Please enter the destination territory:", actual);
+                "Please enter the destination territory:\n", actual);
     }
 
 

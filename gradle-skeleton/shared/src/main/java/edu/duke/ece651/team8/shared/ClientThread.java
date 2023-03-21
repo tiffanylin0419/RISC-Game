@@ -60,6 +60,7 @@ public class ClientThread extends Thread {
             sendInitialConfig();
             doInitialPlacement();
             issueOrders();
+            System.out.println(clientSockets.size());
             reportResults();
 //            for(int i = 0; i < clientSockets.size(); i++) {
 //                //send color and initial map information to players

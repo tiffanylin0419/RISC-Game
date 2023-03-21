@@ -58,6 +58,7 @@ public class Client {
             display();
             doInitialPlacement();
             doOneTurn();
+            System.out.println("outcome reach");
             receiveOutcome();
             reader.close();
             inputStream.close();
