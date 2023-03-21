@@ -142,10 +142,16 @@ public class ClientThread extends Thread {
         }
         endPlacementPhase();
     }
+
+    /**
+     * Report result after each turn of the game
+     */
     public void reportResults() {
         String outcome = theMap.doCombats();
         for (int i = 0; i < clientSockets.size(); i++) {
             send(outcome, outputs.get(i));
+            mapInfo = mapView.displayMap(players);
+            send(mapInfo,outputs.get(i));
         }
     }
      /**

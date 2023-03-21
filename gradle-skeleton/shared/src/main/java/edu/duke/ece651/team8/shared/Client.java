@@ -111,6 +111,8 @@ public class Client {
     public void receiveOutcome()throws  IOException{
         receive();
         out.println(buffer);
+        receiveMapInfo();
+        displayMap();
     }
 
     /**
