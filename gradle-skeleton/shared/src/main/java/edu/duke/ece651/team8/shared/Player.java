@@ -88,4 +88,8 @@ public class Player {
     return false;
   }
 
+  public boolean isDefeated(){
+    return territories.size()==0;
+  }
+
 }
