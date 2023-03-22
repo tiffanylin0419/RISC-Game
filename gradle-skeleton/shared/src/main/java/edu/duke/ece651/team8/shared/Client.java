@@ -181,9 +181,9 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void doOneTurn()throws IOException{
-        receive();
         String choice;
         while(true) {
+            receive();
             while (true) {
                 try {
                     choice = tryChooseOneAction(buffer, input);
