@@ -59,7 +59,7 @@ public class ClientThread extends Thread {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            for(int i=0;i<2;i++) {//keep running if no one wins
+            for(int i=0;i<10;i++) {//keep running if no one wins
                 issueOrders();
                 System.out.println(clientSockets.size());
                 reportResults();
@@ -159,15 +159,22 @@ public class ClientThread extends Thread {
     }
      /**
      * Issue orders (Move and Attack) for every client
+      * if they are still alive
      * @throws IOException
      */
     public void issueOrders() {
         try {
             for (int i = 0; i < clientSockets.size(); i++) {
-                String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
-                send(prompt, outputs.get(i));
-                receive(readers.get(i));
-                doOneCommit(i);
+                if(players.get(i).isDefeated()){
+                    buffer="D";
+                    doOneCommit(i);
+                }
+                else {
+                    String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
+                    send(prompt, outputs.get(i));
+                    receive(readers.get(i));
+                    doOneCommit(i);
+                }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
