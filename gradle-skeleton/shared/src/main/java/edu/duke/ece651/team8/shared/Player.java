@@ -92,4 +92,7 @@ public class Player {
     return territories.size()==0;
   }
 
+  public boolean isWinner(int amount) {
+    return this.territories.size() == amount;
+  }
 }

@@ -187,6 +187,9 @@ public class Client {
             while (true) {
                 try {
                     choice = tryChooseOneAction(buffer, input);
+                    if (choice.equals("lose")) {
+                        return;
+                    }
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
                     System.out.println("Please input an valid action choice");
