@@ -56,17 +56,17 @@ class AttackActionTest {
 
         Action action1=new AttackAction(players.get(0),"a1","b1",3,map);
         assertNull(map.getChecker().checkAllRule(action1));
-        action1.doAction(map);
+        action1.doAction();
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(3,d.getUnitAmount(1));
 
         Action action2=new AttackAction(players.get(0),"a1","b1",1,map);
         assertNull(map.getChecker().checkAllRule(action2));
-        action2.doAction(map);
+        action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
         s.attack();
-        assertEquals(false,s.isOwner(players.get(0)));
+        assertTrue(s.isOwner(players.get(0)));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(4,d.getUnitAmount(1));
     }

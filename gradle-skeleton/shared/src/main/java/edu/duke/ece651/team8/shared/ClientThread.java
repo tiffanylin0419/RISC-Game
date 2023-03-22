@@ -59,15 +59,11 @@ public class ClientThread extends Thread {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            issueOrders();
-            System.out.println(clientSockets.size());
-            reportResults();
-//            for(int i = 0; i < clientSockets.size(); i++) {
-//                //send color and initial map information to players
-//                mapInfo = mapView.displayMap(players);
-//                send(mapInfo,outputs.get(i));
-//                //receive initial placements from players
-//            }
+            for(int i=0;i<2;i++) {//keep running if no one wins
+                issueOrders();
+                System.out.println(clientSockets.size());
+                reportResults();
+            }
         } finally {
             for(PrintWriter output:outputs){
                 output.close();
@@ -209,7 +205,7 @@ public class ClientThread extends Thread {
         String errorMessage=theMap.getChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", outputs.get(index));
-            ac.doAction(theMap);
+            ac.doAction();
         }
         else{
             send(errorMessage, outputs.get(index));
