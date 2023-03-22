@@ -192,6 +192,7 @@ public class BasicTerritory implements Territory {
       manyToOneAttack();
     }
     changeOwner();
+    units.get(0).addOne();
   }
 
   @Override
@@ -232,5 +233,4 @@ public class BasicTerritory implements Territory {
     this.owner = player;
     return this.owner;
   }
-
 }
