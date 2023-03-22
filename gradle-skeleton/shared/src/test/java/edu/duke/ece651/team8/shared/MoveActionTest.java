@@ -22,6 +22,8 @@ class MoveActionTest {
         d.moveIn(new BasicUnit(5,players.get(0)));
 
         Action action1=new MoveAction(players.get(0),"a1","a5",3,map);
+        assertEquals("a1",action1.getSourceText());
+        assertEquals("a5",action1.getDestinationText());
         assertNull(map.getChecker().checkAllRule(action1));
         action1.doAction();
         assertEquals(1,s.getUnitAmount(0));

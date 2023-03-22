@@ -36,7 +36,6 @@ public abstract class Action {
     /**
      * conduct the action
      * must apply rule checker before calling this function
-     * @param theMap
      */
     protected abstract void doAction();
 

@@ -57,9 +57,11 @@ public class Client {
             receiveMapInfo();
             display();
             doInitialPlacement();
-            doOneTurn();
-            System.out.println("outcome reach");
-            receiveOutcome();
+            for(int i=0;i<2;i++) {//keep running if no one wins
+                doOneTurn();
+                System.out.println("outcome reach");
+                receiveOutcome();
+            }
             reader.close();
             inputStream.close();
             socket.close();
