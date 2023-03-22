@@ -50,14 +50,8 @@ public class BasicTerritory implements Territory {
 
   @Override
   public void changeOwner(){
-    Player old_owner=this.owner;
-    if(old_owner!=null){
-      old_owner.tryRemoveTerritory(this);
-    }
-    if (units.size()==0){
-      this.owner=null;
-    }
-    else{
+    if(!this.owner.equals(units.get(0).getOwner())){
+      this.owner.tryRemoveTerritory(this);
       this.owner=units.get(0).getOwner();
       this.owner.addTerritory(this);
     }

@@ -41,11 +41,12 @@ public class BasicTerritoryTest {
     String s = "AbcdE";
     Player p1=new TextPlayer("red");
     Territory t = new BasicTerritory(s,p1);
+    t.moveIn(new BasicUnit(0,p1));
     assertTrue(t.isOwner(p1));
     assertTrue(p1.containsTerritory(t));
     t.changeOwner();
-    assertFalse(t.isOwner(p1));
-    assertFalse(p1.containsTerritory(t));
+    assertTrue(t.isOwner(p1));
+    assertTrue(p1.containsTerritory(t));
   }
 
   @Test
