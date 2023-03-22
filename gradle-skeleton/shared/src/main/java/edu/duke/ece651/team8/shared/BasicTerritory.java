@@ -126,9 +126,6 @@ public class BasicTerritory implements Territory {
     for(Unit unit: units){
       if(unit.getOwner()==unit_out.getOwner()){
         unit.remove(unit_out.getAmount());
-        if (unit.getAmount()==0){
-          units.remove(unit);
-        }
         return;
       }
     }

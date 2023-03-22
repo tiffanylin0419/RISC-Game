@@ -66,7 +66,7 @@ class AttackActionTest {
         action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
         s.attack();
-        assertEquals(false,s.isOwner(players.get(0)));
+        assertTrue(s.isOwner(players.get(0)));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(4,d.getUnitAmount(1));
     }

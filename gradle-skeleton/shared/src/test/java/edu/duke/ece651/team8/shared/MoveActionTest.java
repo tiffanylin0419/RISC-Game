@@ -32,7 +32,7 @@ class MoveActionTest {
         action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
         s.attack();
-        assertFalse(s.isOwner(players.get(0)));
+        assertTrue(s.isOwner(players.get(0)));
         assertEquals(9,d.getUnitAmount(0));
     }
 
