@@ -113,47 +113,58 @@ public class ClientThread extends Thread {
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
         for(int i = 0; i < clientSockets.size(); i++) {
+            if(!players.get(i).isConnected()) continue;
             send(num, outputs.get(i));
-            int curr = this.unitAmount;
-            ArrayList<Territory> territories = players.get(i).getTerritores();
-            int size = territories.size();
 //            for (int j = 0; j < size - 1; ++j) {
 //                System.out.println("-------"+territories.get(j).getName()+"--------");
 //            }
-            for (int j = 0; j < size - 1; ++j) {
-                while (true) {
-                    Territory t = territories.get(j);
-                    System.out.println("======="+t.getName()+"=======");
-                    send(prompt + t.getName() + "\n", outputs.get(i));
-                    try {
-                        receive(readers.get(i));
-                        checkUnitNumValid(curr);
-                        setUnitInTerritory(t);
-                        curr -= Integer.parseInt(buffer);
-                        send("valid\n", outputs.get(i));
-                        break;
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-                        send("invalid\n", outputs.get(i));
-                    } catch (IOException e) {
-                        System.out.println(players.get(i).getColor() + " disconnect");
-                        players.get(i).disconnect();
-                        break;
-                    }
-                }
-            }
-            Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
-            territories.get(size - 1).moveIn(unit);
+            placeUnitForTerritories(prompt, i);
+
         }
         endPlacementPhase();
     }
 
+    /**
+     * In initial placement, place unit for all territories
+     * @param prompt is prompt of the step to print out
+     * @param i is index of current client
+     */
+    public void placeUnitForTerritories(String prompt, int i) {
+        int curr = this.unitAmount;
+        ArrayList<Territory> territories = players.get(i).getTerritores();
+        int size = territories.size();
+        for (int j = 0; j < size - 1; ++j) {
+            while (true) {
+                Territory t = territories.get(j);
+                System.out.println("======="+t.getName()+"=======");
+                send(prompt + t.getName() + "\n", outputs.get(i));
+                try {
+                    receive(readers.get(i));
+                    checkUnitNumValid(curr);
+                    setUnitInTerritory(t);
+                    curr -= Integer.parseInt(buffer);
+                    send("valid\n", outputs.get(i));
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    send("invalid\n", outputs.get(i));
+                } catch (IOException e) {
+                    System.out.println(players.get(i).getColor() + " disconnect");
+                    players.get(i).disconnect();
+                    return;
+                }
+            }
+        }
+        Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
+        territories.get(size - 1).moveIn(unit);
+    }
     /**
      * Report result after each turn of the game
      */
     public void reportResults() {
         String outcome = theMap.doCombats();
         for (int i = 0; i < clientSockets.size(); i++) {
+            if(!players.get(i).isConnected()) continue;
             send(outcome, outputs.get(i));
             mapInfo = mapView.displayMap(players);
             send(mapInfo,outputs.get(i));
@@ -164,15 +175,18 @@ public class ClientThread extends Thread {
      * @throws IOException
      */
     public void issueOrders() {
-        try {
-            for (int i = 0; i < clientSockets.size(); i++) {
+        for (int i = 0; i < clientSockets.size(); i++) {
+            try {
+                if (!players.get(i).isConnected()) continue;
                 String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
                 send(prompt, outputs.get(i));
                 receive(readers.get(i));
                 doOneCommit(i);
+            } catch (IOException e) {
+                System.out.println(players.get(i).getColor() + " disconnect");
+                players.get(i).disconnect();
+                System.out.println(e.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
         }
     }
 
