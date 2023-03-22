@@ -76,6 +76,12 @@ public class Client {
                 displayMap();
                 if(!isDefeated){
                     receiveLoseStatus();
+                    //first time print lose information
+                    if (isDefeated){
+                        out.println("You lose.");
+                    }
+                }else{
+                    receiveLoseStatus();
                 }
                 receiveWinner();
                 if(!isOver()){
@@ -151,7 +157,6 @@ public class Client {
         receive();
         if(buffer.equals("lose")){
             isDefeated = true;
-            out.println("You lose");
         }
     }
 
