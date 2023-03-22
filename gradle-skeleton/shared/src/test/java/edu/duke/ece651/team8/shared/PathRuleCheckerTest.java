@@ -28,7 +28,7 @@ class PathRuleCheckerTest {
         theMap.getTerritories().get(0).moveOut(new BasicUnit(4,p1));
         theMap.getTerritories().get(0).attack();
         //assertFalse(theMap.getTerritories().get(1).isOwner(p1));
-        assertEquals("Requested 3 units, but only have 2",checker.checkAllRule(action1));
+        assertEquals("Requested 3 units, but only have 1",checker.checkAllRule(action1));
 
     }
 }

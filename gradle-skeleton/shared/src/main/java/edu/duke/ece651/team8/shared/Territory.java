@@ -94,6 +94,11 @@ public interface Territory {
   public void attack();
 
   /**
+   * add one to the unit that belongs to the owner
+   */
+  public void addOne();
+
+  /**
    * @param n
    * @return amount of the nth unit in units
    */

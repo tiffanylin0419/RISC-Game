@@ -182,19 +182,17 @@ public class BasicTerritory implements Territory {
 
   @Override
   public void attack() {
-    if(units.size()==0){
-      changeOwner();
-      return;
-    }
-    else if(units.size()==2){
+    if(units.size()==2){
       oneToOneAttack();
-    }else{
+    }else if(units.size()>2){
       manyToOneAttack();
     }
     changeOwner();
+  }
+  @Override
+  public void addOne(){
     units.get(0).addOne();
   }
-
   @Override
   public int getUnitAmount(int n){
     if(n>=units.size()){
