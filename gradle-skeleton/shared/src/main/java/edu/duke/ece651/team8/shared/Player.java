@@ -6,11 +6,13 @@ public class Player {
   private ArrayList<Territory> territories;
   private String color;
   private int unitMax;
+  private boolean isConnect;
   //constructor
   public Player(String color){
     this.territories=new ArrayList<Territory>();
     this.color=color;
     this.unitMax=0;
+    this.isConnect = true;
   }
   /*
   //constructor
@@ -19,6 +21,12 @@ public class Player {
     this.unitMax=unitMax;
   }
 */
+  public void disconnect() {
+    isConnect = false;
+  }
+  public boolean isConnected() {
+    return isConnect;
+  }
   /**
    * @return color
    */

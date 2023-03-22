@@ -132,9 +132,13 @@ public class ClientThread extends Thread {
                         curr -= Integer.parseInt(buffer);
                         send("valid\n", outputs.get(i));
                         break;
-                    } catch (Exception e) {
+                    } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                         send("invalid\n", outputs.get(i));
+                    } catch (IOException e) {
+                        System.out.println(players.get(i).getColor() + " disconnect");
+                        players.get(i).disconnect();
+                        break;
                     }
                 }
             }
