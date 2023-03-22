@@ -209,7 +209,7 @@ public class ClientThread extends Thread {
         String errorMessage=theMap.getChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", outputs.get(index));
-            ac.doAction(theMap);
+            ac.doAction();
         }
         else{
             send(errorMessage, outputs.get(index));
