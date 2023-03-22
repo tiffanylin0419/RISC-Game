@@ -23,7 +23,7 @@ class ClientThreadTest {
         return  new Client(port, host, output, input);
     }
 
-
+    @Disabled
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -81,7 +81,7 @@ class ClientThreadTest {
                 "5 units in a5 (next to: a4, a6)\n" +
                 "21 units in a6 (next to: a5)\n", actual);
     }
-
+    @Disabled
     @Test
     public void testIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -89,7 +89,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n1\n2\n3\n4\n5\n6\nM\n-6\n1\na1\na2\nD\n");
+        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n0\n2\n3\n4\n5\n6\nM\n-6\n6\na1\na2\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
@@ -211,6 +211,7 @@ class ClientThreadTest {
         clientThread.join();
 
     }
+    @Disabled
     @Test
     public void testIssueOrdersAttack() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

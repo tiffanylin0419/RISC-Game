@@ -11,7 +11,7 @@ public class AttackAction extends Action{
     public boolean isValidDestination(){
         return ! getDestination().isOwner(getPlayer());
     }
-    protected void doAction(Map theMap){
+    protected void doAction(){
         getSource().moveOut(new BasicUnit(super.getCount(),super.getPlayer()));
         getDestination().moveIn(new BasicUnit(super.getCount(),super.getPlayer()));
     }

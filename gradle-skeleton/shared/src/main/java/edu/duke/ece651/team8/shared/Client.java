@@ -57,9 +57,11 @@ public class Client {
             receiveMapInfo();
             display();
             doInitialPlacement();
-            doOneTurn();
-            System.out.println("outcome reach");
-            receiveOutcome();
+            for(int i=0;i<10;i++) {//keep running if no one wins
+                doOneTurn();
+                System.out.println("outcome reach");
+                receiveOutcome();
+            }
             reader.close();
             inputStream.close();
             socket.close();
@@ -158,7 +160,7 @@ public class Client {
     public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
         out.print(prompt);
         String s = input.readLine();
-        if(isNonNegativeInt(s)){
+        if(isPositiveInt(s)){
             send(s);
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
@@ -170,8 +172,8 @@ public class Client {
      * @param number the string to be judged
      * @return true is >=0. Otherwise, false
      */
-    public boolean isNonNegativeInt(String number){
-        return Integer.parseInt(number) >= 0;
+    public boolean isPositiveInt(String number){
+        return Integer.parseInt(number) > 0;
     }
 
     /**
@@ -179,12 +181,15 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void doOneTurn()throws IOException{
-        receive();
         String choice;
         while(true) {
+            receive();
             while (true) {
                 try {
                     choice = tryChooseOneAction(buffer, input);
+                    if (choice.equals("lose")) {
+                        return;
+                    }
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
                     System.out.println("Please input an valid action choice");
@@ -270,7 +275,7 @@ public class Client {
     public void trySendUnitNumber(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.println(prompt);
         String s = input.readLine();
-        if(isNonNegativeInt(s)){
+        if(isPositiveInt(s)){
             send(s);
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");

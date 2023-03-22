@@ -96,4 +96,11 @@ public class Player {
     return false;
   }
 
+  public boolean isDefeated(){
+    return territories.size()==0;
+  }
+
+  public boolean isWinner(int amount) {
+    return this.territories.size() == amount;
+  }
 }

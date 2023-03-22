@@ -22,17 +22,19 @@ class MoveActionTest {
         d.moveIn(new BasicUnit(5,players.get(0)));
 
         Action action1=new MoveAction(players.get(0),"a1","a5",3,map);
+        assertEquals("a1",action1.getSourceText());
+        assertEquals("a5",action1.getDestinationText());
         assertNull(map.getChecker().checkAllRule(action1));
-        action1.doAction(map);
+        action1.doAction();
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(8,d.getUnitAmount(0));
 
         Action action2=new MoveAction(players.get(0),"a1","a5",1,map);
         assertNull(map.getChecker().checkAllRule(action2));
-        action2.doAction(map);
+        action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
         s.attack();
-        assertFalse(s.isOwner(players.get(0)));
+        assertTrue(s.isOwner(players.get(0)));
         assertEquals(9,d.getUnitAmount(0));
     }
 

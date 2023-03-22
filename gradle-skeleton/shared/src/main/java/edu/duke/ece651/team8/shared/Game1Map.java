@@ -61,6 +61,7 @@ public class Game1Map implements Map {
         t.attack();
         outcomes.append("Player " + t.getOwner().getColor() + " wins combat in " + t.getName() + "\n");
       }
+      t.addOne();
     }
     return outcomes.toString();
   }

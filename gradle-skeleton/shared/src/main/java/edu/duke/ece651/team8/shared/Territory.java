@@ -89,8 +89,14 @@ public interface Territory {
    * if 2 units: defender wins when there is a tie
    * if >2 units: the left one wins when there is a tie
    * units will be left with only one unit, which will become the owner
+   * add one unit to the owner
    */
   public void attack();
+
+  /**
+   * add one to the unit that belongs to the owner
+   */
+  public void addOne();
 
   /**
    * @param n

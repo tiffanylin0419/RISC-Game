@@ -31,6 +31,8 @@ public class ClientThread extends Thread {
     private final int placementTimes = 5;
     private final int unitAmount = 36;
 
+    private String winnerName;
+
     /**
      * Constructor of ClientThread
      * @param clientSockets are the sockets of the game thread
@@ -53,21 +55,17 @@ public class ClientThread extends Thread {
             readers.add(new BufferedReader(new InputStreamReader(is)));
 
         }
+        this.winnerName = null;
     }
     @Override
     public void run() {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            issueOrders();
-            System.out.println(clientSockets.size());
-            reportResults();
-//            for(int i = 0; i < clientSockets.size(); i++) {
-//                //send color and initial map information to players
-//                mapInfo = mapView.displayMap(players);
-//                send(mapInfo,outputs.get(i));
-//                //receive initial placements from players
-//            }
+            for(int i=0;i<10;i++) {//keep running if no one wins
+                issueOrders();
+                reportResults();
+            }
         } finally {
             for(PrintWriter output:outputs){
                 output.close();
@@ -84,10 +82,19 @@ public class ClientThread extends Thread {
         }
     }
 
-
-    public boolean checkUnitNumValid(int curr) {
+    /**
+     * curr is the left units
+     * size is the num of territory, and the index is the current round of placement
+     * @param curr
+     * @param index
+     * @param size
+     * @return
+     */
+    public boolean checkUnitNumValid(int curr, int index, int size) {
         int input = Integer.parseInt(buffer);
-        if (input > curr) {
+        // the left rounds
+        int diff = size - index - 1;
+        if (diff > (curr - input)) {
             throw new IllegalArgumentException("Unit amount is not valid!");
         }
         return true;
@@ -115,13 +122,20 @@ public class ClientThread extends Thread {
         for(int i = 0; i < clientSockets.size(); i++) {
             if(!players.get(i).isConnected()) continue;
             send(num, outputs.get(i));
-//            for (int j = 0; j < size - 1; ++j) {
-//                System.out.println("-------"+territories.get(j).getName()+"--------");
-//            }
             placeUnitForTerritories(prompt, i);
 
         }
         endPlacementPhase();
+    }
+
+    private boolean hasWinner() {
+        for (int i = 0; i < clientSockets.size(); ++i) {
+            if (players.get(i).isWinner(this.unitAmount)) {
+                this.winnerName = players.get(i).getColor();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -137,10 +151,10 @@ public class ClientThread extends Thread {
             while (true) {
                 Territory t = territories.get(j);
                 System.out.println("======="+t.getName()+"=======");
-                send(prompt + t.getName() + "\n", outputs.get(i));
+                send(prompt + t.getName() + " (" + curr + " units)\n", outputs.get(i));
                 try {
                     receive(readers.get(i));
-                    checkUnitNumValid(curr);
+                    checkUnitNumValid(curr, j, size);
                     setUnitInTerritory(t);
                     curr -= Integer.parseInt(buffer);
                     send("valid\n", outputs.get(i));
@@ -163,8 +177,12 @@ public class ClientThread extends Thread {
      */
     public void reportResults() {
         String outcome = theMap.doCombats();
+        boolean winner = hasWinner();
         for (int i = 0; i < clientSockets.size(); i++) {
             if(!players.get(i).isConnected()) continue;
+            if (winner) {
+                outcome += this.winnerName + " Player wins!";
+            }
             send(outcome, outputs.get(i));
             mapInfo = mapView.displayMap(players);
             send(mapInfo,outputs.get(i));
@@ -172,16 +190,21 @@ public class ClientThread extends Thread {
     }
      /**
      * Issue orders (Move and Attack) for every client
+      * if they are still alive
      * @throws IOException
      */
     public void issueOrders() {
         for (int i = 0; i < clientSockets.size(); i++) {
             try {
                 if (!players.get(i).isConnected()) continue;
-                String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
-                send(prompt, outputs.get(i));
-                receive(readers.get(i));
-                doOneCommit(i);
+                if (players.get(i).isDefeated()) {
+//                    buffer="D";
+//                    doOneCommit(i);
+                    String prompt = "lose";
+                    send(prompt, outputs.get(i));
+                } else {
+                    doOneCommit(i);
+                }
             } catch (IOException e) {
                 System.out.println(players.get(i).getColor() + " disconnect");
                 players.get(i).disconnect();
@@ -196,14 +219,17 @@ public class ClientThread extends Thread {
      * @throws IOException
      */
     public void doOneCommit(int index) throws IOException {
-        while(!buffer.equals("D")) {
-            if (buffer.equals("M")) {
-                while(doMoveOrder(index)!=null){}
-            } else if (buffer.equals("A")) {
-                while(doAttackOrder(index) != null) {}
-            }
-            receive(readers.get(index));
+        String prompt = "You are the " + players.get(index).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
+        send(prompt, outputs.get(index));
+        receive(readers.get(index));
+        if(buffer.equals("D")) {
+            return;
+        } else if (buffer.equals("M")) {
+            while(doMoveOrder(index)!=null){}
+        } else if (buffer.equals("A")) {
+            while(doAttackOrder(index) != null) {}
         }
+        doOneCommit(index);
     }
 
     /**
@@ -221,7 +247,7 @@ public class ClientThread extends Thread {
         String errorMessage=theMap.getChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", outputs.get(index));
-            ac.doAction(theMap);
+            ac.doAction();
         }
         else{
             send(errorMessage, outputs.get(index));
