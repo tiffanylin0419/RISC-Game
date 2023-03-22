@@ -166,8 +166,11 @@ public class ClientThread extends Thread {
         String outcome = theMap.doCombats();
         boolean winner = hasWinner();
         for (int i = 0; i < clientSockets.size(); i++) {
+            if (players.get(i).isDefeated()) {
+                outcome += players.get(i).getColor() + " Player, you lose!\n";
+            }
             if (winner) {
-                outcome += this.winnerName + " Player wins!";
+                outcome += this.winnerName;
             }
             send(outcome, outputs.get(i));
             mapInfo = mapView.displayMap(players);
