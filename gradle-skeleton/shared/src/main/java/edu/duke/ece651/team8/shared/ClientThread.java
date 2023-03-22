@@ -161,18 +161,28 @@ public class ClientThread extends Thread {
 
     /**
      * Report result after each turn of the game
+     * #1 send outcome
+     * #2 send if the player loses
+     * #3 send if there is a winner
+     * #4 send mapInfo
      */
     public void reportResults() {
         String outcome = theMap.doCombats();
-        boolean winner = hasWinner();
+        hasWinner();
         for (int i = 0; i < clientSockets.size(); i++) {
-            if (players.get(i).isDefeated()) {
-                outcome += players.get(i).getColor() + " Player, you lose!\n";
-            }
-            if (winner) {
-                outcome += this.winnerName;
-            }
             send(outcome, outputs.get(i));
+            if (players.get(i).isDefeated()) {
+                String prompt = "lose";
+                send(prompt, outputs.get(i));
+            } else {
+                String prompt = "continue";
+                send(prompt, outputs.get(i));
+            }
+            if (this.winnerName == null) {
+                send("no winner", outputs.get(i));
+            } else {
+                send(this.winnerName, outputs.get(i));
+            }
             mapInfo = mapView.displayMap(players);
             send(mapInfo,outputs.get(i));
         }
