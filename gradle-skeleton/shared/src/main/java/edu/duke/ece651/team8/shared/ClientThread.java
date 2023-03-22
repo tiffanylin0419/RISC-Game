@@ -31,6 +31,8 @@ public class ClientThread extends Thread {
     private final int placementTimes = 5;
     private final int unitAmount = 36;
 
+    private String winnerName;
+
     /**
      * Constructor of ClientThread
      * @param clientSockets are the sockets of the game thread
@@ -53,6 +55,7 @@ public class ClientThread extends Thread {
             readers.add(new BufferedReader(new InputStreamReader(is)));
 
         }
+        this.winnerName = null;
     }
     @Override
     public void run() {
@@ -146,12 +149,26 @@ public class ClientThread extends Thread {
         endPlacementPhase();
     }
 
+    private boolean hasWinner() {
+        for (int i = 0; i < clientSockets.size(); ++i) {
+            if (players.get(i).isWinner(this.unitAmount)) {
+                this.winnerName = players.get(i).getColor();
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Report result after each turn of the game
      */
     public void reportResults() {
         String outcome = theMap.doCombats();
+        boolean winner = hasWinner();
         for (int i = 0; i < clientSockets.size(); i++) {
+            if (winner) {
+                outcome += this.winnerName + " Player wins!";
+            }
             send(outcome, outputs.get(i));
             mapInfo = mapView.displayMap(players);
             send(mapInfo,outputs.get(i));
@@ -166,8 +183,10 @@ public class ClientThread extends Thread {
         try {
             for (int i = 0; i < clientSockets.size(); i++) {
                 if(players.get(i).isDefeated()){
-                    buffer="D";
-                    doOneCommit(i);
+//                    buffer="D";
+//                    doOneCommit(i);
+                    String prompt = "lose";
+                    send(prompt, outputs.get(i));
                 }
                 else {
                     String prompt = "You are the " + players.get(i).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
