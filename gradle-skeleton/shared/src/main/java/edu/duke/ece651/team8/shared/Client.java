@@ -158,7 +158,7 @@ public class Client {
     public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
         out.print(prompt);
         String s = input.readLine();
-        if(isNonNegativeInt(s)){
+        if(isPositiveInt(s)){
             send(s);
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
@@ -170,8 +170,8 @@ public class Client {
      * @param number the string to be judged
      * @return true is >=0. Otherwise, false
      */
-    public boolean isNonNegativeInt(String number){
-        return Integer.parseInt(number) >= 0;
+    public boolean isPositiveInt(String number){
+        return Integer.parseInt(number) > 0;
     }
 
     /**
@@ -270,7 +270,7 @@ public class Client {
     public void trySendUnitNumber(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.println(prompt);
         String s = input.readLine();
-        if(isNonNegativeInt(s)){
+        if(isPositiveInt(s)){
             send(s);
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");

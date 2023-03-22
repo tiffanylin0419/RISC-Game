@@ -84,10 +84,19 @@ public class ClientThread extends Thread {
         }
     }
 
-
-    public boolean checkUnitNumValid(int curr) {
+    /**
+     * curr is the left units
+     * size is the num of territory, and the index is the current round of placement
+     * @param curr
+     * @param index
+     * @param size
+     * @return
+     */
+    public boolean checkUnitNumValid(int curr, int index, int size) {
         int input = Integer.parseInt(buffer);
-        if (input > curr) {
+        // the left rounds
+        int diff = size - index - 1;
+        if (diff > (curr - input)) {
             throw new IllegalArgumentException("Unit amount is not valid!");
         }
         return true;
@@ -117,17 +126,14 @@ public class ClientThread extends Thread {
             int curr = this.unitAmount;
             ArrayList<Territory> territories = players.get(i).getTerritores();
             int size = territories.size();
-//            for (int j = 0; j < size - 1; ++j) {
-//                System.out.println("-------"+territories.get(j).getName()+"--------");
-//            }
             for (int j = 0; j < size - 1; ++j) {
                 while (true) {
                     Territory t = territories.get(j);
                     System.out.println("======="+t.getName()+"=======");
-                    send(prompt + t.getName() + "\n", outputs.get(i));
+                    send(prompt + t.getName() + " (" + curr + " units)\n", outputs.get(i));
                     try {
                         receive(readers.get(i));
-                        checkUnitNumValid(curr);
+                        checkUnitNumValid(curr, j, size);
                         setUnitInTerritory(t);
                         curr -= Integer.parseInt(buffer);
                         send("valid\n", outputs.get(i));

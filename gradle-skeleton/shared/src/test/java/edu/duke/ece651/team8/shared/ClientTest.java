@@ -1,11 +1,8 @@
 package edu.duke.ece651.team8.shared;
 
-import edu.duke.ece651.team8.shared.*;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -70,9 +67,9 @@ public class ClientTest {
         PrintStream output = new PrintStream(bytes, true);
         Socket client = new Socket("localhost", 1244);
         Client cli = new Client(client, output, in);
-        assertThrows(NumberFormatException.class,()->cli.isNonNegativeInt("svin"));
-        assertFalse(cli.isNonNegativeInt("-10"));
-        assertTrue(cli.isNonNegativeInt("123"));
+        assertThrows(NumberFormatException.class,()->cli.isPositiveInt("svin"));
+        assertFalse(cli.isPositiveInt("-10"));
+        assertTrue(cli.isPositiveInt("123"));
     }
 
     @Disabled
