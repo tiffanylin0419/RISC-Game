@@ -48,7 +48,8 @@ public class ServerTest {
     private void checkClientHelper(ByteArrayOutputStream bytes, Client cli, String expected) throws Exception {
         cli.receiveColor();
         cli.receiveMapInfo();
-        cli.display();
+        cli.displayColor();
+        cli.displayMap();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals(expected, actual);
     }

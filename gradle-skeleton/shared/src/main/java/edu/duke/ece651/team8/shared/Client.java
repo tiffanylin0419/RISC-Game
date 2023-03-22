@@ -3,6 +3,8 @@ package edu.duke.ece651.team8.shared;
 
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
+
 /** Client pattern of the game*/
 public class Client {
     /** Client socket for communicate with server */
@@ -22,9 +24,14 @@ public class Client {
     /** info to be transferred, entered by user */
     protected String mapInfo;
     /**client player color*/
+    protected String combatOutcome;
     protected String color;
     /** Delimiter*/
     final String END_OF_TURN = "END_OF_TURN";
+
+    protected boolean isDefeated = false;
+
+    protected String winner;
     /**
      * Constructs a server with specified port
      *
@@ -55,12 +62,31 @@ public class Client {
         try {
             receiveColor();
             receiveMapInfo();
-            display();
+            displayColor();
+            displayMap();
             doInitialPlacement();
-            for(int i=0;i<10;i++) {//keep running if no one wins
-                doOneTurn();
+            while(isOver()) {//keep running if no one wins
+                if(!isDefeated){
+                    doOneTurn();
+                }
                 System.out.println("outcome reach");
-                receiveOutcome();
+                receiveCombatOutcome();
+                displayCombatOutcome();
+                receiveMapInfo();
+                displayMap();
+                if(!isDefeated){
+                    receiveLoseStatus();
+                }
+                receiveWinner();
+                if(!isOver()){
+                    if(color.equals(winner)){
+                        out.println("Congratulations! You win!");
+                    }else {
+                        out.println(winner+" wins.");
+                    }
+                    break;
+                }
+
             }
             reader.close();
             inputStream.close();
@@ -111,12 +137,25 @@ public class Client {
         receive();
         mapInfo = buffer;
     }
-    public void receiveOutcome()throws  IOException{
+    public void receiveCombatOutcome()throws  IOException{
         receive();
-        out.println(buffer);
-        receiveMapInfo();
-        displayMap();
+        combatOutcome = buffer;
     }
+
+    public void receiveWinner()throws  IOException{
+        receive();
+        winner = buffer;
+    }
+
+    public void receiveLoseStatus()throws IOException{
+        receive();
+        if(buffer.equals("lose")){
+            isDefeated = true;
+            out.println("You lose");
+        }
+    }
+
+
 
     /**
      * do initial placement phase, user need to input
@@ -316,9 +355,8 @@ public class Client {
     /**
      * Display map info
      */
-    public void display() {
+    public void displayColor() {
         out.println(color);
-        displayMap();
     }
 
     /**
@@ -328,6 +366,13 @@ public class Client {
         out.println(mapInfo);
     }
 
+    public void displayCombatOutcome(){
+        out.println(combatOutcome);
+    }
+
+    public boolean isOver(){
+        return !winner.equals("no winner");
+    }
 
 }
 
