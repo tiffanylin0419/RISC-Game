@@ -57,7 +57,7 @@ public class Client {
             receiveMapInfo();
             display();
             doInitialPlacement();
-            for(int i=0;i<2;i++) {//keep running if no one wins
+            for(int i=0;i<10;i++) {//keep running if no one wins
                 doOneTurn();
                 System.out.println("outcome reach");
                 receiveOutcome();
