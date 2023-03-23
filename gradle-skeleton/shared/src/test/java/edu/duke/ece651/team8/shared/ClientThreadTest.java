@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 //@ExtendWith(MockitoExtension.class)
@@ -173,6 +174,7 @@ class ClientThreadTest {
 //
 //    }
 
+    @Disabled
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -252,5 +254,31 @@ class ClientThreadTest {
                 "Please enter the destination territory:\n", actual);
     }
 
+    @Disabled
+    @Test
+    public void testCheckUnitNumValid() throws IOException, InterruptedException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ServerSocket socket = new ServerSocket(1231);
+        AbstractMapFactory factory = new V1MapFactory();
 
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        Client client = createClient(1231,"localhost", bytes, "1\n1\n");
+
+        Socket cliSocket = socket.accept();
+        List<Socket> clients = new ArrayList<>();
+
+        clients.add(cliSocket);
+        ClientThread thread = new ClientThread(clients, factory);
+        thread.start();
+
+        assertTrue(thread.checkUnitNumValid(5, 0, 6));
+//
+//        client.run();
+//
+//        thread.interrupt();
+//        thread.join();
+//        socket.close();
+//        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+
+    }
 }
