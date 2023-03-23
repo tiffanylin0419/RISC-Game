@@ -176,4 +176,14 @@ public class BasicTerritoryTest {
     assertEquals(player, territory2.getOwner());
     assertEquals(null, territory.getOwner());
   }
+
+  @Test
+  public void testGetOwnerUnitAmount() {
+    Territory territory = new BasicTerritory("a");
+    Player player = new Player("p");
+    Unit unit = new BasicUnit(6, player);
+    assertEquals(0, territory.getOwnerUnitAmount());
+    territory.moveIn(unit);
+    assertEquals(6, territory.getOwnerUnitAmount());
+  }
 }
