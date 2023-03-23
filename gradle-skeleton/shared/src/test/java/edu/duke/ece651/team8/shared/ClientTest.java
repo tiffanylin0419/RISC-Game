@@ -27,6 +27,7 @@ public class ClientTest {
         serverThread.join();
         ss.close();
     }
+
     @Test()
     public void testIOException() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -52,6 +53,7 @@ public class ClientTest {
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("Socket closed\n", actual);
     }
+
     @Test
     public void testIisNonNegativeInt()throws IOException{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -156,7 +158,8 @@ public class ClientTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
         Client cli = new Client(1334, "localhost", output, in);
-        cli.display();
+        cli.displayColor();
+        cli.displayMap();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
         assertEquals("\n", actual);
 

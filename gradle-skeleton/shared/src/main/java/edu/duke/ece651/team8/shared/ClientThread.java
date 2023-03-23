@@ -62,7 +62,7 @@ public class ClientThread extends Thread {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            for(int i=0;i<10;i++) {//keep running if no one wins
+            while(this.winnerName == null) {//keep running if no one wins
                 issueOrders();
                 reportResults();
             }
@@ -174,18 +174,30 @@ public class ClientThread extends Thread {
     }
     /**
      * Report result after each turn of the game
+     * #1 send outcome
+     * #2 send mapInfo
+     * #3 send if the player loses
+     * #4 send if there is a winner
      */
     public void reportResults() {
         String outcome = theMap.doCombats();
-        boolean winner = hasWinner();
+        hasWinner();
         for (int i = 0; i < clientSockets.size(); i++) {
-            if(!players.get(i).isConnected()) continue;
-            if (winner) {
-                outcome += this.winnerName + " Player wins!";
-            }
             send(outcome, outputs.get(i));
             mapInfo = mapView.displayMap(players);
             send(mapInfo,outputs.get(i));
+            if (players.get(i).isDefeated()) {
+                String prompt = "lose";
+                send(prompt, outputs.get(i));
+            } else {
+                String prompt = "continue";
+                send(prompt, outputs.get(i));
+            }
+            if (this.winnerName == null) {
+                send("no winner", outputs.get(i));
+            } else {
+                send(this.winnerName, outputs.get(i));
+            }
         }
     }
      /**
