@@ -123,7 +123,6 @@ public class ClientThread extends Thread {
             if(!players.get(i).isConnected()) continue;
             send(num, outputs.get(i));
             placeUnitForTerritories(prompt, i);
-
         }
         endPlacementPhase();
     }

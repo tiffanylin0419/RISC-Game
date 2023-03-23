@@ -164,7 +164,16 @@ public class BasicTerritoryTest {
     assertEquals(3,theMap.getTerritories().get(0).getUnitAmount(0));
     assertTrue(theMap.getTerritories().get(0).isOwner(p1));
     assertEquals(3,theMap.getTerritories().get(0).getOwnerUnitAmount());
+  }
 
-
+  @Test
+  public void testIsOwnerAndHasOwner() {
+    Territory territory = new BasicTerritory("a");
+    Player player = new Player("p");
+    assertFalse(territory.isOwner(player));
+    Territory territory2 = new BasicTerritory("b", player);
+    assertTrue(territory2.isOwner(player));
+    assertEquals(player, territory2.getOwner());
+    assertEquals(null, territory.getOwner());
   }
 }
