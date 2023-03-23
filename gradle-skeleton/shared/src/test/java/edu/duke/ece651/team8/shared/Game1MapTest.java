@@ -76,4 +76,21 @@ public class Game1MapTest {
     assertFalse(territories[0].isAdjacentEnemy(territories[2]));
     assertFalse(territories[4].isAdjacentEnemy(territories[1]));
   }
+
+  @Test
+  public void testDoCombats() {
+    Map map = new Game1Map();
+    Territory territory = new BasicTerritory("a");
+    Territory territory2 = new BasicTerritory("b");
+    Player player = new Player("p");
+    Player player2 = new Player("p2");
+    Unit unit = new BasicUnit(6, player);
+    Unit unit2 = new BasicUnit(4, player2);
+    territory.moveIn(unit);
+    territory.moveIn(unit2);
+    map.addTerritory(territory);
+    map.addTerritory(territory2);
+    String expected = "Player p wins combat in a\n";
+    assertEquals(expected, map.doCombats());
+  }
 }
