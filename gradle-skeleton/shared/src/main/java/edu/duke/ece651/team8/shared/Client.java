@@ -66,35 +66,8 @@ public class Client {
             displayColor();
             displayMap();
             doInitialPlacement();
-            while(!isOver()) {//keep running if no one wins
-                if(!isDefeated){
-                    doOneTurn();
-                }
-                System.out.println("outcome reach");
-                receiveCombatOutcome();
-                displayCombatOutcome();
-                receiveMapInfo();
-                displayMap();
-                if(!isDefeated){
-                    receiveLoseStatus();
-                    //first time print lose information
-                    if (isDefeated){
-                        out.println("You lose.");
-                    }
-                }else{
-                    receiveLoseStatus();
-                }
-                receiveWinner();
-                if(isOver()){
-                    if(color.equals(winner)){
-                        out.println("Congratulations! You win!");
-                    }else {
-                        out.println(winner+" wins.");
-                    }
-                    break;
-                }
-
-            }
+            receivePlacementResult();
+            doAllTurns();
             reader.close();
             inputStream.close();
             socket.close();
@@ -102,7 +75,47 @@ public class Client {
             out.println(e.getMessage());
         }
     }
+    public void receivePlacementResult() throws IOException{
+        receive();
+        out.println(buffer);
+        receiveMapInfo();
+        displayMap();
 
+    }
+    public void doAllTurns() throws IOException {
+        while(!isOver()) {//keep running if no one wins
+            doOneWholeTurn();
+            receiveWinner();
+            if(isOver()){
+                if(color.equals(winner)){
+                    out.println("Congratulations! You win!");
+                }else {
+                    out.println(winner+" wins.");
+                }
+                break;
+            }
+        }
+    }
+    public void doOneWholeTurn() throws IOException{
+        if(!isDefeated){
+            doOneTurn();
+        }
+        System.out.println("outcome reach");
+        receiveCombatOutcome();
+        displayCombatOutcome();
+        receiveMapInfo();
+        displayMap();
+        if(!isDefeated){
+            receiveLoseStatus();
+            //first time print lose information
+            if (isDefeated){
+                out.println("You lose.");
+            }
+        }else{
+            receiveLoseStatus();
+        }
+
+    }
     /**
      * Receive the string info from the server into serverBuffer
      */
@@ -192,8 +205,6 @@ public class Client {
                 }
             }
         }
-        receive();
-        out.print(buffer);
     }
 
     /**
@@ -247,10 +258,10 @@ public class Client {
                 while(doOneMove()!=""){}
             } else if (choice.equals("A")) {
                 while(doOneAttack()!=""){}
-
-            }else{
+            }else if (choice.equals("D")){
                 break;
             }
+            System.out.println("^^^^^^" + choice + "^^^^^^");
         }
     }
 

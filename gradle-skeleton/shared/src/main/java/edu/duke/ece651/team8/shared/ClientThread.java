@@ -107,8 +107,10 @@ public class ClientThread extends Thread {
 
     private void endPlacementPhase() {
         String prompt = "Placement phase is done!\n";
+        mapInfo = mapView.displayMap(players);
         for (int i = 0; i < clientSockets.size(); ++i) {
-            send(prompt, outputs.get(i));
+            send(prompt,outputs.get(i));
+            send(mapInfo,outputs.get(i));
         }
     }
 
@@ -171,6 +173,9 @@ public class ClientThread extends Thread {
         Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
         territories.get(size - 1).moveIn(unit);
     }
+    public void setWinner(String winner) {
+        winnerName = winner;
+    }
     /**
      * Report result after each turn of the game
      * #1 send outcome
@@ -181,10 +186,12 @@ public class ClientThread extends Thread {
     public void reportResults() {
         String outcome = theMap.doCombats();
         hasWinner();
+        mapInfo = mapView.displayMap(players);
         for (int i = 0; i < clientSockets.size(); i++) {
             send(outcome, outputs.get(i));
-            mapInfo = mapView.displayMap(players);
+            System.out.println("Server: reached2");
             send(mapInfo,outputs.get(i));
+            System.out.println("Server: reached3");
             if (players.get(i).isDefeated()) {
                 String prompt = "lose";
                 send(prompt, outputs.get(i));
@@ -192,11 +199,13 @@ public class ClientThread extends Thread {
                 String prompt = "continue";
                 send(prompt, outputs.get(i));
             }
+            System.out.println("Server: reached4");
             if (this.winnerName == null) {
                 send("no winner", outputs.get(i));
             } else {
                 send(this.winnerName, outputs.get(i));
             }
+            System.out.println("Server: reached5");
         }
     }
      /**

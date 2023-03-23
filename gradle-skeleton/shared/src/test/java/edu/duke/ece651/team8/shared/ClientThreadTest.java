@@ -23,8 +23,17 @@ class ClientThreadTest {
         PrintStream output = new PrintStream(bytes, true);
         return  new Client(port, host, output, input);
     }
+    private void doClientAction(Client cli) throws Exception {
+        cli.receiveColor();
+        cli.receiveMapInfo();
+        cli.displayColor();
+        cli.displayMap();
+        cli.doInitialPlacement();
+        cli.receivePlacementResult();
+        cli.doOneWholeTurn();
+        cli.receiveWinner();
+    }
 
-    @Disabled
     @Test
     public void testRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -41,7 +50,8 @@ class ClientThreadTest {
         ClientThread th = new ClientThread(clis, factory);
         th.start();
 
-        cli.run();
+        doClientAction(cli);
+        th.setWinner("Green");
 
         th.interrupt();
         th.join();
@@ -56,33 +66,55 @@ class ClientThreadTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)\n"+
-                "Please enter the units you would like to place in a1\nvalid\n\n" +
-                "Please enter the units you would like to place in a2\nvalid\n\n" +
-                "Please enter the units you would like to place in a3\nvalid\n\n" +
-                "Please enter the units you would like to place in a4\nvalid\n\n" +
-                "Please enter the units you would like to place in a5\nvalid\n\n" +
-                "Placement phase is done!\n"+
-                "You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
-                "You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)onePlease enter the number of units to move:\n"+
-                "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n\n" +
+                "0 units in a6 (next to: a5)\n" +
+                "Please enter the units you would like to place in a1 (36 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a2 (35 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a3 (33 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a4 (30 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a5 (26 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Placement phase is done!\n" +
+                "\n" +
                 "Green Player:\n" +
                 "-------------\n" +
-                "0 units in a1 (next to: a2)\n" +
-                "3 units in a2 (next to: a1, a3)\n" +
+                "1 units in a1 (next to: a2)\n" +
+                "2 units in a2 (next to: a1, a3)\n" +
                 "3 units in a3 (next to: a2, a4)\n" +
                 "4 units in a4 (next to: a3, a5)\n" +
                 "5 units in a5 (next to: a4, a6)\n" +
-                "21 units in a6 (next to: a5)\n", actual);
+                "21 units in a6 (next to: a5)\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)onePlease enter the number of units to move:\n" +
+                "Please enter the source territory:\n" +
+                "Please enter the destination territory:\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)one\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "1 units in a1 (next to: a2)\n" +
+                "4 units in a2 (next to: a1, a3)\n" +
+                "4 units in a3 (next to: a2, a4)\n" +
+                "5 units in a4 (next to: a3, a5)\n" +
+                "6 units in a5 (next to: a4, a6)\n" +
+                "22 units in a6 (next to: a5)\n", actual);
     }
-    @Disabled
     @Test
     public void testIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -90,7 +122,7 @@ class ClientThreadTest {
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n0\n2\n3\n4\n5\n6\nM\n-6\n6\na1\na2\nD\n");
+        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n0\n2\n3\n4\n5\n6\nM\n-6\n6\na5\na2\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
@@ -99,7 +131,8 @@ class ClientThreadTest {
         ClientThread th = new ClientThread(clis, factory);
         th.start();
 
-        cli.run();
+        doClientAction(cli);
+        th.setWinner("Green");
 
         th.interrupt();
         th.join();
@@ -114,36 +147,61 @@ class ClientThreadTest {
                 "0 units in a3 (next to: a2, a4)\n" +
                 "0 units in a4 (next to: a3, a5)\n" +
                 "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)\n"+
-                "Please enter the units you would like to place in a1\n"+
-                "Units number should be non_negative number\n"+"Please input a valid placement!\n"+
-                "Please enter the units you would like to place in a1\ninvalid\n\n" +
-                "Please enter the units you would like to place in a1\nvalid\n\n" +
-                "Please enter the units you would like to place in a2\nvalid\n\n" +
-                "Please enter the units you would like to place in a3\nvalid\n\n" +
-                "Please enter the units you would like to place in a4\nvalid\n\n" +
-                "Please enter the units you would like to place in a5\nvalid\n\n" +
-                "Placement phase is done!\n"+
-                "You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n"+
-                "You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)onePlease enter the number of units to move:\n"+
-                "Units number should be non_negative number\n"+
-                "Please enter the number of units to move:\n"+
-                "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n\n" +
+                "0 units in a6 (next to: a5)\n" +
+                "Please enter the units you would like to place in a1 (36 units)\n" +
+                "Units number should be non_negative number\n" +
+                "Please input a valid placement!\n" +
+                "Please enter the units you would like to place in a1 (36 units)\n" +
+                "invalid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a1 (36 units)\n" +
+                "Units number should be non_negative number\n" +
+                "Please input a valid placement!\n" +
+                "Please enter the units you would like to place in a1 (36 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a2 (34 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a3 (31 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a4 (27 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a5 (22 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Placement phase is done!\n" +
+                "\n" +
                 "Green Player:\n" +
                 "-------------\n" +
-                "0 units in a1 (next to: a2)\n" +
+                "2 units in a1 (next to: a2)\n" +
                 "3 units in a2 (next to: a1, a3)\n" +
-                "3 units in a3 (next to: a2, a4)\n" +
-                "4 units in a4 (next to: a3, a5)\n" +
-                "5 units in a5 (next to: a4, a6)\n" +
-                "21 units in a6 (next to: a5)\n", actual);
+                "4 units in a3 (next to: a2, a4)\n" +
+                "5 units in a4 (next to: a3, a5)\n" +
+                "6 units in a5 (next to: a4, a6)\n" +
+                "16 units in a6 (next to: a5)\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)onePlease enter the number of units to move:\n" +
+                "Units number should be non_negative number\n" +
+                "Please enter the number of units to move:\n" +
+                "Please enter the source territory:\n" +
+                "Please enter the destination territory:\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)one\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "3 units in a1 (next to: a2)\n" +
+                "10 units in a2 (next to: a1, a3)\n" +
+                "5 units in a3 (next to: a2, a4)\n" +
+                "6 units in a4 (next to: a3, a5)\n" +
+                "1 units in a5 (next to: a4, a6)\n" +
+                "17 units in a6 (next to: a5)\n", actual);
     }
 //    @Disabled
 //    @Test
@@ -174,7 +232,6 @@ class ClientThreadTest {
 //
 //    }
 
-    @Disabled
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -214,7 +271,6 @@ class ClientThreadTest {
         clientThread.join();
 
     }
-    @Disabled
     @Test
     public void testIssueOrdersAttack() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -224,8 +280,8 @@ class ClientThreadTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "A\n0\na1\nb1\nD\n");
-        Client cli1 = createClient(1231,"localhost", bytes1, "D\n");
+        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\nA\n1\na1\nb1\nD\n");
+        Client cli1 = createClient(1231,"localhost", bytes1, "1\n2\n3\n4\n5\nD\n");
 
         Socket cliSocket = ss.accept();
         Socket cliSocket1 = ss.accept();
@@ -235,10 +291,15 @@ class ClientThreadTest {
         ClientThread th = new ClientThread(clis, factory);
         // create a new thread and start it
         Thread thread = new Thread(() -> {
+            th.doInitialPlacement();
             th.issueOrders();
         });
         thread.start();
 
+        cli.doInitialPlacement();
+        cli1.doInitialPlacement();
+        cli.receivePlacementResult();
+        cli1.receivePlacementResult();
         cli.doOneTurn();
         cli1.doOneTurn();
         thread.interrupt();
@@ -246,12 +307,49 @@ class ClientThreadTest {
         ss.close();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
 
-        assertEquals("You are the Green player, what would you like to do?\n"+
-                "(M)ove\n"+
-                "(A)ttack\n"+
-                "(D)onePlease enter the number of units to attack:\n"+
-                "Please enter the source territory:\n"+
-                "Please enter the destination territory:\n", actual);
+        assertEquals("Please enter the units you would like to place in a1 (36 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a2 (35 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a3 (33 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a4 (30 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a5 (26 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Placement phase is done!\n" +
+                "\n" +
+                "Green Player:\n" +
+                "-------------\n" +
+                "1 units in a1 (next to: b1, a2)\n" +
+                "2 units in a2 (next to: a1, b2, a3)\n" +
+                "3 units in a3 (next to: a2, b3, a4)\n" +
+                "4 units in a4 (next to: a3, b4, a5)\n" +
+                "5 units in a5 (next to: a4, b5, a6)\n" +
+                "21 units in a6 (next to: a5, b6)\n" +
+                "Red Player:\n" +
+                "-------------\n" +
+                "1 units in b1 (next to: a1, b2)\n" +
+                "2 units in b2 (next to: a2, b1, b3)\n" +
+                "3 units in b3 (next to: a3, b2, b4)\n" +
+                "4 units in b4 (next to: a4, b3, b5)\n" +
+                "5 units in b5 (next to: a5, b4, b6)\n" +
+                "21 units in b6 (next to: a6, b5)\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)onePlease enter the number of units to attack:\n" +
+                "Please enter the source territory:\n" +
+                "Please enter the destination territory:\n" +
+                "You are the Green player, what would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)one", actual);
     }
 
     @Disabled
