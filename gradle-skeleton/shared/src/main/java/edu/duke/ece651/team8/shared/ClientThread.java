@@ -62,7 +62,7 @@ public class ClientThread extends Thread {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            for(int i=0;i<10;i++) {//keep running if no one wins
+            while(winnerName != null) {//keep running if no one wins
                 issueOrders();
                 reportResults();
             }

@@ -172,6 +172,7 @@ class ClientThreadTest {
 //        clientThread.join();
 //
 //    }
+
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
