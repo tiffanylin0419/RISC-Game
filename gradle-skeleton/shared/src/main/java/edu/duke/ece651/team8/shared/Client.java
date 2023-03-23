@@ -55,6 +55,7 @@ public class Client {
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
         this.input = in;
         output = new PrintWriter(s.getOutputStream());
+        this.winner = "no winner";
     }
 
     /** execute the client */

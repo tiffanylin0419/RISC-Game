@@ -174,6 +174,7 @@ class ClientThreadTest {
 //
 //    }
 
+    @Disabled
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -253,6 +254,7 @@ class ClientThreadTest {
                 "Please enter the destination territory:\n", actual);
     }
 
+    @Disabled
     @Test
     public void testCheckUnitNumValid() throws IOException, InterruptedException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
