@@ -54,8 +54,8 @@ public class Client {
         this.inputStream = socket.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
         this.input = in;
-        output = new PrintWriter(s.getOutputStream());
         this.winner = "no winner";
+        output = new PrintWriter(s.getOutputStream());
     }
 
     /** execute the client */
@@ -66,7 +66,7 @@ public class Client {
             displayColor();
             displayMap();
             doInitialPlacement();
-            while(isOver()) {//keep running if no one wins
+            while(!isOver()) {//keep running if no one wins
                 if(!isDefeated){
                     doOneTurn();
                 }
@@ -85,7 +85,7 @@ public class Client {
                     receiveLoseStatus();
                 }
                 receiveWinner();
-                if(!isOver()){
+                if(isOver()){
                     if(color.equals(winner)){
                         out.println("Congratulations! You win!");
                     }else {
