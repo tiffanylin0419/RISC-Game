@@ -20,7 +20,7 @@ public class App {
     */
     public static void main(String[] args) throws IOException {
         AbstractMapFactory factory = new V1MapFactory();
-        Server server = new Server(1651, 4, factory);
+        Server server = new Server(8080, 4, factory);
         server.run();
     }
 

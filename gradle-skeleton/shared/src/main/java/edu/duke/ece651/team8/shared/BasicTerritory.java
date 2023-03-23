@@ -191,7 +191,9 @@ public class BasicTerritory implements Territory {
   }
   @Override
   public void addOne(){
-    units.get(0).addOne();
+    if(units.size()>0){
+      units.get(0).addOne();
+    }
   }
   @Override
   public int getUnitAmount(int n){
