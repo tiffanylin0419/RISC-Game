@@ -3,7 +3,6 @@ package edu.duke.ece651.team8.shared;
 
 import java.io.*;
 import java.net.*;
-import java.util.Objects;
 
 /** Client pattern of the game*/
 public class Client {
@@ -64,19 +63,11 @@ public class Client {
         this.output = output;
     }
 
-    protected void initInputSocketStuff(Socket s)throws IOException{
-
-    }
-    protected void initServerBuffer(BufferedReader mockRB)throws IOException{
-        this.reader = new BufferedReader(new InputStreamReader(inputStream));
-    }
-
-
     /** execute the client */
     public void run() {
         try {
             receiveColor();
-            receiveMapInfo();
+            receiveMap();
             displayColor();
             displayMap();
             doInitialPlacement();
@@ -92,7 +83,7 @@ public class Client {
     public void receivePlacementResult() throws IOException{
         receive();
         out.println(buffer);
-        receiveMapInfo();
+        receiveMap();
         displayMap();
 
     }
@@ -110,7 +101,7 @@ public class Client {
     public boolean reportResult() throws IOException{
         receiveCombatOutcome();
         displayCombatOutcome();
-        receiveMapInfo();
+        receiveMap();
         displayMap();
         if(!isDefeated){
             receiveLoseStatus();
@@ -169,7 +160,7 @@ public class Client {
      * receive map information from server
      * @throws IOException if something wrong with receive
      */
-    public void receiveMapInfo()throws  IOException{
+    public void receiveMap()throws  IOException{
         receive();
         mapInfo = buffer;
     }

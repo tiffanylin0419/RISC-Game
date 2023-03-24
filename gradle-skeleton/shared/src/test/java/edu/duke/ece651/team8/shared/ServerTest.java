@@ -1,6 +1,5 @@
 package edu.duke.ece651.team8.shared;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -47,7 +46,7 @@ public class ServerTest {
     }
     private void checkClientHelper(ByteArrayOutputStream bytes, Client cli, String expected) throws Exception {
         cli.receiveColor();
-        cli.receiveMapInfo();
+        cli.receiveMap();
         cli.displayColor();
         cli.displayMap();
         String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");

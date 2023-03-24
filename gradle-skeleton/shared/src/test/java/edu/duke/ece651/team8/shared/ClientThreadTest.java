@@ -25,7 +25,7 @@ class ClientThreadTest {
     }
     private void doClientAction(Client cli, ClientThread th) throws Exception {
         cli.receiveColor();
-        cli.receiveMapInfo();
+        cli.receiveMap();
         cli.displayColor();
         cli.displayMap();
         cli.doInitialPlacement();
