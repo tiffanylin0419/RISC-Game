@@ -231,7 +231,28 @@ class ClientThreadTest {
 //        clientThread.join();
 //
 //    }
+    @Test
+    public void testHasWinner() throws Exception{
+        Player mockPlayer= mock(Player.class);
+        List<Player> p = new ArrayList<>();
+        p.add(mockPlayer);
 
+        AbstractMapFactory factory = new V1MapFactory();
+        ServerSocket ss = new ServerSocket(1271);
+        Socket cliSocket = ss.accept();
+        List<Socket> clis = new ArrayList<Socket>();
+        clis.add(cliSocket);
+
+        ClientThread clientThread = new ClientThread(clis, factory);
+        when(mockPlayer.isWinner(36)).thenReturn(true);
+        Field playerField = ClientThread.class.getDeclaredField("players");
+        playerField.setAccessible(true);
+        playerField.set(clientThread, p);
+        Thread thread = new Thread(() -> {
+            clientThread.reportResults();
+        });
+
+    }
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
