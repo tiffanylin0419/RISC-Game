@@ -126,9 +126,9 @@ public class Client {
         StringBuilder sb = new StringBuilder();
         sb.append(reader.readLine());
         String receLine = reader.readLine();
-        /*if(receLine==null){
+        if(receLine==null){
             throw new IOException("");
-        }*/
+        }
         while(!receLine.equals(END_OF_TURN)) {
             sb.append("\n").append(receLine);
             receLine = reader.readLine();
