@@ -12,7 +12,7 @@ public class Server {
     /** server socket*/
     protected ServerSocket server;
     /** List of the client sockets */
-    private List<GameThread> clients;
+    private List<GameThread> games;
     /** number of clients */
     protected int clientNum;
     protected AbstractMapFactory factory;
@@ -32,7 +32,7 @@ public class Server {
      */
     public Server(ServerSocket ss, int clientNum, AbstractMapFactory factory) {
         this.server = ss;
-        this.clients = new ArrayList<>();
+        this.games = new ArrayList<>();
         this.clientNum = clientNum;
         this.factory = factory;
         this.isListening = true;
@@ -64,7 +64,7 @@ public class Server {
         }
 
         GameThread gameThread = new GameThread(oneGameClients, factory);
-        clients.add(gameThread);
+        games.add(gameThread);
         gameThread.start();
     }
     /**
@@ -77,10 +77,10 @@ public class Server {
         server.close();
 
         // Interrupt all client threads and remove them from the list
-        for (GameThread client : clients) {
-            client.interrupt();
+        for (GameThread game : games) {
+            game.interrupt();
         }
-        clients.clear();
+        games.clear();
     }
 }
 
