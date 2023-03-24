@@ -321,6 +321,9 @@ public class GameThread extends Thread {
         System.out.println(ss);
         sb.append(ss);
         String receLine = reader.readLine();
+        if(receLine==null){
+            throw new IOException("");
+        }
 //        System.out.println(receLine);
         while(!receLine.equals(END_OF_TURN)) {   //!!!!
             sb.append("\n"+receLine);
