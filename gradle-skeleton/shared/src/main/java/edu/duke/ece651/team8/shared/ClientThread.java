@@ -131,7 +131,7 @@ public class ClientThread extends Thread {
 
     private boolean hasWinner() {
         for (int i = 0; i < clientSockets.size(); ++i) {
-            if (players.get(i).isWinner(this.unitAmount)) {
+            if (players.get(i).isWinner(this.unitAmount * players.size())) {
                 this.winnerName = players.get(i).getColor();
                 return true;
             }
