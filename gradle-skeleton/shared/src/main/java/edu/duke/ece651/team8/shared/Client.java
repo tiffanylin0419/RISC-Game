@@ -46,17 +46,31 @@ public class Client {
      * @param out is the output stream of the client
      */
     public Client(int port, String host, PrintStream out, BufferedReader in) throws IOException {
-        this(new Socket(host, port), out,in);
+        this(new Socket(host,port), out,in);
     }
     public Client(Socket s, PrintStream out,BufferedReader in) throws IOException {
-        this.socket = s;
-        this.out = out;
-        this.inputStream = socket.getInputStream();
+        this(s,null,null,out,in,null);
+        this.inputStream = s.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
+        this.output = new PrintWriter(s.getOutputStream());
+    }
+    public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) throws IOException {
+        this.socket = s;
+        this.inputStream = inputStream;
+        this.reader = br;
+        this.out = out;
         this.input = in;
         this.winner = "no winner";
-        output = new PrintWriter(s.getOutputStream());
+        this.output = output;
     }
+
+    protected void initInputSocketStuff(Socket s)throws IOException{
+
+    }
+    protected void initServerBuffer(BufferedReader mockRB)throws IOException{
+        this.reader = new BufferedReader(new InputStreamReader(inputStream));
+    }
+
 
     /** execute the client */
     public void run() {
