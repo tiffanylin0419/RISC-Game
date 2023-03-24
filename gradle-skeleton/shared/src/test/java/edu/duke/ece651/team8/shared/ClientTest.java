@@ -183,9 +183,10 @@ public class ClientTest {
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
         Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
         when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
+        client.mapInfo = "abc\n123";
         client.displayMap();
-        assertEquals(client.buffer,"abc\n123\n");
-
+        String actual = bytes.toString();
+        assertEquals("abc\n123\n", actual);
     }
 
 
