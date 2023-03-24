@@ -245,15 +245,11 @@ public class GameThread extends Thread {
             if (buffer.equals("D")) {
                 return;
             } else if (buffer.equals("M")) {
-                //while (doMoveOrder(index) != null) {}
-                if(doMoveOrder(index)==null){continue;}
+                doMoveOrder(index);
             } else if (buffer.equals("A")) {
-                //while (doAttackOrder(index) != null) {}
-                if(doAttackOrder(index)==null){continue;}
-
+                doAttackOrder(index);
             }
         }
-        //doOneCommit(index);
     }
 
     /**

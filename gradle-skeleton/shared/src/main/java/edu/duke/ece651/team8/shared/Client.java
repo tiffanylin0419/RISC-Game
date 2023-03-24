@@ -287,7 +287,7 @@ public class Client {
         String s = input.readLine();
 
         if(isValidChoice(s)){
-            System.out.println("xxxxxx"+s + "xxxxxx");
+            //System.out.println("xxxxxx"+s + "xxxxxx");
             send(s);
             return s;
         }else{
