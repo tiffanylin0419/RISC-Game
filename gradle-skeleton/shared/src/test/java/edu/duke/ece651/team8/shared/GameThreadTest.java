@@ -203,52 +203,31 @@ class GameThreadTest {
                 "1 units in a5 (next to: a4, a6)\n" +
                 "17 units in a6 (next to: a5)\nCongratulations! You win!\n", actual);
     }
-//    @Disabled
-//    @Test
-//    public void testServerHandlesIOException() throws Exception {
-//        AbstractMapFactory factory = new V1MapFactory();
-//
-//        // Create mock objects
-//        Socket mockSocket = mock(Socket.class);
-//        InputStream mockInputStream = mock(InputStream.class);
-//        OutputStream mockOutputStream = mock(OutputStream.class);
-//        // Set up mock socket
-//        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
-//        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
-//
-//        // Create client thread with mock socket
-//        List<Socket> clis = new ArrayList<>();
-//
-//        ArrayList<Player> players=new ArrayList<>();
-//        players.add(new Player("Red"));
-//
-//        clis.add(mockSocket);
-//        GameThread clientThread = new GameThread(clis, factory);
-//        doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
-//        clientThread.start();
-//
-//        clientThread.interrupt();
-//        clientThread.join();
-//
-//    }
     @Test
     public void testHasWinner() throws Exception{
         Player mockPlayer= mock(Player.class);
+        Player mockPlayer2= mock(Player.class);
         Map mockMap= mock(Map.class);
         List<Player> p = new ArrayList<>();
         p.add(mockPlayer);
+        p.add(mockPlayer2);
 
         AbstractMapFactory factory = new V1MapFactory();
         ServerSocket ss = new ServerSocket(1291);
 
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        Client cli = createClient(1291,"localhost", bytes, "");
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
-        Client cli = createClient(1291,"localhost", bytes1, "");
+        Client cli1 = createClient(1291,"localhost", bytes1, "");
         Socket cliSocket = ss.accept();
+        Socket cliSocket1 = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
+        clis.add(cliSocket1);
 
         GameThread gameThread = new GameThread(clis, factory);
         when(mockPlayer.isWinner(6)).thenReturn(true);
+        when(mockPlayer.isDefeated()).thenReturn(true);
         when(mockMap.doCombats()).thenReturn("");
         Field mapField = GameThread.class.getDeclaredField("theMap");
         Field playerField = GameThread.class.getDeclaredField("players");
@@ -259,13 +238,18 @@ class GameThreadTest {
 
         gameThread.reportResults();
         cli.reportResult();
+        cli1.reportResult();
 
         ss.close();
         String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
 
-        assertEquals("\nnull Player:\n" +
+        assertEquals("\n" +
+                "null Player:\n" +
+                "-------------\n" +
+                "null Player:\n" +
                 "-------------\n", actual);
     }
+
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
