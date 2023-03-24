@@ -148,6 +148,11 @@ public class GameThread extends Thread {
         for (int j = 0; j < size - 1; ++j) {
             while (true) {
                 Territory t = territories.get(j);
+                if(!players.get(i).isConnected()) {
+                    buffer = "1";
+                    setUnitInTerritory(t);
+                    break;
+                }
                 System.out.println("======="+t.getName()+"=======");
                 send(prompt + t.getName() + " (" + curr + " units)\n", outputs.get(i));
                 try {
@@ -163,7 +168,10 @@ public class GameThread extends Thread {
                 } catch (IOException e) {
                     System.out.println(players.get(i).getColor() + " disconnect");
                     players.get(i).disconnect();
-                    return;
+                    buffer = Integer.toString(curr - (size - j - 1));
+                    setUnitInTerritory(t);
+                    curr = 1;
+                    break;
                 }
             }
         }
