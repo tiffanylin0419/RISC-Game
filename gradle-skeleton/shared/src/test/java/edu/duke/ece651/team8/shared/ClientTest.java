@@ -10,10 +10,10 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientTest {
-    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes, PrintWriter output, String inputData)throws IOException{
+    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes,InputStream inputStream,PrintWriter output, String inputData)throws IOException{
         BufferedReader input = new BufferedReader(new StringReader(inputData));
         PrintStream out = new PrintStream(bytes, true);
-        return  new Client(s, null, mockRB, out, input, output);
+        return  new Client(s, inputStream, mockRB, out, input, output);
     }
     @Test
     public void testConstructor() throws Exception {
@@ -196,14 +196,20 @@ public class ClientTest {
         ss.close();
     }
 
+//    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes, PrintWriter output, String inputData)throws IOException{
+//        BufferedReader input = new BufferedReader(new StringReader(inputData));
+//        PrintStream out = new PrintStream(bytes, true);
+//        return  new Client(s, null, mockRB, out, input, output);
+//    }
     @Test
     public void testReceive()throws IOException{
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(bytes, true);
         PrintWriter output = mock(PrintWriter.class);
         Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,output,"");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
 
         when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
         client.receive();
@@ -216,8 +222,9 @@ public class ClientTest {
         PrintStream out = new PrintStream(bytes, true);
         PrintWriter output = mock(PrintWriter.class);
         Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,output,"");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
 
         when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
         client.receiveCombatOutcome();
@@ -229,8 +236,9 @@ public class ClientTest {
         PrintStream out = new PrintStream(bytes, true);
         PrintWriter output = mock(PrintWriter.class);
         Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,output,"");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
 
         when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
         client.receiveWinner();
@@ -243,8 +251,9 @@ public class ClientTest {
         PrintStream out = new PrintStream(bytes, true);
         PrintWriter output = mock(PrintWriter.class);
         Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,output,"");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"A");
 
         when(mockServerBuffer.readLine()).thenReturn("continue").thenReturn(client.END_OF_TURN).thenReturn("lose").thenReturn(client.END_OF_TURN);
         client.receiveLoseStatus();
@@ -258,8 +267,9 @@ public class ClientTest {
         PrintStream out = new PrintStream(bytes, true);
         PrintWriter output = mock(PrintWriter.class);
         Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,output,"A\n");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"A");
 
         client.tryChooseOneAction("What would you like to do?\n(M)ove\n(A)ttack\n(D)one",client.input);
         String actual = bytes.toString();

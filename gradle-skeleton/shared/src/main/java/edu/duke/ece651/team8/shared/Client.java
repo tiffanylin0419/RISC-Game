@@ -53,7 +53,6 @@ public class Client {
         this.inputStream = s.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
         this.output = new PrintWriter(s.getOutputStream());
-
     }
     public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) throws IOException {
         this.socket = s;
