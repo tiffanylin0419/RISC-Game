@@ -98,23 +98,16 @@ public class Client {
     }
     public void doAllTurns() throws IOException {
         while(!isOver()) {//keep running if no one wins
-            doOneWholeTurn();
-            receiveWinner();
-            if(isOver()){
-                if(color.equals(winner)){
-                    out.println("Congratulations! You win!");
-                }else {
-                    out.println(winner+" wins.");
-                }
+            if(!isDefeated){
+                doOneTurn();
+            }
+            System.out.println("outcome reach");
+            if(reportResult()) {
                 break;
             }
         }
     }
-    public void doOneWholeTurn() throws IOException{
-        if(!isDefeated){
-            doOneTurn();
-        }
-        System.out.println("outcome reach");
+    public boolean reportResult() throws IOException{
         receiveCombatOutcome();
         displayCombatOutcome();
         receiveMapInfo();
@@ -128,7 +121,16 @@ public class Client {
         }else{
             receiveLoseStatus();
         }
-
+        receiveWinner();
+        if(isOver()){
+            if(color.equals(winner)){
+                out.println("Congratulations! You win!");
+            }else {
+                out.println(winner+" wins.");
+            }
+            return true;
+        }
+        return false;
     }
     /**
      * Receive the string info from the server into serverBuffer

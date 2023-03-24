@@ -54,6 +54,7 @@ public class Game1Map implements Map {
 
   @Override
   public ActionRuleChecker getChecker(){return checker;}
+  @Override
   public String doCombats() {
     StringBuilder outcomes = new StringBuilder();
     for(Territory t : territories) {

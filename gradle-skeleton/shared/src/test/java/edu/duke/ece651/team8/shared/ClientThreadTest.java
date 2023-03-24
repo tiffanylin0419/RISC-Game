@@ -32,8 +32,8 @@ class ClientThreadTest {
         cli.receivePlacementResult();
         Thread.sleep(20);
         th.setWinner("Green");
-        cli.doOneWholeTurn();
-        cli.receiveWinner();
+        cli.doOneTurn();
+        cli.reportResult();
     }
 
     @Test
@@ -114,7 +114,7 @@ class ClientThreadTest {
                 "4 units in a3 (next to: a2, a4)\n" +
                 "5 units in a4 (next to: a3, a5)\n" +
                 "6 units in a5 (next to: a4, a6)\n" +
-                "22 units in a6 (next to: a5)\n", actual);
+                "22 units in a6 (next to: a5)\nCongratulations! You win!\n", actual);
     }
     @Test
     public void testIOExceptionInRun() throws Exception {
@@ -201,7 +201,7 @@ class ClientThreadTest {
                 "5 units in a3 (next to: a2, a4)\n" +
                 "6 units in a4 (next to: a3, a5)\n" +
                 "1 units in a5 (next to: a4, a6)\n" +
-                "17 units in a6 (next to: a5)\n", actual);
+                "17 units in a6 (next to: a5)\nCongratulations! You win!\n", actual);
     }
 //    @Disabled
 //    @Test
@@ -234,24 +234,37 @@ class ClientThreadTest {
     @Test
     public void testHasWinner() throws Exception{
         Player mockPlayer= mock(Player.class);
+        Map mockMap= mock(Map.class);
         List<Player> p = new ArrayList<>();
         p.add(mockPlayer);
 
         AbstractMapFactory factory = new V1MapFactory();
-        ServerSocket ss = new ServerSocket(1271);
+        ServerSocket ss = new ServerSocket(1291);
+
+        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+        Client cli = createClient(1291,"localhost", bytes1, "");
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
 
         ClientThread clientThread = new ClientThread(clis, factory);
-        when(mockPlayer.isWinner(36)).thenReturn(true);
+        when(mockPlayer.isWinner(6)).thenReturn(true);
+        when(mockMap.doCombats()).thenReturn("");
+        Field mapField = ClientThread.class.getDeclaredField("theMap");
         Field playerField = ClientThread.class.getDeclaredField("players");
+        mapField.setAccessible(true);
+        mapField.set(clientThread, mockMap);
         playerField.setAccessible(true);
         playerField.set(clientThread, p);
-        Thread thread = new Thread(() -> {
-            clientThread.reportResults();
-        });
 
+        clientThread.reportResults();
+        cli.reportResult();
+
+        ss.close();
+        String actual = bytes1.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
+
+        assertEquals("\nnull Player:\n" +
+                "-------------\n", actual);
     }
     @Test
     public void testHandlesIOExceptionInRun() throws Exception {
