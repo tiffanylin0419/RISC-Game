@@ -189,9 +189,7 @@ public class ClientThread extends Thread {
         mapInfo = mapView.displayMap(players);
         for (int i = 0; i < clientSockets.size(); i++) {
             send(outcome, outputs.get(i));
-            System.out.println("Server: reached2");
             send(mapInfo,outputs.get(i));
-            System.out.println("Server: reached3");
             if (players.get(i).isDefeated()) {
                 String prompt = "lose";
                 send(prompt, outputs.get(i));
@@ -199,13 +197,11 @@ public class ClientThread extends Thread {
                 String prompt = "continue";
                 send(prompt, outputs.get(i));
             }
-            System.out.println("Server: reached4");
             if (this.winnerName == null) {
                 send("no winner", outputs.get(i));
             } else {
                 send(this.winnerName, outputs.get(i));
             }
-            System.out.println("Server: reached5");
         }
     }
      /**

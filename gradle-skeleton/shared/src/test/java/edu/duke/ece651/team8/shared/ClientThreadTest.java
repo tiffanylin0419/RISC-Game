@@ -23,13 +23,14 @@ class ClientThreadTest {
         PrintStream output = new PrintStream(bytes, true);
         return  new Client(port, host, output, input);
     }
-    private void doClientAction(Client cli) throws Exception {
+    private void doClientAction(Client cli, ClientThread th) throws Exception {
         cli.receiveColor();
         cli.receiveMapInfo();
         cli.displayColor();
         cli.displayMap();
         cli.doInitialPlacement();
         cli.receivePlacementResult();
+        th.setWinner("Green");
         cli.doOneWholeTurn();
         cli.receiveWinner();
     }
@@ -50,8 +51,7 @@ class ClientThreadTest {
         ClientThread th = new ClientThread(clis, factory);
         th.start();
 
-        doClientAction(cli);
-        th.setWinner("Green");
+        doClientAction(cli, th);
 
         th.interrupt();
         th.join();
@@ -131,8 +131,7 @@ class ClientThreadTest {
         ClientThread th = new ClientThread(clis, factory);
         th.start();
 
-        doClientAction(cli);
-        th.setWinner("Green");
+        doClientAction(cli, th);
 
         th.interrupt();
         th.join();
