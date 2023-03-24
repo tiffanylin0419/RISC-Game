@@ -213,12 +213,7 @@ public class ClientThread extends Thread {
         for (int i = 0; i < clientSockets.size(); i++) {
             try {
                 if (!players.get(i).isConnected()) continue;
-                if (players.get(i).isDefeated()) {
-//                    buffer="D";
-//                    doOneCommit(i);
-                    String prompt = "lose";
-                    send(prompt, outputs.get(i));
-                } else {
+                if (!players.get(i).isDefeated()) {
                     doOneCommit(i);
                 }
             } catch (IOException e) {
