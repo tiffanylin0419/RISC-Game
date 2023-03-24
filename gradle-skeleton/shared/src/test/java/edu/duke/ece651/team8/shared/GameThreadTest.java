@@ -16,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 //@ExtendWith(MockitoExtension.class)
-class ClientThreadTest {
+class GameThreadTest {
 
     public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException{
         BufferedReader input = new BufferedReader(new StringReader(inputData));
         PrintStream out = new PrintStream(bytes, true);
         return  new Client(port, host, out, input);
     }
-    private void doClientAction(Client cli, ClientThread th) throws Exception {
+    private void doClientAction(Client cli, GameThread th) throws Exception {
         cli.receiveColor();
         cli.receiveMap();
         cli.displayColor();
@@ -49,7 +49,7 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<>();
 
         clis.add(cliSocket);
-        ClientThread th = new ClientThread(clis, factory);
+        GameThread th = new GameThread(clis, factory);
         th.start();
 
         doClientAction(cli, th);
@@ -129,7 +129,7 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<>();
 
         clis.add(cliSocket);
-        ClientThread th = new ClientThread(clis, factory);
+        GameThread th = new GameThread(clis, factory);
         th.start();
 
         doClientAction(cli, th);
@@ -223,7 +223,7 @@ class ClientThreadTest {
 //        players.add(new Player("Red"));
 //
 //        clis.add(mockSocket);
-//        ClientThread clientThread = new ClientThread(clis, factory);
+//        GameThread clientThread = new GameThread(clis, factory);
 //        doThrow(new IOException("Socket closed")).when(mockSocket).getOutputStream();
 //        clientThread.start();
 //
@@ -247,17 +247,17 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
 
-        ClientThread clientThread = new ClientThread(clis, factory);
+        GameThread gameThread = new GameThread(clis, factory);
         when(mockPlayer.isWinner(6)).thenReturn(true);
         when(mockMap.doCombats()).thenReturn("");
-        Field mapField = ClientThread.class.getDeclaredField("theMap");
-        Field playerField = ClientThread.class.getDeclaredField("players");
+        Field mapField = GameThread.class.getDeclaredField("theMap");
+        Field playerField = GameThread.class.getDeclaredField("players");
         mapField.setAccessible(true);
-        mapField.set(clientThread, mockMap);
+        mapField.set(gameThread, mockMap);
         playerField.setAccessible(true);
-        playerField.set(clientThread, p);
+        playerField.set(gameThread, p);
 
-        clientThread.reportResults();
+        gameThread.reportResults();
         cli.reportResult();
 
         ss.close();
@@ -287,13 +287,13 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
 
-        ClientThread clientThread = new ClientThread(clis, factory);
-        // Set the mock BufferedReader object on the clientThread
+        GameThread gameThread = new GameThread(clis, factory);
+        // Set the mock BufferedReader object on the gameThread
         when(mockReader.readLine()).thenThrow(new IOException("Socket closed"));
-        Field readerField = ClientThread.class.getDeclaredField("readers");
+        Field readerField = GameThread.class.getDeclaredField("readers");
         readerField.setAccessible(true);
-        readerField.set(clientThread, r);
-        clientThread.issueOrders();
+        readerField.set(gameThread, r);
+        gameThread.issueOrders();
 
         cli.receive();
         cliOutput.println("M");
@@ -301,8 +301,8 @@ class ClientThreadTest {
         cliOutput.print(END_OF_TURN);
         cliOutput.flush(); // flush the output buffer
 
-        clientThread.interrupt();
-        clientThread.join();
+        gameThread.interrupt();
+        gameThread.join();
 
     }
     @Test
@@ -322,7 +322,7 @@ class ClientThreadTest {
         List<Socket> clis = new ArrayList<Socket>();
         clis.add(cliSocket);
         clis.add(cliSocket1);
-        ClientThread th = new ClientThread(clis, factory);
+        GameThread th = new GameThread(clis, factory);
         // create a new thread and start it
         Thread thread = new Thread(() -> {
             th.doInitialPlacement();
@@ -400,7 +400,7 @@ class ClientThreadTest {
         List<Socket> clients = new ArrayList<>();
 
         clients.add(cliSocket);
-        ClientThread thread = new ClientThread(clients, factory);
+        GameThread thread = new GameThread(clients, factory);
         thread.start();
 
         assertTrue(thread.checkUnitNumValid(5, 0, 6));

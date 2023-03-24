@@ -1,8 +1,11 @@
 package edu.duke.ece651.team8.shared;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -78,73 +81,37 @@ public class ClientTest {
         assertFalse(cli.isPositiveInt("-10"));
         assertTrue(cli.isPositiveInt("123"));
     }
-
-    @Disabled
-    @Test
-    public void testRun() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        ServerSocket ss = new ServerSocket(1244);
-        AbstractMapFactory factory = new V1MapFactory();
-
-        Server s = new Server(ss, 1, factory);
-        Thread serverThread = new Thread(() -> {
-            s.run();
-        });
-        serverThread.start();
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-        Socket client = new Socket("localhost", 1244);
-        Client cli = new Client(client, output,in);
-        cli.run();
-        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("Green\n" +
-                "Green Player:\n" +
-                "-------------\n" +
-                "0 units in a1 (next to: a2)\n" +
-                "0 units in a2 (next to: a1, a3)\n" +
-                "0 units in a3 (next to: a2, a4)\n" +
-                "0 units in a4 (next to: a3, a5)\n" +
-                "0 units in a5 (next to: a4, a6)\n" +
-                "0 units in a6 (next to: a5)", actual);
-
-        s.stop();
-        serverThread.join();
-        ss.close();
-
-    }
-    //    @Test
-//    public void testReceive() throws Exception {
-//        ServerSocket ss = new ServerSocket(1234);
-//        Map m = new Game1Map();
-//        m.addTerritory(new BasicTerritory("Planto"));
-//        m.addTerritory(new BasicTerritory("Dova"));
-//        m.addTerritory(new BasicTerritory("Aova"));
 //
-//        Territory t = new BasicTerritory("Grand");
-//        Player p = new TextPlayer("Green");
-//        Unit u = new BasicUnit(2, p);
-//        t.moveIn(u);
-//        m.addTerritory(t);
-//
-//        Server s = new Server(ss, m, 1);
-//        Thread serverThread = new Thread(() -> {
-//            s.run();
-//        });
-//        serverThread.start();
+//    @Test
+//    public void testRun() throws Exception {
+//        Client mockClient= mock(Client.class);
+//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+//        ServerSocket ss = new ServerSocket(1831);
+//        AbstractMapFactory factory = new V1MapFactory();
 //
 //        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        PrintStream output = new PrintStream(bytes, true);
-//        Client cli = new Client(1234, "localhost", output);
-//        cli.receive();
-//        cli.display();
-//        serverThread.interrupt();
-//        s.stop();
-//        serverThread.join();
+//        BufferedReader input = new BufferedReader(new StringReader("1\n2\n3\n4\n5\n6\nM\n1\na1\na2\nD\n"));
+//        PrintStream out = new PrintStream(bytes, true);
+//        Client cli = new Client(1831, "localhost", out, input);
+//        when(mockWinner.equals("no winner")).thenReturn(false);
+//        Field winnerField = Client.class.getDeclaredField("winner");
+//        winnerField.setAccessible(true);
+//        winnerField.set(cli, mockWinner);
+//
+//        Socket cliSocket = ss.accept();
+//        List<Socket> clis = new ArrayList<>();
+//        clis.add(cliSocket);
+//        GameThread th = new GameThread(clis, factory);
+//        th.start();
+//
+//        cli.run();
+//
+//        th.interrupt();
+//        th.join();
 //        ss.close();
 //        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//        assertEquals("Green\nGreen Player:\n-------------\n0 units in Planto (next to: )\n0 units in Dova (next to: )\n" +
-//                "0 units in Aova (next to: )\n2 units in Grand (next to: )\n", actual);
+//
+//        assertEquals("", actual);
 //
 //    }
     @Disabled
