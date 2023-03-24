@@ -185,6 +185,9 @@ public class GameThread extends Thread {
         hasWinner();
         mapInfo = mapView.displayMap(players);
         for (int i = 0; i < clientSockets.size(); i++) {
+            if(!players.get(i).isConnected()){
+                continue;
+            }
             send(outcome, outputs.get(i));
             send(mapInfo,outputs.get(i));
             if (players.get(i).isDefeated()) {
