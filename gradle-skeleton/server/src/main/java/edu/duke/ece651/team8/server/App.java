@@ -7,8 +7,8 @@ import edu.duke.ece651.team8.shared.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 public class App {
     /**
      * This main method runs the server, listening on port 1651.
@@ -19,10 +19,14 @@ public class App {
      * @throws IOException if creation of the ServerSocket fails.
     */
     public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Enter player number: ");
+        String line =reader.readLine();
+        int num = Integer.parseInt(line);
+
         AbstractMapFactory factory = new V1MapFactory();
-        Server server = new Server(8080, 4, factory);
+        Server server = new Server(8080, num, factory);
         server.run();
     }
-
 }
 
