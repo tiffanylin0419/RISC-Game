@@ -92,6 +92,7 @@ public class Client {
             if(!isDefeated){
                 doOneTurn();
             }
+            reportResult();
             System.out.println("outcome reach");
         }
     }
