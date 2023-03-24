@@ -273,7 +273,47 @@ public class ClientTest {
         inOrder.verify(output).flush();
         bytes.reset();
     }
+    @Test
+    public void testReportResult()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"a\n6\n");
+        client.color = "red";
+        when(mockServerBuffer.readLine()).thenReturn("CombatOutcome").thenReturn(client.END_OF_TURN).thenReturn("Map").thenReturn(client.END_OF_TURN).thenReturn("continue").thenReturn(client.END_OF_TURN).thenReturn("no winner").thenReturn(client.END_OF_TURN).thenReturn("CombatOutcome").thenReturn(client.END_OF_TURN).thenReturn("Map").thenReturn(client.END_OF_TURN).thenReturn("continue").thenReturn(client.END_OF_TURN).thenReturn("red").thenReturn(client.END_OF_TURN).thenReturn("CombatOutcome").thenReturn(client.END_OF_TURN).thenReturn("Map").thenReturn(client.END_OF_TURN).thenReturn("lose").thenReturn(client.END_OF_TURN).thenReturn("no winner").thenReturn(client.END_OF_TURN).thenReturn("CombatOutcome").thenReturn(client.END_OF_TURN).thenReturn("Map").thenReturn(client.END_OF_TURN).thenReturn("lose").thenReturn(client.END_OF_TURN).thenReturn("blue").thenReturn(client.END_OF_TURN);
 
+        client.reportResult();
+        String actual = bytes.toString();
+        assertEquals("CombatOutcome\n" +
+                "Map\n", actual);
+
+        bytes.reset();
+        client.winner = "no winner";
+        client.reportResult();
+        actual = bytes.toString();
+        assertEquals("CombatOutcome\n" +
+                "Map\n" +
+                "Congratulations! You win!\n", actual);
+
+        bytes.reset();
+        client.reportResult();
+        actual = bytes.toString();
+        assertEquals("CombatOutcome\n" +
+                "Map\n" +
+                "You lose.\n", actual);
+
+        bytes.reset();
+        client.reportResult();
+        actual = bytes.toString();
+        assertEquals("CombatOutcome\n" +
+                "Map\n" +
+                "blue wins.\n", actual);
+
+        bytes.reset();
+    }
     @Test
     public void testTryInputUnitNumberToPlace()throws Exception{
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

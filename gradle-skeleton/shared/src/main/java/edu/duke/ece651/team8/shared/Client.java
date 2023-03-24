@@ -93,12 +93,9 @@ public class Client {
                 doOneTurn();
             }
             System.out.println("outcome reach");
-            if(reportResult()) {
-                break;
-            }
         }
     }
-    public boolean reportResult() throws IOException{
+    public void reportResult() throws IOException{
         receiveCombatOutcome();
         displayCombatOutcome();
         receiveMap();
@@ -119,9 +116,7 @@ public class Client {
             }else {
                 out.println(winner+" wins.");
             }
-            return true;
         }
-        return false;
     }
     /**
      * Receive the string info from the server into serverBuffer
