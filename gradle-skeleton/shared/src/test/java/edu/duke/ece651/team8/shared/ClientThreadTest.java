@@ -118,11 +118,11 @@ class ClientThreadTest {
     @Test
     public void testIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        ServerSocket ss = new ServerSocket(1231);
+        ServerSocket ss = new ServerSocket(1531);
         AbstractMapFactory factory = new V1MapFactory();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        Client cli = createClient(1231,"localhost", bytes, "-1\n70\n0\n2\n3\n4\n5\n6\nM\n-6\n6\na5\na2\nD\n");
+        Client cli = createClient(1531,"localhost", bytes, "-1\n70\n0\n2\n3\n4\n5\n6\nM\n-6\n6\na5\na2\nD\n");
 
         Socket cliSocket = ss.accept();
         List<Socket> clis = new ArrayList<>();
@@ -235,7 +235,7 @@ class ClientThreadTest {
     public void testHandlesIOExceptionInRun() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         AbstractMapFactory factory = new V1MapFactory();
-        ServerSocket ss = new ServerSocket(1231);
+        ServerSocket ss = new ServerSocket(1271);
 
         // Create mock objects
         BufferedReader mockReader = mock(BufferedReader.class);
@@ -244,7 +244,7 @@ class ClientThreadTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        Socket s = new Socket("localhost", 1231);
+        Socket s = new Socket("localhost", 1271);
         Client cli = new Client(s, output, in);
         PrintWriter cliOutput = new PrintWriter(s.getOutputStream(), true);
 
