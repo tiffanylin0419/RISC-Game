@@ -12,7 +12,7 @@ public class Server {
     /** server socket*/
     protected ServerSocket server;
     /** List of the client sockets */
-    private List<ClientThread> clients;
+    private List<GameThread> clients;
     /** number of clients */
     protected int clientNum;
     protected AbstractMapFactory factory;
@@ -63,9 +63,9 @@ public class Server {
             System.out.println("Client connected!");
         }
 
-        ClientThread clientThread = new ClientThread(oneGameClients, factory);
-        clients.add(clientThread);
-        clientThread.start();
+        GameThread gameThread = new GameThread(oneGameClients, factory);
+        clients.add(gameThread);
+        gameThread.start();
     }
     /**
      * Stop the server
@@ -77,7 +77,7 @@ public class Server {
         server.close();
 
         // Interrupt all client threads and remove them from the list
-        for (ClientThread client : clients) {
+        for (GameThread client : clients) {
             client.interrupt();
         }
         clients.clear();

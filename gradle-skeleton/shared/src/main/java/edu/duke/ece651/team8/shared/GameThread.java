@@ -1,14 +1,12 @@
 package edu.duke.ece651.team8.shared;
 
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientThread extends Thread {
+public class GameThread extends Thread {
     private List<Socket> clientSockets;
     /** streams pass to client*/
     private List<PrintWriter> outputs;
@@ -33,11 +31,11 @@ public class ClientThread extends Thread {
     private String winnerName;
 
     /**
-     * Constructor of ClientThread
+     * Constructor of GameThread
      * @param clientSockets are the sockets of the game thread
      * @param factory is factory of the game
      */
-    public ClientThread(List<Socket> clientSockets, AbstractMapFactory factory) throws IOException{
+    public GameThread(List<Socket> clientSockets, AbstractMapFactory factory) throws IOException{
         this.clientSockets = clientSockets;
         this.mapInfo = mapInfo;
         this.outputs = new ArrayList<>();
