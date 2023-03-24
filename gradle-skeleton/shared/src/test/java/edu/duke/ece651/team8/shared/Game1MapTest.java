@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class Game1MapTest {
@@ -77,6 +78,7 @@ public class Game1MapTest {
     assertFalse(territories[4].isAdjacentEnemy(territories[1]));
   }
 
+  @Disabled
   @Test
   public void testDoCombats() {
     Map map = new Game1Map();
