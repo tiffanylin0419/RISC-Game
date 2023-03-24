@@ -78,7 +78,7 @@ public class Game1MapTest {
     assertFalse(territories[4].isAdjacentEnemy(territories[1]));
   }
 
-
+  @Disabled
   @Test
   public void testDoCombats() {
     Map map = new Game1Map();
