@@ -30,7 +30,6 @@ public class ClientThread extends Thread {
 
     private final int placementTimes = 5;
     private final int unitAmount = 36;
-
     private String winnerName;
 
     /**
@@ -130,8 +129,9 @@ public class ClientThread extends Thread {
     }
 
     private boolean hasWinner() {
+        int totalTerriNum = players.get(0).getTerritores().size() * players.size();
         for (int i = 0; i < clientSockets.size(); ++i) {
-            if (players.get(i).isWinner(6 * players.size())) {
+            if (players.get(i).isWinner(totalTerriNum)) {
                 this.winnerName = players.get(i).getColor();
                 return true;
             }
