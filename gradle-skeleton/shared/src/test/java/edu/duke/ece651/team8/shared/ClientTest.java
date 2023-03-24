@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,64 +83,6 @@ public class ClientTest {
         assertFalse(cli.isPositiveInt("-10"));
         assertTrue(cli.isPositiveInt("123"));
     }
-//
-//    @Test
-//    public void testRun() throws Exception {
-//        Client mockClient= mock(Client.class);
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        ServerSocket ss = new ServerSocket(1831);
-//        AbstractMapFactory factory = new V1MapFactory();
-//
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        BufferedReader input = new BufferedReader(new StringReader("1\n2\n3\n4\n5\n6\nM\n1\na1\na2\nD\n"));
-//        PrintStream out = new PrintStream(bytes, true);
-//        Client cli = new Client(1831, "localhost", out, input);
-//        when(mockWinner.equals("no winner")).thenReturn(false);
-//        Field winnerField = Client.class.getDeclaredField("winner");
-//        winnerField.setAccessible(true);
-//        winnerField.set(cli, mockWinner);
-//
-//        Socket cliSocket = ss.accept();
-//        List<Socket> clis = new ArrayList<>();
-//        clis.add(cliSocket);
-//        GameThread th = new GameThread(clis, factory);
-//        th.start();
-//
-//        cli.run();
-//
-//        th.interrupt();
-//        th.join();
-//        ss.close();
-//        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//
-//        assertEquals("", actual);
-//
-//    }
-    @Disabled
-    @Test
-    public void testDisplay() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        AbstractMapFactory factory = new V1MapFactory();
-        ServerSocket ss = new ServerSocket(1334);
-
-        Server s = new Server(ss, 1,factory);
-        Thread serverThread = new Thread(() -> {
-            s.run();
-        });
-        serverThread.start();
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1334, "localhost", output, in);
-        cli.displayColor();
-        cli.displayMap();
-        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-        assertEquals("\n", actual);
-
-        s.stop();
-        serverThread.join();
-        ss.close();
-    }
 
     @Test
     public void testDisplayMap() throws Exception {
@@ -156,12 +100,6 @@ public class ClientTest {
         assertEquals("abc\n123\n", actual);
     }
 
-
-//    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes, PrintWriter output, String inputData)throws IOException{
-//        BufferedReader input = new BufferedReader(new StringReader(inputData));
-//        PrintStream out = new PrintStream(bytes, true);
-//        return  new Client(s, null, mockRB, out, input, output);
-//    }
     @Test
     public void testReceive()throws IOException{
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -178,7 +116,77 @@ public class ClientTest {
     }
 
     @Test
-    public void testReceiveCombatOutcome()throws IOException{
+    public void testSend()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
+
+        client.send("abc\n123\n");
+        verify(output).println(eq("abc\n123\n"));
+        verify(output).println(eq(client.END_OF_TURN));
+        verify(output).flush();
+    }
+
+    @Test
+    public void testReceiveAndDisplayColor()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
+
+        when(mockServerBuffer.readLine()).thenReturn("green").thenReturn(client.END_OF_TURN);
+        client.receiveColor();
+        assertEquals(client.color,"green");
+        client.displayColor();
+        String actual = bytes.toString();
+        assertEquals("green\n", actual);
+    }
+
+    @Test
+    public void testReceiveAndDisplayMap()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
+
+        when(mockServerBuffer.readLine()).thenReturn("-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)").thenReturn(client.END_OF_TURN);
+        client.receiveMap();
+        assertEquals(client.mapInfo,"-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)");
+        client.displayMap();
+        String actual = bytes.toString();
+        assertEquals("-------------\n" +
+                "0 units in a1 (next to: a2)\n" +
+                "0 units in a2 (next to: a1, a3)\n" +
+                "0 units in a3 (next to: a2, a4)\n" +
+                "0 units in a4 (next to: a3, a5)\n" +
+                "0 units in a5 (next to: a4, a6)\n" +
+                "0 units in a6 (next to: a5)\n", actual);
+    }
+
+    @Test
+    public void testReceiveAndDisplayCombatOutcome()throws IOException{
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(bytes, true);
         PrintWriter output = mock(PrintWriter.class);
@@ -205,9 +213,9 @@ public class ClientTest {
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
         Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
 
-        when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
+        when(mockServerBuffer.readLine()).thenReturn("red").thenReturn(client.END_OF_TURN);
         client.receiveWinner();
-        assertEquals(client.winner,"abc\n123\n");
+        assertEquals(client.winner,"red");
     }
 
     @Test
@@ -226,6 +234,107 @@ public class ClientTest {
         client.receiveLoseStatus();
         assertEquals(client.isDefeated,true);
     }
+
+    @Test
+    public void testTryDoInitialPlacement()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"6\n100\na\n8\n");
+        when(mockServerBuffer.readLine()).thenReturn("2").thenReturn(client.END_OF_TURN).thenReturn("Please enter the units you would like to place in a1 (36 units)\n").thenReturn(client.END_OF_TURN).thenReturn("valid\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the units you would like to place in a2 (36 units)\n").thenReturn(client.END_OF_TURN).thenReturn("invalid\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the units you would like to place in a3 (36 units)\n").thenReturn(client.END_OF_TURN).thenReturn("valid\n").thenReturn(client.END_OF_TURN);
+
+        client.doInitialPlacement();
+        String actual = bytes.toString();
+        assertEquals("Please enter the units you would like to place in a1 (36 units)\n" +
+                "valid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a2 (36 units)\n" +
+                "invalid\n" +
+                "\n" +
+                "Please enter the units you would like to place in a3 (36 units)\n" +
+                "For input string: \"a\"\n" +
+                "Please input a valid placement!\n" +
+                "Please enter the units you would like to place in a3 (36 units)\n" +
+                "valid\n" +
+                "\n", actual);
+        InOrder inOrder = inOrder(output);
+
+        inOrder.verify(output).println("6");
+        inOrder.verify(output).println(client.END_OF_TURN);
+        inOrder.verify(output).flush();
+        inOrder.verify(output).println("100");
+        inOrder.verify(output).println(client.END_OF_TURN);
+        inOrder.verify(output).flush();
+        inOrder.verify(output).println("8");
+        inOrder.verify(output).println(client.END_OF_TURN);
+        inOrder.verify(output).flush();
+        bytes.reset();
+    }
+
+    @Test
+    public void testTryInputUnitNumberToPlace()throws Exception{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"a\n6\n");
+
+        assertThrows(NumberFormatException.class,()->client.tryInputUnitNumberToPlace("Please enter the units you would like to place in a1 (36 units)\n",client.input));
+        bytes.reset();
+        client.tryInputUnitNumberToPlace("Please enter the units you would like to place in a1 (36 units)\n",client.input);
+        String actual = bytes.toString();
+        assertEquals("Please enter the units you would like to place in a1 (36 units)\n", actual);
+        verify(output).println("6");
+        verify(output).println(client.END_OF_TURN);
+        verify(output).flush();
+
+    }
+
+    @Test
+    public void testDoOneTurn()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"m\nM\n6\na1\na2\n6\na2\nb2\nD\n");
+        when(mockServerBuffer.readLine()).thenReturn("What would you like to do?\n(M)ove\n(A)ttack\n(D)one\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the number of units to attack:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the source territory:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the destination territory:\n").thenReturn(client.END_OF_TURN).thenReturn("invalid input\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the number of units to attack:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the source territory:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the destination territory:\n").thenReturn(client.END_OF_TURN).thenReturn("").thenReturn(client.END_OF_TURN).thenReturn("What would you like to do?\n(M)ove\n(A)ttack\n(D)one").thenReturn(client.END_OF_TURN);
+
+        client.doOneTurn();
+        String actual = bytes.toString();
+        assertEquals("What would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)one\nAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
+                "What would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)one\nPlease enter the number of units to attack:\n" +
+                "\n" +
+                "Please enter the source territory:\n" +
+                "\n" +
+                "Please enter the destination territory:\n" +
+                "\n" +
+                "invalid input\n" +
+                "\n" +
+                "Please enter the number of units to attack:\n" +
+                "\n" +
+                "Please enter the source territory:\n" +
+                "\n" +
+                "Please enter the destination territory:\n" +
+                "\n" +
+                "What would you like to do?\n" +
+                "(M)ove\n" +
+                "(A)ttack\n" +
+                "(D)one", actual);
+        bytes.reset();
+    }
     @Test
     public void testTryChooseOneAction()throws IOException{
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -234,7 +343,7 @@ public class ClientTest {
         Socket mockSocket = mock(Socket.class);
         InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"A");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"A\na\n");
 
         client.tryChooseOneAction("What would you like to do?\n(M)ove\n(A)ttack\n(D)one",client.input);
         String actual = bytes.toString();
@@ -242,6 +351,12 @@ public class ClientTest {
         verify(output).println("A");
         verify(output).println(client.END_OF_TURN);
         verify(output).flush();
+        bytes.reset();
+        assertThrows(IllegalArgumentException.class,()->client.tryChooseOneAction("What would you like to do?\n(M)ove\n(A)ttack\n(D)one",client.input));
+        actual = bytes.toString();
+        assertEquals("What would you like to do?\n(M)ove\n(A)ttack\n(D)one", actual);
+
+
     }
 
     @Test
