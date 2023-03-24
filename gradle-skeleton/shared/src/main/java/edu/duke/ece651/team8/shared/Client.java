@@ -258,15 +258,19 @@ public class Client {
             }
             System.out.println("===========" + choice + "===========");
             if (choice.equals("M")) {
-                //while(doOneMove()!=""){}
-                if(doOneMove()==""){continue;}
+                if(doOneMove()==""){
+                    System.out.println("Successfully moved\n");
+                    continue;
+                }
             } else if (choice.equals("A")) {
-                //while(doOneAttack()!=""){}
-                if(doOneAttack()==""){continue;}
+                if(doOneAttack()==""){
+                    System.out.println("Successfully attacked\n");
+                    continue;
+                }
             }else if (choice.equals("D")){
                 break;
             }
-            System.out.println("^^^^^^" + choice + "^^^^^^");
+            System.out.println("Action failed\n");
         }
     }
 
