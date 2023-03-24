@@ -185,6 +185,9 @@ public class GameThread extends Thread {
         hasWinner();
         mapInfo = mapView.displayMap(players);
         for (int i = 0; i < clientSockets.size(); i++) {
+            /*if(!players.get(i).isConnected()){
+                continue;
+            }*/
             send(outcome, outputs.get(i));
             send(mapInfo,outputs.get(i));
             if (players.get(i).isDefeated()) {
@@ -318,7 +321,9 @@ public class GameThread extends Thread {
         System.out.println(ss);
         sb.append(ss);
         String receLine = reader.readLine();
-//        System.out.println(receLine);
+        if(receLine==null){
+            throw new IOException("");
+        }
         while(!receLine.equals(END_OF_TURN)) {   //!!!!
             sb.append("\n"+receLine);
             receLine = reader.readLine();

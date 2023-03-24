@@ -203,6 +203,7 @@ class GameThreadTest {
                 "1 units in a5 (next to: a4, a6)\n" +
                 "17 units in a6 (next to: a5)\nCongratulations! You win!\n", actual);
     }
+
     @Test
     public void testHasWinner() throws Exception{
         Player mockPlayer= mock(Player.class);
