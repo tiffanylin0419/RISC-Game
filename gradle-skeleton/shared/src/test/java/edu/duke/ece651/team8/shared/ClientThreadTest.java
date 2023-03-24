@@ -20,8 +20,8 @@ class ClientThreadTest {
 
     public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException{
         BufferedReader input = new BufferedReader(new StringReader(inputData));
-        PrintStream output = new PrintStream(bytes, true);
-        return  new Client(port, host, output, input);
+        PrintStream out = new PrintStream(bytes, true);
+        return  new Client(port, host, out, input);
     }
     private void doClientAction(Client cli, ClientThread th) throws Exception {
         cli.receiveColor();
