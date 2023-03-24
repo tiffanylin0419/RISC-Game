@@ -172,29 +172,23 @@ public class ClientTest {
         serverThread.join();
         ss.close();
     }
-    @Disabled
+
     @Test
     public void testDisplayMap() throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        AbstractMapFactory factory = new V1MapFactory();
-        ServerSocket ss = new ServerSocket(1324);
-
-        Server s = new Server(ss, 1, factory);
-        Thread serverThread = new Thread(() -> {
-            s.run();
-        });
-        serverThread.start();
-
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        PrintStream output = new PrintStream(bytes, true);
-        Client cli = new Client(1324, "localhost", output, in);
-        cli.displayMap();
-        assertEquals("", bytes.toString());
-
-        s.stop();
-        serverThread.join();
-        ss.close();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"");
+        when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
+        client.mapInfo = "abc\n123";
+        client.displayMap();
+        String actual = bytes.toString();
+        assertEquals("abc\n123\n", actual);
     }
+
 
 //    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes, PrintWriter output, String inputData)throws IOException{
 //        BufferedReader input = new BufferedReader(new StringReader(inputData));
@@ -229,6 +223,10 @@ public class ClientTest {
         when(mockServerBuffer.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
         client.receiveCombatOutcome();
         assertEquals(client.combatOutcome,"abc\n123\n");
+        client.displayCombatOutcome();
+        String actual = bytes.toString();
+        assertEquals("abc\n123\n\n", actual);
+
     }
     @Test
     public void testReceiveWinner()throws IOException{
@@ -277,5 +275,17 @@ public class ClientTest {
         verify(output).println("A");
         verify(output).println(client.END_OF_TURN);
         verify(output).flush();
+    }
+
+    @Test
+    public void testIsOver()throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        PrintWriter output = mock(PrintWriter.class);
+        Socket mockSocket = mock(Socket.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader mockServerBuffer = mock(BufferedReader.class);
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"A");
+        assertEquals(client.isOver(),false);
     }
 }
