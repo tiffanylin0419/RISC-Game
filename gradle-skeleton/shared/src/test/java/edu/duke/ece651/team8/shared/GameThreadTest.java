@@ -96,17 +96,20 @@ class GameThreadTest {
                 "You are the Green player, what would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)oneAction should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
+                "(D)one\n"+
+                "Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
                 "You are the Green player, what would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)onePlease enter the number of units to move:\n" +
+                "(D)one\n"+
+                "Please enter the number of units to move:\n" +
                 "Please enter the source territory:\n" +
                 "Please enter the destination territory:\n" +
                 "You are the Green player, what would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
                 "(D)one\n" +
+                "\n"+
                 "Green Player:\n" +
                 "-------------\n" +
                 "1 units in a1 (next to: a2)\n" +
@@ -185,7 +188,8 @@ class GameThreadTest {
                 "You are the Green player, what would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)onePlease enter the number of units to move:\n" +
+                "(D)one\n"+
+                "Please enter the number of units to move:\n" +
                 "Units number should be non_negative number\n" +
                 "Please enter the number of units to move:\n" +
                 "Please enter the source territory:\n" +
@@ -194,6 +198,7 @@ class GameThreadTest {
                 "(M)ove\n" +
                 "(A)ttack\n" +
                 "(D)one\n" +
+                "\n"+
                 "Green Player:\n" +
                 "-------------\n" +
                 "3 units in a1 (next to: a2)\n" +
@@ -362,13 +367,14 @@ class GameThreadTest {
                 "You are the Green player, what would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)onePlease enter the number of units to attack:\n" +
+                "(D)one\n"+
+                "Please enter the number of units to attack:\n" +
                 "Please enter the source territory:\n" +
                 "Please enter the destination territory:\n" +
                 "You are the Green player, what would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)one", actual);
+                "(D)one\n", actual);
     }
 
     @Disabled
