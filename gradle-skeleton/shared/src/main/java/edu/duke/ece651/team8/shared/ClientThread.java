@@ -129,9 +129,8 @@ public class ClientThread extends Thread {
     }
 
     private boolean hasWinner() {
-        int totalTerriNum = players.get(0).getTerritores().size() * players.size();
         for (int i = 0; i < clientSockets.size(); ++i) {
-            if (players.get(i).isWinner(totalTerriNum)) {
+            if (players.get(i).isWinner(theMap.getTerritories().size())) {
                 this.winnerName = players.get(i).getColor();
                 return true;
             }
