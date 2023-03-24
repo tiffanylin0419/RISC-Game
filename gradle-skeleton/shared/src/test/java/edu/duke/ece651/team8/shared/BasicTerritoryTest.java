@@ -40,13 +40,23 @@ public class BasicTerritoryTest {
   public void test_changeOwner(){
     String s = "AbcdE";
     Player p1=new TextPlayer("red");
+    Player p2=new TextPlayer("blue");
     Territory t = new BasicTerritory(s,p1);
-    t.moveIn(new BasicUnit(0,p1));
+    t.moveIn(new BasicUnit(1,p1));
+    t.moveIn(new BasicUnit(2,p2));
     assertTrue(t.isOwner(p1));
     assertTrue(p1.containsTerritory(t));
+
     t.changeOwner();
     assertTrue(t.isOwner(p1));
     assertTrue(p1.containsTerritory(t));
+
+    t.moveOut(new BasicUnit(1,p1));
+    t.attack();
+
+    t.changeOwner();
+    assertTrue(t.isOwner(p2));
+    assertFalse(p1.containsTerritory(t));
   }
 
   @Test
@@ -180,10 +190,16 @@ public class BasicTerritoryTest {
   @Test
   public void testGetOwnerUnitAmount() {
     Territory territory = new BasicTerritory("a");
-    Player player = new Player("p");
-    Unit unit = new BasicUnit(6, player);
+    Player p1 = new Player("p1");
+    Player p2 = new Player("p2");
+    Unit unit1 = new BasicUnit(6, p1);
+    Unit unit2 = new BasicUnit(5, p2);
     assertEquals(0, territory.getOwnerUnitAmount());
-    territory.moveIn(unit);
+    territory.moveIn(unit1);
+    territory.moveIn(unit2);
+
     assertEquals(6, territory.getOwnerUnitAmount());
+    territory.setOwner(p2);
+    assertEquals(5, territory.getOwnerUnitAmount());
   }
 }

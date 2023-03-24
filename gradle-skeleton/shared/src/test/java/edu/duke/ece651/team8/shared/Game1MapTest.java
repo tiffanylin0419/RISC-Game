@@ -9,19 +9,19 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class Game1MapTest {
-//  @Test
-//  public void test_constructor(){
-//    ArrayList<Territory> territories=new ArrayList<>();
-//    ArrayList<Player> players=new ArrayList<>();
-//    players.add(new TextPlayer("red"));
-//    players.add(new TextPlayer("blue"));
-//    String names[] = { "AbcdE", "hello", "num123" };
-//    territories.add(new BasicTerritory(names[0]));
-//    territories.add(new BasicTerritory(names[1]));
-//    Map map = new Game1Map(territories,players);
-//    assertTrue(map.containsTerritory(new BasicTerritory(names[0])));
-//    assertTrue(map.containsTerritory(new BasicTerritory(names[1])));
-//  }
+  @Test
+  public void test_constructor(){
+    ArrayList<Territory> territories=new ArrayList<>();
+    ArrayList<Player> players=new ArrayList<>();
+    players.add(new TextPlayer("red"));
+    players.add(new TextPlayer("blue"));
+    String names[] = { "AbcdE", "hello", "num123" };
+    territories.add(new BasicTerritory(names[0]));
+    territories.add(new BasicTerritory(names[1]));
+    Map map = new Game1Map(territories);
+    assertTrue(map.containsTerritory(new BasicTerritory(names[0])));
+    assertTrue(map.containsTerritory(new BasicTerritory(names[1])));
+  }
   @Test
   public void testConstructor() {
     V1MapFactory factory = new V1MapFactory();
@@ -78,21 +78,23 @@ public class Game1MapTest {
     assertFalse(territories[4].isAdjacentEnemy(territories[1]));
   }
 
-  @Disabled
   @Test
   public void testDoCombats() {
     Map map = new Game1Map();
-    Territory territory = new BasicTerritory("a");
+    Territory territory1 = new BasicTerritory("a");
     Territory territory2 = new BasicTerritory("b");
-    Player player = new Player("p");
-    Player player2 = new Player("p2");
-    Unit unit = new BasicUnit(6, player);
-    Unit unit2 = new BasicUnit(4, player2);
-    territory.moveIn(unit);
-    territory.moveIn(unit2);
-    map.addTerritory(territory);
+    map.addTerritory(territory1);
     map.addTerritory(territory2);
-    String expected = "Player p wins combat in a\n";
-    assertEquals(expected, map.doCombats());
+
+    Player player1 = new Player("p1");
+    Player player2 = new Player("p2");
+    Player player3 = new Player("p3");
+    territory1.moveIn(new BasicUnit(20, player1));
+    territory1.moveIn(new BasicUnit(4, player2));
+    assertEquals("Player p1 wins combat in a\n", map.doCombats());
+
+    territory1.moveIn(new BasicUnit(20, player2));
+    territory1.moveIn(new BasicUnit(1000, player3));
+    assertEquals("Player p3 wins combat in a\n", map.doCombats());
   }
 }
