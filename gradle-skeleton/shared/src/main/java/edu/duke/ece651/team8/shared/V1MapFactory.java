@@ -55,8 +55,8 @@ public class V1MapFactory implements AbstractMapFactory {
     private Player createPlayer(int num, ArrayList<Territory> territories){
         Player player=new TextPlayer(colors[num]);
         for (int i = 0; i < territoryAmount; ++i) {
-            player.addTerritory(territories.get(6*num+i));
-            territories.get(6 * num + i).setOwner(player);
+            player.addTerritory(territories.get(this.territoryAmount * num + i));
+            territories.get(this.territoryAmount * num + i).setOwner(player);
         }
         return player;
     }
@@ -67,7 +67,7 @@ public class V1MapFactory implements AbstractMapFactory {
      */
     private ArrayList<Territory> createTerritories(int playerAmount) {
         ArrayList<Territory> territories = new ArrayList<>();
-        for (int i = 0; i < playerAmount * 6; ++i) {
+        for (int i = 0; i < playerAmount * this.territoryAmount; ++i) {
             Territory t = new BasicTerritory(this.territoryNameList[i]);
             territories.add(t);
         }
@@ -83,12 +83,12 @@ public class V1MapFactory implements AbstractMapFactory {
         //up, left, down, right
         ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
-            for (int j = 0; j < 6; ++j) {
+            for (int j = 0; j < this.territoryAmount; ++j) {
                 if (i != playerAmount - 1) {
-                    theMap.addAdjacency(territories.get(i * 6 + j),territories.get((i + 1) * 6 + j));
+                    theMap.addAdjacency(territories.get(i * this.territoryAmount + j),territories.get((i + 1) * this.territoryAmount + j));
                 }
-                if (j % 6 != 5) {
-                    theMap.addAdjacency(territories.get(i * 6 + j),territories.get(i * 6 + j + 1));
+                if (j % this.territoryAmount != (this.territoryAmount - 1)) {
+                    theMap.addAdjacency(territories.get(i * this.territoryAmount + j),territories.get(i * this.territoryAmount + j + 1));
                 }
             }
         }
