@@ -37,7 +37,6 @@ public class GameThread extends Thread {
      */
     public GameThread(List<Socket> clientSockets, AbstractMapFactory factory) throws IOException{
         this.clientSockets = clientSockets;
-        this.mapInfo = mapInfo;
         this.outputs = new ArrayList<>();
         this.inputStreams = new ArrayList<>();
         this.readers = new ArrayList<>();
@@ -85,7 +84,7 @@ public class GameThread extends Thread {
      * @param curr
      * @param index
      * @param size
-     * @return
+     * @return true if unit num is >=1 or small enough so others can be at least 1
      */
     public boolean checkUnitNumValid(int curr, int index, int size) {
         int input = Integer.parseInt(buffer);
@@ -113,7 +112,6 @@ public class GameThread extends Thread {
 
     /**
      * init placement of units
-     * @throws IOException
      */
     public void doInitialPlacement(){
         String num = Integer.toString(placementTimes);
@@ -193,9 +191,6 @@ public class GameThread extends Thread {
         hasWinner();
         mapInfo = mapView.displayMap(players);
         for (int i = 0; i < clientSockets.size(); i++) {
-            /*if(!players.get(i).isConnected()){
-                continue;
-            }*/
             send(outcome, outputs.get(i));
             send(mapInfo,outputs.get(i));
             if (players.get(i).isDefeated()) {
@@ -215,7 +210,6 @@ public class GameThread extends Thread {
      /**
      * Issue orders (Move and Attack) for every client
       * if they are still alive
-     * @throws IOException
      */
     public void issueOrders() {
         for (int i = 0; i < clientSockets.size(); i++) {
@@ -311,7 +305,7 @@ public class GameThread extends Thread {
         return orderRuleCheck(ac, index);
     }
     /**
-     * Send infomation to one client
+     * Send information to one client
      */
     public void send(String message, PrintWriter output) {
         output.println(message);
@@ -321,7 +315,7 @@ public class GameThread extends Thread {
 
     /**
      * Receive message to buffer from the input reader
-     * @param reader is the bufferedreader of current client
+     * @param reader is the buffered reader of current client
      * @throws IOException
      */
     public void receive(BufferedReader reader) throws IOException {
