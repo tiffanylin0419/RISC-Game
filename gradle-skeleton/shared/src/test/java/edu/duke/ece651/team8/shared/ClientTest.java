@@ -343,7 +343,7 @@ public class ClientTest {
         Socket mockSocket = mock(Socket.class);
         InputStream inputStream = mock(InputStream.class);
         BufferedReader mockServerBuffer = mock(BufferedReader.class);
-        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"m\nM\n6\na1\na2\n6\na2\nb2\nA\n6\na1\na2\n6\na2\nb2\nD\n");
+        Client client = createClient(mockServerBuffer,mockSocket,out,inputStream,output,"m\nM\n6\na1\na2\nM\n6\na2\nb2\nA\n6\na1\na2\nA\n6\na2\nb2\nD\n");
         when(mockServerBuffer.readLine()).thenReturn("What would you like to do?\n(M)ove\n(A)ttack\n(D)one\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the number of units to move:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the source territory:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the destination territory:\n").thenReturn(client.END_OF_TURN).thenReturn("invalid input\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the number of units to move:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the source territory:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the destination territory:\n").thenReturn(client.END_OF_TURN).thenReturn("").thenReturn(client.END_OF_TURN).thenReturn("What would you like to do?\n(M)ove\n(A)ttack\n(D)one\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the number of units to attack:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the source territory:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the destination territory:\n").thenReturn(client.END_OF_TURN).thenReturn("invalid input\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the number of units to attack:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the source territory:\n").thenReturn(client.END_OF_TURN).thenReturn("Please enter the destination territory:\n").thenReturn(client.END_OF_TURN).thenReturn("").thenReturn(client.END_OF_TURN).thenReturn("What would you like to do?\n(M)ove\n(A)ttack\n(D)one").thenReturn(client.END_OF_TURN);
 
         client.doOneTurn();
@@ -365,16 +365,19 @@ public class ClientTest {
                 "invalid input\n" +
                 "\n" +
                 "Please enter the number of units to move:\n" +
-                "\n" +
+                //"\n" +
                 "Please enter the source territory:\n" +
                 "\n" +
                 "Please enter the destination territory:\n" +
                 "\n"+
+                "\n"+
                 "What would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)one\nPlease enter the number of units to attack:\n" +
-                "\n" +
+                "(D)one\n"+
+                "\n"+
+                "Please enter the number of units to attack:\n" +
+                //"\n"+
                 "Please enter the source territory:\n" +
                 "\n" +
                 "Please enter the destination territory:\n" +
@@ -384,13 +387,16 @@ public class ClientTest {
                 "Please enter the number of units to attack:\n" +
                 "\n" +
                 "Please enter the source territory:\n" +
-                "\n" +
+                //"\n" +
                 "Please enter the destination territory:\n" +
                 "\n" +
+                "\n"+
                 "What would you like to do?\n" +
                 "(M)ove\n" +
                 "(A)ttack\n" +
-                "(D)one", actual);
+                "(D)one\n"+
+                "END_OF_TURN\n"+
+                "END_OF_TURN", actual);
         bytes.reset();
     }
     @Test

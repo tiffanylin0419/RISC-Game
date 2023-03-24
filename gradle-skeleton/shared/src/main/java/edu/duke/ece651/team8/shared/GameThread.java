@@ -238,17 +238,22 @@ public class GameThread extends Thread {
      * @throws IOException
      */
     public void doOneCommit(int index) throws IOException {
-        String prompt = "You are the " + players.get(index).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
-        send(prompt, outputs.get(index));
-        receive(readers.get(index));
-        if(buffer.equals("D")) {
-            return;
-        } else if (buffer.equals("M")) {
-            while(doMoveOrder(index)!=null){}
-        } else if (buffer.equals("A")) {
-            while(doAttackOrder(index) != null) {}
+        while(true) {
+            String prompt = "You are the " + players.get(index).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one";
+            send(prompt, outputs.get(index));
+            receive(readers.get(index));
+            if (buffer.equals("D")) {
+                return;
+            } else if (buffer.equals("M")) {
+                //while (doMoveOrder(index) != null) {}
+                if(doMoveOrder(index)==null){continue;}
+            } else if (buffer.equals("A")) {
+                //while (doAttackOrder(index) != null) {}
+                if(doAttackOrder(index)==null){continue;}
+
+            }
         }
-        doOneCommit(index);
+        //doOneCommit(index);
     }
 
     /**

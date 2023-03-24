@@ -258,9 +258,11 @@ public class Client {
             }
             System.out.println("===========" + choice + "===========");
             if (choice.equals("M")) {
-                while(doOneMove()!=""){}
+                //while(doOneMove()!=""){}
+                if(doOneMove()==""){continue;}
             } else if (choice.equals("A")) {
-                while(doOneAttack()!=""){}
+                //while(doOneAttack()!=""){}
+                if(doOneAttack()==""){continue;}
             }else if (choice.equals("D")){
                 break;
             }
