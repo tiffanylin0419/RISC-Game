@@ -1,6 +1,5 @@
 package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Player {
   private ArrayList<Territory> territories;
@@ -9,18 +8,12 @@ public class Player {
   private boolean isConnect;
   //constructor
   public Player(String color){
-    this.territories=new ArrayList<Territory>();
+    this.territories=new ArrayList<>();
     this.color=color;
     this.unitMax=0;
     this.isConnect = true;
   }
-  /*
-  //constructor
-  public Player(String color, int unitMax){
-    this(color);
-    this.unitMax=unitMax;
-  }
-*/
+
   public void disconnect() {
     isConnect = false;
   }
