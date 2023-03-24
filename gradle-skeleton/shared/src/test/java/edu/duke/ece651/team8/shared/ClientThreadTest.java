@@ -30,6 +30,7 @@ class ClientThreadTest {
         cli.displayMap();
         cli.doInitialPlacement();
         cli.receivePlacementResult();
+        Thread.sleep(20);
         th.setWinner("Green");
         cli.doOneWholeTurn();
         cli.receiveWinner();
