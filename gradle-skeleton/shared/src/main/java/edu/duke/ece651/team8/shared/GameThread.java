@@ -108,7 +108,7 @@ public class GameThread extends Thread {
      */
     public void doInitialPlacement(){
         //assume every play has the same number of territory
-        int placementTimes = players.get(0).getTerritores().size()-1;
+        int placementTimes = players.get(0).getTerritories().size()-1;
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
         for(int i = 0; i < outputs.size(); i++) {
@@ -135,7 +135,7 @@ public class GameThread extends Thread {
      */
     public void placeUnitForTerritories(String prompt, int i, int unitAmount) {
         int curr = unitAmount;
-        ArrayList<Territory> territories = players.get(i).getTerritores();
+        ArrayList<Territory> territories = players.get(i).getTerritories();
         int size = territories.size();
         for (int j = 0; j < size - 1; ++j) {
             while (true) {

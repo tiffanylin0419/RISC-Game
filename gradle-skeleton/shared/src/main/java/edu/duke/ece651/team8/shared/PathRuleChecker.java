@@ -7,8 +7,7 @@ public class PathRuleChecker  extends ActionRuleChecker {
 
     /**
      * check if the source can connect to destination
-     * @param action
-     * @return
+     * @param action the action to be checked
      */
     protected String checkMyRule(Action action){
         if(action.isValidPath()){

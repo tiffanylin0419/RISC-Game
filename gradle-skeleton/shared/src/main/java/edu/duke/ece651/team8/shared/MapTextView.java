@@ -11,7 +11,7 @@ public class MapTextView implements View {
         StringBuilder sb = new StringBuilder();
         for(Player player:players) {
             sb.append(player.getColor()).append(" Player:\n-------------\n");
-            for(Territory t : player.getTerritores()) {
+            for(Territory t : player.getTerritories()) {
                 displayUnitInfo(sb, t);
                 sb.append(t.getName());
                 sb.append(displayAdjacentInfo(t));
