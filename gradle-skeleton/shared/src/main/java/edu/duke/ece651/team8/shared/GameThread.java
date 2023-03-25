@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameThread extends Thread {
-    private List<Socket> clientSockets;
+
     /** streams pass to client*/
-    private List<PrintWriter> outputs;
-    /** InputStream from clients */
-    private List<InputStream> inputStreams;
+    private final List<PrintWriter> outputs;
     /** Reader for clients message*/
-    private List<BufferedReader> readers;
+    private final List<BufferedReader> readers;
     /** Buffer for message from clients */
     protected String buffer;
 
@@ -25,9 +23,6 @@ public class GameThread extends Thread {
     protected View mapView;
 
     private final ArrayList<Player> players;
-
-    private final int placementTimes = 5;
-    private final int unitAmount = 36;
     private String winnerName;
 
     /**
@@ -36,9 +31,7 @@ public class GameThread extends Thread {
      * @param factory is factory of the game
      */
     public GameThread(List<Socket> clientSockets, AbstractMapFactory factory) throws IOException{
-        this.clientSockets = clientSockets;
         this.outputs = new ArrayList<>();
-        this.inputStreams = new ArrayList<>();
         this.readers = new ArrayList<>();
         this.theMap = factory.createMap(clientSockets.size());
         this.players = factory.createPlayers(clientSockets.size(), theMap);
@@ -47,7 +40,6 @@ public class GameThread extends Thread {
         for(Socket cs : clientSockets){
             outputs.add(new PrintWriter(cs.getOutputStream()));
             InputStream is= cs.getInputStream();
-            inputStreams.add(is);
             readers.add(new BufferedReader(new InputStreamReader(is)));
 
         }
@@ -70,7 +62,7 @@ public class GameThread extends Thread {
     }
 
     public void sendInitialConfig() {
-        for(int i = 0; i < clientSockets.size(); i++) {
+        for(int i = 0; i < outputs.size(); i++) {
             //send color and initial map information to players
             send(players.get(i).getColor(), outputs.get(i));
             send(mapInfo,outputs.get(i));
@@ -79,18 +71,19 @@ public class GameThread extends Thread {
     }
 
     /**
+     * Check if this placement left enough units to place for following placement
      * curr is the left units
      * size is the num of territory, and the index is the current round of placement
-     * @param curr
-     * @param index
-     * @param size
+     * @param currLeftUnit current left unit nums
+     * @param indexOfCurrentPlacementTurn  index of current placement turn
+     * @param totalPlacementTurns total number of placement turns
      * @return true if unit num is >=1 or small enough so others can be at least 1
      */
-    public boolean checkUnitNumValid(int curr, int index, int size) {
-        int input = Integer.parseInt(buffer);
+    public boolean checkUnitNumValid(int currLeftUnit, int indexOfCurrentPlacementTurn, int totalPlacementTurns) {
+        int inputPlacementUnitNumber = Integer.parseInt(buffer);
         // the left rounds
-        int diff = size - index - 1;
-        if (diff > (curr - input)) {
+        int diff = totalPlacementTurns - indexOfCurrentPlacementTurn - 1;
+        if (diff > (currLeftUnit - inputPlacementUnitNumber)) {
             throw new IllegalArgumentException("Unit amount is not valid!");
         }
         return true;
@@ -104,9 +97,9 @@ public class GameThread extends Thread {
     private void endPlacementPhase() {
         String prompt = "Placement phase is done!\n";
         mapInfo = mapView.displayMap(players);
-        for (int i = 0; i < clientSockets.size(); ++i) {
-            send(prompt,outputs.get(i));
-            send(mapInfo,outputs.get(i));
+        for (PrintWriter output : outputs) {
+            send(prompt, output);
+            send(mapInfo, output);
         }
     }
 
@@ -114,24 +107,25 @@ public class GameThread extends Thread {
      * init placement of units
      */
     public void doInitialPlacement(){
+        //assume every play has the same number of territory
+        int placementTimes = players.get(0).getTerritores().size()-1;
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
-        for(int i = 0; i < clientSockets.size(); i++) {
+        for(int i = 0; i < outputs.size(); i++) {
             if(!players.get(i).isConnected()) continue;
             send(num, outputs.get(i));
-            placeUnitForTerritories(prompt, i);
+            placeUnitForTerritories(prompt, i, 36);
         }
         endPlacementPhase();
     }
 
-    private boolean hasWinner() {
-        for (int i = 0; i < clientSockets.size(); ++i) {
+    private void decideWinner() {
+        for (int i = 0; i < outputs.size(); ++i) {
             if (players.get(i).isWinner(theMap.getTerritories().size())) {
                 this.winnerName = players.get(i).getColor();
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     /**
@@ -139,8 +133,8 @@ public class GameThread extends Thread {
      * @param prompt is prompt of the step to print out
      * @param i is index of current client
      */
-    public void placeUnitForTerritories(String prompt, int i) {
-        int curr = this.unitAmount;
+    public void placeUnitForTerritories(String prompt, int i, int unitAmount) {
+        int curr = unitAmount;
         ArrayList<Territory> territories = players.get(i).getTerritores();
         int size = territories.size();
         for (int j = 0; j < size - 1; ++j) {
@@ -188,9 +182,9 @@ public class GameThread extends Thread {
      */
     public void reportResults() {
         String outcome = theMap.doCombats();
-        hasWinner();
+        decideWinner();
         mapInfo = mapView.displayMap(players);
-        for (int i = 0; i < clientSockets.size(); i++) {
+        for (int i = 0; i < outputs.size(); i++) {
             send(outcome, outputs.get(i));
             send(mapInfo,outputs.get(i));
             if (players.get(i).isDefeated()) {
@@ -212,7 +206,7 @@ public class GameThread extends Thread {
       * if they are still alive
      */
     public void issueOrders() {
-        for (int i = 0; i < clientSockets.size(); i++) {
+        for (int i = 0; i < outputs.size(); i++) {
             try {
                 if (!players.get(i).isConnected()) continue;
                 if (!players.get(i).isDefeated()) {
@@ -229,19 +223,22 @@ public class GameThread extends Thread {
     /**
      * Conduct one commit on server side
      * @param index is index of current client
-     * @throws IOException
+     * @throws IOException if socket disconnects
      */
     public void doOneCommit(int index) throws IOException {
         while(true) {
             String prompt = "You are the " + players.get(index).getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one\n";
             send(prompt, outputs.get(index));
             receive(readers.get(index));
-            if (buffer.equals("D")) {
-                return;
-            } else if (buffer.equals("M")) {
-                doMoveOrder(index);
-            } else if (buffer.equals("A")) {
-                doAttackOrder(index);
+            switch (buffer) {
+                case "D":
+                    return;
+                case "M":
+                    doMoveOrder(index);
+                    break;
+                case "A":
+                    doAttackOrder(index);
+                    break;
             }
         }
     }
@@ -250,14 +247,14 @@ public class GameThread extends Thread {
      * Conduct one command transmission between client and server
      * @param index is index of current client
      * @param prompt is info to send to client
-     * @throws IOException
+     * @throws IOException if sockets disconnect
      */
     public void doOneTransmission(int index, String prompt) throws IOException {
         send(prompt, outputs.get(index));
         receive(readers.get(index));
         System.out.println("receive from client: "+buffer);
     }
-    public String orderRuleCheck(Action ac, int index) {
+    public void orderRuleCheck(Action ac, int index) {
         String errorMessage=theMap.getChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", outputs.get(index));
@@ -266,14 +263,14 @@ public class GameThread extends Thread {
         else{
             send(errorMessage, outputs.get(index));
         }
-        return errorMessage;
     }
     /**
      * Conduct move order with move message from client
+     *
      * @param index is index of current client
-     * @throws IOException
+     * @throws IOException if sockets disconnect
      */
-    public String doMoveOrder(int index) throws IOException{
+    public void doMoveOrder(int index) throws IOException{
         doOneTransmission(index, "Please enter the number of units to move:");
         int num = Integer.parseInt(buffer);
 
@@ -283,16 +280,15 @@ public class GameThread extends Thread {
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
         Action ac = new MoveAction(players.get(index), source, destination, num, theMap);
-        return orderRuleCheck(ac, index);
+        orderRuleCheck(ac, index);
     }
 
     /**
      * Conduct attack order with attack message from client
      * @param index is index of current client
-     * @return current step attack action
-     * @throws IOException
+     * @throws IOException if sockets disconnect
      */
-    public String doAttackOrder(int index) throws IOException{
+    public void doAttackOrder(int index) throws IOException{
         doOneTransmission(index, "Please enter the number of units to attack:");
         int num = Integer.parseInt(buffer);
 
@@ -302,7 +298,7 @@ public class GameThread extends Thread {
         doOneTransmission(index, "Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(players.get(index), source, destination, num, theMap); //Change move to attack
-        return orderRuleCheck(ac, index);
+        orderRuleCheck(ac, index);
     }
     /**
      * Send information to one client
@@ -316,20 +312,20 @@ public class GameThread extends Thread {
     /**
      * Receive message to buffer from the input reader
      * @param reader is the buffered reader of current client
-     * @throws IOException
+     * @throws IOException if sockets disconnect
      */
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
         String ss = reader.readLine();
 //        System.out.println(ss);
         sb.append(ss);
-        String receLine = reader.readLine();
-        if(receLine==null){
+        String receivedLine = reader.readLine();
+        if(receivedLine==null){
             throw new IOException("");
         }
-        while(!receLine.equals(END_OF_TURN)) {   //!!!!
-            sb.append("\n"+receLine);
-            receLine = reader.readLine();
+        while(!receivedLine.equals(END_OF_TURN)) {   //!!!!
+            sb.append("\n").append(receivedLine);
+            receivedLine = reader.readLine();
         }
         buffer = sb.toString();
     }
