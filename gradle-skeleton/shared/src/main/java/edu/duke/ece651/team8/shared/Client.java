@@ -93,7 +93,7 @@ public class Client {
                 doOneTurn();
             }
             reportResult();
-            System.out.println("outcome reach");
+//            System.out.println("outcome reach");
         }
     }
     public void reportResult() throws IOException{
@@ -251,26 +251,26 @@ public class Client {
                     choice = tryChooseOneAction(buffer, input);
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
-                    System.out.println("Please input an valid action choice");
+                    out.println("Please input an valid action choice");
                     continue;
                 }
                 break;
             }
-            System.out.println("===========" + choice + "===========");
+//            System.out.println("===========" + choice + "===========");
             if (choice.equals("M")) {
                 if(doOneMove()==""){
-                    System.out.println("Successfully moved\n");
+                    out.println("Successfully moved\n");
                     continue;
                 }
             } else if (choice.equals("A")) {
                 if(doOneAttack()==""){
-                    System.out.println("Successfully attacked\n");
+                    out.println("Successfully attacked\n");
                     continue;
                 }
             }else if (choice.equals("D")){
                 break;
             }
-            System.out.println("Action failed\n");
+            out.println("Action failed\n");
         }
     }
 
@@ -287,7 +287,7 @@ public class Client {
         String s = input.readLine();
 
         if(isValidChoice(s)){
-            System.out.println("xxxxxx"+s + "xxxxxx");
+//            System.out.println("xxxxxx"+s + "xxxxxx");
             send(s);
             return s;
         }else{
