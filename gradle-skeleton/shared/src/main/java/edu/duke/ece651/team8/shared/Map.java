@@ -6,43 +6,43 @@ public interface Map {
 
   /**
    * add t to territories
-   * @param t
+   * @param t territory to be added
    */
-  public void addTerritory(Territory t);
+   void addTerritory(Territory t);
 
   /**
-   *
-   * @param t
+   * check if the map contains a specific territory
+   * @param t territory to be checked
    * @return True if t is in territories, False otherwise
    */
-  public boolean containsTerritory(Territory t);
+  boolean containsTerritory(Territory t);
 
   /**
-   * @return territories's iterator
+   * @return territories' iterator
    */
-  public Iterator<Territory> getTerritoryIterator();
+  Iterator<Territory> getTerritoryIterator();
 
   /**
    * @return territories
    */
-  public ArrayList<Territory> getTerritories();
+  ArrayList<Territory> getTerritories();
 
   /**
    * add adjacent connection between t1 and t2
    * will update the adjacent_territory field in t1 and t2
-   * @param t1
-   * @param t2
+   * @param t1 territory to be connected
+   * @param t2 territory to be connected
    */
-  public void addAdjacency(Territory t1, Territory t2);
+  void addAdjacency(Territory t1, Territory t2);
 
   /**
    * @return checker
    */
-  public ActionRuleChecker getChecker();
+  ActionRuleChecker getChecker();
 
   /**
    * Do combats in all territory
    * @return the outcome information for all the combats
    */
-  public String doCombats();
+  String doCombats();
 }
