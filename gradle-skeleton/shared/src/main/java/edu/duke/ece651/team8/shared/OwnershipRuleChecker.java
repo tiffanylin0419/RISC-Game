@@ -6,9 +6,9 @@ public class OwnershipRuleChecker extends ActionRuleChecker {
     }
 
     /**
-     * check if the source and destination belongs to who it should belong to
-     * @param action
-     * @return
+     * check if the source and destination belongs to whom it should belong to
+     * @param action the action to be checked
+     * @return null if valid
      */
     protected String checkMyRule(Action action){
         if(!action.isValidSource()){

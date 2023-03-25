@@ -7,8 +7,8 @@ public class NumberRuleChecker extends ActionRuleChecker {
 
     /**
      * check if count of the action is small enough to be conducted
-     * @param action
-     * @return
+     * @param action the action to be checked
+     * @return null if valid
      */
     protected String checkMyRule(Action action){
         if(action.getCount()<=action.getSource().getOwnerUnitAmount()){
