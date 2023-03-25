@@ -53,7 +53,7 @@ public class Client {
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
         this.output = new PrintWriter(s.getOutputStream());
     }
-    public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) throws IOException {
+    public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) {
         this.socket = s;
         this.inputStream = inputStream;
         this.reader = br;
@@ -285,7 +285,6 @@ public class Client {
     public String tryChooseOneAction(String prompt,BufferedReader input)throws IllegalArgumentException,IOException{
         out.print(prompt);
         String s = input.readLine();
-
         if(isValidChoice(s)){
 //            System.out.println("xxxxxx"+s + "xxxxxx");
             send(s);
@@ -324,7 +323,7 @@ public class Client {
         receive();
         trySendDestinationTerritory(buffer,input);
         receive();
-        if(buffer!=""){
+        if(!buffer.equals("")){
             out.println(buffer);
         }
         return buffer;

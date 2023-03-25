@@ -167,7 +167,10 @@ public class BasicTerritory implements Territory {
    */
   private void manyToOneAttack(){
     while(units.size()>1){
-      fight1(units.get(0),units.get(1));
+      int l=units.size();
+      for(int i=0;i<l;i++){
+        fight1(units.get(i),units.get((i+1)%l));
+      }
       ArrayList<Unit> remove=new ArrayList<>();
       for(Unit unit: units){
         if(!unit.isSurvive()){
