@@ -1,6 +1,5 @@
 package edu.duke.ece651.team8.shared;
 
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -87,8 +86,8 @@ public class BasicTerritory implements Territory {
       }
       HashSet<Territory> tmp=new HashSet<>();
       for(Territory t: to_visit){
-        HashSet<Territory> adjacents=t.getAdjacent();
-        for(Territory ad_t: adjacents){
+        HashSet<Territory> adjacentTerritories=t.getAdjacent();
+        for(Territory ad_t: adjacentTerritories){
           if(!to_visit.contains(ad_t) && !visited.contains(ad_t) && ad_t.isOwner(owner)){
             tmp.add(ad_t);
           }
@@ -150,7 +149,7 @@ public class BasicTerritory implements Territory {
   private void oneToOneAttack(){
     while(units.size()>1){
       fight1(units.get(0),units.get(1));
-      ArrayList<Unit> remove=new ArrayList<>();
+      ArrayList<Unit> remove = new ArrayList<>();
       for(Unit unit: units){
         if(!unit.isSurvive()){
           remove.add(unit);
@@ -171,7 +170,7 @@ public class BasicTerritory implements Territory {
       for(int i=0;i<l;i++){
         fight1(units.get(i),units.get((i+1)%l));
       }
-      ArrayList<Unit> remove=new ArrayList<>();
+      ArrayList<Unit> remove = new ArrayList<>();
       for(Unit unit: units){
         if(!unit.isSurvive()){
           remove.add(unit);
