@@ -321,7 +321,7 @@ public class GameThread extends Thread {
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
         String ss = reader.readLine();
-        System.out.println(ss);
+//        System.out.println(ss);
         sb.append(ss);
         String receLine = reader.readLine();
         if(receLine==null){
