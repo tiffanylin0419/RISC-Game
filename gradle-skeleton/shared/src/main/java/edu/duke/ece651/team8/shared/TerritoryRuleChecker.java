@@ -7,8 +7,8 @@ public class TerritoryRuleChecker extends ActionRuleChecker {
 
     /**
      * check if territory exists in map
-     * @param action
-     * @return
+     * @param action the action to check
+     * @return null if valid
      */
     protected String checkMyRule(Action action){
         if(action.getSource()==null){
