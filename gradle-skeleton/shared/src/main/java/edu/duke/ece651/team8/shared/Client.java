@@ -125,13 +125,13 @@ public class Client {
     public void receive() throws IOException {
         StringBuilder sb = new StringBuilder();
         sb.append(reader.readLine());
-        String receLine = reader.readLine();
-        if(receLine==null){
+        String receivedLine = reader.readLine();
+        if(receivedLine==null){
             throw new IOException("");
         }
-        while(!receLine.equals(END_OF_TURN)) {
-            sb.append("\n").append(receLine);
-            receLine = reader.readLine();
+        while(!receivedLine.equals(END_OF_TURN)) {
+            sb.append("\n").append(receivedLine);
+            receivedLine = reader.readLine();
         }
         buffer = sb.toString();
     }
@@ -192,7 +192,7 @@ public class Client {
         receive();
         int placementTimes = Integer.parseInt(buffer);
         for(int i = 0; i < placementTimes;i++){
-            while(true) {
+            do {
                 receive();
                 while (true) {
                     try {
@@ -206,10 +206,7 @@ public class Client {
                 }
                 receive();
                 out.println(buffer);
-                if (buffer.equals("valid\n")) {
-                    break;
-                }
-            }
+            } while (!buffer.equals("valid\n"));
         }
     }
 
@@ -244,6 +241,7 @@ public class Client {
      */
     public void doOneTurn()throws IOException{
         String choice;
+        label:
         while(true) {
             receive();
             while (true) {
@@ -257,18 +255,21 @@ public class Client {
                 break;
             }
 //            System.out.println("===========" + choice + "===========");
-            if (choice.equals("M")) {
-                if(doOneMove()==""){
-                    System.out.println("Successfully moved\n");
-                    continue;
-                }
-            } else if (choice.equals("A")) {
-                if(doOneAttack()==""){
-                    System.out.println("Successfully attacked\n");
-                    continue;
-                }
-            }else if (choice.equals("D")){
-                break;
+            switch (choice) {
+                case "M":
+                    if (doOneMove().equals("")) {
+                        System.out.println("Successfully moved\n");
+                        continue;
+                    }
+                    break;
+                case "A":
+                    if (doOneAttack().equals("")) {
+                        System.out.println("Successfully attacked\n");
+                        continue;
+                    }
+                    break;
+                case "D":
+                    break label;
             }
             System.out.println("Action failed\n");
         }
