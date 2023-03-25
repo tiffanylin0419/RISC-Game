@@ -251,7 +251,7 @@ public class Client {
                     choice = tryChooseOneAction(buffer, input);
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
-//                    out.println("Please input an valid action choice");
+                    System.out.println("Please input an valid action choice");
                     continue;
                 }
                 break;
@@ -259,18 +259,18 @@ public class Client {
 //            System.out.println("===========" + choice + "===========");
             if (choice.equals("M")) {
                 if(doOneMove()==""){
-//                    out.println("Successfully moved\n");
+                    System.out.println("Successfully moved\n");
                     continue;
                 }
             } else if (choice.equals("A")) {
                 if(doOneAttack()==""){
-//                    out.println("Successfully attacked\n");
+                    System.out.println("Successfully attacked\n");
                     continue;
                 }
             }else if (choice.equals("D")){
                 break;
             }
-//            out.println("Action failed\n");
+            System.out.println("Action failed\n");
         }
     }
 
