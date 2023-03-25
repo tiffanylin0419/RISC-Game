@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public interface AbstractMapFactory {
     /**
      * enter player amount
-     * @param playAmount
-     * @return
+     * @param playAmount player number
+     * @return return a game1 map with playAmount players
      */
-    public Game1Map createMap(int playAmount);
+    Game1Map createMap(int playAmount);
 
-    public ArrayList<Player> createPlayers(int playerAmount, Map theMap);
+    ArrayList<Player> createPlayers(int playerAmount, Map theMap);
 }

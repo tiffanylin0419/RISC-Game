@@ -4,45 +4,45 @@ public interface Unit {
 
   /**
    * add n to amount
-   * @param n
+   * @param n the number of unit to add
    */
-  public void add(int n);
+  void add(int n);
   
   /**
    * add 1 to amount
    */
-  public void addOne();
+  void addOne();
 
   /**
    * remove n from amount
-   * @param n
+   * @param n the number of unit to remove
    */
-  public void remove(int n);
+  void remove(int n);
   
   /**
    * remove 1 from amount
    * we call this function after we checked that the unit.isSurvive=True
    * so no need to tryRemoveOne
    */
-  public void removeOne();
+  void removeOne();
 
   /**
    * @return owner
    */
-  public Player getOwner();
+  Player getOwner();
 
   /**
    * @return amount
    */
-  public int getAmount();
+  int getAmount();
 
   /**
    * @return True if amount>0, else otherwise
    */
-  public boolean isSurvive();
+  boolean isSurvive();
 
   /**
    * @return a random number from 0~19(inclusive)
    */
-  public int doRoll();
+  int doRoll();
 }

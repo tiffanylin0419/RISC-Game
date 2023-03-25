@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class BasicUnit implements Unit {
   private int amount;
-  private Player owner;
+  private final Player owner;
   
   //constructor
   public BasicUnit(int amount, Player owner){

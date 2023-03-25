@@ -10,29 +10,26 @@ public class MapTextView implements View {
     public String displayMap(ArrayList<Player> players) {
         StringBuilder sb = new StringBuilder();
         for(Player player:players) {
-            sb.append(player.getColor() + " Player:\n-------------\n");
-            for(Territory t : player.getTerritores()) {
+            sb.append(player.getColor()).append(" Player:\n-------------\n");
+            for(Territory t : player.getTerritories()) {
                 displayUnitInfo(sb, t);
                 sb.append(t.getName());
                 sb.append(displayAdjacentInfo(t));
             }
         }
         sb.deleteCharAt(sb.length() - 1);
-//        if(sb.length() > 0) {
-//            sb.deleteCharAt(sb.length() - 1);
-//        }
         return sb.toString();
     }
 
     @Override
     public void displayUnitInfo(StringBuilder sb, Territory t) {
         int num = t.getUnitAmount(0);
-        sb.append(num + " units in ");
+        sb.append(num).append(" units in ");
     }
 
     /**
      * append adjacent territories info to string
-     * @param t
+     * @param t territory to display
      * @return adjacent info string
      */
     @Override

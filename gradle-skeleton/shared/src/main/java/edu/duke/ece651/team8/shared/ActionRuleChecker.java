@@ -11,14 +11,14 @@ public abstract class ActionRuleChecker {
 
     /**
      * check all rules that are connected after next
-     * @param action
-     * @return null if obey rule, return String as the error message if do not obey
+     * @param action the action to be checked
+     * @return null if obey rule, return String as the error message if it does not obey
      */
     protected abstract String checkMyRule(Action action);
 
     /**
      * check one rule
-     * @return null if obey rule, return String as the error message if do not obey
+     * @return null if obey rule, return String as the error message if it does not obey
      */
     public String checkAllRule( Action action){
         // if we fail our own rule: stop the placement is not legal
@@ -26,7 +26,7 @@ public abstract class ActionRuleChecker {
         if (s != null) {
             return s;
         }
-        // other wise, ask the rest of the chain.
+        //Otherwise, ask the rest of the chain.
         if (next != null) {
             return next.checkAllRule(action);
         }

@@ -5,9 +5,9 @@ import java.util.*;
 public class V1MapFactory implements AbstractMapFactory {
     private final int territoryAmount;
 
-    private String[] territoryNameList;
+    private final String[] territoryNameList;
 
-    private String[] colors;
+    private final String[] colors;
 
     public V1MapFactory() {
         this.territoryAmount = 6;
@@ -21,8 +21,8 @@ public class V1MapFactory implements AbstractMapFactory {
     }
 
     /**
-     *
-     * @param playerAmount
+     *create a map for specific number of player
+     * @param playerAmount total number of players to play the game
      * @return create a Game1Map
      */
     @Override
@@ -35,7 +35,7 @@ public class V1MapFactory implements AbstractMapFactory {
 
     /**
      * create n Players (n equals to playerAmount) with their territories inside
-     * @param playerAmount
+     * @param playerAmount total number of players to play the game
      * @return list of players
      */
     public ArrayList<Player> createPlayers(int playerAmount, Map theMap) {
@@ -49,7 +49,7 @@ public class V1MapFactory implements AbstractMapFactory {
 
     /**
      * create a player with its color and territories info
-     * @param num
+     * @param num total number of players to play the game
      * @return Player
      */
     private Player createPlayer(int num, ArrayList<Territory> territories){
@@ -63,7 +63,7 @@ public class V1MapFactory implements AbstractMapFactory {
 
     /**
      * create 6*playerAmount of territories
-     * @param playerAmount
+     * @param playerAmount total number of players to play the game
      */
     private ArrayList<Territory> createTerritories(int playerAmount) {
         ArrayList<Territory> territories = new ArrayList<>();
@@ -76,8 +76,8 @@ public class V1MapFactory implements AbstractMapFactory {
 
     /**
      * connect the territories in theMap
-     * @param playerAmount
-     * @param theMap
+     * @param playerAmount total number of players to play the game
+     * @param theMap the map to build connections
      */
     private void connectAdjacentTerritory(int playerAmount, Map theMap) {
         //up, left, down, right
