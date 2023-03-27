@@ -27,7 +27,12 @@ public class Game1Map implements Map {
   public void addTerritory(Territory t){
     territories.add(t);
   }
-  
+
+  /**
+   * check if there is the territory
+   * @param t territory to be checked
+   * @return
+   */
   @Override
   public boolean containsTerritory(Territory t){
     for(Territory territory: territories){
@@ -54,6 +59,11 @@ public class Game1Map implements Map {
 
   @Override
   public ActionRuleChecker getChecker(){return checker;}
+
+  /**
+   * if the size of unit in one territory is greater than 1, than let them do combats
+   * @return
+   */
   @Override
   public String doCombats() {
     StringBuilder outcomes = new StringBuilder();

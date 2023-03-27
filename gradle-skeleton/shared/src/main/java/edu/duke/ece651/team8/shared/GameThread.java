@@ -88,12 +88,20 @@ public class GameThread extends Thread {
         }
         return true;
     }
+
+    /**
+     * create a new Unit with defined amount, than move it into the territory
+     * @param t
+     */
     private void setUnitInTerritory(Territory t) {
         int amount = Integer.parseInt(buffer);
         Unit unit = new BasicUnit(amount, t.getOwner());
         t.moveIn(unit);
     }
 
+    /**
+     * print prompt to each player after each turn is done
+     */
     private void endPlacementPhase() {
         String prompt = "Placement phase is done!\n";
         mapInfo = mapView.displayMap(players);
