@@ -10,11 +10,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 public class GUI {
-    public GUI(){}
+    int width;
+    int height;
+    int margin=20;
+    public GUI(int width, int height){
+        this.width=width;
+        this.height=height;
+    }
 
-    public static void LoginScene(Stage stage){
+    public void LoginScene(Stage stage){
         Label label = new Label("Please login or create a new account");
 
         Label label1 = new Label("Account");
@@ -30,10 +37,10 @@ public class GUI {
         VBox vbox = new VBox(label,hbox1,hbox2,button1); // wrap the TextField in a VBox
         vbox.setSpacing(10);
 
-        StackPane root = new StackPane();
-        root.getChildren().addAll(vbox);
 
-        Scene scene = new Scene(root, 640, 480);
+        StackPane root = new StackPane(vbox);
+        StackPane.setMargin(vbox, new Insets(margin, margin, margin, margin));
+        Scene scene = new Scene(root, width, height);
         stage.setScene(scene);
         button1.setOnAction(e -> {
             String input1 = textField1.getText();
@@ -43,8 +50,12 @@ public class GUI {
             GameScene(stage);});
         stage.show();
     }
-    public static void GameScene(Stage stage) {
-        Label label = new Label("Welcome to Scene 2!");
+    public void GameScene(Stage stage) {
+        Label label1 = new Label("Player: Green");
+        Label label2 = new Label("Technology Level: 1");
+        VBox userInfo = new VBox(label1,label2); // wrap the TextField in a VBox
+        userInfo.setSpacing(10); // Set spacing between buttons
+        userInfo.setAlignment(Pos.TOP_LEFT); // Center align the HBox
 
         Button button1 = new Button("Show");
         button1.setOnAction(e -> System.out.println("Show clicked!"));
@@ -58,16 +69,21 @@ public class GUI {
         button5.setOnAction(e -> System.out.println("Upgrade clicked!"));
         Button button6 = new Button("Done");
         button6.setOnAction(e -> System.out.println("Done clicked!"));
+        HBox buttons = new HBox(button1, button2, button3, button4, button5, button6);
+        buttons.setSpacing(10); // Set spacing between buttons
+        buttons.setAlignment(Pos.TOP_RIGHT); // Center align the HBox
 
-        HBox hbox = new HBox();
-        hbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
-        hbox.setSpacing(10); // Set spacing between buttons
-        hbox.setAlignment(Pos.TOP_CENTER); // Center align the HBox
+        /*GUI g=new GUI();
+        String imageUrl = g.getClass().getResource("/image.png").toExternalForm();
+        Image image = new Image(imageUrl);*/
+        ImageView imageView = new ImageView(new Image("https://i.imgur.com/BOMs9ff.jpg"));
+        imageView.setFitWidth(width*0.8);
+        imageView.setPreserveRatio(true);
 
-        StackPane root = new StackPane();
-        StackPane.setMargin(hbox, new Insets(20, 0, 0, 20));
-        root.getChildren().addAll(label,hbox);
-        Scene scene2 = new Scene(root, 640, 480);
+        StackPane root = new StackPane(userInfo,buttons,imageView);
+        Scene scene2 = new Scene(root, width,height);
+        StackPane.setMargin(userInfo, new Insets(margin, margin, margin, margin));
+        StackPane.setMargin(buttons, new Insets(margin, margin, margin, margin));
         stage.setScene(scene2);
     }
 }

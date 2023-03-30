@@ -29,26 +29,13 @@ import edu.duke.ece651.team8.shared.Client;
 
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.util.Stack;
-
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 public class App extends Application {
   @Override
   public void start(Stage stage) {
-    GUI gui=new GUI();
-    GUI.LoginScene(stage);
+    GUI gui=new GUI(1280, 960);
+    gui.LoginScene(stage);
   }
 
   public static void main(String[] args) {
