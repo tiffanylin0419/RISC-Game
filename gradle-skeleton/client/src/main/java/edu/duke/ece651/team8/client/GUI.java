@@ -24,8 +24,11 @@ public class GUI {
         Button button1 = new Button("Login/Create");
 
         HBox hbox1=new HBox(label1,textField1);
+        hbox1.setSpacing(10);
         HBox hbox2=new HBox(label2,textField2);
+        hbox2.setSpacing(10);
         VBox vbox = new VBox(label,hbox1,hbox2,button1); // wrap the TextField in a VBox
+        vbox.setSpacing(10);
 
         StackPane root = new StackPane();
         root.getChildren().addAll(vbox);
