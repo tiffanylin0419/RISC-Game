@@ -21,6 +21,7 @@ public class GUI {
 
     Stage stage;
     String color="";
+    String message="";
     public GUI(int width, int height, Stage stage){
         this.width=width;
         this.height=height;
@@ -95,10 +96,10 @@ public class GUI {
         userInfo.setAlignment(Pos.TOP_LEFT); // Center align the HBox
 
         Label label3 = new Label("Message:");
-        Label label4 = new Label("Please choose action");
-        VBox message = new VBox(label3,label4); // wrap the TextField in a VBox
-        message.setSpacing(10); // Set spacing between buttons
-        message.setAlignment(Pos.BOTTOM_LEFT); // Center align the HBox
+        Label label4 = new Label(message);
+        VBox messages = new VBox(label3,label4); // wrap the TextField in a VBox
+        messages.setSpacing(10); // Set spacing between buttons
+        messages.setAlignment(Pos.BOTTOM_LEFT); // Center align the HBox
 
         Button button1 = new Button("Show");
         button1.setOnAction(e -> System.out.println("Show clicked!"));
@@ -123,11 +124,11 @@ public class GUI {
         imageView.setFitWidth(width*0.8);
         imageView.setPreserveRatio(true);
 
-        StackPane root = new StackPane( imageView,message,userInfo,buttons);
+        StackPane root = new StackPane( imageView,messages,userInfo,buttons);
         Scene scene2 = new Scene(root, width,height);
         StackPane.setMargin(userInfo, new Insets(margin, margin, margin, margin));
         StackPane.setMargin(buttons, new Insets(margin, margin, margin, margin));
-        StackPane.setMargin(message, new Insets(margin, margin, margin, margin));
+        StackPane.setMargin(messages, new Insets(margin, margin, margin, margin));
         stage.setScene(scene2);
     }
 }

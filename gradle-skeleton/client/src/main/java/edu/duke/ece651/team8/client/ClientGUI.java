@@ -53,6 +53,11 @@ public class ClientGUI {
         this.gui=gui;
     }
 
+    public void reloadGameScene(){
+        Platform.runLater(() -> {
+            gui.GameScene();
+        });
+    }
     /** execute the client */
     public void run() {
         try {
@@ -60,10 +65,10 @@ public class ClientGUI {
             receiveColor();
             receiveMap();
             displayColor();
+            displayMap();
 
-            /*displayMap();
             doInitialPlacement();
-            receivePlacementResult();
+            /*receivePlacementResult();
             doAllTurns();
             reader.close();
             inputStream.close();
@@ -88,19 +93,71 @@ public class ClientGUI {
     public void receiveMap()throws  IOException{
         receive();
         mapInfo = buffer;
+        //should receive
+        // owner of every territory
+        // unit and resource info
+        // player info ex. level
     }
     /**
      * Display map info
      */
     public void displayColor() {
         gui.color=color;
-        /*Platform.runLater(() -> {
-            gui.GameScene();
-        });*/
     }
+    /**
+     * Display map to out
+     */
+    public void displayMap() {
+        //display mapInfo
+        //color of every territory
+        //
+        //reloadGameScene()
 
-
-
+    }
+    /**
+     * do initial placement phase, user need to input
+     * the number she wants to place in a specific territory
+     * if input is invalid, she needs to re-input
+     * @throws IOException if something wrong with receive
+     */
+    public void doInitialPlacement() throws IOException{
+        receive();
+        int placementTimes = Integer.parseInt(buffer);
+        for(int i = 0; i < placementTimes;i++){
+            do {
+                receive();
+                while (true) {
+                    try {
+                        tryInputUnitNumberToPlace(buffer, input);
+                        reloadGameScene();
+                    } catch (Exception e) {
+                        gui.message=e.getMessage()+"\nPlease input a valid placement!";
+                        reloadGameScene();
+                        continue;
+                    }
+                    break;
+                }
+                receive();
+                gui.message=buffer;
+                reloadGameScene();
+            } while (!buffer.equals("valid\n"));
+        }
+    }
+    /**
+     * User input the unit number to place
+     * @param prompt the prompt for placement
+     * @param input the input buffer
+     * @throws Exception if something wrong with receive
+     */
+    public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
+        out.print(prompt);
+        String s = input.readLine();
+        if(isPositiveInt(s)){
+            send(s);
+        }else{
+            throw new IllegalArgumentException("Units number should be non_negative number");
+        }
+    }
 
 
 
@@ -193,49 +250,9 @@ public class ClientGUI {
 
 
 
-    /**
-     * do initial placement phase, user need to input
-     * the number she wants to place in a specific territory
-     * if input is invalid, she needs to re-input
-     * @throws IOException if something wrong with receive
-     */
-    public void doInitialPlacement() throws IOException{
-        receive();
-        int placementTimes = Integer.parseInt(buffer);
-        for(int i = 0; i < placementTimes;i++){
-            do {
-                receive();
-                while (true) {
-                    try {
-                        tryInputUnitNumberToPlace(buffer, input);
-                    } catch (Exception e) {
-                        out.println(e.getMessage());
-                        out.println("Please input a valid placement!");
-                        continue;
-                    }
-                    break;
-                }
-                receive();
-                out.println(buffer);
-            } while (!buffer.equals("valid\n"));
-        }
-    }
 
-    /**
-     * User input the unit number to place
-     * @param prompt the prompt for placement
-     * @param input the input buffer
-     * @throws Exception if something wrong with receive
-     */
-    public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
-        out.print(prompt);
-        String s = input.readLine();
-        if(isPositiveInt(s)){
-            send(s);
-        }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
-        }
-    }
+
+
 
     /**
      * Determine if a string is a non-negative number string
@@ -391,12 +408,7 @@ public class ClientGUI {
     }
 
 
-    /**
-     * Display map to out
-     */
-    public void displayMap() {
-        out.println(mapInfo);
-    }
+
 
     public void displayCombatOutcome(){
         out.println(combatOutcome);
