@@ -2,7 +2,9 @@ package edu.duke.ece651.team8.client;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
 import java.io.*;
@@ -58,6 +60,25 @@ public class ClientGUI {
             gui.GameScene();
         });
     }
+    public void setMessage(String message){
+        Platform.runLater(() -> {
+            gui.message.setText(message);
+        });
+        System.out.println(message);
+    }
+    public void setColor(String color){
+        Platform.runLater(() -> {
+            gui.color.setText(color);//gui.color.getText()+
+        });
+    }
+    public void addInput(){
+        /*Platform.runLater(() -> {
+            TextField textField = new TextField(); // create a new text field
+            Button button = new Button("Enter");
+            gui.input.getChildren().addAll(textField,button);
+        });*/
+    }
+
     /** execute the client */
     public void run() {
         try {
@@ -102,7 +123,7 @@ public class ClientGUI {
      * Display map info
      */
     public void displayColor() {
-        gui.color=color;
+        setColor(color);
     }
     /**
      * Display map to out
@@ -122,24 +143,27 @@ public class ClientGUI {
      */
     public void doInitialPlacement() throws IOException{
         receive();
+
+
+
+
         int placementTimes = Integer.parseInt(buffer);
         for(int i = 0; i < placementTimes;i++){
             do {
                 receive();
+                setMessage(buffer);
+                addInput();
                 while (true) {
                     try {
                         tryInputUnitNumberToPlace(buffer, input);
-                        reloadGameScene();
                     } catch (Exception e) {
-                        gui.message=e.getMessage()+"\nPlease input a valid placement!";
-                        reloadGameScene();
+                        setMessage(e.getMessage()+"\nPlease input a valid placement!");
                         continue;
                     }
                     break;
                 }
                 receive();
-                gui.message=buffer;
-                reloadGameScene();
+                setMessage(buffer);
             } while (!buffer.equals("valid\n"));
         }
     }
