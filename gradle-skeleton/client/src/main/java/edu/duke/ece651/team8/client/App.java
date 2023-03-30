@@ -44,11 +44,8 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 public class App extends Application {
 
-  @Override
-  public void start(Stage stage) {
-    String javaVersion = System.getProperty("java.version");
-    String javafxVersion = System.getProperty("javafx.version");
-    Label label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+  public static void GameScene(Stage stage) {
+    Label label = new Label("Welcome to Scene 2!");
 
     Button button1 = new Button("Show");
     button1.setOnAction(e -> System.out.println("Show clicked!"));
@@ -69,11 +66,23 @@ public class App extends Application {
     hbox.setAlignment(Pos.TOP_CENTER); // Center align the HBox
 
     StackPane root = new StackPane();
-    root.getChildren().addAll(label, hbox);
-    StackPane.setMargin(hbox, new Insets(10)); // Set margin around each button
+    root.getChildren().addAll(label,hbox);
+    Scene scene2 = new Scene(root, 640, 480);
+    stage.setScene(scene2);
+  }
+
+  @Override
+  public void start(Stage stage) {
+    Label label = new Label("Please login or create a new account");
+    Button button1 = new Button("Login");
+
+    StackPane root = new StackPane();
+    root.getChildren().addAll(label, button1);
 
     Scene scene = new Scene(root, 640, 480);
     stage.setScene(scene);
+    button1.setOnAction(e -> GameScene(stage));
+
     stage.show();
   }
 
