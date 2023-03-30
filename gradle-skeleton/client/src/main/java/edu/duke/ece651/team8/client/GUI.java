@@ -12,26 +12,29 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.application.Platform;
 
 public class GUI {
     int width;
     int height;
     int margin=20;
 
+    Stage stage;
     String color="";
-    public GUI(int width, int height){
+    public GUI(int width, int height, Stage stage){
         this.width=width;
         this.height=height;
+        this.stage=stage;
     }
 
-    public void basicScene(Stage stage){
+    public void basicScene(){
         Label label = new Label("Please login or create a new account");
         StackPane root = new StackPane(label);
         Scene scene = new Scene(root, width, height);
         stage.setScene(scene);
         stage.show();
     }
-    public void LoginScene(Stage stage){
+    public void LoginScene(){
         Label label = new Label("Please login or create a new account");
 
         Label label1 = new Label("Account");
@@ -56,10 +59,10 @@ public class GUI {
             String input2 = textField2.getText();
             System.out.println(input1);
             System.out.println(input2);
-            GameSelectScene(stage);});
+            GameSelectScene();});
         stage.show();
     }
-    public void GameSelectScene(Stage stage){
+    public void GameSelectScene(){
         Label label = new Label("Select a previous game or create a new game");
 
         Button oldGame = new Button("previous game");
@@ -72,12 +75,19 @@ public class GUI {
         StackPane.setMargin(vbox, new Insets(margin, margin, margin, margin));
         Scene scene = new Scene(root, width, height);
         stage.setScene(scene);
-        oldGame.setOnAction(e -> GameScene(stage));
-        newGame.setOnAction(e -> GameScene(stage));
+        oldGame.setOnAction(e -> GameScene());
+        newGame.setOnAction(e -> GameScene());
+        //newGame.setOnAction(e -> WaitScene("Waiting for players to join"));
         stage.show();
     }
-
-    public void GameScene(Stage stage) {
+    public void WaitScene(String buffer){
+        Label label = new Label(buffer);
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void GameScene() {
         Label label1 = new Label("Player: "+color);
         Label label2 = new Label("Technology Level: 1");
         VBox userInfo = new VBox(label1,label2); // wrap the TextField in a VBox

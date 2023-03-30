@@ -1,5 +1,10 @@
 package edu.duke.ece651.team8.client;
 
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -89,6 +94,9 @@ public class ClientGUI {
      */
     public void displayColor() {
         gui.color=color;
+        /*Platform.runLater(() -> {
+            gui.GameScene();
+        });*/
     }
 
 

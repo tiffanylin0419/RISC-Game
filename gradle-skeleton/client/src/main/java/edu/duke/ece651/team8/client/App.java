@@ -15,8 +15,8 @@ public class App  extends Application{
 
   @Override
   public void start(Stage stage) throws IOException {
-    GUI gui=new GUI(960, 720);
-    gui.LoginScene(stage);
+    GUI gui=new GUI(960, 720, stage);
+    gui.LoginScene();
     new Thread(() -> {
       try {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
