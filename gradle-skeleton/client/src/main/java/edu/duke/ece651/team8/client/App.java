@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 public class App extends Application {
   @Override
   public void start(Stage stage) {
-    GUI gui=new GUI(1280, 960);
+    GUI gui=new GUI(960, 720);
     gui.LoginScene(stage);
   }
 

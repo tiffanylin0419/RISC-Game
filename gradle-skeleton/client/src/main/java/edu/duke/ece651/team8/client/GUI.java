@@ -12,6 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import java.awt.*;
+
 public class GUI {
     int width;
     int height;
@@ -21,6 +25,13 @@ public class GUI {
         this.height=height;
     }
 
+    public void basicScene(Stage stage){
+        Label label = new Label("Please login or create a new account");
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.show();
+    }
     public void LoginScene(Stage stage){
         Label label = new Label("Please login or create a new account");
 
@@ -37,7 +48,6 @@ public class GUI {
         VBox vbox = new VBox(label,hbox1,hbox2,button1); // wrap the TextField in a VBox
         vbox.setSpacing(10);
 
-
         StackPane root = new StackPane(vbox);
         StackPane.setMargin(vbox, new Insets(margin, margin, margin, margin));
         Scene scene = new Scene(root, width, height);
@@ -47,15 +57,39 @@ public class GUI {
             String input2 = textField2.getText();
             System.out.println(input1);
             System.out.println(input2);
-            GameScene(stage);});
+            GameSelectScene(stage);});
         stage.show();
     }
+    public void GameSelectScene(Stage stage){
+        Label label = new Label("Select a previous game or create a new game");
+
+        Button oldGame = new Button("previous game");
+        Button newGame = new Button("new game");
+
+        VBox vbox = new VBox(label,oldGame,newGame); // wrap the TextField in a VBox
+        vbox.setSpacing(10);
+
+        StackPane root = new StackPane(vbox);
+        StackPane.setMargin(vbox, new Insets(margin, margin, margin, margin));
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        oldGame.setOnAction(e -> GameScene(stage));
+        newGame.setOnAction(e -> GameScene(stage));
+        stage.show();
+    }
+
     public void GameScene(Stage stage) {
         Label label1 = new Label("Player: Green");
         Label label2 = new Label("Technology Level: 1");
         VBox userInfo = new VBox(label1,label2); // wrap the TextField in a VBox
         userInfo.setSpacing(10); // Set spacing between buttons
         userInfo.setAlignment(Pos.TOP_LEFT); // Center align the HBox
+
+        Label label3 = new Label("Message:");
+        Label label4 = new Label("Please choose action");
+        VBox message = new VBox(label3,label4); // wrap the TextField in a VBox
+        message.setSpacing(10); // Set spacing between buttons
+        message.setAlignment(Pos.BOTTOM_LEFT); // Center align the HBox
 
         Button button1 = new Button("Show");
         button1.setOnAction(e -> System.out.println("Show clicked!"));
@@ -80,10 +114,11 @@ public class GUI {
         imageView.setFitWidth(width*0.8);
         imageView.setPreserveRatio(true);
 
-        StackPane root = new StackPane(userInfo,buttons,imageView);
+        StackPane root = new StackPane( imageView,message,userInfo,buttons);
         Scene scene2 = new Scene(root, width,height);
         StackPane.setMargin(userInfo, new Insets(margin, margin, margin, margin));
         StackPane.setMargin(buttons, new Insets(margin, margin, margin, margin));
+        StackPane.setMargin(message, new Insets(margin, margin, margin, margin));
         stage.setScene(scene2);
     }
 }
