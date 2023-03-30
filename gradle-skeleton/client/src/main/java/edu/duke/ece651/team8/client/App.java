@@ -12,9 +12,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class App  extends Application{
+
   @Override
   public void start(Stage stage) throws IOException {
-    //GUI
     GUI gui=new GUI(960, 720);
     gui.LoginScene(stage);
     new Thread(() -> {
@@ -22,23 +22,26 @@ public class App  extends Application{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
         int port = 8080; // set the port number
-
-        //GUI
         ClientGUI clientGUI = new ClientGUI(port, hostname, in, gui); // create a new client instance
         clientGUI.run(); // connect the client to the server
-
-        //Text
-        /*Client client = new Client(port, hostname,in); // create a new client instance
-        client.run(); // connect the client to the server*/
       }
       catch (Exception e) {
         e.printStackTrace();
       }
     }).start();
-
-
-
   }
+
+
+  //text player
+  /*
+  @Override
+  public void start(Stage stage) throws IOException {
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
+    int port = 8080; // set the port number
+    Client client = new Client(port, hostname,in); // create a new client instance
+    client.run(); // connect the client to the server
+  }*/
 
   /**
    * This main method runs the client, on localhost and port 1651.
