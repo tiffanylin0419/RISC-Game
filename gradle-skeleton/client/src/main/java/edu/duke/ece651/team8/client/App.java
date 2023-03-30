@@ -13,9 +13,23 @@ import javafx.stage.Stage;
 
 public class App  extends Application{
   @Override
-  public void start(Stage stage) {
+  public void start(Stage stage) throws IOException {
+    //GUI
     GUI gui=new GUI(960, 720);
     gui.LoginScene(stage);
+
+    //Text
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
+    int port = 8080; // set the port number
+
+    //GUI
+    ClientGUI clientGUI = new ClientGUI(port, hostname,in); // create a new client instance
+    clientGUI.run(); // connect the client to the server
+
+    //Text
+    /*Client client = new Client(port, hostname,in); // create a new client instance
+    client.run(); // connect the client to the server*/
   }
 
   /**
