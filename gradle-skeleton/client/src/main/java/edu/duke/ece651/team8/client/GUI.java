@@ -16,17 +16,28 @@ public class GUI {
 
     public static void LoginScene(Stage stage){
         Label label = new Label("Please login or create a new account");
-        Button button1 = new Button("Login/Create");
-        TextField textField = new TextField(); // create a new text field
 
-        VBox vbox = new VBox(label,textField,button1); // wrap the TextField in a VBox
+        Label label1 = new Label("Account");
+        Label label2 = new Label("Password");
+        TextField textField1 = new TextField(); // create a new text field
+        TextField textField2 = new TextField(); // create a new text field
+        Button button1 = new Button("Login/Create");
+
+        HBox hbox1=new HBox(label1,textField1);
+        HBox hbox2=new HBox(label2,textField2);
+        VBox vbox = new VBox(label,hbox1,hbox2,button1); // wrap the TextField in a VBox
 
         StackPane root = new StackPane();
         root.getChildren().addAll(vbox);
 
         Scene scene = new Scene(root, 640, 480);
         stage.setScene(scene);
-        button1.setOnAction(e -> GameScene(stage));
+        button1.setOnAction(e -> {
+            String input1 = textField1.getText();
+            String input2 = textField2.getText();
+            System.out.println(input1);
+            System.out.println(input2);
+            GameScene(stage);});
         stage.show();
     }
     public static void GameScene(Stage stage) {
