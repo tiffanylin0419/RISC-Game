@@ -35,6 +35,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -66,6 +68,7 @@ public class App extends Application {
     hbox.setAlignment(Pos.TOP_CENTER); // Center align the HBox
 
     StackPane root = new StackPane();
+    StackPane.setMargin(hbox, new Insets(20, 0, 0, 20));
     root.getChildren().addAll(label,hbox);
     Scene scene2 = new Scene(root, 640, 480);
     stage.setScene(scene2);
@@ -74,10 +77,14 @@ public class App extends Application {
   @Override
   public void start(Stage stage) {
     Label label = new Label("Please login or create a new account");
-    Button button1 = new Button("Login");
+    Button button1 = new Button("Login/Create");
+    TextField textField = new TextField(); // create a new text field
+
+    VBox vbox = new VBox(label,textField,button1); // wrap the TextField in a VBox
+
 
     StackPane root = new StackPane();
-    root.getChildren().addAll(label, button1);
+    root.getChildren().addAll(vbox);
 
     Scene scene = new Scene(root, 640, 480);
     stage.setScene(scene);
