@@ -17,19 +17,27 @@ public class App  extends Application{
     //GUI
     GUI gui=new GUI(960, 720);
     gui.LoginScene(stage);
+    new Thread(() -> {
+      try {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
+        int port = 8080; // set the port number
 
-    //Text
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
-    int port = 8080; // set the port number
+        //GUI
+        ClientGUI clientGUI = new ClientGUI(port, hostname, in, gui); // create a new client instance
+        clientGUI.run(); // connect the client to the server
 
-    //GUI
-    ClientGUI clientGUI = new ClientGUI(port, hostname,in); // create a new client instance
-    clientGUI.run(); // connect the client to the server
+        //Text
+        /*Client client = new Client(port, hostname,in); // create a new client instance
+        client.run(); // connect the client to the server*/
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).start();
 
-    //Text
-    /*Client client = new Client(port, hostname,in); // create a new client instance
-    client.run(); // connect the client to the server*/
+
+
   }
 
   /**

@@ -29,45 +29,34 @@ public class ClientGUI {
     protected boolean isDefeated = false;
 
     protected String winner;
+
+    protected GUI gui;
     /**
      * Constructs a server with specified port
      *
      * @param port is the port of the socket
      * @param host is the address of the server
      */
-    public ClientGUI(int port, String host,BufferedReader in) throws IOException {
-        this(new Socket(host, port), System.out, in);
-    }
-
-    /**
-     * @param out is the output stream of the client
-     */
-    public ClientGUI(int port, String host, PrintStream out, BufferedReader in) throws IOException {
-        this(new Socket(host,port), out,in);
-    }
-    public ClientGUI(Socket s, PrintStream out,BufferedReader in) throws IOException {
-        this(s,null,null,out,in,null);
-        this.inputStream = s.getInputStream();
+    public ClientGUI(int port, String host,BufferedReader in, GUI gui) throws IOException {
+        this.socket = new Socket(host, port);
+        this.out= System.out;
+        this.inputStream = this.socket.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
-        this.output = new PrintWriter(s.getOutputStream());
-    }
-    public ClientGUI(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) {
-        this.socket = s;
-        this.inputStream = inputStream;
-        this.reader = br;
-        this.out = out;
+        this.output = new PrintWriter(this.socket.getOutputStream());
         this.input = in;
         this.winner = "no winner";
-        this.output = output;
+        this.gui=gui;
     }
 
     /** execute the client */
     public void run() {
         try {
+
             receiveColor();
-            /*receiveMap();
+            receiveMap();
             displayColor();
-            displayMap();
+
+            /*displayMap();
             doInitialPlacement();
             receivePlacementResult();
             doAllTurns();
@@ -87,6 +76,22 @@ public class ClientGUI {
         receive();
         color = buffer;
     }
+    /**
+     * receive map information from server
+     * @throws IOException if something wrong with receive
+     */
+    public void receiveMap()throws  IOException{
+        receive();
+        mapInfo = buffer;
+    }
+    /**
+     * Display map info
+     */
+    public void displayColor() {
+        gui.color=color;
+    }
+
+
 
 
 
@@ -147,6 +152,7 @@ public class ClientGUI {
         buffer = sb.toString();
     }
 
+
     /**
      * Send one message to server
      * @param message the message to send
@@ -159,14 +165,7 @@ public class ClientGUI {
 
 
 
-    /**
-     * receive map information from server
-     * @throws IOException if something wrong with receive
-     */
-    public void receiveMap()throws  IOException{
-        receive();
-        mapInfo = buffer;
-    }
+
     public void receiveCombatOutcome()throws  IOException{
         receive();
         combatOutcome = buffer;
@@ -382,12 +381,7 @@ public class ClientGUI {
         //to do
         return doOneMove();
     }
-    /**
-     * Display map info
-     */
-    public void displayColor() {
-        out.println(color);
-    }
+
 
     /**
      * Display map to out

@@ -17,6 +17,8 @@ public class GUI {
     int width;
     int height;
     int margin=20;
+
+    String color="";
     public GUI(int width, int height){
         this.width=width;
         this.height=height;
@@ -76,7 +78,7 @@ public class GUI {
     }
 
     public void GameScene(Stage stage) {
-        Label label1 = new Label("Player: Green");
+        Label label1 = new Label("Player: "+color);
         Label label2 = new Label("Technology Level: 1");
         VBox userInfo = new VBox(label1,label2); // wrap the TextField in a VBox
         userInfo.setSpacing(10); // Set spacing between buttons
