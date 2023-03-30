@@ -29,19 +29,50 @@ import edu.duke.ece651.team8.shared.Client;
 
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.util.Stack;
+
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 public class App extends Application {
 
   @Override
   public void start(Stage stage) {
     String javaVersion = System.getProperty("java.version");
     String javafxVersion = System.getProperty("javafx.version");
-    Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-    Scene scene = new Scene(new StackPane(l), 640, 480);
+    Label label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+
+    Button button1 = new Button("Show");
+    button1.setOnAction(e -> System.out.println("Show clicked!"));
+    Button button2 = new Button("Move");
+    button2.setOnAction(e -> System.out.println("Move clicked!"));
+    Button button3 = new Button("Attack");
+    button3.setOnAction(e -> System.out.println("Attack clicked!"));
+    Button button4 = new Button("Research");
+    button4.setOnAction(e -> System.out.println("Research clicked!"));
+    Button button5 = new Button("Upgrade");
+    button5.setOnAction(e -> System.out.println("Upgrade clicked!"));
+    Button button6 = new Button("Done");
+    button6.setOnAction(e -> System.out.println("Done clicked!"));
+
+    HBox hbox = new HBox();
+    hbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
+    hbox.setSpacing(10); // Set spacing between buttons
+    hbox.setAlignment(Pos.TOP_CENTER); // Center align the HBox
+
+    StackPane root = new StackPane();
+    root.getChildren().addAll(label, hbox);
+    StackPane.setMargin(hbox, new Insets(10)); // Set margin around each button
+
+    Scene scene = new Scene(root, 640, 480);
     stage.setScene(scene);
     stage.show();
   }
