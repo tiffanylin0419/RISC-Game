@@ -67,7 +67,12 @@ public class ClientGUI {
         Platform.runLater(() -> {
             gui.message.setText(message);
         });
-        System.out.println(message);
+    }
+
+    public void setError(String error){
+        Platform.runLater(() -> {
+            gui.error.setText(error);
+        });
     }
     public void setColor(String color){
         Platform.runLater(() -> {
@@ -83,7 +88,7 @@ public class ClientGUI {
 
             Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
                 addInput();
-                setMessage(throwable.getMessage());
+                setError(throwable.getMessage());
             });
 
             if(result.isPresent()) {
@@ -151,7 +156,6 @@ public class ClientGUI {
         //color of every territory
         //
         //reloadGameScene()
-
     }
     /**
      * do initial placement phase, user need to input
@@ -166,18 +170,11 @@ public class ClientGUI {
             do {
                 receive();
                 setMessage(buffer);
-                while (true) {
-                    try {
-                        addInput();
-                    } catch (Exception e) {
-                        setMessage(e.getMessage()+"\nPlease input a valid placement!");
-                        continue;
-                    }
-                    break;
-                }
+                addInput();
                 receive();
-                setMessage(buffer);
+                setError(buffer);
             } while (!buffer.equals("valid\n"));
+            setMessage("Placement Done");
         }
     }
     public void receivePlacementResult() throws IOException{

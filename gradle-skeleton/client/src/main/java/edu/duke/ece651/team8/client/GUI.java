@@ -23,6 +23,7 @@ public class GUI {
 
     Label color = new Label("Player: ");
     Label message = new Label("");
+    Label error = new Label("");
     int techLevel=1;
     HBox input=new HBox();
 
@@ -101,8 +102,7 @@ public class GUI {
         userInfo.setAlignment(Pos.TOP_LEFT); // Center align the HBox
 
         Label label3 = new Label("Message:");
-        //Label message
-        VBox messages = new VBox(label3,message); // wrap the TextField in a VBox
+        VBox messages = new VBox(label3,message,error); // wrap the TextField in a VBox
         messages.setSpacing(10); // Set spacing between buttons
         messages.setAlignment(Pos.BOTTOM_LEFT); // Center align the HBox
 
