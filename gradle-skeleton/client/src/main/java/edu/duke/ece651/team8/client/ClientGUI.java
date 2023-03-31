@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
 
 import java.io.*;
 import java.net.Socket;
@@ -38,6 +40,7 @@ public class ClientGUI {
     protected String winner;
 
     protected GUI gui;
+    protected boolean guiInput=false;
     /**
      * Constructs a server with specified port
      *
@@ -68,21 +71,36 @@ public class ClientGUI {
     }
     public void setColor(String color){
         Platform.runLater(() -> {
-            gui.color.setText(color);//gui.color.getText()+
+            gui.color.setText(gui.color.getText()+color);
         });
     }
     public void addInput(){
-        /*Platform.runLater(() -> {
-            TextField textField = new TextField(); // create a new text field
-            Button button = new Button("Enter");
-            gui.input.getChildren().addAll(textField,button);
-        });*/
+        Platform.runLater(() -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Input Dialog");
+            dialog.setHeaderText("Please enter a value:");
+            Optional<String> result = dialog.showAndWait();
+
+            Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
+                addInput();
+                setMessage(throwable.getMessage());
+            });
+
+            if(result.isPresent()) {
+                if(isPositiveInt(result.get())){
+                    send(result.get());
+                }
+                else{
+                    throw new IllegalArgumentException("unit number must > 0");
+                }
+
+            }
+        });
     }
 
     /** execute the client */
     public void run() {
         try {
-
             receiveColor();
             receiveMap();
             displayColor();
@@ -143,19 +161,14 @@ public class ClientGUI {
      */
     public void doInitialPlacement() throws IOException{
         receive();
-
-
-
-
         int placementTimes = Integer.parseInt(buffer);
         for(int i = 0; i < placementTimes;i++){
             do {
                 receive();
                 setMessage(buffer);
-                addInput();
                 while (true) {
                     try {
-                        tryInputUnitNumberToPlace(buffer, input);
+                        addInput();
                     } catch (Exception e) {
                         setMessage(e.getMessage()+"\nPlease input a valid placement!");
                         continue;
@@ -167,24 +180,6 @@ public class ClientGUI {
             } while (!buffer.equals("valid\n"));
         }
     }
-    /**
-     * User input the unit number to place
-     * @param prompt the prompt for placement
-     * @param input the input buffer
-     * @throws Exception if something wrong with receive
-     */
-    public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
-        out.print(prompt);
-        String s = input.readLine();
-        if(isPositiveInt(s)){
-            send(s);
-        }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
-        }
-    }
-
-
-
     public void receivePlacementResult() throws IOException{
         receive();
         out.println(buffer);
@@ -198,7 +193,6 @@ public class ClientGUI {
                 doOneTurn();
             }
             reportResult();
-//            System.out.println("outcome reach");
         }
     }
     public void reportResult() throws IOException{
