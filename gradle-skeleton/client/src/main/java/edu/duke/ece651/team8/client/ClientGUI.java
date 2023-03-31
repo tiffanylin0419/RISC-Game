@@ -1,5 +1,14 @@
 package edu.duke.ece651.team8.client;
 
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -31,6 +40,7 @@ public class ClientGUI {
     protected String winner;
 
     protected GUI gui;
+    protected boolean guiInput=false;
     /**
      * Constructs a server with specified port
      *
@@ -48,17 +58,61 @@ public class ClientGUI {
         this.gui=gui;
     }
 
+    public void reloadGameScene(){
+        Platform.runLater(() -> {
+            gui.GameScene();
+        });
+    }
+    public void setMessage(String message){
+        Platform.runLater(() -> {
+            gui.message.setText(message);
+        });
+    }
+
+    public void setError(String error){
+        Platform.runLater(() -> {
+            gui.error.setText(error);
+        });
+    }
+    public void setColor(String color){
+        Platform.runLater(() -> {
+            gui.color.setText(gui.color.getText()+color);
+        });
+    }
+    public void addInput(){
+        Platform.runLater(() -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Input Dialog");
+            dialog.setHeaderText("Please enter a value:");
+            Optional<String> result = dialog.showAndWait();
+
+            Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
+                addInput();
+                setError(throwable.getMessage());
+            });
+
+            if(result.isPresent()) {
+                if(isPositiveInt(result.get())){
+                    send(result.get());
+                }
+                else{
+                    throw new IllegalArgumentException("unit number must > 0");
+                }
+
+            }
+        });
+    }
+
     /** execute the client */
     public void run() {
         try {
-
             receiveColor();
             receiveMap();
             displayColor();
+            displayMap();
 
-            /*displayMap();
             doInitialPlacement();
-            receivePlacementResult();
+            /*receivePlacementResult();
             doAllTurns();
             reader.close();
             inputStream.close();
@@ -83,19 +137,46 @@ public class ClientGUI {
     public void receiveMap()throws  IOException{
         receive();
         mapInfo = buffer;
+        //should receive
+        // owner of every territory
+        // unit and resource info
+        // player info ex. level
     }
     /**
      * Display map info
      */
     public void displayColor() {
-        gui.color=color;
+        setColor(color);
     }
-
-
-
-
-
-
+    /**
+     * Display map to out
+     */
+    public void displayMap() {
+        //display mapInfo
+        //color of every territory
+        //
+        //reloadGameScene()
+    }
+    /**
+     * do initial placement phase, user need to input
+     * the number she wants to place in a specific territory
+     * if input is invalid, she needs to re-input
+     * @throws IOException if something wrong with receive
+     */
+    public void doInitialPlacement() throws IOException{
+        receive();
+        int placementTimes = Integer.parseInt(buffer);
+        for(int i = 0; i < placementTimes;i++){
+            do {
+                receive();
+                setMessage(buffer);
+                addInput();
+                receive();
+                setError(buffer);
+            } while (!buffer.equals("valid\n"));
+            setMessage("Placement Done");
+        }
+    }
     public void receivePlacementResult() throws IOException{
         receive();
         out.println(buffer);
@@ -109,7 +190,6 @@ public class ClientGUI {
                 doOneTurn();
             }
             reportResult();
-//            System.out.println("outcome reach");
         }
     }
     public void reportResult() throws IOException{
@@ -185,49 +265,9 @@ public class ClientGUI {
 
 
 
-    /**
-     * do initial placement phase, user need to input
-     * the number she wants to place in a specific territory
-     * if input is invalid, she needs to re-input
-     * @throws IOException if something wrong with receive
-     */
-    public void doInitialPlacement() throws IOException{
-        receive();
-        int placementTimes = Integer.parseInt(buffer);
-        for(int i = 0; i < placementTimes;i++){
-            do {
-                receive();
-                while (true) {
-                    try {
-                        tryInputUnitNumberToPlace(buffer, input);
-                    } catch (Exception e) {
-                        out.println(e.getMessage());
-                        out.println("Please input a valid placement!");
-                        continue;
-                    }
-                    break;
-                }
-                receive();
-                out.println(buffer);
-            } while (!buffer.equals("valid\n"));
-        }
-    }
 
-    /**
-     * User input the unit number to place
-     * @param prompt the prompt for placement
-     * @param input the input buffer
-     * @throws Exception if something wrong with receive
-     */
-    public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
-        out.print(prompt);
-        String s = input.readLine();
-        if(isPositiveInt(s)){
-            send(s);
-        }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
-        }
-    }
+
+
 
     /**
      * Determine if a string is a non-negative number string
@@ -383,12 +423,7 @@ public class ClientGUI {
     }
 
 
-    /**
-     * Display map to out
-     */
-    public void displayMap() {
-        out.println(mapInfo);
-    }
+
 
     public void displayCombatOutcome(){
         out.println(combatOutcome);
