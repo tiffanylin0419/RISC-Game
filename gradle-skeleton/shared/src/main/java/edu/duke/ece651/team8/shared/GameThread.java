@@ -84,6 +84,10 @@ public class GameThread extends Thread {
         notifyAll(); // Notify all waiting threads
 //        System.out.println("notify all");
     }
+
+    public List<ClientHandlerThread> getClients() {
+        return clientThreads;
+    }
 //
 //    public void sendInitialConfig() {
 //        for(int i = 0; i < clientSockets.size(); i++) {

@@ -62,7 +62,7 @@ public class ClientHandlerThread extends Thread {
             doInitialPlacement();
             while(this.winnerName == null) {//keep running if no one wins
                 issueOrders();
-                reportResults();
+                reportResult();
             }
         } finally {
             output.close();
@@ -190,7 +190,7 @@ public class ClientHandlerThread extends Thread {
      * #3 send if the player loses
      * #4 send if there is a winner
      */
-    public void reportResults() {
+    public void reportResult() {
             String outcome = theMap.doCombats();
             hasWinner();
             mapInfo = "empty map";//mapView.displayMap(theMap);
