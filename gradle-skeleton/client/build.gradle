@@ -32,6 +32,8 @@ dependencies {
     testImplementation "org.testfx:testfx-core:4.0.16-alpha"
     testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
     testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+    implementation 'org.openjfx:javafx-controls:16'
+    implementation 'org.openjfx:javafx-fxml:16'
 
 
     testImplementation 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
@@ -63,7 +65,14 @@ application {
     getMainClass().set('edu.duke.ece651.team8.client.App')
 //    mainClassName = 'edu.duke.ece651.team8.client.App'
 }
-
+sourceSets {
+    main {
+        resources {
+            srcDirs += ["src/main/java", "src/main/resources"]
+            include "*.fxml"
+        }
+    }
+}
 run{
     standardInput = System.In
 }
