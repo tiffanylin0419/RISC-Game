@@ -4,10 +4,20 @@
  * This is a general purpose Gradle build.
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds
  */
+buildscript {
+    ext.kotlin_version = '1.8.20'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
 plugins {
     id 'com.bmuschko.clover' version '2.2.3'
     id 'java'
 }
+apply plugin: 'kotlin'
 
 
 subprojects{
@@ -94,4 +104,20 @@ tasks.register("resolveDependencies") {
     dependsOn project('client').getTasksByName('resolveDependencies',false)
     group = 'Build'
     description = 'Resolve/Download Dependencies'
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

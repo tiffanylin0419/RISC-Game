@@ -48,10 +48,12 @@ public class GUI {
         Label label2 = new Label("Password");
         TextField textField1 = new TextField(); // create a new text field
         TextField textField2 = new TextField(); // create a new text field
+
         Button button1 = new Button("Login/Create");
 
         HBox hbox1=new HBox(label1,textField1);
         hbox1.setSpacing(10);
+
         HBox hbox2=new HBox(label2,textField2);
         hbox2.setSpacing(10);
         VBox vbox = new VBox(label,hbox1,hbox2,button1); // wrap the TextField in a VBox
@@ -60,6 +62,7 @@ public class GUI {
         StackPane root = new StackPane(vbox);
         StackPane.setMargin(vbox, new Insets(margin, margin, margin, margin));
         Scene scene = new Scene(root, width, height);
+
         stage.setScene(scene);
         button1.setOnAction(e -> {
             String input1 = textField1.getText();
