@@ -145,7 +145,7 @@ public class ClientHandlerThread extends Thread {
      */
     public void placeUnitForTerritories(String prompt) {
         int curr = this.unitAmount;
-        ArrayList<Territory> territories = player.getTerritores();
+        ArrayList<Territory> territories = player.getTerritories();
         int size = territories.size();
         for (int j = 0; j < size - 1; ++j) {
             while (true) {
