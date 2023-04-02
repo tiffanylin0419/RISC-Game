@@ -3,7 +3,6 @@ package edu.duke.ece651.team8.shared;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.ServerSocket;
@@ -11,19 +10,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-//@ExtendWith(MockitoExtension.class)
-class GameThreadTest {
+class ClientHandlerThreadTest {
 //
-//    public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException{
+//    public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException {
 //        BufferedReader input = new BufferedReader(new StringReader(inputData));
 //        PrintStream out = new PrintStream(bytes, true);
 //        return  new Client(port, host, out, input);
 //    }
-//    private void doClientAction(Client cli, GameThread th) throws Exception {
+//    private void doClientAction(Client cli, ClientHandlerThread th) throws Exception {
 //        cli.receiveColor();
 //        cli.receiveMap();
 //        cli.displayColor();
@@ -52,7 +50,8 @@ class GameThreadTest {
 //        GameThread th = new GameThread(clis, factory);
 //        th.start();
 //
-//        doClientAction(cli, th);
+//        ClientHandlerThread cliTh =  th.getClients().get(0);
+//        doClientAction(cli, cliTh);
 //
 //        th.interrupt();
 //        th.join();
@@ -135,8 +134,10 @@ class GameThreadTest {
 //        GameThread th = new GameThread(clis, factory);
 //        th.start();
 //
-//        doClientAction(cli, th);
+//        ClientHandlerThread cliTh =  th.getClients().get(0);
+//        doClientAction(cli, cliTh);
 //
+//        cliTh.interrupt();
 //        th.interrupt();
 //        th.join();
 //        ss.close();
@@ -242,7 +243,10 @@ class GameThreadTest {
 //        playerField.setAccessible(true);
 //        playerField.set(gameThread, p);
 //
-//        gameThread.reportResults();
+//        ClientHandlerThread cliTh =  gameThread.getClients().get(0);
+//        ClientHandlerThread cliTh1 =  gameThread.getClients().get(1);
+//        cliTh.reportResult();
+//        cliTh1.reportResult();
 //        cli.reportResult();
 //        cli1.reportResult();
 //
@@ -283,7 +287,9 @@ class GameThreadTest {
 //        Field readerField = GameThread.class.getDeclaredField("readers");
 //        readerField.setAccessible(true);
 //        readerField.set(gameThread, r);
-//        gameThread.issueOrders();
+//
+//        ClientHandlerThread cliTh =  gameThread.getClients().get(0);
+//        cliTh.issueOrders();
 //
 //        cli.receive();
 //        cliOutput.println("M");
@@ -291,6 +297,7 @@ class GameThreadTest {
 //        cliOutput.print(END_OF_TURN);
 //        cliOutput.flush(); // flush the output buffer
 //
+//        cliTh.interrupt();
 //        gameThread.interrupt();
 //        gameThread.join();
 //
@@ -315,8 +322,9 @@ class GameThreadTest {
 //        GameThread th = new GameThread(clis, factory);
 //        // create a new thread and start it
 //        Thread thread = new Thread(() -> {
-//            th.doInitialPlacement();
-//            th.issueOrders();
+//            ClientHandlerThread cliTh = th.getClients().get(0);
+//            cliTh.doInitialPlacement();
+//            cliTh.issueOrders();
 //        });
 //        thread.start();
 //
@@ -394,7 +402,8 @@ class GameThreadTest {
 //        GameThread thread = new GameThread(clients, factory);
 //        thread.start();
 //
-//        assertTrue(thread.checkUnitNumValid(5, 0, 6));
+//        ClientHandlerThread cliTh = thread.getClients().get(0);
+//        assertTrue(cliTh.checkUnitNumValid(5, 0, 6));
 ////
 ////        client.run();
 ////
