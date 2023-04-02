@@ -1,11 +1,18 @@
+package edu.duke.ece651.team8.client;
 
-package edu.duke.ece651.team8.shared;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
 
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 
-/** Client pattern of the game*/
-public class Client {
+public class ClientGUI {
     /** Client socket for communicate with server */
     protected Socket socket;
     /** OutStream to server */
@@ -31,36 +38,69 @@ public class Client {
     protected boolean isDefeated = false;
 
     protected String winner;
+
+    protected GUI gui;
+    protected boolean guiInput=false;
     /**
      * Constructs a server with specified port
      *
      * @param port is the port of the socket
      * @param host is the address of the server
      */
-    public Client(int port, String host,BufferedReader in) throws IOException {
-        this(new Socket(host, port), System.out, in);
-    }
-
-    /**
-     * @param out is the output stream of the client
-     */
-    public Client(int port, String host, PrintStream out, BufferedReader in) throws IOException {
-        this(new Socket(host,port), out,in);
-    }
-    public Client(Socket s, PrintStream out,BufferedReader in) throws IOException {
-        this(s,null,null,out,in,null);
-        this.inputStream = s.getInputStream();
+    public ClientGUI(int port, String host,BufferedReader in, GUI gui) throws IOException {
+        this.socket = new Socket(host, port);
+        this.out= System.out;
+        this.inputStream = this.socket.getInputStream();
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
-        this.output = new PrintWriter(s.getOutputStream());
-    }
-    public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) {
-        this.socket = s;
-        this.inputStream = inputStream;
-        this.reader = br;
-        this.out = out;
+        this.output = new PrintWriter(this.socket.getOutputStream());
         this.input = in;
         this.winner = "no winner";
-        this.output = output;
+        this.gui=gui;
+    }
+
+    public void reloadGameScene(){
+        Platform.runLater(() -> {
+            gui.GameScene();
+        });
+    }
+    public void setMessage(String message){
+        Platform.runLater(() -> {
+            gui.message.setText(message);
+        });
+    }
+
+    public void setError(String error){
+        Platform.runLater(() -> {
+            gui.error.setText(error);
+        });
+    }
+    public void setColor(String color){
+        Platform.runLater(() -> {
+            gui.color.setText(gui.color.getText()+color);
+        });
+    }
+    public void addInput(){
+        Platform.runLater(() -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Input Dialog");
+            dialog.setHeaderText("Please enter a value:");
+            Optional<String> result = dialog.showAndWait();
+
+            Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
+                addInput();
+                setError(throwable.getMessage());
+            });
+
+            if(result.isPresent()) {
+                if(isPositiveInt(result.get())){
+                    send(result.get());
+                }
+                else{
+                    throw new IllegalArgumentException("unit number must > 0");
+                }
+
+            }
+        });
     }
 
     /** execute the client */
@@ -70,14 +110,71 @@ public class Client {
             receiveMap();
             displayColor();
             displayMap();
+
             doInitialPlacement();
-            receivePlacementResult();
+            /*receivePlacementResult();
             doAllTurns();
             reader.close();
             inputStream.close();
-            socket.close();
+            socket.close();*/
         } catch (IOException e) {
             out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * receive color string from server
+     * @throws IOException if something wrong with receive
+     */
+    public void receiveColor()throws  IOException{
+        receive();
+        color = buffer;
+    }
+    /**
+     * receive map information from server
+     * @throws IOException if something wrong with receive
+     */
+    public void receiveMap()throws  IOException{
+        receive();
+        mapInfo = buffer;
+        //should receive
+        // owner of every territory
+        // unit and resource info
+        // player info ex. level
+    }
+    /**
+     * Display map info
+     */
+    public void displayColor() {
+        setColor(color);
+    }
+    /**
+     * Display map to out
+     */
+    public void displayMap() {
+        //display mapInfo
+        //color of every territory
+        //
+        //reloadGameScene()
+    }
+    /**
+     * do initial placement phase, user need to input
+     * the number she wants to place in a specific territory
+     * if input is invalid, she needs to re-input
+     * @throws IOException if something wrong with receive
+     */
+    public void doInitialPlacement() throws IOException{
+        receive();
+        int placementTimes = Integer.parseInt(buffer);
+        for(int i = 0; i < placementTimes;i++){
+            do {
+                receive();
+                setMessage(buffer);
+                addInput();
+                receive();
+                setError(buffer);
+            } while (!buffer.equals("valid\n"));
+            setMessage("Placement Done");
         }
     }
     public void receivePlacementResult() throws IOException{
@@ -93,7 +190,6 @@ public class Client {
                 doOneTurn();
             }
             reportResult();
-//            System.out.println("outcome reach");
         }
     }
     public void reportResult() throws IOException{
@@ -136,6 +232,7 @@ public class Client {
         buffer = sb.toString();
     }
 
+
     /**
      * Send one message to server
      * @param message the message to send
@@ -146,23 +243,9 @@ public class Client {
         output.flush(); // flush the output buffer
     }
 
-    /**
-     * receive color string from server
-     * @throws IOException if something wrong with receive
-     */
-    public void receiveColor()throws  IOException{
-        receive();
-        color = buffer;
-    }
 
-    /**
-     * receive map information from server
-     * @throws IOException if something wrong with receive
-     */
-    public void receiveMap()throws  IOException{
-        receive();
-        mapInfo = buffer;
-    }
+
+
     public void receiveCombatOutcome()throws  IOException{
         receive();
         combatOutcome = buffer;
@@ -182,49 +265,9 @@ public class Client {
 
 
 
-    /**
-     * do initial placement phase, user need to input
-     * the number she wants to place in a specific territory
-     * if input is invalid, she needs to re-input
-     * @throws IOException if something wrong with receive
-     */
-    public void doInitialPlacement() throws IOException{
-        receive();
-        int placementTimes = Integer.parseInt(buffer);
-        for(int i = 0; i < placementTimes;i++){
-            do {
-                receive();
-                while (true) {
-                    try {
-                        tryInputUnitNumberToPlace(buffer, input);
-                    } catch (Exception e) {
-                        out.println(e.getMessage());
-                        out.println("Please input a valid placement!");
-                        continue;
-                    }
-                    break;
-                }
-                receive();
-                out.println(buffer);
-            } while (!buffer.equals("valid\n"));
-        }
-    }
 
-    /**
-     * User input the unit number to place
-     * @param prompt the prompt for placement
-     * @param input the input buffer
-     * @throws Exception if something wrong with receive
-     */
-    public void tryInputUnitNumberToPlace(String prompt, BufferedReader input)throws Exception{
-        out.print(prompt);
-        String s = input.readLine();
-        if(isPositiveInt(s)){
-            send(s);
-        }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
-        }
-    }
+
+
 
     /**
      * Determine if a string is a non-negative number string
@@ -378,19 +421,9 @@ public class Client {
         //to do
         return doOneMove();
     }
-    /**
-     * Display map info
-     */
-    public void displayColor() {
-        out.println(color);
-    }
 
-    /**
-     * Display map to out
-     */
-    public void displayMap() {
-        out.println(mapInfo);
-    }
+
+
 
     public void displayCombatOutcome(){
         out.println(combatOutcome);
@@ -399,6 +432,4 @@ public class Client {
     public boolean isOver(){
         return !winner.equals("no winner");
     }
-
 }
-

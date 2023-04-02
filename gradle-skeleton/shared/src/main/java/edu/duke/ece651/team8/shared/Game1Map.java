@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 public class Game1Map implements Map {
   // field
-  private ArrayList<Territory> territories;
+  private final ArrayList<Territory> territories;
 
-  private ActionRuleChecker checker;
+  private final ActionRuleChecker checker;
 
   //constructor
   public Game1Map() {
@@ -27,7 +27,12 @@ public class Game1Map implements Map {
   public void addTerritory(Territory t){
     territories.add(t);
   }
-  
+
+  /**
+   * check if there is the territory
+   * @param t territory to be checked
+   * @return
+   */
   @Override
   public boolean containsTerritory(Territory t){
     for(Territory territory: territories){
@@ -54,13 +59,18 @@ public class Game1Map implements Map {
 
   @Override
   public ActionRuleChecker getChecker(){return checker;}
+
+  /**
+   * if the size of unit in one territory is greater than 1, than let them do combats
+   * @return
+   */
   @Override
   public String doCombats() {
     StringBuilder outcomes = new StringBuilder();
     for(Territory t : territories) {
       if(t.getUnitsSize() > 1) {
         t.attack();
-        outcomes.append("Player " + t.getOwner().getColor() + " wins combat in " + t.getName() + "\n");
+        outcomes.append("Player ").append(t.getOwner().getColor()).append(" wins combat in ").append(t.getName()).append("\n");
       }
       t.addOne();
     }

@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    /** map info to be transfer */
-    protected String mapInfo;
     /** server socket*/
     protected ServerSocket server;
     /** List of the client sockets */
-    private List<GameThread> games;
+    private final List<GameThread> games;
     /** number of clients */
     protected int clientNum;
     protected AbstractMapFactory factory;

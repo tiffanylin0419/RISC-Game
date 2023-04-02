@@ -1,20 +1,20 @@
 package edu.duke.ece651.team8.shared;
 
 public abstract class Action {
-    private Player player;
-    private String sourceText;
-    private String destinationText;
+    private final Player player;
+    private final String sourceText;
+    private final String destinationText;
     private Territory source;
     private Territory destination;
-    private int count;
+    private final int count;
     /**
      * constructor
      * source and destination will ber null if there is no territory named this stored in theMap
-     * @param player
-     * @param source
-     * @param destination
-     * @param count
-     * @param theMap
+     * @param player the player triggers the action
+     * @param source the source territory
+     * @param destination the destination territory
+     * @param count the number of unit to exec the action
+     * @param theMap the map operates the action
      */
     public Action(Player player, String source, String destination, int count, Map theMap) {
         this.player = player;
@@ -41,22 +41,19 @@ public abstract class Action {
 
     /**
      * check if source is valid for the player
-     * @return
+     * @return the validation of the source territory
      */
     protected abstract boolean isValidSource();
 
     /**
-     * check if detination is valid for the player
-     * @return
+     * check if destination is valid for the player
+     * @return the validation of the destination of the territory
      */
     protected abstract boolean isValidDestination();
-    /**
-     * @return player
-     */
 
     /**
      * check if the path from source to destination is valid
-     * @return
+     * @return the validation of the path
      */
     protected abstract boolean isValidPath();
 

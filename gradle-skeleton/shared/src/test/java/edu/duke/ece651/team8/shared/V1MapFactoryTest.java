@@ -3,9 +3,8 @@ package edu.duke.ece651.team8.shared;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
 public class V1MapFactoryTest {
@@ -32,17 +31,15 @@ public class V1MapFactoryTest {
         V1MapFactory factory =new V1MapFactory();
         Map theMap = factory.createMap(4);
         ArrayList<Player> players = factory.createPlayers(4, theMap);
-        String s="";
+        StringBuilder s= new StringBuilder();
         for(int i = 0; i < 4; i++) {
-            ArrayList<Territory> territories = players.get(i).getTerritores();
-            int size = territories.size();
+            ArrayList<Territory> territories = players.get(i).getTerritories();
 
-            for (int j = 0; j < size ; ++j) {
-                Territory t = territories.get(j);
-                s+=t.getName();
+            for (Territory t : territories) {
+                s.append(t.getName());
             }
         }
-        assertEquals("a1a2a3a4a5a6b1b2b3b4b5b6c1c2c3c4c5c6d1d2d3d4d5d6",s);
+        assertEquals("a1a2a3a4a5a6b1b2b3b4b5b6c1c2c3c4c5c6d1d2d3d4d5d6", s.toString());
     }
 
 //    @Test

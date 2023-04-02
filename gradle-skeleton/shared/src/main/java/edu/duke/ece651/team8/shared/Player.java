@@ -2,23 +2,23 @@ package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 
 public class Player {
-  private ArrayList<Territory> territories;
+  private final ArrayList<Territory> territories;
   private String color;
   private int unitMax;
-  private boolean isConnect;
+  private boolean isConnected;
   //constructor
   public Player(String color){
     this.territories=new ArrayList<>();
     this.color=color;
     this.unitMax=0;
-    this.isConnect = true;
+    this.isConnected = true;
   }
 
   public void disconnect() {
-    isConnect = false;
+    isConnected = false;
   }
   public boolean isConnected() {
-    return isConnect;
+    return isConnected;
   }
   /**
    * @return color
@@ -37,7 +37,7 @@ public class Player {
 
   /**
    * set unitMax of player
-   * @param unitMax
+   * @param unitMax the total initial units a player has
    */
   public void setUnitMax(int unitMax){
     this.unitMax=unitMax;
@@ -53,18 +53,18 @@ public class Player {
   /**
    * @return territories
    */
-  public ArrayList<Territory> getTerritores(){return territories;}
+  public ArrayList<Territory> getTerritories(){return territories;}
 
   /**
    * add t to territories
-   * @param t
+   * @param t territory
    */
   public void addTerritory(Territory t){
     territories.add(t);
   }
 
   /**
-   * @param t
+   * @param t territory
    * @return True if territories contains t, False otherwise
    */
   public boolean containsTerritory(Territory t){
@@ -78,8 +78,8 @@ public class Player {
 
   /**
    * remove t from territories
-   * @param t
-   * @return True if suceed, False if t not in territories
+   * @param t the territory to remove
+   * @return True if it succeeds, False if t not in territories
    */
   public boolean tryRemoveTerritory(Territory t){
     if(containsTerritory(t)){

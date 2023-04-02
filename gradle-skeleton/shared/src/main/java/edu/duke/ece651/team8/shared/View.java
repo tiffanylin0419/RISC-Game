@@ -1,7 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * View pattern of the game
@@ -9,16 +8,16 @@ import java.util.List;
 public interface View {
     /**
      * Get map string
-     * @return the string of map infomation
+     * @return the string of map information
      */
-    public String displayMap(ArrayList<Player> players);
+    String displayMap(ArrayList<Player> players);
 
     /**
-     * Add the current territory unit display infomation to sb
+     * Add the current territory unit display information to sb
      * @param sb is StringBuilder of the map
      * @param t is current territory
      */
-    public void displayUnitInfo(StringBuilder sb, Territory t);
+    void displayUnitInfo(StringBuilder sb, Territory t);
 
-    public String displayAdjacentInfo(Territory t);
+    String displayAdjacentInfo(Territory t);
 }
