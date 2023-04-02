@@ -10,6 +10,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.jetbrains.kotlin.jvm'
 }
 javafx {
     version = "19.0.2.1"
@@ -37,6 +38,7 @@ dependencies {
 
 
     testImplementation 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 }
 
@@ -65,15 +67,18 @@ application {
     getMainClass().set('edu.duke.ece651.team8.client.App')
 //    mainClassName = 'edu.duke.ece651.team8.client.App'
 }
-sourceSets {
-    main {
-        resources {
-            srcDirs += ["src/main/java", "src/main/resources"]
-            include "*.fxml"
-        }
-    }
-}
+
 run{
     standardInput = System.In
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 

@@ -1,51 +1,85 @@
 package edu.duke.ece651.team8.client.controller;
 
-import javafx.event.ActionEvent;
+import edu.duke.ece651.team8.client.ServerStream;
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 import javafx.scene.control.TextField;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
+import java.io.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class LoginController {
+    public ServerStream serverStream;
+    private Stage stage;
+    public String usernameString;
+    public String passwordString;
 
     @FXML
-    private TextField usernameField;
+    TextField username;
 
     @FXML
-    private PasswordField passwordField;
-
-    private Socket socket;
-    private DataOutputStream outputStream;
-    private DataInputStream inputStream;
+    TextField password;
 
     @FXML
-    void handleLogin(ActionEvent event) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+    Text errorMessage;
 
-        // TODO: Send username and password to server via socket
-        // and check if login is successful
-
-        // If login is successful, navigate to another screen
+    public LoginController(Stage stage, ServerStream ss) {
+        this.stage = stage;
+        this.serverStream = ss;
+        System.out.println("input name and password.\n click login");
     }
 
-    @FXML
-    void handleRegister(ActionEvent event) {
-        // Navigate to the register screen
-    }
 
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-        try {
-            this.outputStream = new DataOutputStream(socket.getOutputStream());
-            this.inputStream = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
+    @FXML
+    public void tryLogin() throws IOException {
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ChooseGamePage.fxml"));
+//
+//        loaderStart.setControllerFactory(c -> {
+//            return new ChooseGameController(stage, serverStream);
+//        });
+//
+//        Scene scene = new Scene(loaderStart.load());
+//        stage.setScene(scene);
+//        stage.show();
+//
+        this.usernameString = username.getText();
+        this.passwordString = password.getText();
+
+        if (!(usernameString.equals("") || passwordString.equals(""))) {
+            serverStream.send(usernameString);
+            serverStream.send(passwordString);
+            String account_authentication = null;
+            //account check
+            try {
+                serverStream.receive();
+                account_authentication = serverStream.getBuffer();
+
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+            }
+
+            if (account_authentication.equals("true")) {
+                loaderStart.setControllerFactory(c -> {
+                    return new ChooseGameController(stage, serverStream);
+                });
+
+                Scene scene = new Scene(loaderStart.load());
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                errorMessage.setText("your password is wrong!");
+            }
+
+
+        } else {
+            username.setText("");
+            password.setText("");
         }
+
+
     }
 }
-
