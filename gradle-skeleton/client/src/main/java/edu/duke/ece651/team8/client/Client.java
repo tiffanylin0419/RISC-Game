@@ -50,8 +50,7 @@ public class Client {
         }
     }
     public void receivePlacementResult() throws IOException{
-        serverStream.receive();
-        out.println(serverStream.getBuffer());
+        out.println(serverStream.read());
         receiveMap();
         displayMap();
     }
@@ -92,8 +91,7 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void receiveColor()throws  IOException{
-        serverStream.receive();
-        color = serverStream.getBuffer();
+        color = serverStream.read();
     }
 
     /**
@@ -101,22 +99,18 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void receiveMap()throws  IOException{
-        serverStream.receive();
-        mapInfo = serverStream.getBuffer();
+        mapInfo = serverStream.read();
     }
     public void receiveCombatOutcome()throws  IOException{
-        serverStream.receive();
-        combatOutcome = serverStream.getBuffer();
+        combatOutcome = serverStream.read();
     }
 
     public void receiveWinner()throws  IOException{
-        serverStream.receive();
-        winner = serverStream.getBuffer();
+        winner = serverStream.read();
     }
 
     public void receiveLoseStatus()throws IOException{
-        serverStream.receive();
-        if(serverStream.getBuffer().equals("lose")){
+        if(serverStream.read().equals("lose")){
             isDefeated = true;
         }
     }
@@ -130,14 +124,12 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void doInitialPlacement() throws IOException{
-        serverStream.receive();
-        int placementTimes = Integer.parseInt(serverStream.getBuffer());
+        int placementTimes = Integer.parseInt(serverStream.read());
         for(int i = 0; i < placementTimes;i++){
             do {
-                serverStream.receive();
                 while (true) {
                     try {
-                        tryInputUnitNumberToPlace(serverStream.getBuffer(), input);
+                        tryInputUnitNumberToPlace(serverStream.read(), input);
                     } catch (Exception e) {
                         out.println(e.getMessage());
                         out.println("Please input a valid placement!");
@@ -145,8 +137,7 @@ public class Client {
                     }
                     break;
                 }
-                serverStream.receive();
-                out.println(serverStream.getBuffer());
+                out.println(serverStream.read());
             } while (!serverStream.getBuffer().equals("valid\n"));
         }
     }
@@ -184,10 +175,9 @@ public class Client {
         String choice;
         label:
         while(true) {
-            serverStream.receive();
             while (true) {
                 try {
-                    choice = tryChooseOneAction(serverStream.getBuffer(), input);
+                    choice = tryChooseOneAction(serverStream.read(), input);
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
                     System.out.println("Please input an valid action choice");
@@ -250,22 +240,18 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public String doOneMove()throws IOException{
-        serverStream.receive();
         while (true) {
             try {
-                trySendUnitNumber(serverStream.buffer,input);
+                trySendUnitNumber(serverStream.read(),input);
             } catch (IllegalArgumentException e) {
                 out.println(e.getMessage());
                 continue;
             }
             break;
         }
-        serverStream.receive();
-        trySendSourceTerritory(serverStream.getBuffer(),input);
-        serverStream.receive();
-        trySendDestinationTerritory(serverStream.getBuffer(),input);
-        serverStream.receive();
-        if(!serverStream.getBuffer().equals("")){
+        trySendSourceTerritory(serverStream.read(),input);
+        trySendDestinationTerritory(serverStream.read(),input);
+        if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
         return serverStream.getBuffer();
