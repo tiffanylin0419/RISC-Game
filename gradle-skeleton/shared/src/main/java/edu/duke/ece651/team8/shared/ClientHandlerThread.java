@@ -193,7 +193,9 @@ public class ClientHandlerThread extends Thread {
     public void reportResult() {
 //        theMap = gameServer.getTheMap();
         theMap.doCombats();
+        doSynchronization();
         String outcome = theMap.getOutcome();
+        System.out.println("outcome:" + outcome);
         hasWinner();
         mapInfo = mapView.displayMap(theMap);
         send(outcome, output);
