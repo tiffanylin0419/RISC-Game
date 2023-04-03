@@ -7,20 +7,32 @@ public class Game1Map implements Map {
   // field
   private final ArrayList<Territory> territories;
 
+  private ArrayList<Player> players;
+
   private final ActionRuleChecker checker;
 
   //constructor
   public Game1Map() {
     this.territories = new ArrayList<>();
+    this.players = new ArrayList<>();
     this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
   }
 
   //constructor
   public Game1Map(ArrayList<Territory> territories) {
-
+    this.players = new ArrayList<>();
     this.territories = territories;
     this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+  }
 
+  @Override
+  public void addPlayers(ArrayList<Player> p) {
+    this.players = p;
+  }
+
+  @Override
+  public ArrayList<Player> getPlayers() {
+    return players;
   }
 
   @Override

@@ -44,6 +44,7 @@ public class V1MapFactory implements AbstractMapFactory {
         for (int i = 0; i < playerAmount; ++i) {
             players.add(createPlayer(i,territories));
         }
+        theMap.addPlayers(players);
         return players;
     }
 
