@@ -44,9 +44,11 @@ public interface Map {
    * Do combats in all territory
    * @return the outcome information for all the combats
    */
-  String doCombats();
+  void doCombats();
 
   void addPlayers(ArrayList<Player> players);
 
   ArrayList<Player> getPlayers();
+  public String getOutcome();
+  public int getOnlinePlayerSize();
 }

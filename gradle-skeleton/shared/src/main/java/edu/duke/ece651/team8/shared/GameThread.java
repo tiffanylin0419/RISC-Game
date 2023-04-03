@@ -45,7 +45,7 @@ public class GameThread extends Thread {
         this.theMap = factory.createMap(clientSockets.size());
         this.players = factory.createPlayers(clientSockets.size(), theMap);
         this.mapView = new MapTextView();
-        this.mapInfo = mapView.displayMap(players);
+        this.mapInfo = mapView.displayMap(theMap);
         for(Socket cs : clientSockets){
             outputs.add(new PrintWriter(cs.getOutputStream()));
             InputStream is= cs.getInputStream();
@@ -72,6 +72,7 @@ public class GameThread extends Thread {
                     while (t.getState() != Thread.State.WAITING) {
                     }
                 }
+//                theMap.doCombats();
                 notifyClients();
             }
         } finally {

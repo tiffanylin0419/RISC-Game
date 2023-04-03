@@ -10,12 +10,15 @@ public class Game1Map implements Map {
   private ArrayList<Player> players;
 
   private final ActionRuleChecker checker;
+  private String combatOutcome;
+  private int combatVisitor;
 
   //constructor
   public Game1Map() {
     this.territories = new ArrayList<>();
     this.players = new ArrayList<>();
     this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.combatVisitor = 0;
   }
 
   //constructor
@@ -23,6 +26,7 @@ public class Game1Map implements Map {
     this.players = new ArrayList<>();
     this.territories = territories;
     this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.combatVisitor = 0;
   }
 
   @Override
@@ -77,7 +81,10 @@ public class Game1Map implements Map {
    * @return
    */
   @Override
-  public String doCombats() {
+  public synchronized void doCombats() {
+    combatVisitor++;
+    if(getOnlinePlayerSize() != 0 && combatVisitor % getOnlinePlayerSize() != 1) return;  //??
+    combatVisitor = 0;
     StringBuilder outcomes = new StringBuilder();
     for(Territory t : territories) {
       if(t.getUnitsSize() > 1) {
@@ -86,7 +93,21 @@ public class Game1Map implements Map {
       }
       t.addOne();
     }
-    return outcomes.toString();
+    combatOutcome = outcomes.toString();
+  }
+
+  @Override
+  public String getOutcome() {return combatOutcome;}
+
+  @Override
+  public int getOnlinePlayerSize() {
+    int num = 0;
+    for(Player p : players) {
+      if(p.isConnected()) {
+        num += 1;
+      }
+    }
+    return num;
   }
 }
 

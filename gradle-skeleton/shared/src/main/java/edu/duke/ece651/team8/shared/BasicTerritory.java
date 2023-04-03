@@ -183,7 +183,7 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public void attack() {
+  public synchronized void attack() {
     if(units.size()==2){
       oneToOneAttack();
     }else if(units.size()>2){
