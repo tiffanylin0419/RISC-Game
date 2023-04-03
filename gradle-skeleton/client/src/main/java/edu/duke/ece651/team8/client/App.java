@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+<<<<<<< HEAD
 //public class App  extends Application{
 //
 //
@@ -73,6 +74,39 @@ public class App{
    * @throws IOException if creation of the ServerSocket fails.
    */
   public static void main(String[] args) throws IOException {
+=======
+public class App  extends Application{
+
+
+  private Stage stage;
+
+  //GUI
+  /*
+  private ServerStream serverStream;
+  @Override
+  public void start(Stage stage) throws IOException {
+    try{
+      String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
+      int port = 8080; // set the port number
+      this.stage = stage;
+      this.serverStream = new ServerStream(hostname,port);
+
+      FXMLLoader loaderStart = new FXMLLoader(App.class.getResource("/fxml/StartPage.fxml"));
+      loaderStart.setControllerFactory(c -> new StartPageController(stage,serverStream));
+      Scene scene = new Scene(loaderStart.load());
+      stage.setScene(scene);
+      stage.show();
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+  }*/
+
+  
+  //text player
+  @Override
+  public void start(Stage stage) throws IOException {
+>>>>>>> 6a1f483 (wierd)
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
     int port = 8080; // set the port number
