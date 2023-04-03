@@ -16,28 +16,12 @@ import javafx.stage.Stage;
 
 public class App  extends Application{
 
-//  @Override
-//  public void start(Stage stage) throws IOException {
-//
-//    GUI gui=new GUI(960, 720, stage);
-//    gui.LoginScene();
-//    new Thread(() -> {
-//      try {
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
-//        int port = 8080; // set the port number
-//        ClientGUI clientGUI = new ClientGUI(port, hostname, in, gui); // create a new client instance
-//        clientGUI.run(); // connect the client to the server
-//      }
-//      catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//    }).start();
-//  }
 
-
-  private ServerStream serverStream;
   private Stage stage;
+
+  //GUI
+  /*
+  private ServerStream serverStream;
   @Override
   public void start(Stage stage) throws IOException {
     try{
@@ -55,7 +39,19 @@ public class App  extends Application{
     catch(Exception e) {
       e.printStackTrace();
     }
+  }*/
+
+  //text player
+  @Override
+  public void start(Stage stage) throws IOException {
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
+    int port = 8080; // set the port number
+    Client client = new Client(port, hostname,in); // create a new client instance
+    client.run(); // connect the client to the server
   }
+
+
 
   /**
    * This main method runs the client, on localhost and port 1651.
@@ -64,15 +60,7 @@ public class App  extends Application{
    * @throws IOException if creation of the ServerSocket fails.
   */
   public static void main(String[] args) throws IOException {
-    //use this part to have UI
     launch();
-
-    //use this part to have text output
-    /*BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
-    int port = 8080; // set the port number
-    Client client = new Client(port, hostname,in); // create a new client instance
-    client.run(); // connect the client to the server*/
   }
 
 }
