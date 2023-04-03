@@ -50,5 +50,4 @@ public interface Map {
 
   ArrayList<Player> getPlayers();
   public String getOutcome();
-  public int getOnlinePlayerSize();
 }

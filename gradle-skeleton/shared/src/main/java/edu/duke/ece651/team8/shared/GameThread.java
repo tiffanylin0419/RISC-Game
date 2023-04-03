@@ -72,7 +72,6 @@ public class GameThread extends Thread {
                     while (t.getState() != Thread.State.WAITING) {
                     }
                 }
-//                theMap.doCombats();
                 notifyClients();
             }
         } finally {
