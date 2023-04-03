@@ -45,4 +45,8 @@ public interface Map {
    * @return the outcome information for all the combats
    */
   String doCombats();
+
+  void addPlayers(ArrayList<Player> players);
+
+  ArrayList<Player> getPlayers();
 }
