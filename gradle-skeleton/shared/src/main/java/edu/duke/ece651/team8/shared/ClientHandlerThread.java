@@ -20,7 +20,7 @@ public class ClientHandlerThread extends Thread {
     final String END_OF_TURN = "END_OF_TURN";
     private String mapInfo;
     /** Map of the game */
-    private final Map theMap;
+    private Map theMap;
     /** View of the map */
     protected View mapView;
 
@@ -37,7 +37,6 @@ public class ClientHandlerThread extends Thread {
      * @param output
      * @param inputStream
      * @param reader
-     * @param theMap
      * @param player
      * @param gameServer
      * @throws IOException
@@ -51,7 +50,7 @@ public class ClientHandlerThread extends Thread {
         this.theMap = theMap;
         this.player = player;
         this.mapView = new MapTextView();
-        this.mapInfo = "empty map";
+        this.mapInfo = mapView.displayMap(theMap);
         this.winnerName = null;
         this.gameServer = gameServer;
     }
@@ -111,7 +110,7 @@ public class ClientHandlerThread extends Thread {
 
     private void endPlacementPhase() {
         String prompt = "Placement phase is done!\n";
-        mapInfo = "empty map";//mapView.displayMap(theMap);
+        mapInfo = mapView.displayMap(theMap);
         send(prompt,output);
         send(mapInfo,output);
     }
@@ -126,9 +125,9 @@ public class ClientHandlerThread extends Thread {
         if(!player.isConnected()) interrupt(); //!!!
         send(num, output);
         placeUnitForTerritories(prompt);
-        endPlacementPhase();
         // wait for the server to finish processing messages
         doSynchronization();
+        endPlacementPhase();
     }
 
     private boolean hasWinner() {
@@ -183,6 +182,7 @@ public class ClientHandlerThread extends Thread {
     public void setWinner(String winner) {
         winnerName = winner;
     }
+//    public Map getMap() {return theMap;}
     /**
      * Report result after each turn of the game
      * #1 send outcome
@@ -191,23 +191,25 @@ public class ClientHandlerThread extends Thread {
      * #4 send if there is a winner
      */
     public void reportResult() {
-            String outcome = theMap.doCombats();
-            hasWinner();
-            mapInfo = "empty map";//mapView.displayMap(theMap);
-            send(outcome, output);
-            send(mapInfo,output);
-            if (player.isDefeated()) {
-                String prompt = "lose";
-                send(prompt, output);
-            } else {
-                String prompt = "continue";
-                send(prompt, output);
-            }
-            if (this.winnerName == null) {
-                send("no winner", output);
-            } else {
-                send(this.winnerName, output);
-            }
+//        theMap = gameServer.getTheMap();
+        theMap.doCombats();
+        String outcome = theMap.getOutcome();
+        hasWinner();
+        mapInfo = mapView.displayMap(theMap);
+        send(outcome, output);
+        send(mapInfo,output);
+        if (player.isDefeated()) {
+            String prompt = "lose";
+            send(prompt, output);
+        } else {
+            String prompt = "continue";
+            send(prompt, output);
+        }
+        if (this.winnerName == null) {
+            send("no winner", output);
+        } else {
+            send(this.winnerName, output);
+        }
         doSynchronization();
     }
     /**

@@ -10,7 +10,7 @@ public interface View {
      * Get map string
      * @return the string of map information
      */
-    String displayMap(ArrayList<Player> players);
+    String displayMap(Map theMap);
 
     /**
      * Add the current territory unit display information to sb

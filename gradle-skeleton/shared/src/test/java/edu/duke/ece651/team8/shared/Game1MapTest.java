@@ -91,10 +91,11 @@ public class Game1MapTest {
     Player player3 = new Player("p3");
     territory1.moveIn(new BasicUnit(20, player1));
     territory1.moveIn(new BasicUnit(4, player2));
-    assertEquals("Player p1 wins combat in a\n", map.doCombats());
-
+    map.doCombats();
+    assertEquals("Player p1 wins combat in a\n", map.getOutcome());
     territory1.moveIn(new BasicUnit(20, player2));
     territory1.moveIn(new BasicUnit(1000, player3));
-    assertEquals("Player p3 wins combat in a\n", map.doCombats());
+    map.doCombats();
+    assertEquals("Player p3 wins combat in a\n", map.getOutcome());
   }
 }
