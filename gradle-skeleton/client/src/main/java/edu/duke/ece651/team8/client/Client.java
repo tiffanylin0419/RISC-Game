@@ -6,17 +6,7 @@ import java.net.*;
 
 /** Client pattern of the game*/
 public class Client {
-    /** Client socket for communicate with server */
-    protected Socket socket;
-    /** OutStream to server */
-    protected PrintWriter output;
-    /** InputStreams from server */
-    protected InputStream inputStream;
-    /** Reader for server message*/
-    protected BufferedReader reader;
-    /** Buffer for message from server */
-    protected String buffer;
-    /** Output stream of the client*/
+    protected ServerStream serverStream;
     protected PrintStream out;
     /** Input stream of the client, like terminal input*/
     protected BufferedReader input;
@@ -38,29 +28,10 @@ public class Client {
      * @param host is the address of the server
      */
     public Client(int port, String host,BufferedReader in) throws IOException {
-        this(new Socket(host, port), System.out, in);
-    }
-
-    /**
-     * @param out is the output stream of the client
-     */
-    public Client(int port, String host, PrintStream out, BufferedReader in) throws IOException {
-        this(new Socket(host,port), out,in);
-    }
-    public Client(Socket s, PrintStream out,BufferedReader in) throws IOException {
-        this(s,null,null,out,in,null);
-        this.inputStream = s.getInputStream();
-        this.reader = new BufferedReader(new InputStreamReader(inputStream));
-        this.output = new PrintWriter(s.getOutputStream());
-    }
-    public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) {
-        this.socket = s;
-        this.inputStream = inputStream;
-        this.reader = br;
-        this.out = out;
+        this.serverStream=new ServerStream(host,port);
+        this.out = System.out;
         this.input = in;
         this.winner = "no winner";
-        this.output = output;
     }
 
     /** execute the client */
@@ -73,19 +44,15 @@ public class Client {
             doInitialPlacement();
             receivePlacementResult();
             doAllTurns();
-            reader.close();
-            inputStream.close();
-            socket.close();
+            serverStream.close();
         } catch (IOException e) {
             out.println(e.getMessage());
         }
     }
     public void receivePlacementResult() throws IOException{
-        receive();
-        out.println(buffer);
+        out.println(serverStream.read());
         receiveMap();
         displayMap();
-
     }
     public void doAllTurns() throws IOException {
         while(!isOver()) {//keep running if no one wins
@@ -120,39 +87,11 @@ public class Client {
         }
     }
     /**
-     * Receive the string info from the server into serverBuffer
-     */
-    public void receive() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append(reader.readLine());
-        String receivedLine = reader.readLine();
-        if(receivedLine==null){
-            throw new IOException("");
-        }
-        while(!receivedLine.equals(END_OF_TURN)) {
-            sb.append("\n").append(receivedLine);
-            receivedLine = reader.readLine();
-        }
-        buffer = sb.toString();
-    }
-
-    /**
-     * Send one message to server
-     * @param message the message to send
-     */
-    public void send(String message) {
-        output.println(message);
-        output.println(END_OF_TURN);
-        output.flush(); // flush the output buffer
-    }
-
-    /**
      * receive color string from server
      * @throws IOException if something wrong with receive
      */
     public void receiveColor()throws  IOException{
-        receive();
-        color = buffer;
+        color = serverStream.read();
     }
 
     /**
@@ -160,22 +99,18 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void receiveMap()throws  IOException{
-        receive();
-        mapInfo = buffer;
+        mapInfo = serverStream.read();
     }
     public void receiveCombatOutcome()throws  IOException{
-        receive();
-        combatOutcome = buffer;
+        combatOutcome = serverStream.read();
     }
 
     public void receiveWinner()throws  IOException{
-        receive();
-        winner = buffer;
+        winner = serverStream.read();
     }
 
     public void receiveLoseStatus()throws IOException{
-        receive();
-        if(buffer.equals("lose")){
+        if(serverStream.read().equals("lose")){
             isDefeated = true;
         }
     }
@@ -189,14 +124,12 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void doInitialPlacement() throws IOException{
-        receive();
-        int placementTimes = Integer.parseInt(buffer);
+        int placementTimes = Integer.parseInt(serverStream.read());
         for(int i = 0; i < placementTimes;i++){
             do {
-                receive();
                 while (true) {
                     try {
-                        tryInputUnitNumberToPlace(buffer, input);
+                        tryInputUnitNumberToPlace(serverStream.read(), input);
                     } catch (Exception e) {
                         out.println(e.getMessage());
                         out.println("Please input a valid placement!");
@@ -204,9 +137,8 @@ public class Client {
                     }
                     break;
                 }
-                receive();
-                out.println(buffer);
-            } while (!buffer.equals("valid\n"));
+                out.println(serverStream.read());
+            } while (!serverStream.getBuffer().equals("valid\n"));
         }
     }
 
@@ -220,7 +152,7 @@ public class Client {
         out.print(prompt);
         String s = input.readLine();
         if(isPositiveInt(s)){
-            send(s);
+            serverStream.send(s);
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
         }
@@ -243,10 +175,9 @@ public class Client {
         String choice;
         label:
         while(true) {
-            receive();
             while (true) {
                 try {
-                    choice = tryChooseOneAction(buffer, input);
+                    choice = tryChooseOneAction(serverStream.read(), input);
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());
                     System.out.println("Please input an valid action choice");
@@ -288,7 +219,7 @@ public class Client {
         String s = input.readLine();
         if(isValidChoice(s)){
 //            System.out.println("xxxxxx"+s + "xxxxxx");
-            send(s);
+            serverStream.send(s);
             return s;
         }else{
             throw new IllegalArgumentException("Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)");
@@ -309,25 +240,21 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public String doOneMove()throws IOException{
-        receive();
         while (true) {
             try {
-                trySendUnitNumber(buffer,input);
+                trySendUnitNumber(serverStream.read(),input);
             } catch (IllegalArgumentException e) {
                 out.println(e.getMessage());
                 continue;
             }
             break;
         }
-        receive();
-        trySendSourceTerritory(buffer,input);
-        receive();
-        trySendDestinationTerritory(buffer,input);
-        receive();
-        if(!buffer.equals("")){
-            out.println(buffer);
+        trySendSourceTerritory(serverStream.read(),input);
+        trySendDestinationTerritory(serverStream.read(),input);
+        if(!serverStream.read().equals("")){
+            out.println(serverStream.getBuffer());
         }
-        return buffer;
+        return serverStream.getBuffer();
     }
 
     /**
@@ -341,7 +268,7 @@ public class Client {
         out.println(prompt);
         String s = input.readLine();
         if(isPositiveInt(s)){
-            send(s);
+            serverStream.send(s);
         }else{
             throw new IllegalArgumentException("Units number should be non_negative number");
         }
@@ -356,7 +283,7 @@ public class Client {
     public void trySendSourceTerritory(String prompt,BufferedReader input)throws IOException{
         out.println(prompt);
         String s = input.readLine();
-        send(s);
+        serverStream.send(s);
     }
 
     /**
