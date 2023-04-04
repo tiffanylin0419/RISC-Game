@@ -10,6 +10,7 @@ import java.rmi.ServerError;
 import javafx.application.Platform;
 import edu.duke.ece651.team8.client.controller.StartPageController;
 import edu.duke.ece651.team8.client.controller.PlacementController;
+import edu.duke.ece651.team8.client.controller.WaitConnectController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,27 +32,13 @@ public class App  extends Application{
           this.stage = stage;
           this.serverStream = new ServerStream(hostname,port);
 
-          /*FXMLLoader loaderStart = new FXMLLoader(App.class.getResource("/fxml/StartPage.fxml"));
-          loaderStart.setControllerFactory(c -> new StartPageController(stage,serverStream));*/
-          FXMLLoader loaderStart = new FXMLLoader(App.class.getResource("/fxml/Placement.fxml"));
-          loaderStart.setControllerFactory(c -> new PlacementController(stage,serverStream));
+          //FXMLLoader loaderStart = new FXMLLoader(App.class.getResource("/fxml/StartPage.fxml"));
+          //loaderStart.setControllerFactory(c -> new StartPageController(stage,serverStream));
+          FXMLLoader loaderStart = new FXMLLoader(App.class.getResource("/fxml/WaitConnect.fxml"));
+          loaderStart.setControllerFactory(c -> new WaitConnectController(stage,serverStream));
           Scene scene = new Scene(loaderStart.load());
           stage.setScene(scene);
           stage.show();
-
-            Thread t = new Thread(() -> {
-                try {
-                    PlacementController placementController = loaderStart.getController();
-                    String message = serverStream.read();
-                    System.out.println(message);
-                    Platform.runLater(()->placementController.setPlayer(message));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            t.setDaemon(true);
-            t.start();
-
 
         }
         catch(Exception e) {

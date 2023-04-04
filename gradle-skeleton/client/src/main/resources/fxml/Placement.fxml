@@ -30,16 +30,22 @@
         </StackPane>
     </center>
     <bottom>
-        <VBox prefHeight="46.0" prefWidth="700.0">
-            <Label text="Message: ">
-                <VBox.margin>
-                    <Insets left="20.0" />
-                </VBox.margin></Label>
-            <Label fx:id="errorMessage" text="Error:">
-                <VBox.margin>
-                    <Insets left="20.0" />
-                </VBox.margin></Label>
-        </VBox>
+        <HBox>
+            <VBox prefHeight="46.0" prefWidth="550.0">
+                <Label fx:id="message"  text="Message: ">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin></Label>
+                <Label fx:id="errorMessage" text="Error:">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin></Label>
+            </VBox>
+            <TextField fx:id="unit"  prefHeight="26.0" prefWidth="50.0" />
+            <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" />
+
+        </HBox>
+
     </bottom>
 </BorderPane>
 

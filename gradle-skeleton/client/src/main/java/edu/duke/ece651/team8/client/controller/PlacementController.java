@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.application.Platform;
 
 import javafx.fxml.Initializable;
 
@@ -19,28 +19,64 @@ public class PlacementController {
 
     public ServerStream serverStream;
     private Stage stage;
-    public String usernameString;
-    public String passwordString;
 
+    private int placementCount = 0;
+    private boolean haveMessage=true;
     @FXML
     Label color;
 
     @FXML
+    TextField unit;
+
+    @FXML
+    Label message;
+    @FXML
     Label errorMessage;
 
-    public void receiveColor()throws  IOException{
-        color.setText("Player: "+serverStream.read());
-    }
+    @FXML
+    Button enter;
 
 
-    public PlacementController(Stage stage, ServerStream ss) {
+    public PlacementController(Stage stage, ServerStream ss, String colors, String messages) {
         this.stage = stage;
         this.serverStream = ss;
+        Platform.runLater(() -> {
+            color.setText("Player: " + colors);
+            message.setText("Message: " + messages);
+        });
     }
 
     @FXML
-    public void setPlayer(String playerName) {
-        color.setText("Player: "+playerName);
+    public void enter() throws IOException {
+
+        //FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ChooseGamePage.fxml"));
+
+        try {
+            String s =unit.getText();
+            unit.clear();
+            if(Integer.parseInt(s) > 0){
+                serverStream.send(s);
+            }else{
+                throw new IllegalArgumentException(placementCount+"Units number should be non_negative number");
+            }
+            haveMessage=true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(placementCount+"Please input a valid placement!");
+            haveMessage=false;
+        }
+        if(haveMessage) {
+            System.out.println(serverStream.read());
+        }
+        if(serverStream.getBuffer().equals("valid\n")){
+            placementCount+=1;
+            haveMessage=true;
+        }else{
+            haveMessage=false;
+        }
+        if(haveMessage) {
+            System.out.print(serverStream.read());
+        }
     }
 }
 
