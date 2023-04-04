@@ -21,7 +21,7 @@ public class PlacementController {
     private Stage stage;
 
     private int placementCount = 0;
-    private boolean haveMessage=true;
+    private int total=36;
     @FXML
     Label color;
 
@@ -37,13 +37,29 @@ public class PlacementController {
     Button enter;
 
 
+    private void setColor(String colors){
+        Platform.runLater(() -> {
+            color.setText("Player: " + colors);
+        });
+    }
+
+    private void setMessage(String messages){
+        Platform.runLater(() -> {
+            message.setText("Message: " + messages);
+        });
+    }
+
+    private void setErrorMessage(String errorMessages){
+        Platform.runLater(() -> {
+            errorMessage.setText("Error: " + errorMessages);
+        });
+    }
+
     public PlacementController(Stage stage, ServerStream ss, String colors, String messages) {
         this.stage = stage;
         this.serverStream = ss;
-        Platform.runLater(() -> {
-            color.setText("Player: " + colors);
-            message.setText("Message: " + messages);
-        });
+        setColor(colors);
+        setMessage(messages);
     }
 
     @FXML
@@ -54,28 +70,24 @@ public class PlacementController {
         try {
             String s =unit.getText();
             unit.clear();
-            if(Integer.parseInt(s) > 0){
-                serverStream.send(s);
-            }else{
-                throw new IllegalArgumentException(placementCount+"Units number should be non_negative number");
+            setErrorMessage("");
+            if(Integer.parseInt(s) <= 0){
+                throw new IllegalArgumentException("Units number should be non_negative number");
+            }else if(Integer.parseInt(s) > total-5+placementCount){
+                throw new IllegalArgumentException("Units number too big");
             }
-            haveMessage=true;
+            else{
+                serverStream.send(s);
+                total-=Integer.parseInt(s);
+            }
+            setErrorMessage(serverStream.read());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(placementCount+"Please input a valid placement!");
-            haveMessage=false;
+            setErrorMessage(e.getMessage());
         }
-        if(haveMessage) {
-            System.out.println(serverStream.read());
-        }
+
         if(serverStream.getBuffer().equals("valid\n")){
             placementCount+=1;
-            haveMessage=true;
-        }else{
-            haveMessage=false;
-        }
-        if(haveMessage) {
-            System.out.print(serverStream.read());
+            setMessage(serverStream.read());
         }
     }
 }
