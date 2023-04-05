@@ -1,6 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
-public interface Unit {
+public interface Army {
 
   /**
    * add n to amount

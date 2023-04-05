@@ -1,6 +1,5 @@
 package edu.duke.ece651.team8.shared;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -42,8 +41,8 @@ public class BasicTerritoryTest {
     Player p1=new TextPlayer("red");
     Player p2=new TextPlayer("blue");
     Territory t = new BasicTerritory(s,p1);
-    t.moveIn(new BasicUnit(1,p1));
-    t.moveIn(new BasicUnit(2,p2));
+    t.moveIn(new BasicArmy(1,p1));
+    t.moveIn(new BasicArmy(2,p2));
     assertTrue(t.isOwner(p1));
     assertTrue(p1.containsTerritory(t));
 
@@ -51,7 +50,7 @@ public class BasicTerritoryTest {
     assertTrue(t.isOwner(p1));
     assertTrue(p1.containsTerritory(t));
 
-    t.moveOut(new BasicUnit(1,p1));
+    t.moveOut(new BasicArmy(1,p1));
     t.attack();
 
     t.changeOwner();
@@ -102,17 +101,17 @@ public class BasicTerritoryTest {
     Player p3=new TextPlayer("green");
     Territory territory=new BasicTerritory("a",p1);
     //move in
-    territory.moveIn(new BasicUnit(5,p1));
-    territory.moveIn(new BasicUnit(3,p1));
+    territory.moveIn(new BasicArmy(5,p1));
+    territory.moveIn(new BasicArmy(3,p1));
     assertEquals(8,territory.getUnitAmount(0));
-    territory.moveIn(new BasicUnit(3,p2));
+    territory.moveIn(new BasicArmy(3,p2));
     assertEquals(8,territory.getUnitAmount(0));
     assertEquals(3,territory.getUnitAmount(1));
     //move out
-    territory.moveOut(new BasicUnit(1,p2));
+    territory.moveOut(new BasicArmy(1,p2));
     assertEquals(8,territory.getUnitAmount(0));
     assertEquals(2,territory.getUnitAmount(1));
-    territory.moveOut(new BasicUnit(8,p1));
+    territory.moveOut(new BasicArmy(8,p1));
 
     assertEquals(0,territory.getUnitAmount(0));
     assertEquals(2,territory.getUnitAmount(1));
@@ -126,8 +125,8 @@ public class BasicTerritoryTest {
     Player p2=new TextPlayer("blue");
     Territory territory=new BasicTerritory("a",p1);
     //p1 3,p2 2
-    territory.moveIn(new BasicUnit(3,p1));
-    territory.moveIn(new BasicUnit(2,p2));
+    territory.moveIn(new BasicArmy(3,p1));
+    territory.moveIn(new BasicArmy(2,p2));
     territory.attack();
     assertEquals(1,territory.getUnitsSize());
   }
@@ -140,11 +139,11 @@ public class BasicTerritoryTest {
      Player p5=new TextPlayer("bb");
      Territory territory=new BasicTerritory("a",p2);
       //p1 4,p2 1,p3 4,p4 1,p5 4,
-      territory.moveIn(new BasicUnit(4,p1));
-      territory.moveIn(new BasicUnit(0,p2));
-      territory.moveIn(new BasicUnit(4,p3));
-      territory.moveIn(new BasicUnit(1,p4));
-      territory.moveIn(new BasicUnit(4,p5));
+      territory.moveIn(new BasicArmy(4,p1));
+      territory.moveIn(new BasicArmy(0,p2));
+      territory.moveIn(new BasicArmy(4,p3));
+      territory.moveIn(new BasicArmy(1,p4));
+      territory.moveIn(new BasicArmy(4,p5));
       assertEquals(4,territory.getOwnerUnitAmount());
       territory.attack();
       assertEquals(1,territory.getUnitsSize());
@@ -162,13 +161,13 @@ public class BasicTerritoryTest {
     ArrayList<Player> players=factory.createPlayers(1,theMap);
 
     Player p1=players.get(0);
-    theMap.getTerritories().get(0).moveIn(new BasicUnit(5,p1));
-    theMap.getTerritories().get(0).moveOut(new BasicUnit(2,p1));
-    theMap.getTerritories().get(1).moveIn(new BasicUnit(4,p1));
-    theMap.getTerritories().get(2).moveIn(new BasicUnit(3,p1));
-    theMap.getTerritories().get(3).moveIn(new BasicUnit(2,p1));
-    theMap.getTerritories().get(4).moveIn(new BasicUnit(1,p1));
-    theMap.getTerritories().get(5).moveIn(new BasicUnit(9,p1));
+    theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
+    theMap.getTerritories().get(0).moveOut(new BasicArmy(2,p1));
+    theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
+    theMap.getTerritories().get(2).moveIn(new BasicArmy(3,p1));
+    theMap.getTerritories().get(3).moveIn(new BasicArmy(2,p1));
+    theMap.getTerritories().get(4).moveIn(new BasicArmy(1,p1));
+    theMap.getTerritories().get(5).moveIn(new BasicArmy(9,p1));
 
     assertEquals(1,theMap.getTerritories().get(0).getUnitsSize());
     assertEquals(3,theMap.getTerritories().get(0).getUnitAmount(0));
@@ -192,11 +191,11 @@ public class BasicTerritoryTest {
     Territory territory = new BasicTerritory("a");
     Player p1 = new Player("p1");
     Player p2 = new Player("p2");
-    Unit unit1 = new BasicUnit(6, p1);
-    Unit unit2 = new BasicUnit(5, p2);
+    Army army1 = new BasicArmy(6, p1);
+    Army army2 = new BasicArmy(5, p2);
     assertEquals(0, territory.getOwnerUnitAmount());
-    territory.moveIn(unit1);
-    territory.moveIn(unit2);
+    territory.moveIn(army1);
+    territory.moveIn(army2);
 
     assertEquals(6, territory.getOwnerUnitAmount());
     territory.setOwner(p2);

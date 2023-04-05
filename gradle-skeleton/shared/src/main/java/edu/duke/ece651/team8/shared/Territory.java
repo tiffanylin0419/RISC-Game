@@ -70,18 +70,18 @@ public interface Territory {
   boolean isAdjacentEnemy(Territory adjacent);
 
   /**
-   * add unit_in into units
+   * add army_in into units
    * will modify existing list if units have unit that has the same owner
-   * @param unit_in the unit to move
+   * @param army_in the unit to move
    */
-  void moveIn(Unit unit_in);
+  void moveIn(Army army_in);
 
   /**
    * move out the amount of units
    *
-   * @param unit_out the unit to move
+   * @param army_out the unit to move
    */
-  void moveOut(Unit unit_out);
+  void moveOut(Army army_out);
 
   /**
    * resolve the condition when the units list have a size > 1

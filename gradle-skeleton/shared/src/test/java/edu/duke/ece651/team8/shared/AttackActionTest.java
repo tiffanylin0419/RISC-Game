@@ -17,8 +17,8 @@ class AttackActionTest {
         ArrayList<Territory> territories=map.getTerritories();
         Territory s=territories.get(0);
         Territory d=territories.get(7);
-        s.moveIn(new BasicUnit(4,players.get(0)));
-        d.moveIn(new BasicUnit(5,players.get(1)));
+        s.moveIn(new BasicArmy(4,players.get(0)));
+        d.moveIn(new BasicArmy(5,players.get(1)));
 
         Action action1=new AttackAction(players.get(0),"a1","b2",3,map);
         assertTrue(action1.isValidSource());
@@ -51,8 +51,8 @@ class AttackActionTest {
         Territory s=territories.get(0);
         Territory d=territories.get(6);
         //a1,b2
-        s.moveIn(new BasicUnit(4,players.get(0)));
-        d.moveIn(new BasicUnit(5,players.get(1)));
+        s.moveIn(new BasicArmy(4,players.get(0)));
+        d.moveIn(new BasicArmy(5,players.get(1)));
 
         Action action1=new AttackAction(players.get(0),"a1","b1",3,map);
         assertNull(map.getChecker().checkAllRule(action1));

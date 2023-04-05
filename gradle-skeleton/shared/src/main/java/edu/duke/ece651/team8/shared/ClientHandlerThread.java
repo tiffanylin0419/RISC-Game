@@ -3,7 +3,6 @@ package edu.duke.ece651.team8.shared;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClientHandlerThread extends Thread {
     private Socket clientSocket;
@@ -98,14 +97,14 @@ public class ClientHandlerThread extends Thread {
         // the left rounds
         int diff = size - index - 1;
         if (diff > (curr - input)) {
-            throw new IllegalArgumentException("Unit amount is not valid!");
+            throw new IllegalArgumentException("Army amount is not valid!");
         }
         return true;
     }
     private void setUnitInTerritory(Territory t) {
         int amount = Integer.parseInt(buffer);
-        Unit unit = new BasicUnit(amount, t.getOwner());
-        t.moveIn(unit);
+        Army army = new BasicArmy(amount, t.getOwner());
+        t.moveIn(army);
     }
 
     private void endPlacementPhase() {
@@ -176,8 +175,8 @@ public class ClientHandlerThread extends Thread {
                 }
             }
         }
-        Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
-        territories.get(size - 1).moveIn(unit);
+        Army army = new BasicArmy(curr, territories.get(size - 1).getOwner());
+        territories.get(size - 1).moveIn(army);
     }
     public void setWinner(String winner) {
         winnerName = winner;

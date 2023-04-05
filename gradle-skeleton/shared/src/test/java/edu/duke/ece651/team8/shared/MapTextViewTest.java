@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +28,7 @@ class MapTextViewTest {
         Map m = new Game1Map();
         Territory t = new BasicTerritory("Planto");
         Player p = new TextPlayer("Green");
-        Unit u = new BasicUnit(5, p);
+        Army u = new BasicArmy(5, p);
         t.moveIn(u);
         m.addTerritory(t);
         MapTextView v = new MapTextView();
