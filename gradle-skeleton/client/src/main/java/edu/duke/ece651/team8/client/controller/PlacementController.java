@@ -84,9 +84,10 @@ public class PlacementController implements Initializable {
     public void enter() throws IOException {
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
         doOnePlacement();
-        if(placeNum<0){
+        if(placeNum<=0){
             mapS = serverStream.read();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please enter action"));
+            messageS=serverStream.read();
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, messageS, mapS));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();
@@ -119,7 +120,7 @@ public class PlacementController implements Initializable {
         String s =input.getText();
         input.clear();
         setErrorMessage("");
-        if(isPositiveInt(s)){
+        if(!isPositiveInt(s)){
             throw new IllegalArgumentException("Units number should be non_negative number");
         }
         else{
@@ -132,7 +133,10 @@ public class PlacementController implements Initializable {
      * @return true is >=0. Otherwise, false
      */
     public boolean isPositiveInt(String number){
-        return Integer.parseInt(number) > 0;
+        try{return Integer.parseInt(number) > 0;}
+        catch(Exception e) {
+            return false;
+        }
     }
 }
 

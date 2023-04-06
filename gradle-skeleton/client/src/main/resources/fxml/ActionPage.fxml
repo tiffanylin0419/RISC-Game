@@ -7,16 +7,36 @@
 
 <BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.team8.client.controller.ActionController">
     <top>
-        <VBox>
-            <Label fx:id="color" text="Player: ">
-                <VBox.margin>
-                    <Insets left="20.0" top="10.0" />
-                </VBox.margin></Label>
-            <Label text="Level:">
-                <VBox.margin>
-                    <Insets left="20.0" />
-                </VBox.margin></Label>
-        </VBox>
+        <HBox>
+            <VBox>
+                <Label fx:id="color" text="Player: ">
+                    <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                    </VBox.margin></Label>
+                <Label text="Level:">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin></Label>
+            </VBox>
+            <Button fx:id="show" mnemonicParsing="false" onAction="#showAction" text="Show">
+            <HBox.margin>
+               <Insets left="70.0" top="10.0" />
+            </HBox.margin></Button>
+            <Button fx:id="move" mnemonicParsing="false" onAction="#moveAction" text="Move">
+            <HBox.margin>
+               <Insets left="30.0" top="10.0" />
+            </HBox.margin></Button>
+            <Button fx:id="attack" mnemonicParsing="false" onAction="#attackAction" text="Attack">
+            <HBox.margin>
+               <Insets left="30.0" top="10.0" />
+            </HBox.margin></Button>
+            <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="doneAction" onAction="#enter" text="Done">
+            <HBox.margin>
+               <Insets left="30.0" top="10.0" />
+            </HBox.margin></Button>
+
+        </HBox>
+
 
 
     </top>
@@ -32,7 +52,7 @@
     <bottom>
         <HBox>
             <VBox prefHeight="46.0" prefWidth="550.0">
-                <Label fx:id="message"  text="Message: ">
+                <Label fx:id="message" text="Message: ">
                     <VBox.margin>
                         <Insets left="20.0" />
                     </VBox.margin></Label>
@@ -41,11 +61,10 @@
                         <Insets left="20.0" />
                     </VBox.margin></Label>
             </VBox>
-            <TextField fx:id="input"  prefHeight="26.0" prefWidth="50.0" />
+            <TextField fx:id="input" prefHeight="26.0" prefWidth="50.0" />
             <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" />
 
         </HBox>
 
     </bottom>
 </BorderPane>
-

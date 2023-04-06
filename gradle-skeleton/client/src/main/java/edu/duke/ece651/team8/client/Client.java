@@ -184,7 +184,10 @@ public class Client {
      * @return true is >=0. Otherwise, false
      */
     public boolean isPositiveInt(String number){
-        return Integer.parseInt(number) > 0;
+        try{return Integer.parseInt(number) > 0;}
+        catch(Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -206,24 +209,26 @@ public class Client {
                 }
                 break;
             }
-//            System.out.println("===========" + choice + "===========");
             switch (choice) {
                 case "M":
                     if (doOneMove().equals("")) {
                         System.out.println("Successfully moved\n");
-                        continue;
+                    }
+                    else{
+                        System.out.println("Action failed\n");
                     }
                     break;
                 case "A":
                     if (doOneAttack().equals("")) {
                         System.out.println("Successfully attacked\n");
-                        continue;
+                    }
+                    else{
+                        System.out.println("Action failed\n");
                     }
                     break;
                 case "D":
                     break label;
             }
-            System.out.println("Action failed\n");
         }
     }
 
