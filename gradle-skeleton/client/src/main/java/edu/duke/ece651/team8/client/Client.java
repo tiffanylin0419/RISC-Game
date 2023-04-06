@@ -29,24 +29,12 @@ public class Client {
      * @param host is the address of the server
      */
     public Client(int port, String host,BufferedReader in) throws IOException {
-        this(new Socket(host, port), System.out, in);
         this.serverStream=new ServerStream(host,port);
-    }
-
-    /**
-     * @param out is the output stream of the client
-     */
-    public Client(int port, String host, PrintStream out, BufferedReader in) throws IOException {
-        this(new Socket(host,port), out,in);
-    }
-    public Client(Socket s, PrintStream out,BufferedReader in) throws IOException {
-        this(s,null,null,out,in,null);
-    }
-    public Client(Socket s,InputStream inputStream, BufferedReader br, PrintStream out,BufferedReader in, PrintWriter output) {
-        this.out = out;
+        this.out = System.out;
         this.input = in;
         this.winner = "no winner";
     }
+
 
     /** execute the client */
     public void run() {
