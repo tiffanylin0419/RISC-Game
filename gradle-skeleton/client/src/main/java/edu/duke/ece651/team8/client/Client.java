@@ -68,14 +68,9 @@ public class Client {
         displayCombatOutcome();
         receiveMap();
         displayMap();
-        if(!isDefeated){
-            receiveLoseStatus();
-            //first time print lose information
-            if (isDefeated){
-                out.println("You lose.");
-            }
-        }else{
-            receiveLoseStatus();
+        receiveLoseStatus();
+        if (isDefeated){
+            out.println("You lose.");
         }
         receiveWinner();
         if(isOver()){

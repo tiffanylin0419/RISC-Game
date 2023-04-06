@@ -26,7 +26,7 @@ public class PlacementController {
     Label color;
 
     @FXML
-    TextField unit;
+    TextField input;
 
     @FXML
     Label message;
@@ -64,12 +64,10 @@ public class PlacementController {
 
     @FXML
     public void enter() throws IOException {
-
-        //FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ChooseGamePage.fxml"));
-
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
         try {
-            String s =unit.getText();
-            unit.clear();
+            String s =input.getText();
+            input.clear();
             setErrorMessage("");
             if(Integer.parseInt(s) <= 0){
                 throw new IllegalArgumentException("Units number should be non_negative number");
@@ -88,6 +86,17 @@ public class PlacementController {
         if(serverStream.getBuffer().equals("valid\n")){
             placementCount+=1;
             setMessage(serverStream.read());
+        }
+        if(placementCount>=5){
+            String map = serverStream.read();
+            System.out.println("map: "+map);
+
+            loaderStart.setControllerFactory(c->{
+                return new ActionController(stage,serverStream,color.getText(), "Please enter action");
+            });
+            Scene scene = new Scene(loaderStart.load());
+            stage.setScene(scene);
+            stage.show();
         }
     }
 }
