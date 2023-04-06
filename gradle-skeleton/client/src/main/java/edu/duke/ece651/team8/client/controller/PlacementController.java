@@ -83,16 +83,20 @@ public class PlacementController implements Initializable {
     @FXML
     public void enter() throws IOException {
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
+        doOnePlacement();
+        if(placeNum<0){
+            mapS = serverStream.read();
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please enter action"));
+            Scene scene = new Scene(loaderStart.load());
+            stage.setScene(scene);
+            stage.show();
+        }
+
+    }
+
+    public void doOnePlacement() throws IOException{
         try {
-            String s =input.getText();
-            input.clear();
-            setErrorMessage("");
-            if(Integer.parseInt(s) <= 0){
-                throw new IllegalArgumentException("Units number should be non_negative number");
-            }
-            else{
-                serverStream.send(s);
-            }
+            tryInputUnitNumberToPlace();
             setErrorMessage(serverStream.read());
         } catch (Exception e) {
             setErrorMessage(e.getMessage());
@@ -105,23 +109,23 @@ public class PlacementController implements Initializable {
         else{
             System.out.println(serverStream.getBuffer());
         }
-        //doOnePlacement();
+    }
 
-
-        if(placeNum<0){
-            mapS = serverStream.read();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please enter action"));
-            Scene scene = new Scene(loaderStart.load());
-            stage.setScene(scene);
-            stage.show();
+    /**
+     * User input the unit number to place
+     * @throws Exception if something wrong with receive
+     */
+    public void tryInputUnitNumberToPlace() throws IllegalArgumentException{
+        String s =input.getText();
+        input.clear();
+        setErrorMessage("");
+        if(isPositiveInt(s)){
+            throw new IllegalArgumentException("Units number should be non_negative number");
         }
-
+        else{
+            serverStream.send(s);
+        }
     }
-
-    public void doOnePlacement() throws IOException{
-
-    }
-
     /**
      * Determine if a string is a non-negative number string
      * @param number the string to be judged
