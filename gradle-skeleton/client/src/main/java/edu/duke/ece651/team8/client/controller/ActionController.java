@@ -60,7 +60,7 @@ public class ActionController {
     @FXML
     public void enter() throws IOException {
         //FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
-        try {
+        /*try {
             String s =input.getText();
             input.clear();
             setErrorMessage("");
@@ -79,7 +79,7 @@ public class ActionController {
             setMessage(serverStream.read());
         }
         String map = serverStream.read();
-        System.out.println("map: "+map);
+        System.out.println("map: "+map);*/
 
     }
     public void getResult() throws IOException {
@@ -98,7 +98,6 @@ public class ActionController {
         }else{
             receiveLoseStatus();
         }
-
         receiveWinner();
         if(isOver()){
             if(color.equals(winner)){
