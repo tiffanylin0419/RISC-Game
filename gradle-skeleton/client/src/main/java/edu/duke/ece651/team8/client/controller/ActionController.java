@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ActionController {
@@ -59,30 +60,12 @@ public class ActionController {
 
     @FXML
     public void enter() throws IOException {
-        //FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
-        /*try {
-            String s =input.getText();
-            input.clear();
-            setErrorMessage("");
-            if(Integer.parseInt(s) <= 0){
-                throw new IllegalArgumentException("Units number should be non_negative number");
-            }
-            else{
-                serverStream.send(s);
-            }
-            setErrorMessage(serverStream.read());
-        } catch (Exception e) {
-            setErrorMessage(e.getMessage());
-        }
 
-        if(serverStream.getBuffer().equals("valid\n")){
-            setMessage(serverStream.read());
-        }
-        String map = serverStream.read();
-        System.out.println("map: "+map);*/
+        //doAllTurns();
 
     }
-    public void getResult() throws IOException {
+
+    /*private void reportResult() throws IOException {
         String combatOutcome=serverStream.read();
         System.out.println(combatOutcome);
 
@@ -90,13 +73,9 @@ public class ActionController {
         System.out.println(mapInfo);
         //map display
 
-        if(!isDefeated){
-            receiveLoseStatus();
-            if (isDefeated){
-                System.out.println("You lose.");
-            }
-        }else{
-            receiveLoseStatus();
+        receiveLoseStatus();
+        if (isDefeated){
+            System.out.println("You lose.");
         }
         receiveWinner();
         if(isOver()){
@@ -107,14 +86,14 @@ public class ActionController {
             }
         }
     }
-    public boolean isOver(){
+    private boolean isOver(){
         return !winner.equals("no winner");
     }
-    public void receiveWinner() throws IOException{winner=serverStream.read();}
-    public void receiveLoseStatus() throws IOException{
+    private void receiveWinner() throws IOException{winner=serverStream.read();}
+    private void receiveLoseStatus() throws IOException{
         if(serverStream.read().equals("lose")){
             isDefeated = true;
         }
-    }
+    }*/
 
 }
