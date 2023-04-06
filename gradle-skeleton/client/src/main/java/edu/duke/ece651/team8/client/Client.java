@@ -52,11 +52,9 @@ public class Client {
         }
     }
     public void receivePlacementResult() throws IOException{
-        serverStream.receive();;
-        out.println(serverStream.getBuffer());
+        out.println(serverStream.read());
         receiveMap();
         displayMap();
-
     }
     public void doAllTurns() throws IOException {
         while(!isOver()) {//keep running if no one wins
@@ -104,22 +102,18 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void receiveMap()throws  IOException{
-        serverStream.receive();
-        mapInfo = serverStream.getBuffer();
+        mapInfo = serverStream.read();
     }
     public void receiveCombatOutcome()throws  IOException{
-        serverStream.receive();
-        combatOutcome = serverStream.getBuffer();
+        combatOutcome = serverStream.read();
     }
 
     public void receiveWinner()throws  IOException{
-        serverStream.receive();
-        winner = serverStream.getBuffer();
+        winner = serverStream.read();
     }
 
     public void receiveLoseStatus()throws IOException{
-        serverStream.receive();
-        if(serverStream.getBuffer().equals("lose")){
+        if(serverStream.read().equals("lose")){
             isDefeated = true;
         }
     }
@@ -133,8 +127,7 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void doInitialPlacement() throws IOException{
-        serverStream.receive();
-        int placementTimes = Integer.parseInt(serverStream.getBuffer());
+        int placementTimes = Integer.parseInt(serverStream.read());
         for(int i = 0; i < placementTimes;i++){
             do {
                 serverStream.receive();
@@ -148,8 +141,7 @@ public class Client {
                     }
                     break;
                 }
-                serverStream.receive();
-                out.println(serverStream.getBuffer());
+                out.println(serverStream.read());
             } while (!serverStream.getBuffer().equals("valid\n"));
         }
     }
@@ -263,12 +255,9 @@ public class Client {
             }
             break;
         }
-        serverStream.receive();
-        trySendSourceTerritory(serverStream.getBuffer(),input);
-        serverStream.receive();
-        trySendDestinationTerritory(serverStream.getBuffer(),input);
-        serverStream.receive();
-        if(!serverStream.getBuffer().equals("")){
+        trySendSourceTerritory(serverStream.read(),input);
+        trySendDestinationTerritory(serverStream.read(),input);
+        if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
         return serverStream.getBuffer();
