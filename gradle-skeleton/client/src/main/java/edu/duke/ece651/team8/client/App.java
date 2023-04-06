@@ -47,7 +47,7 @@ public class App  extends Application{
       }*/
 
     //text player
-    ///*
+    //*
     @Override
     public void start(Stage stage) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

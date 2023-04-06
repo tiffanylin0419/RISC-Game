@@ -11,11 +11,13 @@ import javafx.scene.control.*;
 import javafx.application.Platform;
 
 import javafx.fxml.Initializable;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import java.io.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class PlacementController {
+public class PlacementController implements Initializable {
 
     public ServerStream serverStream;
     private Stage stage;
@@ -36,6 +38,18 @@ public class PlacementController {
     @FXML
     Button enter;
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        color.setText("no color");
+        try {
+            receiveColor();
+            receiveMap();
+            System.out.println("else: "+serverStream.read());
+            String message=serverStream.read();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
 
     private void setColor(String colors){
         Platform.runLater(() -> {
@@ -55,16 +69,16 @@ public class PlacementController {
         });
     }
 
-    public PlacementController(Stage stage, ServerStream ss, String colors, String messages) {
+    public PlacementController(Stage stage, ServerStream ss) {
         this.stage = stage;
         this.serverStream = ss;
-        setColor(colors);
-        setMessage(messages);
     }
 
     @FXML
     public void enter() throws IOException {
-        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
+
+
+        /*FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
         try {
             String s =input.getText();
             input.clear();
@@ -97,7 +111,28 @@ public class PlacementController {
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();
-        }
+        }*/
     }
+
+
+
+
+
+    /**
+     * receive color string from server
+     * @throws IOException if something wrong with receive
+     */
+    public void receiveColor()throws  IOException{
+        setColor(serverStream.read());
+    }
+
+    /**
+     * receive map information from server
+     * @throws IOException if something wrong with receive
+     */
+    public void receiveMap()throws  IOException{
+        System.out.println(serverStream.read());
+    }
+
 }
 
