@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class WaitConnectController {
-    private String colorS="";
-    private String mapS="";
     private Stage stage;
 
     public ServerStream serverStream;
@@ -24,10 +22,17 @@ public class WaitConnectController {
     @FXML
     public void startPlacement() throws IOException {
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/Placement.fxml"));
-        loaderStart.setControllerFactory(c-> new PlacementController(stage,serverStream));
+        try {
+            String colors = serverStream.read();
+            String map = serverStream.read();
+            int placeNum=Integer.parseInt(serverStream.read());
+            String message=serverStream.read();
+            loaderStart.setControllerFactory(c-> new PlacementController(stage,serverStream, colors, message, map, placeNum));
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
     }
-
 }

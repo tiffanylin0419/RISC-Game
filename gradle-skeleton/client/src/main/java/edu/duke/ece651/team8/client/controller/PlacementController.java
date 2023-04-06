@@ -18,10 +18,13 @@ import java.io.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class PlacementController implements Initializable {
-
+    public String colorS;
+    public String messageS;
+    public String mapS;
     public ServerStream serverStream;
     private Stage stage;
 
+    private int placeNum;
     private int placementCount = 0;
     private int total=36;
     @FXML
@@ -38,18 +41,6 @@ public class PlacementController implements Initializable {
     @FXML
     Button enter;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        color.setText("no color");
-        try {
-            receiveColor();
-            receiveMap();
-            System.out.println("else: "+serverStream.read());
-            String message=serverStream.read();
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
-    }
 
     private void setColor(String colors){
         Platform.runLater(() -> {
@@ -63,22 +54,39 @@ public class PlacementController implements Initializable {
         });
     }
 
+    public void setMap(String maps){
+        System.out.println(maps);
+    }
+
     private void setErrorMessage(String errorMessages){
         Platform.runLater(() -> {
             errorMessage.setText("Error: " + errorMessages);
         });
     }
 
-    public PlacementController(Stage stage, ServerStream ss) {
+    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int placeNum) {
         this.stage = stage;
         this.serverStream = ss;
+        this.colorS=colorS;
+        this.messageS=messageS;
+        this.mapS=mapS;
+        this.placeNum=placeNum;
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setColor(colorS);
+        setMessage(messageS);
+        setMap(mapS);
+    }
+
+
 
     @FXML
     public void enter() throws IOException {
 
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
 
-        /*FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
         try {
             String s =input.getText();
             input.clear();
@@ -111,28 +119,8 @@ public class PlacementController implements Initializable {
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();
-        }*/
+        }
+
     }
-
-
-
-
-
-    /**
-     * receive color string from server
-     * @throws IOException if something wrong with receive
-     */
-    public void receiveColor()throws  IOException{
-        setColor(serverStream.read());
-    }
-
-    /**
-     * receive map information from server
-     * @throws IOException if something wrong with receive
-     */
-    public void receiveMap()throws  IOException{
-        System.out.println(serverStream.read());
-    }
-
 }
 
