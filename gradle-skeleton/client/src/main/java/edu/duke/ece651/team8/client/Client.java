@@ -126,7 +126,7 @@ public class Client {
      * if input is invalid, she needs to re-input
      * @throws IOException if something wrong with receive
      */
-    public void doInitialPlacement() throws IOException{
+    /*public void doInitialPlacement() throws IOException{
         int placementTimes = Integer.parseInt(serverStream.read());
         for(int i = 0; i < placementTimes;i++){
             do {
@@ -143,6 +143,23 @@ public class Client {
                 }
                 out.println(serverStream.read());
             } while (!serverStream.getBuffer().equals("valid\n"));
+        }
+    }*/
+    public void doInitialPlacement() throws IOException{
+        int placementTimes = Integer.parseInt(serverStream.read());
+        serverStream.receive();
+        int i=0;
+        while(i < placementTimes-1){
+            if(serverStream.getBuffer().equals("valid\n")){
+                serverStream.receive();
+                i++;
+            }
+            try {
+                tryInputUnitNumberToPlace(serverStream.getBuffer());
+                out.println(serverStream.read());
+            } catch (Exception e) {
+                out.println(e.getMessage());
+            }
         }
     }
 

@@ -25,8 +25,8 @@ public class PlacementController implements Initializable {
     private Stage stage;
 
     private int placeNum;
-    private int placementCount = 0;
-    private int total=36;
+
+    private boolean success=true;
     @FXML
     Label color;
 
@@ -80,25 +80,18 @@ public class PlacementController implements Initializable {
         setMap(mapS);
     }
 
-
-
     @FXML
     public void enter() throws IOException {
-
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
-
         try {
             String s =input.getText();
             input.clear();
             setErrorMessage("");
             if(Integer.parseInt(s) <= 0){
                 throw new IllegalArgumentException("Units number should be non_negative number");
-            }else if(Integer.parseInt(s) > total-5+placementCount){
-                throw new IllegalArgumentException("Units number too big");
             }
             else{
                 serverStream.send(s);
-                total-=Integer.parseInt(s);
             }
             setErrorMessage(serverStream.read());
         } catch (Exception e) {
@@ -106,21 +99,36 @@ public class PlacementController implements Initializable {
         }
 
         if(serverStream.getBuffer().equals("valid\n")){
-            placementCount+=1;
             setMessage(serverStream.read());
+            placeNum-=1;
         }
-        if(placementCount>=5){
-            String map = serverStream.read();
-            System.out.println("map: "+map);
+        else{
+            System.out.println(serverStream.getBuffer());
+        }
+        //doOnePlacement();
 
-            loaderStart.setControllerFactory(c->{
-                return new ActionController(stage,serverStream,color.getText(), "Please enter action");
-            });
+
+        if(placeNum<0){
+            mapS = serverStream.read();
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please enter action"));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();
         }
 
+    }
+
+    public void doOnePlacement() throws IOException{
+
+    }
+
+    /**
+     * Determine if a string is a non-negative number string
+     * @param number the string to be judged
+     * @return true is >=0. Otherwise, false
+     */
+    public boolean isPositiveInt(String number){
+        return Integer.parseInt(number) > 0;
     }
 }
 

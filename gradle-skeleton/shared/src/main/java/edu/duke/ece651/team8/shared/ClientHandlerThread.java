@@ -121,10 +121,9 @@ public class ClientHandlerThread extends Thread {
     public void doInitialPlacement(){
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
-        System.out.println(prompt);
         if(!player.isConnected()) interrupt(); //!!!
         send(num, output);
-        placeUnitForTerritories(prompt);
+        placeUnitForTerritories(prompt, num);
         // wait for the server to finish processing messages
         doSynchronization();
         endPlacementPhase();
@@ -142,20 +141,22 @@ public class ClientHandlerThread extends Thread {
      * In initial placement, place unit for all territories
      * @param prompt is prompt of the step to print out
      */
-    public void placeUnitForTerritories(String prompt) {
+    public void placeUnitForTerritories(String prompt, String num) {
         int curr = this.unitAmount;
         ArrayList<Territory> territories = player.getTerritories();
         int size = territories.size();
         for (int j = 0; j < size - 1; ++j) {
+            Territory t = territories.get(j);
+            send(prompt + t.getName() + " (" + curr + " units)\n", output);
             while (true) {
-                Territory t = territories.get(j);
+
                 if(!player.isConnected()) {
                     buffer = "1";
                     setUnitInTerritory(t);
                     break;
                 }
                 System.out.println("======="+t.getName()+"=======");
-                send(prompt + t.getName() + " (" + curr + " units)\n", output);
+
                 try {
                     receive(reader);
                     checkUnitNumValid(curr, j, size);
@@ -173,6 +174,10 @@ public class ClientHandlerThread extends Thread {
                     setUnitInTerritory(t);
                     curr = 1;
                     break;
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
+                    send("invalid\n", output);
                 }
             }
         }

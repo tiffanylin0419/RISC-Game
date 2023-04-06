@@ -34,7 +34,7 @@ public class ActionController {
 
     private void setColor(String colors){
         Platform.runLater(() -> {
-            color.setText(colors);
+            color.setText("Player: "+colors);
         });
     }
 
