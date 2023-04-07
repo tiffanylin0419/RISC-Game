@@ -66,6 +66,7 @@ public class Client {
     /** execute the client */
     public void run() {
         try {
+            receiveLoginAndSignup();
             receiveColor();
             receiveMap();
             displayColor();
@@ -79,6 +80,31 @@ public class Client {
         } catch (IOException e) {
             out.println(e.getMessage());
         }
+    }
+    public void receiveLoginAndSignup() throws IOException{
+        receive();
+        out.println(buffer);
+        String s = input.readLine();
+        if(s.equals("S")){
+            send(s);
+            receive();
+            out.println(buffer);
+            send(input.readLine());
+            receive();
+            out.println(buffer);
+            send(input.readLine());
+            receive();
+            out.println(buffer);
+            send(input.readLine());
+            receive();
+            out.println(buffer);
+            send(input.readLine());
+            receive();
+            out.println(buffer);
+        }else{ // need add L
+            throw new IllegalArgumentException("Should be L/S");
+        }
+
     }
     public void receivePlacementResult() throws IOException{
         receive();

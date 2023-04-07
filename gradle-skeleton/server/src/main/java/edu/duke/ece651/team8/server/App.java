@@ -21,15 +21,16 @@ public class App {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int num=0;
-        while(num<2 || num>4) {
-            System.out.println("Enter player number (between 2~4): ");
-            String line = reader.readLine();
-            try{num = Integer.parseInt(line);}
-            catch(NumberFormatException e){num=0;}
-        }
+//        while(num<2 || num>4) {
+//            System.out.println("Enter player number (between 2~4): ");
+//            String line = reader.readLine();
+//            try{num = Integer.parseInt(line);}
+//            catch(NumberFormatException e){num=0;}
+//        }
         System.out.println("Can now start connecting clients.");
         AbstractMapFactory factory = new V1MapFactory();
-        Server server = new Server(8080, num, factory);
+//        Server server = new Server(8080, num, factory);
+        Server server = new Server(8080, factory);
         server.run();
     }
 }
