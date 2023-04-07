@@ -104,9 +104,12 @@ public class ActionController implements Initializable {
             trySendUnitNumber(amount);
             trySendTerritory(source);
             trySendTerritory(destination);
-            setMessage(serverStream.getBuffer());
-            System.out.println("hihi"+serverStream.getBuffer()+"hihi");
-
+            String errorMessage=serverStream.read();
+            if(errorMessage.equals("")){
+                errorMessage="action suceed";
+            }
+            setErrorMessage(errorMessage);
+            setMessage(serverStream.read());
         }
         seeInput(false);
         moveButtonPressed=false;
@@ -137,9 +140,8 @@ public class ActionController implements Initializable {
      * @throws IOException if something wrong with receive
      */
     public void trySendUnitNumber(String num)throws IllegalArgumentException,IOException{
-        serverStream.send(num);
         serverStream.receive();
-        System.out.println(serverStream.getBuffer());
+        serverStream.send(num);
     }
     /**
      * try to send source territory
@@ -147,9 +149,8 @@ public class ActionController implements Initializable {
      * @throws IOException if something wrong with receive
      */
     public void trySendTerritory(String s)throws IOException{
-        serverStream.send(s);
         serverStream.receive();
-        System.out.println(serverStream.getBuffer());
+        serverStream.send(s);
     }
 
     /**

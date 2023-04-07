@@ -22,7 +22,7 @@ public class App  extends Application{
     private Stage stage;
 
     //GUI
-/*
+//*
       private ServerStream serverStream;
       @Override
       public void start(Stage stage) throws IOException {
@@ -44,10 +44,10 @@ public class App  extends Application{
         catch(Exception e) {
           e.printStackTrace();
         }
-      }*/
+      }//*/
 
     //text player
-    //*
+    /*
     @Override
     public void start(Stage stage) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -55,7 +55,7 @@ public class App  extends Application{
         int port = 8080; // set the port number
         Client client = new Client(port, hostname,in); // create a new client instance
         client.run(); // connect the client to the server
-    }//*/
+    }*/
 
 
 
