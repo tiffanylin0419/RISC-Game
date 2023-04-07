@@ -1,0 +1,50 @@
+package edu.duke.ece651.team8.shared;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class AbstractArmy implements Army{
+    protected Player owner;
+    protected List<Unit> units;
+    public AbstractArmy(int amount, Player owner){
+        this.owner=owner;
+        UnitFactory uf = new UnitFactory();
+        this.units = uf.makeBasicUnits(amount);
+    }
+    @Override
+    public void add(List<Unit> uList) {
+        for(Unit u : uList ) {
+            units.add(u);
+        }
+    }
+    @Override
+    public void addOne(Unit u) {
+        units.add(u);
+    }
+
+    @Override
+    public boolean removeOne(Unit u) {
+        return units.remove(u);
+    }
+    @Override
+    public boolean remove(List<Unit> uList) {
+        for(Unit u : uList) {
+            if(!units.remove(u)) return false;
+        }
+        return true;
+    }
+    @Override
+    public Player getOwner() {
+        return owner;
+    }
+
+    @Override
+    public List<Unit> getList() {
+        return units;
+    }
+    @Override
+    public int getAmount() {
+        return units.size();
+    }
+
+}

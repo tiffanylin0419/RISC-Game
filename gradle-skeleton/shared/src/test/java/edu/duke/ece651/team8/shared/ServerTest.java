@@ -30,7 +30,7 @@ public class ServerTest {
 //        when(mockSs.accept()).thenReturn(mockSocket);
 //
 //        ArrayList<Player> players=new ArrayList<>();
-//        players.add(new Player("Green"));
+//        players.addAmount(new Player("Green"));
 //
 //        // Create client thread with mock socket
 //        Server s = new Server(mockSs, 1, factory);

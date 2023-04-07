@@ -1,38 +1,43 @@
 package edu.duke.ece651.team8.shared;
 
+import java.util.List;
+
 public interface Army {
 
   /**
-   * add n to amount
-   * @param n the number of unit to add
+   * add 1 unit to list
    */
-  void add(int n);
-  
-  /**
-   * add 1 to amount
-   */
-  void addOne();
+  void addOne(Unit u);
 
   /**
-   * remove n from amount
-   * @param n the number of unit to remove
+   * add unit List to list
    */
-  void remove(int n);
-  
+  void add(List<Unit> uList);
+
   /**
-   * remove 1 from amount
+   * remove 1 from list
    * we call this function after we checked that the unit.isSurvive=True
    * so no need to tryRemoveOne
    */
-  void removeOne();
+  public boolean removeOne(Unit u);
+//  /**
+//   * remove unit List
+//   */
+//  void remove(List<Unit> uList);
 
+  public boolean remove(List<Unit> uList);
   /**
    * @return owner
    */
   Player getOwner();
 
   /**
-   * @return amount
+   * @return list of unit
+   */
+  List<Unit> getList();
+
+  /**
+   * @return amount of units
    */
   int getAmount();
 

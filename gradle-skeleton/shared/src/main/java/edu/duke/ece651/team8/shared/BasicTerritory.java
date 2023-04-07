@@ -108,7 +108,7 @@ public class BasicTerritory implements Territory {
     }
     for(Army army : this.armies){
       if(army.getOwner()== army_in.getOwner()){
-        army.add(army_in.getAmount());
+        army.add(army_in.getList());
         return;
       }
     }
@@ -118,7 +118,7 @@ public class BasicTerritory implements Territory {
   public void moveOut(Army army_out){
     for(Army army : armies){
       if(army.getOwner()== army_out.getOwner()){
-        army.remove(army_out.getAmount());
+        army.remove(army_out.getList());
         return;
       }
     }
@@ -129,16 +129,16 @@ public class BasicTerritory implements Territory {
    * This function process a one-unit fight between 2 armies from defender and attacker
    * the loser will lose one unit after the fight
    *
-   * @param u1 a unit of defender
-   * @param u2 a unit of attacker
+   * @param a1 a unit of defender
+   * @param a2 a unit of attacker
    */
-  private void fight1(Army u1, Army u2){
-    if(u1.isSurvive() && u2.isSurvive()){
-      if(u1.doRoll()<u2.doRoll()){//u2 win
-        u1.removeOne();
+  private void fight1(Army a1, Army a2){
+    if(a1.isSurvive() && a2.isSurvive()){
+      if(a1.doRoll()<a2.doRoll()){//u2 win
+        a1.removeOne(a1.getList().get(0));
       }
       else{//u1 win
-        u2.removeOne();
+        a2.removeOne(a2.getList().get(0));
       }
     }
   }
@@ -194,7 +194,8 @@ public class BasicTerritory implements Territory {
   @Override
   public void addOne(){
     if(armies.size()>0){
-      armies.get(0).addOne();
+      Unit u = new BasicUnit();
+      armies.get(0).addOne(u);
     }
   }
   @Override

@@ -46,11 +46,11 @@ public class Server {
 
     /** Execute the server */
     public void run() {
-        //add input player number
+        //addAmount input player number
         while(isListening) {
             try {
-                Socket clientSocket = server.accept();
-                new Thread(new ClientLoginHandler(clientSocket, this)).start();
+//                Socket clientSocket = server.accept();
+//                new Thread(new ClientLoginHandler(clientSocket, this)).start();
                 connectOneGame();
             } catch (IOException e) {
                 System.out.println(e.getMessage());

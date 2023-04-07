@@ -45,7 +45,7 @@ public interface Territory {
   boolean isOwner(Player owner);
 
   /**
-   * add adjacent into adjacent_territory
+   * addAmount adjacent into adjacent_territory
    *
    * @param adjacent the territory to be checked
    */
@@ -70,7 +70,7 @@ public interface Territory {
   boolean isAdjacentEnemy(Territory adjacent);
 
   /**
-   * add army_in into units
+   * addAmount army_in into units
    * will modify existing list if units have unit that has the same owner
    * @param army_in the unit to move
    */
@@ -89,12 +89,12 @@ public interface Territory {
    * if 2 units: defender wins when there is a tie
    * if >2 units: the left one wins when there is a tie
    * units will be left with only one unit, which will become the owner
-   * add one unit to the owner
+   * addAmount one unit to the owner
    */
   void attack();
 
   /**
-   * add one to the unit that belongs to the owner
+   * addAmount one to the unit that belongs to the owner
    */
   void addOne();
 

@@ -56,7 +56,7 @@ public class Player {
   public ArrayList<Territory> getTerritories(){return territories;}
 
   /**
-   * add t to territories
+   * addAmount t to territories
    * @param t territory
    */
   public void addTerritory(Territory t){
