@@ -10,6 +10,7 @@ import java.rmi.ServerError;
 import javafx.application.Platform;
 import edu.duke.ece651.team8.client.controller.StartPageController;
 import edu.duke.ece651.team8.client.controller.PlacementController;
+import edu.duke.ece651.team8.client.controller.WaitConnectController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -84,6 +85,7 @@ import javafx.stage.Stage;
 //        launch();
 //    }
 public class App{
+
     /**
      * This main method runs the client, on localhost and port 1651.
      * Specifically, it creates an instance and calls run.

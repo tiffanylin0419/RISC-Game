@@ -50,7 +50,7 @@ public class ClientHandlerThread extends Thread {
         this.player = player;
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(theMap);
-        this.winnerName = null;
+        this.winnerName = "";
         this.gameServer = gameServer;
     }
     @Override
@@ -58,7 +58,7 @@ public class ClientHandlerThread extends Thread {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            while(this.winnerName == null) {//keep running if no one wins
+            while(this.winnerName == "") {//keep running if no one wins
                 issueOrders();
                 reportResult();
             }
@@ -120,41 +120,38 @@ public class ClientHandlerThread extends Thread {
     public void doInitialPlacement(){
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
-        System.out.println(prompt);
         if(!player.isConnected()) interrupt(); //!!!
         send(num, output);
-        placeUnitForTerritories(prompt);
+        placeUnitForTerritories(prompt, num);
         // wait for the server to finish processing messages
         doSynchronization();
         endPlacementPhase();
     }
 
-    private boolean hasWinner() {
-        if (player.isWinner(theMap.getTerritories().size())) {
-            this.winnerName = player.getColor();
-            return true;
-        }
-        return false;
+    private void getWinner() {
+        this.winnerName = theMap.getWinner();
     }
 
     /**
      * In initial placement, place unit for all territories
      * @param prompt is prompt of the step to print out
      */
-    public void placeUnitForTerritories(String prompt) {
+    public void placeUnitForTerritories(String prompt, String num) {
         int curr = this.unitAmount;
         ArrayList<Territory> territories = player.getTerritories();
         int size = territories.size();
         for (int j = 0; j < size - 1; ++j) {
+            Territory t = territories.get(j);
+            send(prompt + t.getName() + " (" + curr + " units)\n", output);
             while (true) {
-                Territory t = territories.get(j);
+
                 if(!player.isConnected()) {
                     buffer = "1";
                     setUnitInTerritory(t);
                     break;
                 }
                 System.out.println("======="+t.getName()+"=======");
-                send(prompt + t.getName() + " (" + curr + " units)\n", output);
+
                 try {
                     receive(reader);
                     checkUnitNumValid(curr, j, size);
@@ -172,6 +169,10 @@ public class ClientHandlerThread extends Thread {
                     setUnitInTerritory(t);
                     curr = 1;
                     break;
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
+                    send("invalid\n", output);
                 }
             }
         }
@@ -195,7 +196,7 @@ public class ClientHandlerThread extends Thread {
         doSynchronization();
         String outcome = theMap.getOutcome();
         System.out.println("outcome:" + outcome);
-        hasWinner();
+
         mapInfo = mapView.displayMap(theMap);
         send(outcome, output);
         send(mapInfo,output);
@@ -206,7 +207,8 @@ public class ClientHandlerThread extends Thread {
             String prompt = "continue";
             send(prompt, output);
         }
-        if (this.winnerName == null) {
+        getWinner();
+        if (this.winnerName == "") {
             send("no winner", output);
         } else {
             send(this.winnerName, output);
@@ -278,11 +280,12 @@ public class ClientHandlerThread extends Thread {
      */
     public String doMoveOrder() throws IOException{
         doOneTransmission("Please enter the number of units to move:");
-        int num = Integer.parseInt(buffer);
-
+        int num=-1;
+        if(isPositiveInt(buffer)){
+            num = Integer.parseInt(buffer);
+        }
         doOneTransmission("Please enter the source territory:");
         String source = buffer;
-
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         Action ac = new MoveAction(player, source, destination, num, theMap);
@@ -296,11 +299,12 @@ public class ClientHandlerThread extends Thread {
      */
     public String doAttackOrder() throws IOException{
         doOneTransmission("Please enter the number of units to attack:");
-        int num = Integer.parseInt(buffer);
-
+        int num=-1;
+        if(isPositiveInt(buffer)){
+            num = Integer.parseInt(buffer);
+        }
         doOneTransmission("Please enter the source territory:");
         String source = buffer;
-
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(player, source, destination, num, theMap); //Change move to attack
@@ -336,5 +340,16 @@ public class ClientHandlerThread extends Thread {
         buffer = sb.toString();
     }
 
+    /**
+     * Determine if a string is a non-negative number string
+     * @param number the string to be judged
+     * @return true is >=0. Otherwise, false
+     */
+    public boolean isPositiveInt(String number){
+        try{return Integer.parseInt(number) > 0;}
+        catch(Exception e) {
+            return false;
+        }
+    }
 
 }
