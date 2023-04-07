@@ -11,6 +11,9 @@ public class NumberRuleChecker extends ActionRuleChecker {
      * @return null if valid
      */
     protected String checkMyRule(Action action){
+        if(action.getCount()<0){
+            return "Unit number need to be positive";
+        }
         if(action.getCount()<=action.getSource().getOwnerUnitAmount()){
             return null;
         }

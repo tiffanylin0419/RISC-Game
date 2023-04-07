@@ -22,7 +22,7 @@ public class App  extends Application{
     private Stage stage;
 
     //GUI
-
+//*
       private ServerStream serverStream;
       @Override
       public void start(Stage stage) throws IOException {
@@ -44,9 +44,7 @@ public class App  extends Application{
         catch(Exception e) {
           e.printStackTrace();
         }
-
-
-      }
+      }//*/
 
     //text player
     /*

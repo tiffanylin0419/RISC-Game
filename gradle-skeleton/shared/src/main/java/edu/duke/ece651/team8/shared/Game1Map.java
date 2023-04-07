@@ -2,6 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.SimpleTimeZone;
 
 public class Game1Map implements Map {
   // field
@@ -99,6 +100,14 @@ public class Game1Map implements Map {
   @Override
   public String getOutcome() {return combatOutcome;}// not enabled right now
 
-
+  @Override
+  public String getWinner(){
+    for(Player p: players){
+      if(p.getTerritories().size()==territories.size()){
+        return p.getColor();
+      }
+    }
+    return "";
+  }
 }
 
