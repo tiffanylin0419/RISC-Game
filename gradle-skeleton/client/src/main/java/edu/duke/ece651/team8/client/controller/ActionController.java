@@ -25,29 +25,17 @@ public class ActionController implements Initializable {
     private String winner="no winner";
     private boolean isDefeated=false;
     private boolean moveButtonPressed=false;
+    private boolean attackButtonPressed=false;
     @FXML
-    Label color;
-    @FXML
-    TextField input1;
-    @FXML
-    TextField input2;
-    @FXML
-    TextField input3;
-    @FXML
-    Label message;
-    @FXML
-    Label errorMessage;
+    Label color, message, errorMessage;
     @FXML
     Button enter;
-
     @FXML
-    Button show;
+    Button show, move, attack, done;
     @FXML
-    Button move;
+    Label in1, in2, in3;
     @FXML
-    Button attack;
-    @FXML
-    Button done;
+    TextField input1, input2, input3;
 
     public void setMap(String maps){
         System.out.println(maps);
@@ -79,10 +67,18 @@ public class ActionController implements Initializable {
         this.mapS=maps;
     }
     private void seeInput(boolean canSee){
+        in1.setVisible(canSee);
+        in2.setVisible(canSee);
+        in3.setVisible(canSee);
         input1.setVisible(canSee);
         input2.setVisible(canSee);
         input3.setVisible(canSee);
         enter.setVisible(canSee);
+        if(!canSee){
+            input1.clear();
+            input2.clear();
+            input3.clear();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,22 +93,31 @@ public class ActionController implements Initializable {
     public void enter() throws IOException {
         if(moveButtonPressed){
             serverStream.send("M");
-            String amount =input1.getText();
-            String source =input2.getText();
-            String destination =input3.getText();
-            setErrorMessage("");
-            trySendUnitNumber(amount);
-            trySendTerritory(source);
-            trySendTerritory(destination);
-            String errorMessage=serverStream.read();
-            if(errorMessage.equals("")){
-                errorMessage="action suceed";
-            }
-            setErrorMessage(errorMessage);
-            setMessage(serverStream.read());
+            actionMoveAttack();
+            moveButtonPressed=false;
+        }
+        else if(attackButtonPressed){
+            serverStream.send("A");
+            actionMoveAttack();
+            attackButtonPressed=false;
         }
         seeInput(false);
-        moveButtonPressed=false;
+    }
+
+    private void actionMoveAttack() throws IOException {
+        String amount =input1.getText();
+        String source =input2.getText();
+        String destination =input3.getText();
+        setErrorMessage("");
+        trySendUnitNumber(amount);
+        trySendTerritory(source);
+        trySendTerritory(destination);
+        String errorMessage=serverStream.read();
+        if(errorMessage.equals("")){
+            errorMessage="action succeed";
+        }
+        setErrorMessage(errorMessage);
+        setMessage(serverStream.read());
     }
 
     @FXML
@@ -120,17 +125,25 @@ public class ActionController implements Initializable {
     }
 
     @FXML
-    public void moveAction() throws IOException {
+    public void moveAction(){
         moveButtonPressed=true;
         seeInput(true);
     }
 
     @FXML
-    public void attackAction() throws IOException {
+    public void attackAction(){
+        attackButtonPressed=true;
+        seeInput(true);
     }
 
     @FXML
     public void doneAction() throws IOException {
+        //send D
+
+        //if isOver, go to result page
+        //if isDefeated, lock all buttons
+        //load page again
+
     }
 
     /**
@@ -153,17 +166,6 @@ public class ActionController implements Initializable {
         serverStream.send(s);
     }
 
-    /**
-     * Determine if a string is a non-negative number string
-     * @param number the string to be judged
-     * @return true is >=0. Otherwise, false
-     */
-    public boolean isPositiveInt(String number){
-        try{return Integer.parseInt(number) > 0;}
-        catch(Exception e) {
-            return false;
-        }
-    }
 
     /*private void reportResult() throws IOException {
         String combatOutcome=serverStream.read();
