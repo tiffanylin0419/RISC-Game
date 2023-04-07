@@ -28,7 +28,11 @@ public class ActionController implements Initializable {
     @FXML
     Label color;
     @FXML
-    TextField input;
+    TextField input1;
+    @FXML
+    TextField input2;
+    @FXML
+    TextField input3;
     @FXML
     Label message;
     @FXML
@@ -74,82 +78,78 @@ public class ActionController implements Initializable {
         this.messageS=messages;
         this.mapS=maps;
     }
+    private void seeInput(boolean canSee){
+        input1.setVisible(canSee);
+        input2.setVisible(canSee);
+        input3.setVisible(canSee);
+        enter.setVisible(canSee);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setColor(colorS);
         setMessage(messageS);
         setMap(mapS);
-        input.setVisible(false);
-        enter.setVisible(false);
+        seeInput(false);
     }
 
 
     @FXML
     public void enter() throws IOException {
         if(moveButtonPressed){
-            String s =input.getText();
-            if(isPositiveInt(s)){
-                setErrorMessage(s);
-            }
+            serverStream.send("M");
+            String amount =input1.getText();
+            String source =input2.getText();
+            String destination =input3.getText();
+            setErrorMessage("");
+            trySendUnitNumber(amount);
+            trySendTerritory(source);
+            trySendTerritory(destination);
+            setMessage(serverStream.getBuffer());
+            System.out.println("hihi"+serverStream.getBuffer()+"hihi");
+
         }
+        seeInput(false);
         moveButtonPressed=false;
     }
 
     @FXML
     public void showAction() throws IOException {
-        String s =input.getText();
     }
 
     @FXML
     public void moveAction() throws IOException {
         moveButtonPressed=true;
-        input.setVisible(true);
-        enter.setVisible(true);
+        seeInput(true);
     }
 
     @FXML
     public void attackAction() throws IOException {
-        String s =input.getText();
     }
 
     @FXML
     public void doneAction() throws IOException {
-        String s =input.getText();
     }
 
     /**
      * try to send a valid unit number
-     * @param prompt the prompt for input
+     * @param num the num to send
      * @throws IllegalArgumentException invalid unit number input
      * @throws IOException if something wrong with receive
      */
-    public void trySendUnitNumber(String prompt)throws IllegalArgumentException,IOException{
-        System.out.println(prompt);
-        String s = input.getText();
-        if(isPositiveInt(s)){
-            serverStream.send(s);
-        }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
-        }
+    public void trySendUnitNumber(String num)throws IllegalArgumentException,IOException{
+        serverStream.send(num);
+        serverStream.receive();
+        System.out.println(serverStream.getBuffer());
     }
     /**
      * try to send source territory
-     * @param prompt the prompt for input
+     * @param s the string to send
      * @throws IOException if something wrong with receive
      */
-    public void trySendSourceTerritory(String prompt)throws IOException{
-        System.out.println(prompt);
-        String s = input.getText();
+    public void trySendTerritory(String s)throws IOException{
         serverStream.send(s);
-    }
-
-    /**
-     * try to send destination territory
-     * @param prompt the prompt for input
-     * @throws IOException if something wrong with receive
-     */
-    public void trySendDestinationTerritory(String prompt)throws IOException{
-        trySendSourceTerritory(prompt);
+        serverStream.receive();
+        System.out.println(serverStream.getBuffer());
     }
 
     /**

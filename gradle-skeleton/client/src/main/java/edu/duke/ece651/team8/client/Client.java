@@ -265,18 +265,9 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public String doOneMove()throws IOException{
-        serverStream.receive();
-        while (true) {
-            try {
-                trySendUnitNumber(serverStream.getBuffer());
-            } catch (IllegalArgumentException e) {
-                out.println(e.getMessage());
-                continue;
-            }
-            break;
-        }
-        trySendSourceTerritory(serverStream.read());
-        trySendDestinationTerritory(serverStream.read());
+        trySendUnitNumber(serverStream.read());
+        trySendTerritory(serverStream.read());
+        trySendTerritory(serverStream.read());
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
@@ -289,14 +280,10 @@ public class Client {
      * @throws IllegalArgumentException invalid unit number input
      * @throws IOException if something wrong with receive
      */
-    public void trySendUnitNumber(String prompt)throws IllegalArgumentException,IOException{
+    public void trySendUnitNumber(String prompt)throws IOException{
         out.println(prompt);
         String s = input.readLine();
-        if(isPositiveInt(s)){
-            serverStream.send(s);
-        }else{
-            throw new IllegalArgumentException("Units number should be non_negative number");
-        }
+        serverStream.send(s);
     }
 
     /**
@@ -304,20 +291,12 @@ public class Client {
      * @param prompt the prompt for input
      * @throws IOException if something wrong with receive
      */
-    public void trySendSourceTerritory(String prompt)throws IOException{
+    public void trySendTerritory(String prompt)throws IOException{
         out.println(prompt);
         String s = input.readLine();
         serverStream.send(s);
     }
 
-    /**
-     * try to send destination territory
-     * @param prompt the prompt for input
-     * @throws IOException if something wrong with receive
-     */
-    public void trySendDestinationTerritory(String prompt)throws IOException{
-        trySendSourceTerritory(prompt);
-    }
 
     /**
      * user do attack phase
@@ -325,7 +304,6 @@ public class Client {
      * @return null if not actually conduct
      */
     public String doOneAttack()throws IOException{
-        //to do
         return doOneMove();
     }
     /**

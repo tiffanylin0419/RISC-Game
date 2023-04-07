@@ -284,11 +284,12 @@ public class ClientHandlerThread extends Thread {
      */
     public String doMoveOrder() throws IOException{
         doOneTransmission("Please enter the number of units to move:");
-        int num = Integer.parseInt(buffer);
-
+        int num=-1;
+        if(isPositiveInt(buffer)){
+            num = Integer.parseInt(buffer);
+        }
         doOneTransmission("Please enter the source territory:");
         String source = buffer;
-
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         Action ac = new MoveAction(player, source, destination, num, theMap);
@@ -302,11 +303,12 @@ public class ClientHandlerThread extends Thread {
      */
     public String doAttackOrder() throws IOException{
         doOneTransmission("Please enter the number of units to attack:");
-        int num = Integer.parseInt(buffer);
-
+        int num=-1;
+        if(isPositiveInt(buffer)){
+            num = Integer.parseInt(buffer);
+        }
         doOneTransmission("Please enter the source territory:");
         String source = buffer;
-
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(player, source, destination, num, theMap); //Change move to attack
@@ -342,5 +344,16 @@ public class ClientHandlerThread extends Thread {
         buffer = sb.toString();
     }
 
+    /**
+     * Determine if a string is a non-negative number string
+     * @param number the string to be judged
+     * @return true is >=0. Otherwise, false
+     */
+    public boolean isPositiveInt(String number){
+        try{return Integer.parseInt(number) > 0;}
+        catch(Exception e) {
+            return false;
+        }
+    }
 
 }

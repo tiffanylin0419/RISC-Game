@@ -51,7 +51,7 @@
     </center>
     <bottom>
         <HBox>
-            <VBox prefHeight="46.0" prefWidth="550.0">
+            <VBox prefHeight="46.0" prefWidth="450.0">
                 <Label fx:id="message" text="Message: ">
                     <VBox.margin>
                         <Insets left="20.0" />
@@ -61,8 +61,23 @@
                         <Insets left="20.0" />
                     </VBox.margin></Label>
             </VBox>
-            <TextField fx:id="input" prefHeight="26.0" prefWidth="50.0" />
-            <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" />
+
+            <VBox>
+                <Label fx:id="in1" text="amount" />
+                <TextField fx:id="input1" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
+            <VBox>
+                <Label fx:id="in2" text="source" />
+                <TextField fx:id="input2" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
+            <VBox>
+                <Label fx:id="in3" text="destination" />
+                <TextField fx:id="input3" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
+            <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter">
+            <HBox.margin>
+               <Insets top="17.0" />
+            </HBox.margin></Button>
 
         </HBox>
 
