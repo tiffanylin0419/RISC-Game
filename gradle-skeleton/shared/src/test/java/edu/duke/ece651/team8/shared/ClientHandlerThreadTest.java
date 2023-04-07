@@ -46,7 +46,7 @@ class ClientHandlerThreadTest {
 //        Socket cliSocket = ss.accept();
 //        List<Socket> clis = new ArrayList<>();
 //
-//        clis.add(cliSocket);
+//        clis.addAmount(cliSocket);
 //        GameThread th = new GameThread(clis, factory);
 //        th.start();
 //
@@ -130,7 +130,7 @@ class ClientHandlerThreadTest {
 //        Socket cliSocket = ss.accept();
 //        List<Socket> clis = new ArrayList<>();
 //
-//        clis.add(cliSocket);
+//        clis.addAmount(cliSocket);
 //        GameThread th = new GameThread(clis, factory);
 //        th.start();
 //
@@ -216,8 +216,8 @@ class ClientHandlerThreadTest {
 //        Player mockPlayer2= mock(Player.class);
 //        Map mockMap= mock(Map.class);
 //        List<Player> p = new ArrayList<>();
-//        p.add(mockPlayer);
-//        p.add(mockPlayer2);
+//        p.addAmount(mockPlayer);
+//        p.addAmount(mockPlayer2);
 //
 //        AbstractMapFactory factory = new V1MapFactory();
 //        ServerSocket ss = new ServerSocket(1291);
@@ -229,8 +229,8 @@ class ClientHandlerThreadTest {
 //        Socket cliSocket = ss.accept();
 //        Socket cliSocket1 = ss.accept();
 //        List<Socket> clis = new ArrayList<Socket>();
-//        clis.add(cliSocket);
-//        clis.add(cliSocket1);
+//        clis.addAmount(cliSocket);
+//        clis.addAmount(cliSocket1);
 //
 //        GameThread gameThread = new GameThread(clis, factory);
 //        when(mockPlayer.isWinner(6)).thenReturn(true);
@@ -269,7 +269,7 @@ class ClientHandlerThreadTest {
 //        // Create mock objects
 //        BufferedReader mockReader = mock(BufferedReader.class);
 //        List<BufferedReader> r = new ArrayList<>();
-//        r.add(mockReader);
+//        r.addAmount(mockReader);
 //
 //        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 //        PrintStream output = new PrintStream(bytes, true);
@@ -279,7 +279,7 @@ class ClientHandlerThreadTest {
 //
 //        Socket cliSocket = ss.accept();
 //        List<Socket> clis = new ArrayList<Socket>();
-//        clis.add(cliSocket);
+//        clis.addAmount(cliSocket);
 //
 //        GameThread gameThread = new GameThread(clis, factory);
 //        // Set the mock BufferedReader object on the gameThread
@@ -317,8 +317,8 @@ class ClientHandlerThreadTest {
 //        Socket cliSocket = ss.accept();
 //        Socket cliSocket1 = ss.accept();
 //        List<Socket> clis = new ArrayList<Socket>();
-//        clis.add(cliSocket);
-//        clis.add(cliSocket1);
+//        clis.addAmount(cliSocket);
+//        clis.addAmount(cliSocket1);
 //        GameThread th = new GameThread(clis, factory);
 //        // create a new thread and start it
 //        Thread thread = new Thread(() -> {
@@ -398,7 +398,7 @@ class ClientHandlerThreadTest {
 //        Socket cliSocket = socket.accept();
 //        List<Socket> clients = new ArrayList<>();
 //
-//        clients.add(cliSocket);
+//        clients.addAmount(cliSocket);
 //        GameThread thread = new GameThread(clients, factory);
 //        thread.start();
 //

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class Game1MapTest {
@@ -89,12 +88,12 @@ public class Game1MapTest {
     Player player1 = new Player("p1");
     Player player2 = new Player("p2");
     Player player3 = new Player("p3");
-    territory1.moveIn(new BasicUnit(20, player1));
-    territory1.moveIn(new BasicUnit(4, player2));
+    territory1.moveIn(new BasicArmy(20, player1));
+    territory1.moveIn(new BasicArmy(4, player2));
     map.doCombats();
     assertEquals("Player p1 wins combat in a\n", map.getOutcome());
-    territory1.moveIn(new BasicUnit(20, player2));
-    territory1.moveIn(new BasicUnit(1000, player3));
+    territory1.moveIn(new BasicArmy(20, player2));
+    territory1.moveIn(new BasicArmy(1000, player3));
     map.doCombats();
     assertEquals("Player p3 wins combat in a\n", map.getOutcome());
   }

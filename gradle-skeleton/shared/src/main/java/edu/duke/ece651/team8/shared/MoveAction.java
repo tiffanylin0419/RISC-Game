@@ -12,8 +12,8 @@ public class MoveAction extends Action{
         return getDestination().isOwner(getPlayer());
     }
     protected void doAction(){
-        getSource().moveOut(new BasicUnit(super.getCount(),super.getPlayer()));
-        getDestination().moveIn(new BasicUnit(super.getCount(),super.getPlayer()));
+        getSource().moveOut(new BasicArmy(super.getCount(),super.getPlayer()));
+        getDestination().moveIn(new BasicArmy(super.getCount(),super.getPlayer()));
     }
     protected boolean isValidPath(){
         return getSource().isAdjacentSelf(getDestination());

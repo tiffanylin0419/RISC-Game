@@ -1,17 +1,16 @@
 package edu.duke.ece651.team8.shared;
 
-public class BasicUnit implements Unit{
-    private final int level = 0;
-    private final String type = "Servant";
-    private final int bonus = 0;
-    private final int upgradeCost = 3;
+public class LevelOneUnit implements Unit{
+    private final int level = 1;
+    private final String type = "Assassin";
+    private final int bonus = 1;
+    private final int upgradeCost = 8;
     //constructor
 
     @Override
     public Unit upgrade() {
-        return new LevelOneUnit();
+        return new LevelTwoUnit();
     }
-
 
     @Override
     public int getUpgradeCost() {

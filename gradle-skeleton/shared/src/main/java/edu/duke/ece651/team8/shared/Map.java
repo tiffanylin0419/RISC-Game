@@ -5,7 +5,7 @@ import java.util.Iterator;
 public interface Map {
 
   /**
-   * add t to territories
+   * addAmount t to territories
    * @param t territory to be added
    */
    void addTerritory(Territory t);
@@ -28,7 +28,7 @@ public interface Map {
   ArrayList<Territory> getTerritories();
 
   /**
-   * add adjacent connection between t1 and t2
+   * addAmount adjacent connection between t1 and t2
    * will update the adjacent_territory field in t1 and t2
    * @param t1 territory to be connected
    * @param t2 territory to be connected

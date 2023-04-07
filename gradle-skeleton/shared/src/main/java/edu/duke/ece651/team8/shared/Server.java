@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Server {
@@ -16,7 +17,7 @@ public class Server {
     protected AbstractMapFactory factory;
     /** Boolean indicate whether the server is listening or not*/
     private boolean isListening;
-
+    private HashMap<String, String> users;
     /**
      * Constructs a server with specified port
      *
@@ -34,6 +35,7 @@ public class Server {
         this.clientNum = clientNum;
         this.factory = factory;
         this.isListening = true;
+        this.users = new HashMap<>();
     }
     /**
      * @return the port of the server socket
@@ -44,9 +46,11 @@ public class Server {
 
     /** Execute the server */
     public void run() {
-        //add input player number
+        //addAmount input player number
         while(isListening) {
             try {
+//                Socket clientSocket = server.accept();
+//                new Thread(new ClientLoginHandler(clientSocket, this)).start();
                 connectOneGame();
             } catch (IOException e) {
                 System.out.println(e.getMessage());

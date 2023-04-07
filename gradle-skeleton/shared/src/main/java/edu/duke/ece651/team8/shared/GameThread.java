@@ -111,13 +111,13 @@ public class GameThread extends Thread {
 //        // the left rounds
 //        int diff = size - index - 1;
 //        if (diff > (curr - input)) {
-//            throw new IllegalArgumentException("Unit amount is not valid!");
+//            throw new IllegalArgumentException("Army amount is not valid!");
 //        }
 //        return true;
 //    }
 //    private void setUnitInTerritory(Territory t) {
 //        int amount = Integer.parseInt(buffer);
-//        Unit unit = new BasicUnit(amount, t.getOwner());
+//        Army unit = new BasicArmy(amount, t.getOwner());
 //        t.moveIn(unit);
 //    }
 //
@@ -193,7 +193,7 @@ public class GameThread extends Thread {
 //                }
 //            }
 //        }
-//        Unit unit = new BasicUnit(curr, territories.get(size - 1).getOwner());
+//        Army unit = new BasicArmy(curr, territories.get(size - 1).getOwner());
 //        territories.get(size - 1).moveIn(unit);
 //    }
 //    public void setWinner(String winner) {

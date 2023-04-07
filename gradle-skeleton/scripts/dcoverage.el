@@ -9,7 +9,7 @@
 (require 'elquery)
 (require 'gradle-mode)
 
-(defgroup dcoverage nil "Shows unit test coverage in colors in source code buffers.")
+(defgroup dcoverage nil "Shows army test coverage in colors in source code buffers.")
 
 (defcustom dcoverage-covered-stm-color  "#008700"
   "The color to use for a statement that got covered by the tests."

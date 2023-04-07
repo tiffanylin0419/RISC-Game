@@ -17,8 +17,8 @@ class OwnershipRuleCheckerTest {
         ArrayList<Player> players=factory.createPlayers(2,theMap);
 
         Player p1=players.get(0);
-        theMap.getTerritories().get(0).moveIn(new BasicUnit(5,p1));
-        theMap.getTerritories().get(1).moveIn(new BasicUnit(4,p1));
+        theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
+        theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
 
         ActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(null))) ;
         Action action1 =new MoveAction(p1,"a1","b1",3,theMap);
