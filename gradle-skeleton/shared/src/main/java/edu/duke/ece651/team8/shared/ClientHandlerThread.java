@@ -51,7 +51,7 @@ public class ClientHandlerThread extends Thread {
         this.player = player;
         this.mapView = new MapTextView();
         this.mapInfo = mapView.displayMap(theMap);
-        this.winnerName = null;
+        this.winnerName = "";
         this.gameServer = gameServer;
     }
     @Override
@@ -59,7 +59,7 @@ public class ClientHandlerThread extends Thread {
         try {
             sendInitialConfig();
             doInitialPlacement();
-            while(this.winnerName == null) {//keep running if no one wins
+            while(this.winnerName == "") {//keep running if no one wins
                 issueOrders();
                 reportResult();
             }
@@ -129,12 +129,8 @@ public class ClientHandlerThread extends Thread {
         endPlacementPhase();
     }
 
-    private boolean hasWinner() {
-        if (player.isWinner(theMap.getTerritories().size())) {
-            this.winnerName = player.getColor();
-            return true;
-        }
-        return false;
+    private void getWinner() {
+        this.winnerName = theMap.getWinner();
     }
 
     /**
@@ -201,7 +197,7 @@ public class ClientHandlerThread extends Thread {
         doSynchronization();
         String outcome = theMap.getOutcome();
         System.out.println("outcome:" + outcome);
-        hasWinner();
+
         mapInfo = mapView.displayMap(theMap);
         send(outcome, output);
         send(mapInfo,output);
@@ -212,7 +208,8 @@ public class ClientHandlerThread extends Thread {
             String prompt = "continue";
             send(prompt, output);
         }
-        if (this.winnerName == null) {
+        getWinner();
+        if (this.winnerName == "") {
             send("no winner", output);
         } else {
             send(this.winnerName, output);

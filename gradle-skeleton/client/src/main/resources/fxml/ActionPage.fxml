@@ -30,7 +30,7 @@
             <HBox.margin>
                <Insets left="30.0" top="10.0" />
             </HBox.margin></Button>
-            <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="doneAction" onAction="#enter" text="Done">
+            <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#doneAction" text="Done">
             <HBox.margin>
                <Insets left="30.0" top="10.0" />
             </HBox.margin></Button>

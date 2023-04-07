@@ -3,6 +3,7 @@ package edu.duke.ece651.team8.client.controller;
 import edu.duke.ece651.team8.client.ServerStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -137,13 +138,16 @@ public class ActionController implements Initializable {
     }
 
     @FXML
-    public void doneAction() throws IOException {
-        //send D
+    public void doneAction()throws IOException{
+        serverStream.send("D");
+        reportResult();
 
         //if isOver, go to result page
         //if isDefeated, lock all buttons
         //load page again
-
+        if(!isOver() && !isDefeated){
+            setMessage(serverStream.read());
+        }
     }
 
     /**
@@ -167,24 +171,30 @@ public class ActionController implements Initializable {
     }
 
 
-    /*private void reportResult() throws IOException {
+    private void reportResult() throws IOException {
         String combatOutcome=serverStream.read();
         System.out.println(combatOutcome);
 
-        String mapInfo = serverStream.read();
-        System.out.println(mapInfo);
-        //map display
+        setMap(serverStream.read());
 
         receiveLoseStatus();
         if (isDefeated){
-            System.out.println("You lose.");
+            setMessage("You lose.");
         }
         receiveWinner();
         if(isOver()){
-            if(color.equals(winner)){
-                System.out.println("Congratulations! You win!");
+            if(colorS.equals(winner)){
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
+                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "Congratulations! You win!"));
+                Scene scene = new Scene(loaderStart.load());
+                stage.setScene(scene);
+                stage.show();
             }else {
-                System.out.println(winner+" wins.");
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
+                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "You lose. Player "+winner+" wins."));
+                Scene scene = new Scene(loaderStart.load());
+                stage.setScene(scene);
+                stage.show();
             }
         }
     }
@@ -196,6 +206,6 @@ public class ActionController implements Initializable {
         if(serverStream.read().equals("lose")){
             isDefeated = true;
         }
-    }*/
+    }
 
 }
