@@ -58,11 +58,6 @@ public class PlacementController implements Initializable {
     }
 
     public void setMap(String maps){
-        JSONObject jsonObj = new JSONObject(maps);
-        JSONObject map = jsonObj.getJSONObject("map");
-        JSONObject a1 = map.getJSONObject("a1");
-        String army = a1.getString("army");
-        System.out.println("hi\n"+army);
         System.out.println(maps);
     }
 
