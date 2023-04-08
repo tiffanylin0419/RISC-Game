@@ -26,21 +26,12 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
-public class ActionController implements Initializable {
-    public String colorS;
-    public String messageS;
-    public String mapS;
-    public ServerStream serverStream;
-    private Stage stage;
+public class ActionController extends GameController implements Initializable {
     private String winner="no winner";
     private boolean isDefeated=false;
     private boolean moveButtonPressed=false;
     private boolean attackButtonPressed=false;
-    private Circle circles[];
-    @FXML
-    Label color, message, errorMessage;
-    @FXML
-    Button enter;
+
     @FXML
     Button show, move, attack, done;
     @FXML
@@ -55,6 +46,20 @@ public class ActionController implements Initializable {
     private ArrayList<String> territoryColors = new ArrayList<>();
     private HashMap<String,String> territoryArmys = new HashMap<>();
 
+    public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS) {
+        super(stage,ss,colorS,messageS,mapS);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        super.initialize();
+        seeInput(false);
+        //?
+        circles=new Circle[]{a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6};
+        setMap(mapS);
+    }
+
+
+
     private void parseMap(){
         JSONObject jsonObj = new JSONObject(mapS);
         JSONObject map = jsonObj.getJSONObject("map");
@@ -67,7 +72,6 @@ public class ActionController implements Initializable {
             territoryColors.add(colorT);
         }
     }
-
     public void setMap(String map){
         mapS=map;
         parseMap();
@@ -94,32 +98,6 @@ public class ActionController implements Initializable {
         }
         System.out.println(map);
     }
-
-    private void setColor(String colors){
-        Platform.runLater(() -> {
-            color.setText("Player: "+colors);
-        });
-    }
-
-    private void setMessage(String messages){
-        Platform.runLater(() -> {
-            message.setText("Message: " + messages);
-        });
-    }
-
-    private void setErrorMessage(String errorMessages){
-        Platform.runLater(() -> {
-            errorMessage.setText("Error: " + errorMessages);
-        });
-    }
-
-    public ActionController(Stage stage, ServerStream ss, String colors, String messages, String maps) {
-        this.stage = stage;
-        this.serverStream = ss;
-        this.colorS=colors;
-        this.messageS=messages;
-        this.mapS=maps;
-    }
     private void seeInput(boolean canSee){
         in1.setVisible(canSee);
         in2.setVisible(canSee);
@@ -134,16 +112,6 @@ public class ActionController implements Initializable {
             input3.clear();
         }
     }
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        setColor(colorS);
-        setMessage(messageS);
-        seeInput(false);
-        circles=new Circle[]{a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6};
-        setMap(mapS);
-    }
-
-
     @FXML
     public void enter() throws IOException {
         if(moveButtonPressed){
@@ -158,7 +126,6 @@ public class ActionController implements Initializable {
         }
         seeInput(false);
     }
-
     private void actionMoveAttack() throws IOException {
         String amount =input1.getText();
         String source =input2.getText();
@@ -177,11 +144,11 @@ public class ActionController implements Initializable {
 
     @FXML
     public void showAction() {
+        //?
         for(Circle c: circles){
             c.setFill(Color.RED);
         }
     }
-
     @FXML
     public void moveAction(){
         moveButtonPressed=true;
@@ -222,8 +189,6 @@ public class ActionController implements Initializable {
         serverStream.receive();
         serverStream.send(s);
     }
-
-
     private void reportResult() throws IOException {
         String combatOutcome=serverStream.read();
         System.out.println(combatOutcome);

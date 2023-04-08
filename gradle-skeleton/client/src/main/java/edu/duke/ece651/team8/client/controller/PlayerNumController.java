@@ -44,7 +44,7 @@ public class PlayerNumController {
         String message=serverStream.read();
 
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/Placement.fxml"));
-        loaderStart.setControllerFactory(c-> new PlacementController(stage,serverStream, colors, message, map, placeNum));
+        loaderStart.setControllerFactory(c-> new Placement2Controller(stage,serverStream, colors, message, map, placeNum));
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
