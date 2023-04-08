@@ -9,10 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,11 +25,11 @@ public class ActionController implements Initializable {
     public String mapS;
     public ServerStream serverStream;
     private Stage stage;
-
     private String winner="no winner";
     private boolean isDefeated=false;
     private boolean moveButtonPressed=false;
     private boolean attackButtonPressed=false;
+    private Circle circles[];
     @FXML
     Label color, message, errorMessage;
     @FXML
@@ -37,6 +40,9 @@ public class ActionController implements Initializable {
     Label in1, in2, in3;
     @FXML
     TextField input1, input2, input3;
+    @FXML
+    Circle a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6;
+
 
     public void setMap(String maps){
         System.out.println(maps);
@@ -87,6 +93,7 @@ public class ActionController implements Initializable {
         setMessage(messageS);
         setMap(mapS);
         seeInput(false);
+        circles=new Circle[] {a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6};
     }
 
 
@@ -122,7 +129,10 @@ public class ActionController implements Initializable {
     }
 
     @FXML
-    public void showAction() throws IOException {
+    public void showAction() {
+        for(Circle c: circles){
+            c.setFill(Color.RED);
+        }
     }
 
     @FXML
@@ -141,10 +151,6 @@ public class ActionController implements Initializable {
     public void doneAction()throws IOException{
         serverStream.send("D");
         reportResult();
-
-        //if isOver, go to result page
-        //if isDefeated, lock all buttons
-        //load page again
         if(!isOver() && !isDefeated){
             setMessage(serverStream.read());
         }

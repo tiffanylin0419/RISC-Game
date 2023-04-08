@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -22,6 +23,9 @@
 
 
     </top>
+    <left>
+
+    </left>
     <center>
         <StackPane scaleX="1" scaleY="1" scaleZ="1">
             <ImageView fitHeight="300" fitWidth="500">
@@ -29,6 +33,108 @@
                     <Image url="@../map.jpg" />
                 </image>
             </ImageView>
+
+            <Circle fx:id="a1" fill="#008000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-140.0" top="-200.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="a2" fill="#008000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-80.0" top="-170.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="a3" fill="#008000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-10.0" top="-160.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="a4" fill="#008000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="140.0" top="-90.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="a5" fill="#008000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="210.0" top="-70.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="a6" fill="#008000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="270.0" top="-120.0" />
+                </StackPane.margin></Circle>
+            <!--><Button layoutX="10.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text=""><StackPane.margin>
+            <Insets left="-140.0" top="-200.0" />
+            </StackPane.margin></Button><-->
+            <Circle fx:id="b1" fill="#800000" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-170.0" top="-170.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="b2" fill="#800000" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-90.0" top="-120.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="b3" fill="#800000" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="40.0" top="-80.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="b4" fill="#800000" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="110.0" top="-50.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="b5" fill="#800000" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="170.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="b6" fill="#800000" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="310.0" top="-120.0" />
+                </StackPane.margin></Circle>
+            <!---->
+            <Circle fx:id="c1" fill="#000080" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-300.0" top="-90.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="c2" fill="#000080" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-190.0" top="-90.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="c3" fill="#000080" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-90.0" top="30.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="c4" fill="#000080" radius="5.0">
+                <StackPane.margin>
+                    <Insets top="80.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="c5" fill="#000080" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="160.0" top="30.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="c6" fill="#000080" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="300.0" top="20.0" />
+                </StackPane.margin></Circle>
+            <!---->
+            <Circle fx:id="d1" fill="#808000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-300.0" top="30.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="d2" fill="#808000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-240.0" top="100.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="d3" fill="#808000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="-150.0" top="90.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="d4" fill="#808000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets top="180.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="d5" fill="#808000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="120.0" top="150.0" />
+                </StackPane.margin></Circle>
+            <Circle fx:id="d6" fill="#808000" layoutX="10.0" radius="5.0">
+                <StackPane.margin>
+                    <Insets left="300.0" top="90.0" />
+                </StackPane.margin></Circle>
         </StackPane>
     </center>
     <bottom>
