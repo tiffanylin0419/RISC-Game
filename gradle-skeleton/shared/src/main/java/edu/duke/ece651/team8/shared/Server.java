@@ -6,9 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Server {
@@ -21,7 +19,7 @@ public class Server {
     protected AbstractMapFactory factory;
     /** Boolean indicate whether the server is listening or not*/
     private boolean isListening;
-    private List<PlayerAccount> accounts;
+    private final List<PlayerAccount> accounts;
     final String END_OF_TURN = "END_OF_TURN";
     /**
      * Constructs a server with specified port
@@ -87,17 +85,23 @@ public class Server {
         }
         games.clear();
     }
-    public PlayerAccount processSignup(PrintWriter out, BufferedReader reader) throws IOException {
+    public PlayerAccount processSignup(PrintWriter out, BufferedReader reader) throws IOException, SignUpException{
         String prompt = "Create username";
         send(prompt, out);
         String username = receive(reader);
         String passwordPrompt = "Create password";
         send(passwordPrompt , out);
         String password = receive(reader);
+
+        if(!isUsernameAvailability(username)){
+            String error = username +"has been taken up!";
+            throw new SignUpException(error);
+        }
         PlayerAccount account = new PlayerAccount(out, reader, username, password);
+        accounts.add(account);
         return account;
     }
-    public PlayerAccount processLogin(PrintWriter out, BufferedReader reader) throws IOException {
+    public PlayerAccount processLogin(PrintWriter out, BufferedReader reader) throws IOException, LoginException {
         String prompt = "Enter username";
         send(prompt, out);
         String username = receive(reader);
@@ -106,19 +110,19 @@ public class Server {
         String password = receive(reader);
         PlayerAccount account = searchForAccount(username, password);
         if(account == null) {
-            send("Username or password not correct", out);
-            processLoginAndSignup(out, reader); //change later
+            String error = "Username or password not correct";
+            throw new LoginException(error);
         }
         account.updateIO(out, reader);
         return account;
     }
-    public PlayerAccount processLoginAndSignup(PrintWriter out, BufferedReader reader) throws IOException{
+    public PlayerAccount processLoginAndSignup(PrintWriter out, BufferedReader reader) throws IOException, LoginException, SignUpException {
         String prompt = "Login or Signup: L/S";
         send(prompt, out);
         String res = receive(reader);
         if(res.equals("L")) {
             return processLogin(out, reader);
-        } else { //only two buttons??
+        } else {
             return processSignup(out, reader);
         }
     }
@@ -128,14 +132,29 @@ public class Server {
         }
         return null;
     }
+
+    public boolean isUsernameAvailability(String Username){
+        System.out.println(Username);
+        for(PlayerAccount ac: accounts) {
+            System.out.println(ac.getUsername());
+            if(ac.getUsername().equals(Username)) return false;
+        }
+        return true;
+    }
     public GameThread findMatch(PlayerAccount account) throws IOException{
         String prompt = "Join your exist game? Y/N"; // haven't dealt with Y
         send(prompt, account.getOutput());
         String res = receive(account.getReader());
+
         if(res.equals("N")) {
+            System.out.println(res);
             String joinPrompt = "Enter how many players' game you want to join"; // haven't dealt with Y
             send(joinPrompt, account.getOutput());
-            int num = Integer.parseInt(receive(account.getReader()));
+            String numString = receive(account.getReader());
+            System.out.println("--------------");
+            System.out.println(numString);
+            System.out.println("--------------");
+            int num = Integer.parseInt(numString);
             return joinGame(num, account);
         }
         return null;
@@ -180,7 +199,17 @@ public class Server {
             PrintWriter output = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println(output);
-            account = processLoginAndSignup(output, reader);
+            while (true) {
+                try {
+                    account = processLoginAndSignup(output, reader);
+                    send("Successfully login!",output);
+                    System.out.println("Successfully login!");
+                    break;
+                } catch (LoginException | SignUpException e) {
+                    send(e.getMessage(),output);
+                    System.out.println(e.getMessage());
+                }
+            }
             while (true) {
                 GameThread game = findMatch(account);
                 while(game.isAlive()) {}
