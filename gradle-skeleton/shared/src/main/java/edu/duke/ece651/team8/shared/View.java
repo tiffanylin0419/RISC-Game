@@ -19,5 +19,4 @@ public interface View {
      */
     void displayUnitInfo(StringBuilder sb, Territory t);
 
-    String displayAdjacentInfo(Territory t);
 }

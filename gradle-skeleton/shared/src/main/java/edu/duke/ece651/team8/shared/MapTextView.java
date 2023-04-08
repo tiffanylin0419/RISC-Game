@@ -33,7 +33,6 @@ public class MapTextView implements View {
      * @param t territory to display
      * @return adjacent info string
      */
-    @Override
     public String displayAdjacentInfo(Territory t) {
         StringBuilder sb = new StringBuilder();
         sb.append(" (next to: ");

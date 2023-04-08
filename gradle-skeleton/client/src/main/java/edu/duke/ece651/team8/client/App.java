@@ -23,7 +23,7 @@ public class App  extends Application{
     private Stage stage;
 
     //GUI
-/*
+//*
     private ServerStream serverStream;
     @Override
     public void start(Stage stage) throws IOException {
@@ -48,7 +48,7 @@ public class App  extends Application{
     }//*/
 
     //text player
-    //*
+    /*
     @Override
     public void start(Stage stage) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
