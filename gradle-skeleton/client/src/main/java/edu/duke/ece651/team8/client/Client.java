@@ -3,6 +3,9 @@ package edu.duke.ece651.team8.client;
 
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+import java.util.Scanner;
 
 /** Client pattern of the game*/
 public class Client {
@@ -22,6 +25,7 @@ public class Client {
     protected boolean isDefeated = false;
 
     protected String winner;
+    private SocketChannel socketChannel;
     /**
      * Constructs a server with specified port
      *
@@ -41,6 +45,7 @@ public class Client {
         try {
             receiveLoginAndSignup();
             receiveColor();
+            startListeningForExit();
             receiveMap();
             displayColor();
             displayMap();
@@ -52,7 +57,22 @@ public class Client {
             out.println(e.getMessage());
         }
     }
-
+    public void startListeningForExit() {
+        Thread inputThread = new Thread(() -> {
+            out.println("enter scanner");
+            Scanner scanner = new Scanner(input);
+            while (true) {
+                String input = scanner.nextLine();
+                if (input.equals("exit")) {
+                    out.println("exit sucess");
+                    serverStream.send(input);
+                    // Send an exit message to the server and break out of the loop
+                    break;
+                }
+            }
+        });
+        inputThread.start();
+    }
     public void receiveLoginAndSignup() throws IOException{
         out.println("cliententer");
         serverStream.receive();

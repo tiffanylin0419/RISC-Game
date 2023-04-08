@@ -44,12 +44,8 @@ public class GameThread extends Thread {
     public int getPlayerNum() {
         return players.size();
     }
-    public boolean checkAlive(PlayerAccount account) {
-        int num = account.getCurrNum();
-        return players.get(num).isConnected();
-    }
-    public synchronized int join(PlayerAccount account){
-        if(isStart) return -1;
+    public synchronized ClientHandlerThread join(PlayerAccount account){
+        if(isStart) return null;
         PrintWriter out = account.getOutput();
         BufferedReader reader = account.getReader();
         outputs.add(out);
@@ -63,7 +59,7 @@ public class GameThread extends Thread {
             isStart = true;
             notify();
         }
-        return outputs.size() - 1;
+        return clientThread;
     }
     /**
      * Constructor of GameThread

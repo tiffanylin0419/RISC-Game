@@ -128,7 +128,7 @@ public class Server {
         }
         return null;
     }
-    public GameThread findMatch(PlayerAccount account) throws IOException{
+    public ClientHandlerThread findMatch(PlayerAccount account) throws IOException{
         String prompt = "Join your exist game? Y/N"; // haven't dealt with Y
         send(prompt, account.getOutput());
         String res = receive(account.getReader());
@@ -140,20 +140,19 @@ public class Server {
         }
         return null;
     }
-    public synchronized GameThread joinGame(int num, PlayerAccount account){
+    public synchronized ClientHandlerThread joinGame(int num, PlayerAccount account){
         for(GameThread game : games) {
             if(game.getPlayerNum() == num) {
-                int numInGame = game.join(account);
-                if(numInGame == -1) break;
-                account.setCurrNum(numInGame);
-                return game;
+                ClientHandlerThread clientThread = game.join(account);
+                if(clientThread == null) break;
+                return clientThread;
             }
         }
         GameThread gameThread = new GameThread(num, factory);
         gameThread.start();
-        gameThread.join(account);
+        ClientHandlerThread clientThread = gameThread.join(account);
         games.add(gameThread);
-        return gameThread;
+        return clientThread;
     }
     public void send(String message, PrintWriter output) {
         output.println(message);
@@ -189,8 +188,8 @@ public class Server {
             System.out.println(output);
             account = processLoginAndSignup(output, reader);
             while (true) {
-                GameThread game = findMatch(account);
-                while(game.isAlive() && game.checkAlive(account)) {}
+                ClientHandlerThread clientThread = findMatch(account);
+                while(clientThread.isAlive()) {}
             }
         } catch(IOException e) {
             System.out.println("handlePlayerConnection IOException");

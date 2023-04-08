@@ -2,7 +2,10 @@ package edu.duke.ece651.team8.shared;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ClientHandlerThread extends Thread {
     private final Object lock = new Object();
@@ -26,7 +29,6 @@ public class ClientHandlerThread extends Thread {
     private final int unitAmount = 36;
     private String winnerName;
     private GameThread gameServer;
-
     /**
      * Constructor of the ClientHandlerThread
      * @param output
@@ -49,6 +51,7 @@ public class ClientHandlerThread extends Thread {
     public void run() {
         try {
             sendGameLoading();
+            startListeningForExit();
             sendInitialConfig();
             doInitialPlacement();
             while(this.winnerName == "") {//keep running if no one wins
@@ -58,6 +61,23 @@ public class ClientHandlerThread extends Thread {
         } finally {
             output.close();
         }
+    }
+    public void startListeningForExit() {
+        new Thread(() -> {
+                Scanner scanner = new Scanner(reader);
+                while (true) {
+                    String input = scanner.nextLine();
+                    if (input.equals("exit")) {
+                        System.out.println("exit success");
+                        player.disconnect();
+                        // Send an exit message to the server and break out of the loop
+                        break;
+                    }
+                }
+                this.interrupt();
+        }).start();
+
+
     }
     public void doSynchronization() {
         synchronized (gameServer) {
@@ -325,9 +345,6 @@ public class ClientHandlerThread extends Thread {
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
         String ss = reader.readLine();
-        if(ss.equals("exit")) { //give a variable?
-            throw new IOException(""); //change to others?
-        }
 //        System.out.println(ss);
         sb.append(ss);
         String receLine = reader.readLine();
