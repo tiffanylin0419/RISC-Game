@@ -6,27 +6,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.IOException;
 
-public class StartPageController {
+public class OldNewGameController {
     private Stage stage;
 
     public ServerStream serverStream;
 
-    public StartPageController(Stage stage, ServerStream ss) {
+    public OldNewGameController(Stage stage, ServerStream ss) {
         this.stage = stage;
         this.serverStream = ss;
     }
 
     @FXML
-    public void login() throws IOException {
-        System.out.println("click on log in");
-        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/AccountPage.fxml"));
+    public void oldGame() throws IOException {
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/PlayerNumPage.fxml"));
         loaderStart.setControllerFactory(c->{
-            return new AccountController(stage,serverStream);
+            return new PlayerNumController(stage,serverStream);
         });
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
     }
+    @FXML
+    public void newGame() throws IOException {
+        //to do
+    }
+
 }

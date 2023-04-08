@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.*;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -25,7 +25,7 @@ public class LoginController {
     TextField password;
 
     @FXML
-    Text errorMessage;
+    Label errorMessage;
 
     public LoginController(Stage stage, ServerStream ss) {
         this.stage = stage;
@@ -35,7 +35,7 @@ public class LoginController {
 
 
     @FXML
-    public void tryLogin() throws IOException {
+    public void enter() throws IOException {
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ChooseGamePage.fxml"));
 //
 //        loaderStart.setControllerFactory(c -> {
