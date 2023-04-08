@@ -66,6 +66,7 @@ public class Client {
     /** execute the client */
     public void run() {
         try {
+            System.out.println("?????");
             receiveLoginAndSignup();
             receiveColor();
             receiveMap();
@@ -82,6 +83,7 @@ public class Client {
         }
     }
     public void receiveLoginAndSignup() throws IOException{
+        out.println("cliententer");
         receive();
         out.println(buffer);
         String s = input.readLine();

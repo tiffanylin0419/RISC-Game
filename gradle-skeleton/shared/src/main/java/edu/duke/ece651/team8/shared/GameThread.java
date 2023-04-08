@@ -54,7 +54,11 @@ public class GameThread extends Thread {
                 reader, theMap, players.get(outputs.size() - 1), this);
         clientThreads.add(clientThread);
         clientThread.start();
-        if(outputs.size() == players.size()) isStart = true;
+        System.out.println("current num" + outputs.size());
+        if(outputs.size() == players.size()) {
+            isStart = true;
+            notify();
+        }
         return true;
     }
     /**
@@ -80,8 +84,17 @@ public class GameThread extends Thread {
     }
     @Override
     public void run() {
-        while(!isStart) {}
+        while(!isStart) {
+            synchronized (this) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    System.out.println(" game thread wait error");
+                }
+            }
+        }
         try {
+            System.out.println("game thread start");
             while (true) {
                 for (Thread t : clientThreads) {
                     while (t.getState() != Thread.State.WAITING) {
@@ -89,6 +102,7 @@ public class GameThread extends Thread {
                 }
                 notifyClients();
             }
+            //add stop thread
         } finally {
             for (PrintWriter output : outputs) {
                 output.close();

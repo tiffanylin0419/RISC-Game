@@ -29,7 +29,6 @@ public class ClientHandlerThread extends Thread {
 
     /**
      * Constructor of the ClientHandlerThread
-     * @param clientSocket
      * @param output
      * @param reader
      * @param player
