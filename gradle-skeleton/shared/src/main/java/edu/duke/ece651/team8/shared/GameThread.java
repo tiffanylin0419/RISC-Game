@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameThread extends Thread {
-    private List<Socket> clientSockets;
     private List<ClientHandlerThread> clientThreads;
     private final Object lock = new Object();
     /** streams pass to client*/
     private List<PrintWriter> outputs;
-    /** InputStream from clients */
-    private List<InputStream> inputStreams;
     /** Reader for clients message*/
     private List<BufferedReader> readers;
     /** Buffer for message from clients */
@@ -31,16 +28,46 @@ public class GameThread extends Thread {
     private final int placementTimes = 5;
     private final int unitAmount = 36;
     private String winnerName;
+    private boolean isStart;
+    public GameThread(int playerNum, AbstractMapFactory factory) {
+        this.outputs = new ArrayList<>();
+        this.readers = new ArrayList<>();
+        this.theMap = factory.createMap(playerNum);
+        this.players = factory.createPlayers(playerNum, theMap);
+        this.mapView = new MapTextView();
+        this.mapInfo = mapView.displayMap(theMap);
 
+        this.winnerName = null;
+        this.clientThreads = new ArrayList<>();
+        this.isStart = false;
+    }
+    public int getPlayerNum() {
+        return players.size();
+    }
+    public synchronized boolean join(PlayerAccount account){
+        if(isStart) return false;
+        PrintWriter out = account.getOutput();
+        BufferedReader reader = account.getReader();
+        outputs.add(out);
+        readers.add(reader);
+        ClientHandlerThread clientThread = new ClientHandlerThread(out,
+                reader, theMap, players.get(outputs.size() - 1), this);
+        clientThreads.add(clientThread);
+        clientThread.start();
+        System.out.println("current num" + outputs.size());
+        if(outputs.size() == players.size()) {
+            isStart = true;
+            notify();
+        }
+        return true;
+    }
     /**
      * Constructor of GameThread
      * @param clientSockets are the sockets of the game thread
      * @param factory is factory of the game
      */
     public GameThread(List<Socket> clientSockets, AbstractMapFactory factory) throws IOException{
-        this.clientSockets = clientSockets;
         this.outputs = new ArrayList<>();
-        this.inputStreams = new ArrayList<>();
         this.readers = new ArrayList<>();
         this.theMap = factory.createMap(clientSockets.size());
         this.players = factory.createPlayers(clientSockets.size(), theMap);
@@ -49,7 +76,6 @@ public class GameThread extends Thread {
         for(Socket cs : clientSockets){
             outputs.add(new PrintWriter(cs.getOutputStream()));
             InputStream is= cs.getInputStream();
-            inputStreams.add(is);
             readers.add(new BufferedReader(new InputStreamReader(is)));
 
         }
@@ -58,15 +84,17 @@ public class GameThread extends Thread {
     }
     @Override
     public void run() {
+        while(!isStart) {
+            synchronized (this) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    System.out.println(" game thread wait error");
+                }
+            }
+        }
         try {
-            for (int i = 0; i < clientSockets.size(); i++) {
-                ClientHandlerThread clientThread = new ClientHandlerThread(clientSockets.get(i), outputs.get(i),
-                        inputStreams.get(i), readers.get(i), theMap, players.get(i), this);
-                clientThreads.add(clientThread);
-            }
-            for (ClientHandlerThread t : clientThreads) {
-                t.start();
-            }
+            System.out.println("game thread start");
             while (true) {
                 for (Thread t : clientThreads) {
                     while (t.getState() != Thread.State.WAITING) {
@@ -74,6 +102,7 @@ public class GameThread extends Thread {
                 }
                 notifyClients();
             }
+            //add stop thread
         } finally {
             for (PrintWriter output : outputs) {
                 output.close();

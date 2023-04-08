@@ -5,12 +5,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientHandlerThread extends Thread {
-    private Socket clientSocket;
     private final Object lock = new Object();
     /** streams pass to client*/
     private PrintWriter output;
-    /** InputStream from client */
-    private InputStream inputStream;
     /** Reader for clients message*/
     private BufferedReader reader;
     /** Buffer for message from clients */
@@ -32,19 +29,14 @@ public class ClientHandlerThread extends Thread {
 
     /**
      * Constructor of the ClientHandlerThread
-     * @param clientSocket
      * @param output
-     * @param inputStream
      * @param reader
      * @param player
      * @param gameServer
      * @throws IOException
      */
-    public ClientHandlerThread(Socket clientSocket, PrintWriter output, InputStream inputStream,
-                               BufferedReader reader, Map theMap, Player player, GameThread gameServer) {
-        this.clientSocket = clientSocket;
+    public ClientHandlerThread(PrintWriter output, BufferedReader reader, Map theMap, Player player, GameThread gameServer) {
         this.output = output;
-        this.inputStream = inputStream;
         this.reader = reader;
         this.theMap = theMap;
         this.player = player;
@@ -56,6 +48,7 @@ public class ClientHandlerThread extends Thread {
     @Override
     public void run() {
         try {
+            sendGameLoading();
             sendInitialConfig();
             doInitialPlacement();
             while(this.winnerName == "") {//keep running if no one wins
@@ -74,6 +67,11 @@ public class ClientHandlerThread extends Thread {
                 System.out.println("wait error");
             }
         }
+    }
+    public void sendGameLoading() { //haven't finished
+        String prompt = "Loading...Waiting for more player to join...";
+        send(prompt, output);
+        doSynchronization();
     }
     public void sendInitialConfig() {
             //send color and initial map information to players
