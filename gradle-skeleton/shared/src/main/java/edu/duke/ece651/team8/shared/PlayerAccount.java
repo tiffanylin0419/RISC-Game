@@ -10,6 +10,10 @@ public class PlayerAccount {
     private BufferedReader reader;
     private final String username;
     private String password;
+    /**
+     * No. of player in current game thread, start from 0
+     */
+    private int currNum;
     public PlayerAccount(PrintWriter output, BufferedReader reader, String username, String password) {
         this.username = username;
         this.password = password;
@@ -29,5 +33,11 @@ public class PlayerAccount {
     }
     public BufferedReader getReader() {
         return reader;
+    }
+    public void setCurrNum(int num) {
+        currNum = num;
+    }
+    public int getCurrNum() {
+        return currNum;
     }
 }

@@ -325,6 +325,9 @@ public class ClientHandlerThread extends Thread {
     public void receive(BufferedReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
         String ss = reader.readLine();
+        if(ss.equals("exit")) { //give a variable?
+            throw new IOException(""); //change to others?
+        }
 //        System.out.println(ss);
         sb.append(ss);
         String receLine = reader.readLine();

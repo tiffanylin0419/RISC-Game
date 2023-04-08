@@ -141,9 +141,11 @@ public class Server {
         return null;
     }
     public synchronized GameThread joinGame(int num, PlayerAccount account){
-        System.out.println("games size" + games.size());
         for(GameThread game : games) {
-            if(game.getPlayerNum() == num && game.join(account)) {
+            if(game.getPlayerNum() == num) {
+                int numInGame = game.join(account);
+                if(numInGame == -1) break;
+                account.setCurrNum(numInGame);
                 return game;
             }
         }
@@ -173,6 +175,11 @@ public class Server {
         }
         return sb.toString();
     }
+
+    /**
+     * Thread deal with each client connection
+     * @param socket
+     */
     private void handlePlayerConnection(Socket socket) {
         System.out.println("Client connected!");
         PlayerAccount account;
@@ -183,7 +190,7 @@ public class Server {
             account = processLoginAndSignup(output, reader);
             while (true) {
                 GameThread game = findMatch(account);
-                while(game.isAlive()) {}
+                while(game.isAlive() && game.checkAlive(account)) {}
             }
         } catch(IOException e) {
             System.out.println("handlePlayerConnection IOException");
