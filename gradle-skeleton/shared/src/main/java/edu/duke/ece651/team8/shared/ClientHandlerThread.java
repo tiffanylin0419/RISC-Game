@@ -40,7 +40,7 @@ public class ClientHandlerThread extends Thread {
         this.reader = reader;
         this.theMap = theMap;
         this.player = player;
-        this.mapView = new MapTextView();
+        this.mapView = new MapGuiView();
         this.mapInfo = mapView.displayMap(theMap);
         this.winnerName = "";
         this.gameServer = gameServer;
