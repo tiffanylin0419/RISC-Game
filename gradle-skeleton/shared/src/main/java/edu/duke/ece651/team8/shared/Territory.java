@@ -126,4 +126,5 @@ public interface Territory {
    */
   public void setDistance(Territory t, int distance);
 
+  public Integer getDistance(Territory t);
 }
