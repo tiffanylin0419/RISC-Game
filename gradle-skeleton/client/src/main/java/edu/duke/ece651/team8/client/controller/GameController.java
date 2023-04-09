@@ -29,7 +29,7 @@ public abstract class GameController {
     public ArrayList<String> territoryColors = new ArrayList<>();
     public HashMap<String,String> territoryArmys = new HashMap<>();
     @FXML
-    Label color, message, errorMessage;
+    Label color, message, errorMessage, level, food, tech;
     @FXML
     Button enter;
     @FXML
@@ -68,6 +68,21 @@ public abstract class GameController {
     public void setErrorMessage(String errorMessages){
         Platform.runLater(() -> {
             errorMessage.setText("Error: " + errorMessages);
+        });
+    }
+    public void setLevel(String levelS){
+        Platform.runLater(() -> {
+            level.setText("Level: " + levelS);
+        });
+    }
+    public void setFood(String foodS){
+        Platform.runLater(() -> {
+            food.setText("Food: " + foodS);
+        });
+    }
+    public void setTech(String techS){
+        Platform.runLater(() -> {
+            tech.setText("Food: " + techS);
         });
     }
     public void setImage(){
@@ -116,6 +131,12 @@ public abstract class GameController {
             }
         }
         System.out.println(map);
+    }
+    public void setPlayer(String playerInfo){
+        JSONObject jsonObj = new JSONObject(playerInfo);
+        setFood(jsonObj.getString("food"));
+        setLevel(jsonObj.getString("level"));
+        setTech(jsonObj.getString("tech"));
     }
     public void disappearCircle(){
         int i=0;

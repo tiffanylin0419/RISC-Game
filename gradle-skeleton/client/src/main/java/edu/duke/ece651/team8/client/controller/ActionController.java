@@ -147,6 +147,8 @@ public class ActionController extends GameController implements Initializable {
         serverStream.send(s);
     }
     private void reportResult() throws IOException {
+        setPlayer(serverStream.read());
+
         String combatOutcome=serverStream.read();
         System.out.println(combatOutcome);
 

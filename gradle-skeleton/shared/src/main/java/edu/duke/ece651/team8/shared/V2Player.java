@@ -3,6 +3,7 @@ package edu.duke.ece651.team8.shared;
 public class V2Player extends Player {
     private FoodResource food;
     private TechResource tech;
+    private int level=1;
 
     public V2Player(String color) {
         super(color);
@@ -23,5 +24,15 @@ public class V2Player extends Player {
     }
     public void addTechResource(Resource newTech) {
         this.tech.addResource(newTech.getAmount());
+    }
+
+    @Override
+    public String display(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n\"level\":\""+level+"\",");
+        sb.append("\n\"food\":\""+getFood().getAmount()+"\",");
+        sb.append("\n\"tech\":\""+getTech().getAmount()+"\"");
+        sb.append("\n}");
+        return sb.toString();
     }
 }

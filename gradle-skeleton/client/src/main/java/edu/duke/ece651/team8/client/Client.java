@@ -129,6 +129,7 @@ public class Client {
     }
     public void reportResult() throws IOException{
         status = 0;
+        System.out.println(serverStream.read());//player info
         receiveCombatOutcome();
         System.out.println("displayCombatOutcome");
         displayCombatOutcome();

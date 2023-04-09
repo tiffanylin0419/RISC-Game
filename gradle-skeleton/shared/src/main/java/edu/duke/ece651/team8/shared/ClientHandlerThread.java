@@ -224,6 +224,7 @@ public class ClientHandlerThread extends Thread {
         System.out.println("outcome:" + player.getColor() + " " +status);
         if(player.isConnected()) {
             mapInfo = mapView.displayMap(theMap);
+            send(player.display(),output);
             send(outcome, output);
             send(mapInfo, output);
             if (player.isDefeated()) {

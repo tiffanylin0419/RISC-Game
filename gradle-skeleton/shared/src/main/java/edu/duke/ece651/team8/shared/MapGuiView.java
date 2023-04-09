@@ -13,8 +13,7 @@ public class MapGuiView implements View {
         for(Territory t: theMap.getTerritories()){
             displayTerritoryInfo(sb,t);
         }
-        sb.append("}\n}\n");
-        sb.deleteCharAt(sb.length() - 1);
+        sb.append("}\n}");
         return sb.toString();
     }
 

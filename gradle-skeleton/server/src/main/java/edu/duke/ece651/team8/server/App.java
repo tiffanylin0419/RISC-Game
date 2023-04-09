@@ -28,7 +28,7 @@ public class App {
 //            catch(NumberFormatException e){num=0;}
 //        }
         System.out.println("Can now start connecting clients.");
-        AbstractMapFactory factory = new V1MapFactory();
+        AbstractMapFactory factory = new V2MapFactory();
 //        Server server = new Server(8080, num, factory);
         Server server = new Server(8080, factory);
         server.run();
