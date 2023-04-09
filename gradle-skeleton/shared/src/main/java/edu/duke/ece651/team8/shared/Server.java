@@ -94,7 +94,7 @@ public class Server {
         String password = receive(reader);
 
         if(!isUsernameAvailability(username)){
-            String error = username +"has been taken up!";
+            String error = username +" has been taken up!";
             throw new SignUpException(error);
         }
         PlayerAccount account = new PlayerAccount(out, reader, username, password);

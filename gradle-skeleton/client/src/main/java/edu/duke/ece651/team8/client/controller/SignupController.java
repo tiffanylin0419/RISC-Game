@@ -27,21 +27,40 @@ public class SignupController {
     }
 
     @FXML
-    public void enter() throws IOException {
+    public void signup() throws IOException {
         serverStream.receive();
         serverStream.send("S");
         serverStream.receive();
         serverStream.send(username.getText());
         serverStream.receive();
         serverStream.send(password.getText());
+        if(!serverStream.read().equals("Successfully login!")){
+            //load this page again
+        }
 
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
-        loaderStart.setControllerFactory(c->{
-            return new OldNewGameController(stage,serverStream);
-        });
+        loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream));
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
     }
 
+    @FXML
+    public void login() throws IOException {
+        serverStream.receive();
+        serverStream.send("L");
+        serverStream.receive();
+        serverStream.send(username.getText());
+        serverStream.receive();
+        serverStream.send(password.getText());
+        if(!serverStream.read().equals("Successfully login!")){
+            //load this page again
+        }
+
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
+        loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream));
+        Scene scene = new Scene(loaderStart.load());
+        stage.setScene(scene);
+        stage.show();
+    }
 }

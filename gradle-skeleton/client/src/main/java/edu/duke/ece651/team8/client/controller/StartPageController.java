@@ -21,10 +21,8 @@ public class StartPageController {
     @FXML
     public void login() throws IOException {
         System.out.println("click on log in");
-        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/AccountPage.fxml"));
-        loaderStart.setControllerFactory(c->{
-            return new AccountController(stage,serverStream);
-        });
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/SignupPage.fxml"));
+        loaderStart.setControllerFactory(c-> new SignupController(stage,serverStream));
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();

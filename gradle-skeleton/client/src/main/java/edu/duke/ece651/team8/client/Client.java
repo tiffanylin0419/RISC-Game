@@ -40,6 +40,7 @@ public class Client {
     public void run() {
         try {
             doLoginOrSignup();
+            doChooseGame();
             receiveColor();
             receiveMap();
             displayColor();
@@ -66,7 +67,7 @@ public class Client {
             }
             serverStream.send(s);
             out.println(serverStream.read());
-            //send usename
+            //send username
             serverStream.send(input.readLine());
             out.println(serverStream.read());
             //send password
@@ -74,9 +75,10 @@ public class Client {
             //receive login status
             loginStatus = serverStream.read();
             out.println(loginStatus);
-            out.println(loginStatus);
         }while(!loginStatus.equals("Successfully login!"));
+    }
 
+    public void doChooseGame() throws  IOException{
         serverStream.receive();
         //send N:new game Y:existing game
         out.println("-------------------");
@@ -104,9 +106,6 @@ public class Client {
             System.out.println("Your input is: "+ newOrExistingGame);
             throw new IllegalArgumentException("Should be L/S");
         }
-
-
-
     }
 
     public void receivePlacementResult() throws IOException{

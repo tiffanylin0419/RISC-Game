@@ -18,7 +18,11 @@
             <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         </GridPane>
-        <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" />
+        <GridPane alignment="TOP_CENTER" hgap="5" vgap="10">
+            <Button fx:id="signup" mnemonicParsing="false" onAction="#signup" text="Signup" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Button fx:id="login" mnemonicParsing="false" onAction="#login" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        </GridPane>
+
         <Label fx:id="errorMessage" text="" ></Label>
     </VBox>
 
