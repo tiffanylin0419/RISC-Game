@@ -5,4 +5,9 @@ public class TextPlayer extends Player{
   public TextPlayer(String color){
     super(color);
   }
+
+  @Override
+  public String display() {
+    return null;
+  }
 }

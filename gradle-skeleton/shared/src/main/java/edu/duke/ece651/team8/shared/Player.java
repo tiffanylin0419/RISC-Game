@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 
-public class Player {
+public abstract class Player {
   private final ArrayList<Territory> territories;
   private String color;
   private int unitMax;
@@ -100,4 +100,5 @@ public class Player {
   public boolean isWinner(int amount) {
     return this.territories.size() == amount;
   }
+  public abstract String display();
 }
