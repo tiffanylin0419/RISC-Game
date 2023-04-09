@@ -34,7 +34,7 @@ public class GameThread extends Thread {
         this.readers = new ArrayList<>();
         this.theMap = factory.createMap(playerNum);
         this.players = factory.createPlayers(playerNum, theMap);
-        this.mapView = new MapTextView();
+        this.mapView = new MapGuiView();
         this.mapInfo = mapView.displayMap(theMap);
 
         this.winnerName = null;
@@ -79,7 +79,7 @@ public class GameThread extends Thread {
         this.readers = new ArrayList<>();
         this.theMap = factory.createMap(clientSockets.size());
         this.players = factory.createPlayers(clientSockets.size(), theMap);
-        this.mapView = new MapTextView();
+        this.mapView = new MapGuiView();
         this.mapInfo = mapView.displayMap(theMap);
         for(Socket cs : clientSockets){
             outputs.add(new PrintWriter(cs.getOutputStream()));

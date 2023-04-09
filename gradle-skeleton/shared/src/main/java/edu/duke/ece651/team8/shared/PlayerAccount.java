@@ -31,6 +31,11 @@ public class PlayerAccount {
     public boolean match(String otherUsername, String otherPassword){
         return username.equals(otherUsername) && password.equals(otherPassword);
     }
+
+    public String getUsername() {
+        return username;
+    }
+
     public void updateIO(PrintWriter out, BufferedReader r) {
         output = out;
         reader = r;

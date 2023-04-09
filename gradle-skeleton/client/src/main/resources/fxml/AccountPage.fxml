@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.team8.client.controller.AccountController">
+    <left>
+        <Button fx:id="login" mnemonicParsing="false" onAction="#login" text="Login" prefWidth="350" prefHeight="400" />
+    </left>
+    <right>
+        <Button fx:id="signup" mnemonicParsing="false" onAction="#signup" text="Signup" prefWidth="350" prefHeight="400" />
+    </right>
+</BorderPane>
