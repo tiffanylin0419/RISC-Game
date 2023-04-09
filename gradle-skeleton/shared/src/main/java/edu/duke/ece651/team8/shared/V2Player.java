@@ -33,13 +33,13 @@ public class V2Player extends Player {
         }
     }
 
-    @Override
-    public String display(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n\"level\":\""+level+"\",");
-        sb.append("\n\"food\":\""+getFoodAmount()+"\",");
-        sb.append("\n\"tech\":\""+getTechAmount()+"\"");
-        sb.append("\n}");
-        return sb.toString();
-    }
+//    @Override
+//    public String display(){
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("{\n\"level\":\""+level+"\",");
+//        sb.append("\n\"food\":\""+getFoodAmount()+"\",");
+//        sb.append("\n\"tech\":\""+getTechAmount()+"\"");
+//        sb.append("\n}");
+//        return sb.toString();
+//    }
 }
