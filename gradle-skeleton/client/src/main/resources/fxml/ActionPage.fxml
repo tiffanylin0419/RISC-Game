@@ -30,39 +30,39 @@
             </ImageView>
 
 
-            <StackPane>
+            <StackPane fx:id="A1">
                 <Circle fx:id="a1" layoutX="10.0" radius="5.0"/>
                 <Label text="a1" />
                 <StackPane.margin>
                     <Insets left="-140.0" top="-200.0" />
                 </StackPane.margin>
             </StackPane>
-            <StackPane>
+            <StackPane fx:id="A2">
                 <Circle fx:id="a2" layoutX="10.0" radius="5.0"/>
                 <Label text="a2" />
                 <StackPane.margin>
                     <Insets left="-80.0" top="-170.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="A3">
                 <Circle fx:id="a3" layoutX="10.0" radius="5.0"/>
                 <Label text="a3" />
                 <StackPane.margin>
                     <Insets left="-10.0" top="-160.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="A4">
                 <Circle fx:id="a4" layoutX="10.0" radius="5.0"/>
                 <Label text="a4" />
                 <StackPane.margin>
                     <Insets left="140.0" top="-90.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="A5">
                 <Circle fx:id="a5" layoutX="10.0" radius="5.0"/>
                 <Label text="a5" />
                 <StackPane.margin>
                     <Insets left="210.0" top="-70.0" />
                 </StackPane.margin>
             </StackPane>
-            <StackPane>
+            <StackPane fx:id="A6">
                 <Circle fx:id="a6" radius="5.0"/>
                 <Label text="a6" />
                 <StackPane.margin>
@@ -72,111 +72,111 @@
             <!--><Button layoutX="10.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text=""><StackPane.margin>
             <Insets left="-140.0" top="-200.0" />
             </StackPane.margin></Button><-->
-            <StackPane>
+            <StackPane fx:id="B1">
                 <Circle fx:id="b1" radius="5.0"/>
                 <Label text="b1" />
                 <StackPane.margin>
                     <Insets left="-170.0" top="-170.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="B2">
                 <Circle fx:id="b2" radius="5.0"/>
                 <Label text="b2" />
                 <StackPane.margin>
                     <Insets left="-90.0" top="-120.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="B3">
                 <Circle fx:id="b3" radius="5.0"/>
                 <Label text="b3" />
                 <StackPane.margin>
                     <Insets left="40.0" top="-80.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="B4">
                 <Circle fx:id="b4" radius="5.0"/>
                 <Label text="b4" />
                 <StackPane.margin>
                     <Insets left="110.0" top="-50.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="B5">
                 <Circle fx:id="b5" radius="5.0"/>
                 <Label text="b5" />
                 <StackPane.margin>
                     <Insets left="170.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="B6">
                 <Circle fx:id="b6" radius="5.0"/>
                 <Label text="b6" />
                 <StackPane.margin>
                     <Insets left="310.0" top="-120.0" />
                 </StackPane.margin></StackPane>
             <!---->
-            <StackPane>
+            <StackPane fx:id="C1">
                 <Circle fx:id="c1" radius="5.0"/>
                 <Label text="c1" />
                 <StackPane.margin>
                     <Insets left="-300.0" top="-90.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="C2">
                 <Circle fx:id="c2" radius="5.0"/>
                 <Label text="c2" />
                 <StackPane.margin>
                     <Insets left="-190.0" top="-90.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="C3">
                 <Circle fx:id="c3" radius="5.0"/>
                 <Label text="c3" />
                 <StackPane.margin>
                     <Insets left="-90.0" top="30.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="C4">
                 <Circle fx:id="c4" radius="5.0"/>
                 <Label text="c4" />
                 <StackPane.margin>
                     <Insets top="80.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="C5">
                 <Circle fx:id="c5" radius="5.0"/>
                 <Label text="c5" />
                 <StackPane.margin>
                     <Insets left="160.0" top="30.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="C6">
                 <Circle fx:id="c6" radius="5.0"/>
                 <Label text="c6" />
                 <StackPane.margin>
                     <Insets left="300.0" top="20.0" />
                 </StackPane.margin></StackPane>
             <!---->
-            <StackPane>
+            <StackPane fx:id="D1">
                 <Circle fx:id="d1" radius="5.0"/>
                 <Label text="d1" />
                 <StackPane.margin>
                     <Insets left="-300.0" top="30.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="D2">
                 <Circle fx:id="d2" radius="5.0"/>
                 <Label text="d2" />
                 <StackPane.margin>
                     <Insets left="-240.0" top="100.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="D3">
                 <Circle fx:id="d3" radius="5.0"/>
                 <Label text="d3" />
                 <StackPane.margin>
                     <Insets left="-150.0" top="90.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="D4">
                 <Circle fx:id="d4" radius="5.0"/>
                 <Label text="d4" />
                 <StackPane.margin>
                     <Insets top="180.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="D5">
                 <Circle fx:id="d5" radius="5.0"/>
                 <Label text="d5" />
                 <StackPane.margin>
                     <Insets left="120.0" top="150.0" />
                 </StackPane.margin></StackPane>
-            <StackPane>
+            <StackPane fx:id="D6">
                 <Circle fx:id="d6" radius="5.0"/>
                 <Label text="d6" />
                 <StackPane.margin>
