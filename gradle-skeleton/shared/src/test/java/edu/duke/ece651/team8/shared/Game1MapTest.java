@@ -90,6 +90,7 @@ public class Game1MapTest {
     Player player3 = new Player("p3");
     territory1.moveIn(new BasicArmy(20, player1));
     map.doCombats();
+    map.getOutcome();
     assertEquals(21, territory1.getUnitAmount(0));
     territory1.moveIn(new BasicArmy(4, player2));
     map.doCombats();

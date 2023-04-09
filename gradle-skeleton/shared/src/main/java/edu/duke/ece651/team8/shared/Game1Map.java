@@ -106,7 +106,8 @@ public class Game1Map implements Map {
   public String getOutcome() {
 
     doneCombat = false;
-    return combatOutcome;}// not enabled right now
+    return combatOutcome;
+  }
 
   @Override
   public String getWinner(){
