@@ -100,5 +100,7 @@ public class Player {
   public boolean isWinner(int amount) {
     return this.territories.size() == amount;
   }
-//  public abstract String display();
+  public String display() {
+    return "";
+  }
 }
