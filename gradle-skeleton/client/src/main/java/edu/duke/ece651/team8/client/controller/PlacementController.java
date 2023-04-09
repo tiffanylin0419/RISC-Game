@@ -33,8 +33,8 @@ public class PlacementController extends GameController implements Initializable
         doOnePlacement();
         if(placeNum<=0){
             mapS = serverStream.read();
-            messageS=serverStream.read();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, messageS, mapS,playerNum));
+            serverStream.receive();
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please Select Action", mapS,playerNum));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();

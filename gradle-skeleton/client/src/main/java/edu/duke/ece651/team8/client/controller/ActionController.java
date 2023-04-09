@@ -33,7 +33,7 @@ public class ActionController extends GameController implements Initializable {
     private boolean attackButtonPressed=false;
 
     @FXML
-    Button show, move, attack, done;
+    Button info, move, attack, done, upgrade, research;
     @FXML
     Label in1, in2, in3;
     @FXML
@@ -90,15 +90,12 @@ public class ActionController extends GameController implements Initializable {
             errorMessage="action succeed";
         }
         setErrorMessage(errorMessage);
-        setMessage(serverStream.read());
+        serverStream.receive();
     }
 
     @FXML
-    public void showAction() {
-        //?
-        for(Circle c: circles){
-            c.setFill(Color.RED);
-        }
+    public void infoAction() {
+        //todo
     }
     @FXML
     public void moveAction(){
@@ -113,11 +110,20 @@ public class ActionController extends GameController implements Initializable {
     }
 
     @FXML
+    public void upgradeAction(){
+        //todo
+    }
+
+    @FXML
+    public void researchAction(){
+        //todo
+    }
+    @FXML
     public void doneAction()throws IOException{
         serverStream.send("D");
         reportResult();
         if(!isOver() && !isDefeated){
-            setMessage(serverStream.read());
+            serverStream.receive();
         }
     }
 
