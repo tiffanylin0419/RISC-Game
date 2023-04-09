@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public abstract class GameController {
     public ServerStream serverStream;
     public Stage stage;
-    public String colorS, messageS, mapS;
+    public String colorS, messageS, mapS, playerInfoS;
     public int playerNum;
     public String territoryNames[]={"a1","a2","a3","a4","a5","a6","b1","b2","b3","b4","b5","b6","c1","c2","c3","c4","c5","c6","d1","d2","d3","d4","d5","d6"};
 
@@ -38,11 +38,12 @@ public abstract class GameController {
     ImageView image;
     public Circle circles[];
 
-    public GameController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int playerNum){
+    public GameController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS, String mapS, int playerNum){
         this.stage = stage;
         this.serverStream = ss;
         this.colorS=colorS;
         this.messageS=messageS;
+        this.playerInfoS=playerInfoS;
         this.mapS=mapS;
         this.playerNum=playerNum;
     }
@@ -51,6 +52,7 @@ public abstract class GameController {
         setMessage(messageS);
         circles=new Circle[]{a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6};
         disappearCircle();
+        setPlayer(playerInfoS);
         setMap(mapS);
         setImage();
     }
