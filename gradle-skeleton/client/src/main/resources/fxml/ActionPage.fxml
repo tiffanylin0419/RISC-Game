@@ -7,6 +7,216 @@
 <?import javafx.scene.shape.*?>
 
 <BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.team8.client.controller.ActionController">
+
+    <left>
+        <VBox>
+            <Label fx:id="food" text="Food: 0" />
+            <Label fx:id="tech" text="Tech: 0" />
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <BorderPane.margin>
+                <Insets left="20.0" />
+            </BorderPane.margin>
+        </VBox>
+
+    </left>
+    <center>
+        <StackPane scaleX="1" scaleY="1" scaleZ="1">
+            <ImageView fx:id="image" fitHeight="300" fitWidth="500">
+                <image>
+                    <Image url="@../map4.jpg" />
+                </image>
+            </ImageView>
+
+
+            <StackPane>
+                <Circle fx:id="a1" layoutX="10.0" radius="5.0"/>
+                <Label text="a1" />
+                <StackPane.margin>
+                    <Insets left="-140.0" top="-200.0" />
+                </StackPane.margin>
+            </StackPane>
+            <StackPane>
+                <Circle fx:id="a2" layoutX="10.0" radius="5.0"/>
+                <Label text="a2" />
+                <StackPane.margin>
+                    <Insets left="-80.0" top="-170.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="a3" layoutX="10.0" radius="5.0"/>
+                <Label text="a3" />
+                <StackPane.margin>
+                    <Insets left="-10.0" top="-160.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="a4" layoutX="10.0" radius="5.0"/>
+                <Label text="a4" />
+                <StackPane.margin>
+                    <Insets left="140.0" top="-90.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="a5" layoutX="10.0" radius="5.0"/>
+                <Label text="a5" />
+                <StackPane.margin>
+                    <Insets left="210.0" top="-70.0" />
+                </StackPane.margin>
+            </StackPane>
+            <StackPane>
+                <Circle fx:id="a6" radius="5.0"/>
+                <Label text="a6" />
+                <StackPane.margin>
+                    <Insets left="270.0" top="-120.0" />
+                </StackPane.margin>
+            </StackPane>
+            <!--><Button layoutX="10.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text=""><StackPane.margin>
+            <Insets left="-140.0" top="-200.0" />
+            </StackPane.margin></Button><-->
+            <StackPane>
+                <Circle fx:id="b1" radius="5.0"/>
+                <Label text="b1" />
+                <StackPane.margin>
+                    <Insets left="-170.0" top="-170.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="b2" radius="5.0"/>
+                <Label text="b2" />
+                <StackPane.margin>
+                    <Insets left="-90.0" top="-120.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="b3" radius="5.0"/>
+                <Label text="b3" />
+                <StackPane.margin>
+                    <Insets left="40.0" top="-80.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="b4" radius="5.0"/>
+                <Label text="b4" />
+                <StackPane.margin>
+                    <Insets left="110.0" top="-50.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="b5" radius="5.0"/>
+                <Label text="b5" />
+                <StackPane.margin>
+                    <Insets left="170.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="b6" radius="5.0"/>
+                <Label text="b6" />
+                <StackPane.margin>
+                    <Insets left="310.0" top="-120.0" />
+                </StackPane.margin></StackPane>
+            <!---->
+            <StackPane>
+                <Circle fx:id="c1" radius="5.0"/>
+                <Label text="c1" />
+                <StackPane.margin>
+                    <Insets left="-300.0" top="-90.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="c2" radius="5.0"/>
+                <Label text="c2" />
+                <StackPane.margin>
+                    <Insets left="-190.0" top="-90.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="c3" radius="5.0"/>
+                <Label text="c3" />
+                <StackPane.margin>
+                    <Insets left="-90.0" top="30.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="c4" radius="5.0"/>
+                <Label text="c4" />
+                <StackPane.margin>
+                    <Insets top="80.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="c5" radius="5.0"/>
+                <Label text="c5" />
+                <StackPane.margin>
+                    <Insets left="160.0" top="30.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="c6" radius="5.0"/>
+                <Label text="c6" />
+                <StackPane.margin>
+                    <Insets left="300.0" top="20.0" />
+                </StackPane.margin></StackPane>
+            <!---->
+            <StackPane>
+                <Circle fx:id="d1" radius="5.0"/>
+                <Label text="d1" />
+                <StackPane.margin>
+                    <Insets left="-300.0" top="30.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="d2" radius="5.0"/>
+                <Label text="d2" />
+                <StackPane.margin>
+                    <Insets left="-240.0" top="100.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="d3" radius="5.0"/>
+                <Label text="d3" />
+                <StackPane.margin>
+                    <Insets left="-150.0" top="90.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="d4" radius="5.0"/>
+                <Label text="d4" />
+                <StackPane.margin>
+                    <Insets top="180.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="d5" radius="5.0"/>
+                <Label text="d5" />
+                <StackPane.margin>
+                    <Insets left="120.0" top="150.0" />
+                </StackPane.margin></StackPane>
+            <StackPane>
+                <Circle fx:id="d6" radius="5.0"/>
+                <Label text="d6" />
+                <StackPane.margin>
+                    <Insets left="300.0" top="90.0" />
+                </StackPane.margin></StackPane>
+        </StackPane>
+    </center>
+    <bottom>
+        <HBox>
+            <VBox prefHeight="46.0" prefWidth="450.0">
+                <Label fx:id="message" text="Message: ">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin></Label>
+                <Label fx:id="errorMessage" text="Error:">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin></Label>
+            </VBox>
+
+            <VBox>
+                <Label fx:id="in1" text="amount" />
+                <TextField fx:id="input1" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
+            <VBox>
+                <Label fx:id="in2" text="source" />
+                <TextField fx:id="input2" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
+            <VBox>
+                <Label fx:id="in3" text="destination" />
+                <TextField fx:id="input3" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
+            <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter">
+                <HBox.margin>
+                    <Insets top="17.0" />
+                </HBox.margin></Button>
+
+        </HBox>
+
+    </bottom>
     <top>
         <HBox>
             <VBox>
@@ -46,165 +256,5 @@
 
         </HBox>
 
-
-
     </top>
-    <left>
-        <VBox>
-            <Label fx:id="food" text="Food: 0" />
-            <Label fx:id="tech" text="Tech: 0" />
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <BorderPane.margin>
-                <Insets left="20.0" />
-            </BorderPane.margin>
-        </VBox>
-
-    </left>
-    <center>
-        <StackPane scaleX="1" scaleY="1" scaleZ="1">
-            <ImageView fx:id="image" fitHeight="300" fitWidth="500">
-                <image>
-                    <Image url="@../map4.jpg" />
-                </image>
-            </ImageView>
-
-            <Circle fx:id="a1" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-140.0" top="-200.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="a2"  layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-80.0" top="-170.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="a3" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-10.0" top="-160.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="a4" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="140.0" top="-90.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="a5" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="210.0" top="-70.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="a6" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="270.0" top="-120.0" />
-                </StackPane.margin></Circle>
-            <!--><Button layoutX="10.0" style="-fx-background-color: transparent; -fx-text-fill: white;" text=""><StackPane.margin>
-            <Insets left="-140.0" top="-200.0" />
-            </StackPane.margin></Button><-->
-            <Circle fx:id="b1" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-170.0" top="-170.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="b2" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-90.0" top="-120.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="b3" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="40.0" top="-80.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="b4" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="110.0" top="-50.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="b5" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="170.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="b6" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="310.0" top="-120.0" />
-                </StackPane.margin></Circle>
-            <!---->
-            <Circle fx:id="c1" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-300.0" top="-90.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="c2"  radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-190.0" top="-90.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="c3" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-90.0" top="30.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="c4" radius="5.0">
-                <StackPane.margin>
-                    <Insets top="80.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="c5" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="160.0" top="30.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="c6" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="300.0" top="20.0" />
-                </StackPane.margin></Circle>
-            <!---->
-            <Circle fx:id="d1" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-300.0" top="30.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="d2" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-240.0" top="100.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="d3" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="-150.0" top="90.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="d4" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets top="180.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="d5" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="120.0" top="150.0" />
-                </StackPane.margin></Circle>
-            <Circle fx:id="d6" layoutX="10.0" radius="5.0">
-                <StackPane.margin>
-                    <Insets left="300.0" top="90.0" />
-                </StackPane.margin></Circle>
-
-        </StackPane>
-    </center>
-    <bottom>
-        <HBox>
-            <VBox prefHeight="46.0" prefWidth="450.0">
-                <Label fx:id="message" text="Message: ">
-                    <VBox.margin>
-                        <Insets left="20.0" />
-                    </VBox.margin></Label>
-                <Label fx:id="errorMessage" text="Error:">
-                    <VBox.margin>
-                        <Insets left="20.0" />
-                    </VBox.margin></Label>
-            </VBox>
-
-            <VBox>
-                <Label fx:id="in1" text="amount" />
-                <TextField fx:id="input1" prefHeight="26.0" prefWidth="50.0" />
-            </VBox>
-            <VBox>
-                <Label fx:id="in2" text="source" />
-                <TextField fx:id="input2" prefHeight="26.0" prefWidth="50.0" />
-            </VBox>
-            <VBox>
-                <Label fx:id="in3" text="destination" />
-                <TextField fx:id="input3" prefHeight="26.0" prefWidth="50.0" />
-            </VBox>
-            <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter">
-                <HBox.margin>
-                    <Insets top="17.0" />
-                </HBox.margin></Button>
-
-        </HBox>
-
-    </bottom>
 </BorderPane>
