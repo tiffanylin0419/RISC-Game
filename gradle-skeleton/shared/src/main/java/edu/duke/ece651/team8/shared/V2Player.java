@@ -37,8 +37,8 @@ public class V2Player extends Player {
     public String display(){
         StringBuilder sb = new StringBuilder();
         sb.append("{\n\"level\":\""+level+"\",");
-        sb.append("\n\"food\":\""+getFood().getAmount()+"\",");
-        sb.append("\n\"tech\":\""+getTech().getAmount()+"\"");
+        sb.append("\n\"food\":\""+getFoodAmount()+"\",");
+        sb.append("\n\"tech\":\""+getTechAmount()+"\"");
         sb.append("\n}");
         return sb.toString();
     }
