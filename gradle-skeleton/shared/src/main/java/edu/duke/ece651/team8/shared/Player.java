@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 
 public class Player {
-  private final ArrayList<Territory> territories;
+  protected final ArrayList<Territory> territories;
   private String color;
   private int unitMax;
   private boolean isConnected;
