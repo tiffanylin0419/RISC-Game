@@ -118,4 +118,12 @@ public interface Territory {
 
   void setOwner(Player player);
 
+  /**
+   * t is the adjacent territory
+   * set the distance between two territories
+   * @param t
+   * @param distance
+   */
+  public void setDistance(Territory t, int distance);
+
 }
