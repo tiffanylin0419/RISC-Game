@@ -39,7 +39,7 @@ public class Client {
     /** execute the client */
     public void run() {
         try {
-            receiveLoginAndSignup();
+            doLoginOrSignup();
             receiveColor();
             receiveMap();
             displayColor();
@@ -53,32 +53,62 @@ public class Client {
         }
     }
 
-    public void receiveLoginAndSignup() throws IOException{
-        out.println("cliententer");
-        serverStream.receive();
-        out.println(serverStream.getBuffer());
-        String s = input.readLine();
-        if(s.equals("S")){
+    public void doLoginOrSignup() throws IOException{
+        String loginStatus;
+        do {
+            out.println("client enter:");
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            String s = input.readLine();
+            if (!s.equals("L") && !s.equals("S")) {
+                out.println("Should be L/S");
+                throw new IllegalArgumentException("Should be L/S");
+            }
             serverStream.send(s);
-            serverStream.receive();
+            out.println(serverStream.read());
+            //send usename
+            serverStream.send(input.readLine());
+            out.println(serverStream.read());
+            //send password
+            serverStream.send(input.readLine());
+            //receive login status
+            loginStatus = serverStream.read();
+            out.println(loginStatus);
+            out.println(loginStatus);
+        }while(!loginStatus.equals("Successfully login!"));
+
+        serverStream.receive();
+        //send N:new game Y:existing game
+        out.println("-------------------");
+        out.println(serverStream.getBuffer());
+        out.println("-------------------");
+        String newOrExistingGame = input.readLine();
+        serverStream.send(newOrExistingGame);
+        serverStream.receive();
+
+        if(newOrExistingGame.equals("N")){
+            //seng number of how many players' game
+            // to do: add check
             out.println(serverStream.getBuffer());
             serverStream.send(input.readLine());
             serverStream.receive();
             out.println(serverStream.getBuffer());
-            serverStream.send(input.readLine());
-            serverStream.receive();
+        }else if(newOrExistingGame.equals("Y")){
+            //send ID of game;
+            //todo
             out.println(serverStream.getBuffer());
             serverStream.send(input.readLine());
             serverStream.receive();
             out.println(serverStream.getBuffer());
-            serverStream.send(input.readLine());
-            serverStream.receive();
-            out.println(serverStream.getBuffer());
-        }else{ // need add L
+        }else{
+            System.out.println("Your input is: "+ newOrExistingGame);
             throw new IllegalArgumentException("Should be L/S");
         }
 
+
+
     }
+
     public void receivePlacementResult() throws IOException{
         out.println(serverStream.read());
         receiveMap();
