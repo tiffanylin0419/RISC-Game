@@ -244,4 +244,14 @@ public class BasicTerritory implements Territory {
   public void setDistance(Territory t, int distance) {
     distances.put(t, distance);
   }
+
+  @Override
+  public Integer getDistance(Territory t) {
+
+    if (!distances.containsKey(t)) {
+      return null;
+    } else {
+      return distances.get(t);
+    }
+  }
 }

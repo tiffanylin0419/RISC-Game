@@ -4,16 +4,32 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ResourceTerritory extends BasicTerritory {
-    private FoodResource food;
-    private TechResource tech;
-    public ResourceTerritory(String name, FoodResource food, TechResource tech) {
+    private FoodFactory foodFactory;
+    private TechFactory techFactory;
+    public ResourceTerritory(String name) {
         super(name);
-        this.food = food;
-        this.tech = tech;
+        this.foodFactory = new FoodFactory();
+        this.techFactory = new TechFactory();
     }
-    public ResourceTerritory(String name, Player player, FoodResource food, TechResource tech) {
+    public ResourceTerritory(String name, Player player) {
         super(name, player);
-        this.food = food;
-        this.tech = tech;
+        this.foodFactory = new FoodFactory();
+        this.techFactory = new TechFactory();
+    }
+
+    public Resource initFoodResource() {
+        return foodFactory.produce(10);
+    }
+
+    public Resource initTechResource() {
+        return techFactory.produce(10);
+    }
+
+    public Resource produceFoodResource() {
+        return foodFactory.produce(5);
+    }
+
+    public Resource produceTechResource() {
+        return techFactory.produce(5);
     }
 }

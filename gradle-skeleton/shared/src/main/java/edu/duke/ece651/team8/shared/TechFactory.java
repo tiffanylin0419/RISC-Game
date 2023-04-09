@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 public class TechFactory implements ResourceFactory {
     @Override
-    public ArrayList<Resource> produce(int amount) {
-        ArrayList<Resource> resources = new ArrayList<>();
-        TechResource tech = new TechResource(amount);
-        resources.add(tech);
-        return resources;
+    public Resource produce(int amount) {
+        return new TechResource(amount);
     }
 }

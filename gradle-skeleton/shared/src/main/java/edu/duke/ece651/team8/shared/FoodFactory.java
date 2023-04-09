@@ -8,10 +8,7 @@ public class FoodFactory implements ResourceFactory {
     }
 
     @Override
-    public ArrayList<Resource> produce(int amount) {
-        ArrayList<Resource> resources = new ArrayList<>();
-        FoodResource food = new FoodResource(amount);
-        resources.add(food);
-        return resources;
+    public Resource produce(int amount) {
+        return new FoodResource(amount);
     }
 }
