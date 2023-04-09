@@ -90,7 +90,7 @@ public class ActionController extends GameController implements Initializable {
             errorMessage="action succeed";
         }
         setErrorMessage(errorMessage);
-        setMessage(serverStream.read());
+        serverStream.receive();
     }
 
     @FXML
@@ -117,7 +117,7 @@ public class ActionController extends GameController implements Initializable {
         serverStream.send("D");
         reportResult();
         if(!isOver() && !isDefeated){
-            setMessage(serverStream.read());
+            serverStream.receive();
         }
     }
 
