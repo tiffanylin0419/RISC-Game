@@ -20,6 +20,10 @@ public class OldNewGameController {
 
     @FXML
     public void oldGame() throws IOException {
+        //to do
+    }
+    @FXML
+    public void newGame() throws IOException {
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/PlayerNumPage.fxml"));
         loaderStart.setControllerFactory(c->{
             return new PlayerNumController(stage,serverStream);
@@ -27,10 +31,6 @@ public class OldNewGameController {
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
-    }
-    @FXML
-    public void newGame() throws IOException {
-        //to do
     }
 
 }

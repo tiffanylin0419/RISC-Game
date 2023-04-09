@@ -11,7 +11,6 @@ import java.io.IOException;
 
 
 public class LoginSignupController {
-
     private Stage stage;
 
     public ServerStream serverStream;
@@ -29,13 +28,7 @@ public class LoginSignupController {
     public void signup() throws IOException {
         serverStream.receive();
         serverStream.send("S");
-        serverStream.receive();
-        serverStream.send(username.getText());
-        serverStream.receive();
-        serverStream.send(password.getText());
-        if(!serverStream.read().equals("Successfully login!")){
-            //load this page again
-        }
+        sendUsernamePassword();
 
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
         loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream));
@@ -48,18 +41,26 @@ public class LoginSignupController {
     public void login() throws IOException {
         serverStream.receive();
         serverStream.send("L");
-        serverStream.receive();
-        serverStream.send(username.getText());
-        serverStream.receive();
-        serverStream.send(password.getText());
-        if(!serverStream.read().equals("Successfully login!")){
-            //load this page again
-        }
+        sendUsernamePassword();
 
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
         loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream));
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void sendUsernamePassword() throws IOException{
+        serverStream.receive();
+        serverStream.send(username.getText());
+        serverStream.receive();
+        serverStream.send(password.getText());
+        if(!serverStream.read().equals("Successfully login!")){
+            FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/LoginSignupPage.fxml"));
+            loaderStart.setControllerFactory(c-> new LoginSignupController(stage,serverStream));
+            Scene scene = new Scene(loaderStart.load());
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }
