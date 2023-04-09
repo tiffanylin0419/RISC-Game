@@ -18,18 +18,13 @@ public class PlacementController extends GameController implements Initializable
     @FXML
     TextField input;
 
-    public void setMap(String maps){
-        System.out.println(maps);
-    }
-
-    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int placeNum) {
-        super(stage,ss,colorS,messageS,mapS);
+    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int placeNum, int playerNum) {
+        super(stage,ss,colorS,messageS,mapS,playerNum);
         this.placeNum=placeNum;
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize();
-        setMap(mapS);
     }
 
     @FXML
@@ -39,7 +34,7 @@ public class PlacementController extends GameController implements Initializable
         if(placeNum<=0){
             mapS = serverStream.read();
             messageS=serverStream.read();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, messageS, mapS));
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, messageS, mapS,playerNum));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();

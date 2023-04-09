@@ -38,66 +38,17 @@ public class ActionController extends GameController implements Initializable {
     Label in1, in2, in3;
     @FXML
     TextField input1, input2, input3;
-    @FXML
-    Circle a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6;
 
-    //?
-    private String territoryNames[]={"a1","a2","a3","a4","a5","a6","b1","b2","b3","b4","b5","b6"};//,"c1","c2","c3","c4","c5","c6","d1","d2","d3","d4","d5","d6"};
-    private ArrayList<String> territoryColors = new ArrayList<>();
-    private HashMap<String,String> territoryArmys = new HashMap<>();
 
-    public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS) {
-        super(stage,ss,colorS,messageS,mapS);
+    public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int playerNum) {
+        super(stage,ss,colorS,messageS,mapS,playerNum);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize();
         seeInput(false);
-        //?
-        circles=new Circle[]{a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6};
-        setMap(mapS);
     }
 
-
-
-    private void parseMap(){
-        JSONObject jsonObj = new JSONObject(mapS);
-        JSONObject map = jsonObj.getJSONObject("map");
-        territoryColors=new ArrayList<>();
-        for (String territoryName: territoryNames){
-            JSONObject t = map.getJSONObject(territoryName);
-            String armyT = t.getString("army");
-            String colorT = t.getString("color");
-            territoryArmys.put(territoryName,armyT);
-            territoryColors.add(colorT);
-        }
-    }
-    public void setMap(String map){
-        mapS=map;
-        parseMap();
-        int i=0;
-        for(Circle c: circles){
-            System.out.println("hi"+territoryColors.get(i)+"hi");
-            if(territoryColors.get(i).equals("Green")){
-                c.setFill(Color.GREEN);
-            }
-            else if(territoryColors.get(i).equals("Red")){
-                c.setFill(Color.RED);
-            }
-            else if(territoryColors.get(i).equals("Blue")){
-                c.setFill(Color.BLUE);
-            }
-            else if(territoryColors.get(i).equals("Yellow")){
-                c.setFill(Color.YELLOW);
-            }
-            i++;
-            //?
-            if(i>=12){
-                break;
-            }
-        }
-        System.out.println(map);
-    }
     private void seeInput(boolean canSee){
         in1.setVisible(canSee);
         in2.setVisible(canSee);
