@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.json.JSONObject;
-
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,8 +35,11 @@ public abstract class GameController {
     @FXML
     Circle a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6;
     @FXML
+    StackPane A1,A2,A3,A4,A5,A6,B1,B2,B3,B4,B5,B6,C1,C2,C3,C4,C5,C6,D1,D2,D3,D4,D5,D6;
+    @FXML
     ImageView image;
     public Circle circles[];
+    public StackPane stackpanes[];
 
     public GameController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS, String mapS, int playerNum){
         this.stage = stage;
@@ -51,6 +54,7 @@ public abstract class GameController {
         setColor(colorS);
         setMessage(messageS);
         circles=new Circle[]{a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6,c1,c2,c3,c4,c5,c6,d1,d2,d3,d4,d5,d6};
+        stackpanes=new StackPane[]{A1,A2,A3,A4,A5,A6,B1,B2,B3,B4,B5,B6,C1,C2,C3,C4,C5,C6,D1,D2,D3,D4,D5,D6};
         disappearCircle();
         setPlayer(playerInfoS);
         setMap(mapS);
@@ -142,12 +146,11 @@ public abstract class GameController {
     }
     public void disappearCircle(){
         int i=0;
-        for(Circle c: circles){
+        for(StackPane s: stackpanes){
             if(i>=6*playerNum){
-                c.setVisible(false);
+                s.setVisible(false);
             }
             i++;
         }
     }
-
 }
