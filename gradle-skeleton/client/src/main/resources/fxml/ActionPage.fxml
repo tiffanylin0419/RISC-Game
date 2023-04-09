@@ -7,48 +7,7 @@
 <?import javafx.scene.shape.*?>
 
 <BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.team8.client.controller.ActionController">
-    <top>
-        <HBox>
-            <VBox>
-                <Label fx:id="color" text="Player: ">
-                    <VBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                    </VBox.margin></Label>
-                <Label text="Level: 1">
-                    <VBox.margin>
-                        <Insets left="20.0" />
-                    </VBox.margin></Label>
-            </VBox>
-            <Button fx:id="info" mnemonicParsing="false" onAction="#infoAction" text="Info">
-            <HBox.margin>
-               <Insets left="70.0" top="10.0" />
-            </HBox.margin></Button>
-            <Button fx:id="move" mnemonicParsing="false" onAction="#moveAction" text="Move">
-            <HBox.margin>
-               <Insets left="30.0" top="10.0" />
-            </HBox.margin></Button>
-            <Button fx:id="attack" mnemonicParsing="false" onAction="#attackAction" text="Attack">
-            <HBox.margin>
-               <Insets left="30.0" top="10.0" />
-            </HBox.margin></Button>
-            <Button fx:id="upgrade" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#upgradeAction" text="Upgrade">
-                <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
-                </HBox.margin></Button>
-            <Button fx:id="research" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#researchAction" text="Research">
-                <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
-                </HBox.margin></Button>
-            <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#doneAction" text="Done">
-            <HBox.margin>
-               <Insets left="30.0" top="10.0" />
-            </HBox.margin></Button>
 
-        </HBox>
-
-
-
-    </top>
     <left>
         <VBox>
             <Label fx:id="food" text="Food: 0" />
@@ -69,6 +28,7 @@
                     <Image url="@../map4.jpg" />
                 </image>
             </ImageView>
+
 
             <StackPane>
                 <Circle fx:id="a1" layoutX="10.0" radius="5.0"/>
@@ -222,7 +182,6 @@
                 <StackPane.margin>
                     <Insets left="300.0" top="90.0" />
                 </StackPane.margin></StackPane>
-
         </StackPane>
     </center>
     <bottom>
@@ -251,11 +210,51 @@
                 <TextField fx:id="input3" prefHeight="26.0" prefWidth="50.0" />
             </VBox>
             <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter">
-            <HBox.margin>
-               <Insets top="17.0" />
-            </HBox.margin></Button>
+                <HBox.margin>
+                    <Insets top="17.0" />
+                </HBox.margin></Button>
 
         </HBox>
 
     </bottom>
+    <top>
+        <HBox>
+            <VBox>
+                <Label fx:id="color" text="Player: ">
+                    <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                    </VBox.margin></Label>
+                <Label text="Level: 1">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin></Label>
+            </VBox>
+            <Button fx:id="info" mnemonicParsing="false" onAction="#infoAction" text="Info">
+                <HBox.margin>
+                    <Insets left="70.0" top="10.0" />
+                </HBox.margin></Button>
+            <Button fx:id="move" mnemonicParsing="false" onAction="#moveAction" text="Move">
+                <HBox.margin>
+                    <Insets left="30.0" top="10.0" />
+                </HBox.margin></Button>
+            <Button fx:id="attack" mnemonicParsing="false" onAction="#attackAction" text="Attack">
+                <HBox.margin>
+                    <Insets left="30.0" top="10.0" />
+                </HBox.margin></Button>
+            <Button fx:id="upgrade" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#upgradeAction" text="Upgrade">
+                <HBox.margin>
+                    <Insets left="30.0" top="10.0" />
+                </HBox.margin></Button>
+            <Button fx:id="research" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#researchAction" text="Research">
+                <HBox.margin>
+                    <Insets left="30.0" top="10.0" />
+                </HBox.margin></Button>
+            <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#doneAction" text="Done">
+                <HBox.margin>
+                    <Insets left="30.0" top="10.0" />
+                </HBox.margin></Button>
+
+        </HBox>
+
+    </top>
 </BorderPane>
