@@ -52,4 +52,6 @@ public interface Map {
   public String getOutcome();
 
   public String getWinner();
+
+  public void setDistance(Territory t1, Territory t2, int distance);
 }

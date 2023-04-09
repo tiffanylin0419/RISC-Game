@@ -117,5 +117,11 @@ public class Game1Map implements Map {
     }
     return "";
   }
+
+  @Override
+  public void setDistance(Territory t1, Territory t2, int distance) {
+    t1.setDistance(t2, distance);
+    t2.setDistance(t1, distance);
+  }
 }
 

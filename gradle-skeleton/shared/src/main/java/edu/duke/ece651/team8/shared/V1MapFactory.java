@@ -7,6 +7,8 @@ public class V1MapFactory implements AbstractMapFactory {
 
     private final String[] territoryNameList;
 
+    private final int[] distanceList;
+
     private final String[] colors;
 
     public V1MapFactory() {
@@ -16,6 +18,13 @@ public class V1MapFactory implements AbstractMapFactory {
                 "b1", "b2", "b3", "b4", "b5", "b6",
                 "c1", "c2", "c3", "c4", "c5", "c6",
                 "d1", "d2", "d3", "d4", "d5", "d6"
+        };
+        this.distanceList = new int[] {
+                //
+                2, 2, 3, 3, 4, 7, 2, 3, 4, 3, 2,
+                3, 5, 2, 6, 5, 3, 5, 4, 1, 7, 3,
+                4, 5, 6, 7, 3, 2, 4, 5, 5, 4, 2,
+                1, 1, 5, 4, 7
         };
         this.colors= new String[]{ "Green", "Red", "Blue", "Yellow" };
     }
@@ -83,13 +92,18 @@ public class V1MapFactory implements AbstractMapFactory {
     private void connectAdjacentTerritory(int playerAmount, Map theMap) {
         //up, left, down, right
         ArrayList<Territory> territories=theMap.getTerritories();
+        int count = 0;
         for (int i = 0; i < playerAmount; ++i) {
             for (int j = 0; j < this.territoryAmount; ++j) {
                 if (i != playerAmount - 1) {
                     theMap.addAdjacency(territories.get(i * this.territoryAmount + j),territories.get((i + 1) * this.territoryAmount + j));
+                    theMap.setDistance(territories.get(i * this.territoryAmount + j),territories.get((i + 1) * this.territoryAmount + j), distanceList[count]);
+                    ++count;
                 }
                 if (j % this.territoryAmount != (this.territoryAmount - 1)) {
                     theMap.addAdjacency(territories.get(i * this.territoryAmount + j),territories.get(i * this.territoryAmount + j + 1));
+                    theMap.setDistance(territories.get(i * this.territoryAmount + j),territories.get(i * this.territoryAmount + j + 1), distanceList[count]);
+                    ++count;
                 }
             }
         }
