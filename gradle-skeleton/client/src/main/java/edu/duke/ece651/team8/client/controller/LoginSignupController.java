@@ -7,11 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.*;
 import java.io.IOException;
 
 
-public class SignupController {
+public class LoginSignupController {
 
     private Stage stage;
 
@@ -21,7 +20,7 @@ public class SignupController {
     TextField username;
     @FXML
     PasswordField password;
-    public SignupController(Stage stage, ServerStream ss) {
+    public LoginSignupController(Stage stage, ServerStream ss) {
         this.stage = stage;
         this.serverStream = ss;
     }
