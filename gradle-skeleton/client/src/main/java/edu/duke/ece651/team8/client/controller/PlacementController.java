@@ -4,83 +4,27 @@ import edu.duke.ece651.team8.client.ServerStream;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import javafx.scene.control.*;
-import javafx.application.Platform;
 
 import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import java.io.*;
-import java.util.concurrent.LinkedBlockingQueue;
 
-import org.json.*;
-import org.json.JSONObject;
-
-public class PlacementController implements Initializable {
-    public String colorS;
-    public String messageS;
-    public String mapS;
-    public ServerStream serverStream;
-    private Stage stage;
-
+public class PlacementController extends GameController implements Initializable {
     private int placeNum;
-
-    private boolean success=true;
-    @FXML
-    Label color;
-
     @FXML
     TextField input;
 
-    @FXML
-    Label message;
-    @FXML
-    Label errorMessage;
-
-    @FXML
-    Button enter;
-
-
-    private void setColor(String colors){
-        Platform.runLater(() -> {
-            color.setText("Player: " + colors);
-        });
-    }
-
-    private void setMessage(String messages){
-        Platform.runLater(() -> {
-            message.setText("Message: " + messages);
-        });
-    }
-
-    public void setMap(String maps){
-        System.out.println(maps);
-    }
-
-    private void setErrorMessage(String errorMessages){
-        Platform.runLater(() -> {
-            errorMessage.setText("Error: " + errorMessages);
-        });
-    }
-
-    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int placeNum) {
-        this.stage = stage;
-        this.serverStream = ss;
-        this.colorS=colorS;
-        this.messageS=messageS;
-        this.mapS=mapS;
+    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS, String mapS, int placeNum, int playerNum) {
+        super(stage,ss,colorS,messageS,playerInfoS, mapS,playerNum);
         this.placeNum=placeNum;
     }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setColor(colorS);
-        setMessage(messageS);
-        setMap(mapS);
+        super.initialize();
     }
 
     @FXML
@@ -88,14 +32,15 @@ public class PlacementController implements Initializable {
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
         doOnePlacement();
         if(placeNum<=0){
+            playerInfoS=serverStream.read();
             mapS = serverStream.read();
-            messageS=serverStream.read();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, messageS, mapS));
+            System.out.println("\nhi\n"+serverStream.getBuffer());
+            serverStream.receive();
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please Select Action",playerInfoS, mapS,playerNum));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();
         }
-
     }
 
     public void doOnePlacement() throws IOException{

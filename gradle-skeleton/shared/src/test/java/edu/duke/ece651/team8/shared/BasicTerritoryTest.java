@@ -178,7 +178,7 @@ public class BasicTerritoryTest {
   @Test
   public void testIsOwnerAndHasOwner() {
     Territory territory = new BasicTerritory("a");
-    Player player = new Player("p");
+    Player player = new TextPlayer("p");
     assertFalse(territory.isOwner(player));
     Territory territory2 = new BasicTerritory("b", player);
     assertTrue(territory2.isOwner(player));
@@ -189,8 +189,8 @@ public class BasicTerritoryTest {
   @Test
   public void testGetOwnerUnitAmount() {
     Territory territory = new BasicTerritory("a");
-    Player p1 = new Player("p1");
-    Player p2 = new Player("p2");
+    Player p1 = new TextPlayer("p1");
+    Player p2 = new TextPlayer("p2");
     Army army1 = new BasicArmy(6, p1);
     Army army2 = new BasicArmy(5, p2);
     assertEquals(0, territory.getOwnerUnitAmount());
@@ -200,5 +200,15 @@ public class BasicTerritoryTest {
     assertEquals(6, territory.getOwnerUnitAmount());
     territory.setOwner(p2);
     assertEquals(5, territory.getOwnerUnitAmount());
+  }
+  @Test
+  public void testAddOne() {
+    Territory territory = new BasicTerritory("a");
+    Player p1 = new TextPlayer("p1");
+    Army army1 = new BasicArmy(6, p1);
+    territory.moveIn(army1);
+    territory.addOne();
+
+    assertEquals(7, territory.getUnitAmount(0));
   }
 }

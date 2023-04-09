@@ -20,18 +20,18 @@ public class PlayerNumController {
 
     @FXML
     public void p2() throws IOException {
-        pAny("2");
+        pAny("2",2);
     }
     @FXML
     public void p3() throws IOException {
-        pAny("3");
+        pAny("3",3);
     }
     @FXML
     public void p4() throws IOException {
-        pAny("4");
+        pAny("4",4);
     }
 
-    private void pAny(String num)throws IOException {
+    private void pAny(String num, int n)throws IOException {
         serverStream.receive();
         serverStream.send("N");
         serverStream.receive();
@@ -39,12 +39,13 @@ public class PlayerNumController {
         serverStream.receive();
 
         String colors = serverStream.read();
+        String playerInfo=serverStream.read();
         String map = serverStream.read();
         int placeNum=Integer.parseInt(serverStream.read());
         String message=serverStream.read();
 
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/Placement.fxml"));
-        loaderStart.setControllerFactory(c-> new PlacementController(stage,serverStream, colors, message, map, placeNum));
+        loaderStart.setControllerFactory(c-> new PlacementController(stage,serverStream, colors, message, playerInfo,map, placeNum,n));
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();

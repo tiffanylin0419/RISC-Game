@@ -17,6 +17,10 @@ public class Player {
   public void disconnect() {
     isConnected = false;
   }
+
+  public void connect() {
+    isConnected = true;
+  }
   public boolean isConnected() {
     return isConnected;
   }
@@ -96,4 +100,5 @@ public class Player {
   public boolean isWinner(int amount) {
     return this.territories.size() == amount;
   }
+  public abstract String display();
 }

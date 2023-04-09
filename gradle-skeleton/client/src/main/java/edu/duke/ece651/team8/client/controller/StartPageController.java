@@ -8,12 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
+
+
 public class StartPageController {
     private Stage stage;
 
     public ServerStream serverStream;
 
-    public StartPageController(Stage stage, ServerStream ss) {
+    public StartPageController(Stage stage, ServerStream ss)  {
         this.stage = stage;
         this.serverStream = ss;
     }
@@ -21,10 +23,8 @@ public class StartPageController {
     @FXML
     public void login() throws IOException {
         System.out.println("click on log in");
-        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/AccountPage.fxml"));
-        loaderStart.setControllerFactory(c->{
-            return new AccountController(stage,serverStream);
-        });
+        FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/LoginSignupPage.fxml"));
+        loaderStart.setControllerFactory(c-> new LoginSignupController(stage,serverStream,""));
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();

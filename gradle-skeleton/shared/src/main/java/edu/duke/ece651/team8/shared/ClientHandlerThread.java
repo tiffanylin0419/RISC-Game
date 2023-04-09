@@ -2,7 +2,10 @@ package edu.duke.ece651.team8.shared;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ClientHandlerThread extends Thread {
     private final Object lock = new Object();
@@ -26,7 +29,7 @@ public class ClientHandlerThread extends Thread {
     private final int unitAmount = 36;
     private String winnerName;
     private GameThread gameServer;
-
+    private int status;
     /**
      * Constructor of the ClientHandlerThread
      * @param output
@@ -44,6 +47,7 @@ public class ClientHandlerThread extends Thread {
         this.mapInfo = mapView.displayMap(theMap);
         this.winnerName = "";
         this.gameServer = gameServer;
+        this.status = 0;
     }
     @Override
     public void run() {
@@ -59,6 +63,20 @@ public class ClientHandlerThread extends Thread {
             output.close();
         }
     }
+    public void reconnect(PrintWriter out, BufferedReader in) {
+        if(player.isConnected()) {
+            send("This player is already online", output);
+            return;
+        }
+        output = out;
+        reader = in;
+        send(String.valueOf(status), output);
+        send(player.getColor(), output);
+        player.connect();
+    }
+
+    public void setIO(PrintWriter out, BufferedReader in) {
+    }
     public void doSynchronization() {
         synchronized (gameServer) {
             try {
@@ -69,17 +87,21 @@ public class ClientHandlerThread extends Thread {
         }
     }
     public void sendGameLoading() { //haven't finished
+        if(status > 0) return; // refactor to hashmap?
         String prompt = "Loading...Waiting for more player to join...";
         send(prompt, output);
-        doSynchronization();
+        status += 1;
     }
     public void sendInitialConfig() {
-            //send color and initial map information to players
-            send(player.getColor(), output);
-            send(mapInfo,output);
-            // wait for the server to finish processing messages
-            doSynchronization();
+        if(status > 1) return; // refactor to hashmap?
+        doSynchronization();
+        //send color and initial map information to players
+        send(player.getColor(), output);
+        send(player.display(),output);
+        send(mapInfo,output);
+        // wait for the server to finish processing messages
 
+        status += 1;
     }
 
     /**
@@ -106,9 +128,11 @@ public class ClientHandlerThread extends Thread {
     }
 
     private void endPlacementPhase() {
+        if(!player.isConnected()) return;
         String prompt = "Placement phase is done!\n";
         mapInfo = mapView.displayMap(theMap);
         send(prompt,output);
+        send(player.display(),output);
         send(mapInfo,output);
     }
 
@@ -116,14 +140,18 @@ public class ClientHandlerThread extends Thread {
      * init placement of units
      */
     public void doInitialPlacement(){
+        if(status > 2) return; // refactor to hashmap?
+        doSynchronization();
         String num = Integer.toString(placementTimes);
         String prompt = "Please enter the units you would like to place in ";
-        if(!player.isConnected()) interrupt(); //!!!
-        send(num, output);
-        placeUnitForTerritories(prompt, num);
+        if(player.isConnected()) { //!!!
+            send(num, output);
+            placeUnitForTerritories(prompt, num);
+            doSynchronization();
+            endPlacementPhase();
+        }
         // wait for the server to finish processing messages
-        doSynchronization();
-        endPlacementPhase();
+        status += 1;
     }
 
     private void getWinner() {
@@ -190,37 +218,43 @@ public class ClientHandlerThread extends Thread {
      */
     public void reportResult() {
 //        theMap = gameServer.getTheMap();
+        doSynchronization();
+        status += 1;
         theMap.doCombats();
         doSynchronization();
         String outcome = theMap.getOutcome();
-        System.out.println("outcome:" + outcome);
-
-        mapInfo = mapView.displayMap(theMap);
-        send(outcome, output);
-        send(mapInfo,output);
-        if (player.isDefeated()) {
-            String prompt = "lose";
-            send(prompt, output);
-        } else {
-            String prompt = "continue";
-            send(prompt, output);
+        System.out.println("outcome:" + player.getColor() + " " +status);
+        if(player.isConnected()) {
+            mapInfo = mapView.displayMap(theMap);
+            send(player.display(),output);
+            send(outcome, output);
+            send(mapInfo, output);
+            if (player.isDefeated()) {
+                String prompt = "lose";
+                send(prompt, output);
+            } else {
+                String prompt = "continue";
+                send(prompt, output);
+            }
+            getWinner();
+            if (this.winnerName == "") {
+                send("no winner", output);
+            } else {
+                send(this.winnerName, output);
+            }
         }
-        getWinner();
-        if (this.winnerName == "") {
-            send("no winner", output);
-        } else {
-            send(this.winnerName, output);
-        }
-        doSynchronization();
     }
     /**
      * Issue orders (Move and Attack) for every client
      * if they are still alive
      */
     public void issueOrders() {
+        System.out.println("issue status " + status);
+        if(status % 2 == 0) return; // refactor to hashmap?
+        doSynchronization();
         try {
-            if (!player.isConnected()) interrupt();
-            if (!player.isDefeated()) {
+//            if (!player.isConnected()) interrupt();
+            if (player.isConnected() && !player.isDefeated()) {
                 doOneCommit();
             }
         } catch (IOException e) {
@@ -228,8 +262,7 @@ public class ClientHandlerThread extends Thread {
             player.disconnect();
             System.out.println(e.getMessage());
         }
-        doSynchronization();
-
+        status += 1;
     }
 
     /**
