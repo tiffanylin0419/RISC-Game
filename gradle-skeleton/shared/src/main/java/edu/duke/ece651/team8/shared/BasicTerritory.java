@@ -2,6 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class BasicTerritory implements Territory {
@@ -10,6 +11,8 @@ public class BasicTerritory implements Territory {
   private Player owner;
   private final HashSet<Territory> adjacent_territory;
 
+  private final HashMap<Territory, Integer> distances;
+
   private final ArrayList<Territory> adjList;
   private final ArrayList<Army> armies;
   //constructor
@@ -17,6 +20,7 @@ public class BasicTerritory implements Territory {
     this.name=name;
     this.owner=null;
     this.adjacent_territory=new HashSet<>();
+    this.distances = new HashMap<>();
     this.adjList = new ArrayList<>();
     this.armies =new ArrayList<>();
   }
@@ -234,5 +238,10 @@ public class BasicTerritory implements Territory {
   @Override
   public void setOwner(Player player) {
     this.owner = player;
+  }
+
+  @Override
+  public void setDistance(Territory t, int distance) {
+    distances.put(t, distance);
   }
 }

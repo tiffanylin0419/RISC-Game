@@ -45,7 +45,7 @@ public class App  extends Application{
         catch(Exception e) {
             e.printStackTrace();
         }
-    }//*/
+    }*/
 
     //text player
 //*
@@ -56,7 +56,7 @@ public class App  extends Application{
         int port = 8080; // set the port number
         Client client = new Client(port, hostname,in); // create a new client instance
         client.run(); // connect the client to the server
-    }//*/
+    }
 
 
 
