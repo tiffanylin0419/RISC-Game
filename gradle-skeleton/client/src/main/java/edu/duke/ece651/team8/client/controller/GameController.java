@@ -71,7 +71,6 @@ public abstract class GameController {
         });
     }
     public void setImage(){
-        System.out.println("/map"+playerNum+".jpg");
         Platform.runLater(() -> {
             Image newImage = new Image(getClass().getResourceAsStream("/map"+playerNum+".jpg"));
             image.setImage(newImage);
