@@ -40,8 +40,8 @@ public class ActionController extends GameController implements Initializable {
     TextField input1, input2, input3;
 
 
-    public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int playerNum) {
-        super(stage,ss,colorS,messageS,mapS,playerNum);
+    public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS,String mapS, int playerNum) {
+        super(stage,ss,colorS,messageS,playerInfoS, mapS,playerNum);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

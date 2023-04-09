@@ -18,8 +18,8 @@ public class PlacementController extends GameController implements Initializable
     @FXML
     TextField input;
 
-    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String mapS, int placeNum, int playerNum) {
-        super(stage,ss,colorS,messageS,mapS,playerNum);
+    public PlacementController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS, String mapS, int placeNum, int playerNum) {
+        super(stage,ss,colorS,messageS,playerInfoS, mapS,playerNum);
         this.placeNum=placeNum;
     }
     @Override
@@ -32,9 +32,11 @@ public class PlacementController extends GameController implements Initializable
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
         doOnePlacement();
         if(placeNum<=0){
+            playerInfoS=serverStream.read();
             mapS = serverStream.read();
+            System.out.println("\nhi\n"+serverStream.getBuffer());
             serverStream.receive();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please Select Action", mapS,playerNum));
+            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please Select Action",playerInfoS, mapS,playerNum));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();

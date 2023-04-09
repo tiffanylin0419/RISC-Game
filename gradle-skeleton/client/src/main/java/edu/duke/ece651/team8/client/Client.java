@@ -113,6 +113,7 @@ public class Client {
     public void receivePlacementResult() throws IOException{
         if(status > 2) return;
         out.println(serverStream.read());
+        System.out.println(serverStream.read());//player info
         receiveMap();
         displayMap();
     }
@@ -162,6 +163,7 @@ public class Client {
     public void receiveColor()throws  IOException{
         if(status > 1) return;
         color = serverStream.read();
+        System.out.println(serverStream.read());//player info
         receiveMap();
         displayColor();
         displayMap();

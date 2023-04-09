@@ -97,6 +97,7 @@ public class ClientHandlerThread extends Thread {
         doSynchronization();
         //send color and initial map information to players
         send(player.getColor(), output);
+        send(player.display(),output);
         send(mapInfo,output);
         // wait for the server to finish processing messages
 
@@ -131,6 +132,7 @@ public class ClientHandlerThread extends Thread {
         String prompt = "Placement phase is done!\n";
         mapInfo = mapView.displayMap(theMap);
         send(prompt,output);
+        send(player.display(),output);
         send(mapInfo,output);
     }
 
