@@ -17,6 +17,10 @@ public class Player {
   public void disconnect() {
     isConnected = false;
   }
+
+  public void connect() {
+    isConnected = true;
+  }
   public boolean isConnected() {
     return isConnected;
   }

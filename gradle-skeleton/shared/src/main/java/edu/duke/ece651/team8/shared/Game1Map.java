@@ -12,6 +12,7 @@ public class Game1Map implements Map {
 
   private final ActionRuleChecker checker;
   private String combatOutcome;
+  private boolean doneCombat;
 
   //constructor
   public Game1Map() {
@@ -19,6 +20,7 @@ public class Game1Map implements Map {
     this.players = new ArrayList<>();
     this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
     this.combatOutcome = "";
+    this.doneCombat = false;
   }
 
   //constructor
@@ -27,6 +29,7 @@ public class Game1Map implements Map {
     this.territories = territories;
     this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
     this.combatOutcome = "";
+    this.doneCombat = false;
   }
 
   @Override
@@ -82,6 +85,8 @@ public class Game1Map implements Map {
    */
   @Override
   public synchronized void doCombats() {
+    if(doneCombat) return;
+    doneCombat = true;
     StringBuilder outcomes = new StringBuilder();
     boolean isEffective = false;
     for(Territory t : territories) {
@@ -98,7 +103,10 @@ public class Game1Map implements Map {
   }
 
   @Override
-  public String getOutcome() {return combatOutcome;}// not enabled right now
+  public String getOutcome() {
+
+    doneCombat = false;
+    return combatOutcome;}// not enabled right now
 
   @Override
   public String getWinner(){

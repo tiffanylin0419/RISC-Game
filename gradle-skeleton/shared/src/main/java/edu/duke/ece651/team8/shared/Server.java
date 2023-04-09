@@ -95,6 +95,7 @@ public class Server {
         send(passwordPrompt , out);
         String password = receive(reader);
         PlayerAccount account = new PlayerAccount(out, reader, username, password);
+        accounts.add(account);
         return account;
     }
     public PlayerAccount processLogin(PrintWriter out, BufferedReader reader) throws IOException {
@@ -123,6 +124,7 @@ public class Server {
         }
     }
     public PlayerAccount searchForAccount(String username, String password) {
+        System.out.println("accounts size:" + accounts.size());
         for(PlayerAccount ac: accounts) {
             if(ac.match(username, password)) return ac;
         }
@@ -137,8 +139,14 @@ public class Server {
             send(joinPrompt, account.getOutput());
             int num = Integer.parseInt(receive(account.getReader()));
             return joinGame(num, account);
+        } else {
+            String joinPrompt = "Select which game you would like to return"; // haven't dealt with Y
+            send(joinPrompt, account.getOutput());
+            String gameInfo = account.displayGameList();
+            send(gameInfo, account.getOutput());
+            int num = Integer.parseInt(receive(account.getReader()));
+            return account.select(num);
         }
-        return null;
     }
     public synchronized ClientHandlerThread joinGame(int num, PlayerAccount account){
         for(GameThread game : games) {
@@ -187,10 +195,10 @@ public class Server {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println(output);
             account = processLoginAndSignup(output, reader);
-            while (true) {
-                ClientHandlerThread clientThread = findMatch(account);
-                while(clientThread.isAlive()) {}
-            }
+//            while (true) {
+            ClientHandlerThread clientThread = findMatch(account);
+            while(clientThread.isAlive()) {}
+//            }
         } catch(IOException e) {
             System.out.println("handlePlayerConnection IOException");
         }

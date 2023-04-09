@@ -25,7 +25,7 @@ public class Client {
     protected boolean isDefeated = false;
 
     protected String winner;
-    private SocketChannel socketChannel;
+    private int status;
     /**
      * Constructs a server with specified port
      *
@@ -37,6 +37,7 @@ public class Client {
         this.out = System.out;
         this.input = in;
         this.winner = "no winner";
+        this.status = 0;
     }
 
 
@@ -45,10 +46,6 @@ public class Client {
         try {
             receiveLoginAndSignup();
             receiveColor();
-            startListeningForExit();
-            receiveMap();
-            displayColor();
-            displayMap();
             doInitialPlacement();
             receivePlacementResult();
             doAllTurns();
@@ -57,22 +54,7 @@ public class Client {
             out.println(e.getMessage());
         }
     }
-    public void startListeningForExit() {
-        Thread inputThread = new Thread(() -> {
-            out.println("enter scanner");
-            Scanner scanner = new Scanner(input);
-            while (true) {
-                String input = scanner.nextLine();
-                if (input.equals("exit")) {
-                    out.println("exit sucess");
-                    serverStream.send(input);
-                    // Send an exit message to the server and break out of the loop
-                    break;
-                }
-            }
-        });
-        inputThread.start();
-    }
+
     public void receiveLoginAndSignup() throws IOException{
         out.println("cliententer");
         serverStream.receive();
@@ -95,28 +77,55 @@ public class Client {
             serverStream.receive();
             out.println(serverStream.getBuffer());
         }else{ // need add L
-            throw new IllegalArgumentException("Should be L/S");
+            serverStream.send(s);
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            serverStream.send(input.readLine());
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            serverStream.send(input.readLine());
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            serverStream.send(input.readLine());
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            serverStream.send(input.readLine());
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            status = Integer.parseInt(serverStream.getBuffer());
+
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            color = serverStream.getBuffer();
         }
 
     }
     public void receivePlacementResult() throws IOException{
+        if(status > 2) return;
         out.println(serverStream.read());
         receiveMap();
         displayMap();
     }
     public void doAllTurns() throws IOException {
         while(!isOver()) {//keep running if no one wins
-            if(!isDefeated){
-                doOneTurn();
+            if(status % 2 != 0 || status == 0) {
+                if (!isDefeated) {
+                    doOneTurn();
+                }
             }
             reportResult();
 //            System.out.println("outcome reach");
         }
     }
     public void reportResult() throws IOException{
+        status = 0;
         receiveCombatOutcome();
+        System.out.println("displayCombatOutcome");
         displayCombatOutcome();
         receiveMap();
+        System.out.println("displayMap");
         displayMap();
 
         receiveLoseStatus();
@@ -126,6 +135,7 @@ public class Client {
 
         receiveWinner();
         if(isOver()){
+            System.out.println("winner:" + winner + ":");
             if(color.equals(winner)){
                 out.println("Congratulations! You win!");
             }else {
@@ -141,7 +151,11 @@ public class Client {
      * @throws IOException if something wrong with receive
      */
     public void receiveColor()throws  IOException{
+        if(status > 1) return;
         color = serverStream.read();
+        receiveMap();
+        displayColor();
+        displayMap();
     }
 
     /**
@@ -193,6 +207,7 @@ public class Client {
         }
     }*/
     public void doInitialPlacement() throws IOException{
+        if(status > 2) return;
         int placementTimes = Integer.parseInt(serverStream.read());
         serverStream.receive();
         int i=0;
