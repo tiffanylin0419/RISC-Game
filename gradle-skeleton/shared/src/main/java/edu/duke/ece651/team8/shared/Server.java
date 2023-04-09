@@ -94,7 +94,7 @@ public class Server {
         String password = receive(reader);
 
         if(!isUsernameAvailability(username)){
-            String error = username +"has been taken up!";
+            String error = username +" has been taken up!";
             throw new SignUpException(error);
         }
         PlayerAccount account = new PlayerAccount(out, reader, username, password);
@@ -133,7 +133,6 @@ public class Server {
         }
         return null;
     }
-
 
     public boolean isUsernameAvailability(String Username){
         System.out.println(Username);
@@ -213,7 +212,6 @@ public class Server {
             PrintWriter output = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println(output);
-
             while (true) {
                 try {
                     account = processLoginAndSignup(output, reader);

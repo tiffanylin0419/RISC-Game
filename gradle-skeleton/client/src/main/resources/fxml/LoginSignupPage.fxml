@@ -4,10 +4,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane alignment="CENTER" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="edu.duke.ece651.team8.client.controller.SignupController">
+<StackPane alignment="CENTER" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="edu.duke.ece651.team8.client.controller.LoginSignupController">
     <VBox alignment="CENTER" spacing="10">
-        <Label styleClass="title" text="Signup" >
+        <Label styleClass="title" text="Signup/Login" >
             <font>
                 <Font name="System Bold" size="28.0" />
             </font>
@@ -18,7 +18,11 @@
             <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         </GridPane>
-        <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" />
+        <GridPane alignment="TOP_CENTER" hgap="5" vgap="10">
+            <Button fx:id="signup" mnemonicParsing="false" onAction="#signup" text="Signup" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Button fx:id="login" mnemonicParsing="false" onAction="#login" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        </GridPane>
+
         <Label fx:id="errorMessage" text="" ></Label>
     </VBox>
 
