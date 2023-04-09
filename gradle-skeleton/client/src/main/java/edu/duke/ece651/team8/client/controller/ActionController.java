@@ -1,7 +1,6 @@
 package edu.duke.ece651.team8.client.controller;
 
 import edu.duke.ece651.team8.client.ServerStream;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,28 +8,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import org.json.*;
-import org.json.JSONObject;
-import java.util.Arrays;
 
 
 public class ActionController extends GameController implements Initializable {
     private String winner="no winner";
     private boolean isDefeated=false;
-    private boolean moveButtonPressed=false;
-    private boolean attackButtonPressed=false;
+    private boolean moveButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
 
     @FXML
     Button info, move, attack, done, upgrade, research;
@@ -46,7 +35,7 @@ public class ActionController extends GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize();
-        seeInput(false);
+        notSeeInput();
     }
 
     private void seeInput(boolean canSee){
@@ -57,11 +46,18 @@ public class ActionController extends GameController implements Initializable {
         input2.setVisible(canSee);
         input3.setVisible(canSee);
         enter.setVisible(canSee);
-        if(!canSee){
-            input1.clear();
-            input2.clear();
-            input3.clear();
-        }
+    }
+    private void notSeeInput(){
+        seeInput(false);
+        input1.clear();
+        input2.clear();
+        input3.clear();
+    }
+    private void canSeeInput(String s1, String s2, String s3){
+        seeInput(true);
+        in1.setText(s1);
+        in2.setText(s2);
+        in3.setText(s3);
     }
     @FXML
     public void enter() throws IOException {
@@ -75,7 +71,12 @@ public class ActionController extends GameController implements Initializable {
             actionMoveAttack();
             attackButtonPressed=false;
         }
-        seeInput(false);
+        else if (researchButtonPressed){
+            serverStream.send("R");
+            actionResearch();
+            researchButtonPressed=false;
+        }
+        notSeeInput();
     }
     private void actionMoveAttack() throws IOException {
         String amount =input1.getText();
@@ -93,6 +94,13 @@ public class ActionController extends GameController implements Initializable {
         serverStream.receive();
     }
 
+    private void actionResearch() throws IOException{
+        //todo
+    }
+    private void actionUpdate() throws IOException{
+        //todo
+    }
+
     @FXML
     public void infoAction() {
         //todo
@@ -100,23 +108,26 @@ public class ActionController extends GameController implements Initializable {
     @FXML
     public void moveAction(){
         moveButtonPressed=true;
-        seeInput(true);
+        canSeeInput("amount","source","destination");
     }
 
     @FXML
     public void attackAction(){
         attackButtonPressed=true;
-        seeInput(true);
+        canSeeInput("amount","source","destination");
     }
 
     @FXML
-    public void upgradeAction(){
-        //todo
+    public void upgradeAction()  throws IOException{
+        upgradeButtonPressed=true;
+        actionUpdate();
+        serverStream.send("U");
     }
 
     @FXML
     public void researchAction(){
-        //todo
+        researchButtonPressed=true;
+        canSeeInput("amount","prev_level","next_level");
     }
     @FXML
     public void doneAction()throws IOException{
