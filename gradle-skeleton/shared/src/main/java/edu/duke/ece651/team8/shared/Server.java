@@ -127,11 +127,13 @@ public class Server {
         }
     }
     public PlayerAccount searchForAccount(String username, String password) {
+        System.out.println("accounts size:" + accounts.size());
         for(PlayerAccount ac: accounts) {
             if(ac.match(username, password)) return ac;
         }
         return null;
     }
+
 
     public boolean isUsernameAvailability(String Username){
         System.out.println(Username);
@@ -141,7 +143,7 @@ public class Server {
         }
         return true;
     }
-    public GameThread findMatch(PlayerAccount account) throws IOException{
+    public ClientHandlerThread findMatch(PlayerAccount account) throws IOException{
         String prompt = "Join your exist game? Y/N"; // haven't dealt with Y
         send(prompt, account.getOutput());
         String res = receive(account.getReader());
@@ -156,21 +158,28 @@ public class Server {
             System.out.println("--------------");
             int num = Integer.parseInt(numString);
             return joinGame(num, account);
+        } else {
+            String joinPrompt = "Select which game you would like to return"; // haven't dealt with Y
+            send(joinPrompt, account.getOutput());
+            String gameInfo = account.displayGameList();
+            send(gameInfo, account.getOutput());
+            int num = Integer.parseInt(receive(account.getReader()));
+            return account.select(num);
         }
-        return null;
     }
-    public synchronized GameThread joinGame(int num, PlayerAccount account){
-        System.out.println("games size" + games.size());
+    public synchronized ClientHandlerThread joinGame(int num, PlayerAccount account){
         for(GameThread game : games) {
-            if(game.getPlayerNum() == num && game.join(account)) {
-                return game;
+            if(game.getPlayerNum() == num) {
+                ClientHandlerThread clientThread = game.join(account);
+                if(clientThread == null) break;
+                return clientThread;
             }
         }
         GameThread gameThread = new GameThread(num, factory);
         gameThread.start();
-        gameThread.join(account);
+        ClientHandlerThread clientThread = gameThread.join(account);
         games.add(gameThread);
-        return gameThread;
+        return clientThread;
     }
     public void send(String message, PrintWriter output) {
         output.println(message);
@@ -192,6 +201,11 @@ public class Server {
         }
         return sb.toString();
     }
+
+    /**
+     * Thread deal with each client connection
+     * @param socket
+     */
     private void handlePlayerConnection(Socket socket) {
         System.out.println("Client connected!");
         PlayerAccount account;
@@ -199,6 +213,7 @@ public class Server {
             PrintWriter output = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println(output);
+
             while (true) {
                 try {
                     account = processLoginAndSignup(output, reader);
@@ -211,8 +226,8 @@ public class Server {
                 }
             }
             while (true) {
-                GameThread game = findMatch(account);
-                while(game.isAlive()) {}
+                ClientHandlerThread clientThread = findMatch(account);
+                while(clientThread.isAlive()) {}
             }
         } catch(IOException e) {
             System.out.println("handlePlayerConnection IOException");
