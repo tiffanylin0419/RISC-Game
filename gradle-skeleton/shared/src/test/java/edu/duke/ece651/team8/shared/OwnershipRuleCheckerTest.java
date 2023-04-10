@@ -20,7 +20,7 @@ class OwnershipRuleCheckerTest {
         theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
         theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
 
-        ActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(null))) ;
+        MovableActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(null))) ;
         MovableAction action1 =new MoveAction(p1,"a1","b1",3,theMap);
         assertEquals("Cannot choose b1 as destination for this action",checker.checkAllRule(action1));
 

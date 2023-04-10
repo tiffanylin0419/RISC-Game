@@ -23,7 +23,7 @@ class TerritoryRuleCheckerTest {
         theMap.getTerritories().get(4).moveIn(new BasicArmy(1,p1));
         theMap.getTerritories().get(5).moveIn(new BasicArmy(9,p1));
 
-        ActionRuleChecker checker= new TerritoryRuleChecker(new NumberRuleChecker(null)) ;
+        MovableActionRuleChecker checker= new TerritoryRuleChecker(new NumberRuleChecker(null)) ;
         MovableAction action1 =new MoveAction(p1,"a1","a7",3,theMap);
         assertEquals("Destination a7 not in map",checker.checkAllRule(action1));
 

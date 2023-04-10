@@ -22,7 +22,7 @@ class NumberRuleCheckerTest {
         theMap.getTerritories().get(4).moveIn(new BasicArmy(1,p1));
         theMap.getTerritories().get(5).moveIn(new BasicArmy(9,p1));
 
-        ActionRuleChecker checker= new NumberRuleChecker(null) ;
+        MovableActionRuleChecker checker= new NumberRuleChecker(null) ;
         MovableAction action1 =new MoveAction(p1,"a1","a3",3,theMap);
         assertNull(checker.checkMyRule(action1));
 
