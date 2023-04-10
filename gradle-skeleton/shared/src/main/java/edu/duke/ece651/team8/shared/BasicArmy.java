@@ -10,7 +10,9 @@ public class BasicArmy extends AbstractArmy {
     super(amount, owner);
   }
 
-
+  public BasicArmy(Player owner, List<Unit> list){
+    super(owner,list);
+  }
 
   @Override
   public boolean isSurvive(){

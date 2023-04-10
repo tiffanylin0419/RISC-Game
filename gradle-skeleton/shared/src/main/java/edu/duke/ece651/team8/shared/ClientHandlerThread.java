@@ -1,11 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
 import java.io.*;
-import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ClientHandlerThread extends Thread {
     private final Object lock = new Object();
@@ -295,7 +291,7 @@ public class ClientHandlerThread extends Thread {
         receive(reader);
         System.out.println("receive from client: "+buffer);
     }
-    public String orderRuleCheck(Action ac) {
+    public String orderRuleCheck(MovableAction ac) {
         String errorMessage=theMap.getChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", output);
@@ -320,7 +316,7 @@ public class ClientHandlerThread extends Thread {
         String source = buffer;
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
-        Action ac = new MoveAction(player, source, destination, num, theMap);
+        MovableAction ac = new MoveAction(player, source, destination, num, theMap);
         return orderRuleCheck(ac);
     }
 

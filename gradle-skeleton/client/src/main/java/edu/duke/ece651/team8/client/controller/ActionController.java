@@ -19,12 +19,12 @@ import java.util.ResourceBundle;
 public class ActionController extends GameController implements Initializable {
     private String winner="no winner";
     private boolean isDefeated=false;
-    private boolean moveButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
+    private boolean infoButtonPressed=false, moveButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
 
     @FXML
     Button info, move, attack, done, upgrade, research;
     @FXML
-    Label in1, in2, in3;
+    Label in1, in2, in3, territoryInfo;
     @FXML
     TextField input1, input2, input3;
 
@@ -36,6 +36,10 @@ public class ActionController extends GameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize();
         notSeeInput();
+    }
+
+    private void setTerritoryInfo(String s){
+        territoryInfo.setText("Info: "+s);
     }
 
     private void seeInput(boolean canSee){
@@ -59,9 +63,25 @@ public class ActionController extends GameController implements Initializable {
         in2.setText(s2);
         in3.setText(s3);
     }
+    private void see1input(String s1){
+        in3.setVisible(true);
+        input3.setVisible(true);
+        enter.setVisible(true);
+        in3.setText(s1);
+    }
     @FXML
     public void enter() throws IOException {
-        if(moveButtonPressed){
+        if(infoButtonPressed){
+            String info=territoryArmys.get(input3.getText());
+            if(info==null){
+                setErrorMessage("Territory "+input3.getText()+" does not exist");
+            }
+            else{
+                setTerritoryInfo(info);
+                setErrorMessage("");
+            }
+            infoButtonPressed=false;
+        }else if(moveButtonPressed){
             serverStream.send("M");
             actionMoveAttack();
             moveButtonPressed=false;
@@ -103,7 +123,8 @@ public class ActionController extends GameController implements Initializable {
 
     @FXML
     public void infoAction() {
-        //todo
+        see1input("territory");
+        infoButtonPressed=true;
     }
     @FXML
     public void moveAction(){

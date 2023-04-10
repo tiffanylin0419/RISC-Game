@@ -1,5 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LevelOneUnit implements Unit{
     private final int level = 1;
     private final String type = "Assassin";
@@ -33,5 +35,15 @@ public class LevelOneUnit implements Unit{
             return level == otherUnit.getLevel();
         }
         return false;
+    }
+
+    @Override
+    public int getBonus(){
+        return bonus;
+    }
+
+    @Override
+    public int compareTo(@NotNull Unit o) {
+        return this.getBonus() - o.getBonus();
     }
 }

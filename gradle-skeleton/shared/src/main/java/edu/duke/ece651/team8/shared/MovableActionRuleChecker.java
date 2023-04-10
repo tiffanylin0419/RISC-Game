@@ -1,11 +1,11 @@
 package edu.duke.ece651.team8.shared;
 
 //use: new NoCollisionRuleChecker<T>(new InBoundsRuleChecker<T>(null))
-public abstract class ActionRuleChecker {
-    private final ActionRuleChecker next;
+public abstract class MovableActionRuleChecker {
+    private final MovableActionRuleChecker next;
 
     //constructor
-    public ActionRuleChecker(ActionRuleChecker next){
+    public MovableActionRuleChecker(MovableActionRuleChecker next){
         this.next=next;
     }
 
@@ -14,13 +14,13 @@ public abstract class ActionRuleChecker {
      * @param action the action to be checked
      * @return null if obey rule, return String as the error message if it does not obey
      */
-    protected abstract String checkMyRule(Action action);
+    protected abstract String checkMyRule(MovableAction action);
 
     /**
      * check one rule
      * @return null if obey rule, return String as the error message if it does not obey
      */
-    public String checkAllRule( Action action){
+    public String checkAllRule( MovableAction action){
         // if we fail our own rule: stop the placement is not legal
         String s = checkMyRule(action);
         if (s != null) {

@@ -20,7 +20,7 @@ public class OldNewGameController {
 
     @FXML
     public void oldGame() throws IOException {
-        //to do
+        //todo
     }
     @FXML
     public void newGame() throws IOException {

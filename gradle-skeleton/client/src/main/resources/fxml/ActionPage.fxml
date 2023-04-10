@@ -12,6 +12,8 @@
         <VBox>
             <Label fx:id="food" text="Food: 0" />
             <Label fx:id="tech" text="Tech: 0" />
+            <Label fx:id="space" text="" />
+            <Label fx:id="territoryInfo" text="Info: " />
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>

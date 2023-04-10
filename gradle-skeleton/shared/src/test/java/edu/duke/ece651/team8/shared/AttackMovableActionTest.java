@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AttackActionTest {
+class AttackMovableActionTest {
 
     @Test
     void test_isValidSource_Destination_Path() {
@@ -20,24 +20,24 @@ class AttackActionTest {
         s.moveIn(new BasicArmy(4,players.get(0)));
         d.moveIn(new BasicArmy(5,players.get(1)));
 
-        Action action1=new AttackAction(players.get(0),"a1","b2",3,map);
+        MovableAction action1=new AttackAction(players.get(0),"a1","b2",3,map);
         assertTrue(action1.isValidSource());
 
-        Action action2=new AttackAction(players.get(1),"a1","b2",3,map);
+        MovableAction action2=new AttackAction(players.get(1),"a1","b2",3,map);
         assertFalse(action2.isValidSource());
 
-        Action action3=new AttackAction(players.get(1),"a1","b2",3,map);
+        MovableAction action3=new AttackAction(players.get(1),"a1","b2",3,map);
         assertFalse(action3.isValidDestination());
 
-        Action action4=new AttackAction(players.get(0),"a1","b2",3,map);
+        MovableAction action4=new AttackAction(players.get(0),"a1","b2",3,map);
         assertTrue(action4.isValidDestination());
         assertFalse(action4.isValidPath());
 
 
-        Action action5=new AttackAction(players.get(0),"a2","b2",3,map);
+        MovableAction action5=new AttackAction(players.get(0),"a2","b2",3,map);
         assertTrue(action5.isValidPath());
 
-        Action action6=new AttackAction(players.get(0),"a2","b3",3,map);
+        MovableAction action6=new AttackAction(players.get(0),"a2","b3",3,map);
         assertFalse(action6.isValidPath());
     }
 
@@ -54,14 +54,14 @@ class AttackActionTest {
         s.moveIn(new BasicArmy(4,players.get(0)));
         d.moveIn(new BasicArmy(5,players.get(1)));
 
-        Action action1=new AttackAction(players.get(0),"a1","b1",3,map);
+        MovableAction action1=new AttackAction(players.get(0),"a1","b1",3,map);
         assertNull(map.getChecker().checkAllRule(action1));
         action1.doAction();
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(3,d.getUnitAmount(1));
 
-        Action action2=new AttackAction(players.get(0),"a1","b1",1,map);
+        MovableAction action2=new AttackAction(players.get(0),"a1","b1",1,map);
         assertNull(map.getChecker().checkAllRule(action2));
         action2.doAction();
         assertEquals(0,s.getUnitAmount(0));

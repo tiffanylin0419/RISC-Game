@@ -88,7 +88,7 @@ public abstract class GameController {
     }
     public void setTech(String techS){
         Platform.runLater(() -> {
-            tech.setText("Food: " + techS);
+            tech.setText("Tech: " + techS);
         });
     }
     public void setImage(){

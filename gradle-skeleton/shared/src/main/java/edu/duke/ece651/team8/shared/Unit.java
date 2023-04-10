@@ -1,6 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
-public interface Unit {
+public interface Unit extends Comparable<Unit>{
     /**
      * upgrade current unit
      * @return the upgraded unit
@@ -25,4 +25,6 @@ public interface Unit {
      * @return level
      */
     public String getType();
+
+    public int getBonus();
 }
