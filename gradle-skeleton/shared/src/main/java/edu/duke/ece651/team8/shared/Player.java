@@ -106,4 +106,11 @@ public class Player {
   public void collectResources() {
     return;
   }
+
+  public int getFoodAmount() {
+    return 0;
+  }
+
+  public void addFoodResource(int amount) {
+  }
 }

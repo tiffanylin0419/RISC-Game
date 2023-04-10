@@ -11,6 +11,7 @@ public class V2Player extends Player {
         this.tech = new TechResource(0);
     }
 
+    @Override
     public int getFoodAmount() {
         return this.food.getAmount();
     }
@@ -19,6 +20,7 @@ public class V2Player extends Player {
         return this.tech.getAmount();
     }
 
+    @Override
     public void addFoodResource(int addAmount) {
         this.food.addResource(addAmount);
     }
