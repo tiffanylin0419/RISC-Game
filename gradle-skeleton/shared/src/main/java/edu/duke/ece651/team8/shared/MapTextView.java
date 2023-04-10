@@ -10,7 +10,7 @@ public class MapTextView implements View {
     public String displayMap(Map theMap) {
         ArrayList<Player> players = theMap.getPlayers();
         StringBuilder sb = new StringBuilder();
-        for(Player player:players) {
+        for(Player player : players) {
             sb.append(player.getColor()).append(" Player:\n-------------\n");
             for(Territory t : player.getTerritories()) {
                 displayUnitInfo(sb, t);

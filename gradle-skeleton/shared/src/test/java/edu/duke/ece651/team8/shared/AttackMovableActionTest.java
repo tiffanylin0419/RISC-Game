@@ -12,13 +12,13 @@ class AttackMovableActionTest {
     void test_isValidSource_Destination_Path() {
         V1MapFactory factory = new V1MapFactory();
         Game1Map map = factory.createMap(4);
-        ArrayList<Player> players=factory.createPlayers(4,map);
+        ArrayList<Player> players =factory.createPlayers(4,map);
 
         ArrayList<Territory> territories=map.getTerritories();
         Territory s=territories.get(0);
         Territory d=territories.get(7);
-        s.moveIn(new BasicArmy(4,players.get(0)));
-        d.moveIn(new BasicArmy(5,players.get(1)));
+        s.moveIn(new BasicArmy(4, players.get(0)));
+        d.moveIn(new BasicArmy(5, players.get(1)));
 
         MovableAction action1=new AttackAction(players.get(0),"a1","b2",3,map);
         assertTrue(action1.isValidSource());
@@ -45,14 +45,14 @@ class AttackMovableActionTest {
     void test_doAction() {
         V1MapFactory factory = new V1MapFactory();
         Game1Map map = factory.createMap(4);
-        ArrayList<Player> players=factory.createPlayers(4,map);
+        ArrayList<Player> players =factory.createPlayers(4,map);
 
         ArrayList<Territory> territories=map.getTerritories();
         Territory s=territories.get(0);
         Territory d=territories.get(6);
         //a1,b2
-        s.moveIn(new BasicArmy(4,players.get(0)));
-        d.moveIn(new BasicArmy(5,players.get(1)));
+        s.moveIn(new BasicArmy(4, players.get(0)));
+        d.moveIn(new BasicArmy(5, players.get(1)));
 
         MovableAction action1=new AttackAction(players.get(0),"a1","b1",3,map);
         assertNull(map.getChecker().checkAllRule(action1));

@@ -11,7 +11,7 @@ public class Game1MapTest {
   @Test
   public void test_constructor(){
     ArrayList<Territory> territories=new ArrayList<>();
-    ArrayList<Player> players=new ArrayList<>();
+    ArrayList<Player> players =new ArrayList<>();
     players.add(new TextPlayer("red"));
     players.add(new TextPlayer("blue"));
     String names[] = { "AbcdE", "hello", "num123" };

@@ -13,10 +13,10 @@ class PathRuleCheckerTest {
 
         AbstractMapFactory factory = new V1MapFactory();
         Map theMap = factory.createMap(2);
-        ArrayList<Player> players=factory.createPlayers(2,theMap);
+        ArrayList<Player> players =factory.createPlayers(2,theMap);
 
-        Player p1=players.get(0);
-        Player p2=players.get(1);
+        Player p1= players.get(0);
+        Player p2= players.get(1);
         theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
         theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
         theMap.getTerritories().get(2).moveIn(new BasicArmy(3,p1));

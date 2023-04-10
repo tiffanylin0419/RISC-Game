@@ -1,8 +1,5 @@
 package edu.duke.ece651.team8.shared;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 public class ResourceTerritory extends BasicTerritory {
     private FoodFactory foodFactory;
     private TechFactory techFactory;

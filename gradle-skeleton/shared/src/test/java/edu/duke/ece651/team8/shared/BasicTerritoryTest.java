@@ -158,9 +158,9 @@ public class BasicTerritoryTest {
 
     AbstractMapFactory factory = new V1MapFactory();
     Map theMap = factory.createMap(1);
-    ArrayList<Player> players=factory.createPlayers(1,theMap);
+    ArrayList<Player> players =factory.createPlayers(1,theMap);
 
-    Player p1=players.get(0);
+    Player p1= players.get(0);
     theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
     theMap.getTerritories().get(0).moveOut(new BasicArmy(2,p1));
     theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
