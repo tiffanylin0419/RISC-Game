@@ -136,13 +136,15 @@ public class BasicTerritory implements Territory {
    * @param a1 a unit of defender
    * @param a2 a unit of attacker
    */
-  private void fight1(Army a1, Army a2){
+  private void fight1(Army a1, Army a2, int currentTurn){
+    int attackerIndex = (currentTurn%2==0)?0:a2.getList().size()-1;
+    int defenderIndex = (currentTurn%2==0)?0:a1.getList().size()-1;
     if(a1.isSurvive() && a2.isSurvive()){
-      if(a1.doRoll()<a2.doRoll()){//u2 win
-        a1.removeOne(a1.getList().get(0));
+      if(a1.doRoll()+ a1.getList().get(defenderIndex).getBonus()<a2.doRoll()+a2.getList().get(attackerIndex).getBonus()){//u2 win
+        a1.removeOne(a1.getList().get(defenderIndex));
       }
       else{//u1 win
-        a2.removeOne(a2.getList().get(0));
+        a2.removeOne(a2.getList().get(attackerIndex));
       }
     }
   }
@@ -151,8 +153,9 @@ public class BasicTerritory implements Territory {
    * This function process a fight between 2 players in one territory defender and attacker
    */
   private void oneToOneAttack(){
+    int currentTurn = 1;
     while(armies.size()>1){
-      fight1(armies.get(0), armies.get(1));
+      fight1(armies.get(0), armies.get(1),currentTurn);
       ArrayList<Army> remove = new ArrayList<>();
       for(Army army : armies){
         if(!army.isSurvive()){
@@ -169,10 +172,11 @@ public class BasicTerritory implements Territory {
    * This function process a fight between multiple players in one territory
    */
   private void manyToOneAttack(){
+    int currentTurn = 1;
     while(armies.size()>1){
       int l= armies.size();
       for(int i=0;i<l;i++){
-        fight1(armies.get(i), armies.get((i+1)%l));
+        fight1(armies.get(i), armies.get((i+1)%l),currentTurn);
       }
       ArrayList<Army> remove = new ArrayList<>();
       for(Army army : armies){

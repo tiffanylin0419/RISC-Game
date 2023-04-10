@@ -1,6 +1,8 @@
 package edu.duke.ece651.team8.shared;
 
-public class AttackAction extends Action{
+import java.io.Serializable;
+
+public class AttackAction extends Action {
 
     public AttackAction(Player player, String source, String destination, int count, Map theMap) {
         super(player, source, destination, count, theMap);
