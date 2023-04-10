@@ -48,7 +48,7 @@ public class V2MapFactory implements AbstractMapFactory {
      * @return list of players
      */
     public ArrayList<Player> createPlayers(int playerAmount, Map theMap) {
-        ArrayList<Player> players=new ArrayList<>();
+        ArrayList<Player> players =new ArrayList<>();
         ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
             players.add(createPlayer(i,territories));
@@ -63,7 +63,7 @@ public class V2MapFactory implements AbstractMapFactory {
      * @return Player
      */
     private Player createPlayer(int num, ArrayList<Territory> territories){
-        Player player=new V2Player(colors[num]);
+        Player player =new Player(colors[num]);
         for (int i = 0; i < territoryAmount; ++i) {
             player.addTerritory(territories.get(this.territoryAmount * num + i));
             territories.get(this.territoryAmount * num + i).setOwner(player);
