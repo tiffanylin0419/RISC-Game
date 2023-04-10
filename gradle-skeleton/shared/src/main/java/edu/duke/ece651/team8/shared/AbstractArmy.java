@@ -1,21 +1,23 @@
 package edu.duke.ece651.team8.shared;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class AbstractArmy implements Army{
     protected Player owner;
     protected List<Unit> units;
+
+    public AbstractArmy(Player owner, List<Unit> units){
+        this.owner = owner;
+        this.units = units;
+    }
     public AbstractArmy(int amount, Player owner){
-        this.owner=owner;
+        this(owner,null);
         UnitFactory uf = new UnitFactory();
         this.units = uf.makeBasicUnits(amount);
     }
     @Override
     public void add(List<Unit> uList) {
-        for(Unit u : uList ) {
-            units.add(u);
-        }
+        units.addAll(uList);
     }
     @Override
     public void addOne(Unit u) {
@@ -40,8 +42,10 @@ public abstract class AbstractArmy implements Army{
 
     @Override
     public List<Unit> getList() {
+        Collections.sort(units);
         return units;
     }
+
     @Override
     public int getAmount() {
         return units.size();
