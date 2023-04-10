@@ -84,4 +84,10 @@ public abstract class MovableAction extends BasicAction {
      */
     public int getCount(){return count;}
 
+    protected abstract boolean hasEnoughFood();
+
+    public int getFoodAmount() {
+        return super.player.getFoodAmount();
+    }
+
 }
