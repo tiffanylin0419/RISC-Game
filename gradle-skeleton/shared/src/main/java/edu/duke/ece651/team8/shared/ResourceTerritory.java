@@ -32,4 +32,9 @@ public class ResourceTerritory extends BasicTerritory {
     public Resource produceTechResource() {
         return techFactory.produce(5);
     }
+
+    @Override
+    public int produceResource() {
+        return 5;
+    }
 }

@@ -1,8 +1,8 @@
 package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 
-public abstract class Player {
-  private final ArrayList<Territory> territories;
+public class Player {
+  protected final ArrayList<Territory> territories;
   private String color;
   private int unitMax;
   private boolean isConnected;
@@ -100,5 +100,7 @@ public abstract class Player {
   public boolean isWinner(int amount) {
     return this.territories.size() == amount;
   }
-  public abstract String display();
+  public String display() {
+    return "";
+  }
 }

@@ -254,4 +254,9 @@ public class BasicTerritory implements Territory {
       return distances.get(t);
     }
   }
+
+  @Override
+  public int produceResource() {
+    return 0;
+  }
 }

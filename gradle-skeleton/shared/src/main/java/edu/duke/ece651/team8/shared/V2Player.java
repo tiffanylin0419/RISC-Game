@@ -11,27 +11,34 @@ public class V2Player extends Player {
         this.tech = new TechResource(0);
     }
 
-    public FoodResource getFood() {
-        return this.food;
+    public int getFoodAmount() {
+        return this.food.getAmount();
     }
 
-    public TechResource getTech() {
-        return this.tech;
+    public int getTechAmount() {
+        return this.tech.getAmount();
     }
 
-    public void addFoodResource(Resource newFood) {
-        this.food.addResource(newFood.getAmount());
+    public void addFoodResource(int addAmount) {
+        this.food.addResource(addAmount);
     }
-    public void addTechResource(Resource newTech) {
-        this.tech.addResource(newTech.getAmount());
+    public void addTechResource(int addAmount) {
+        this.tech.addResource(addAmount);
+    }
+
+    public void collectResources() {
+        for (Territory t : territories) {
+            addFoodResource(t.produceResource());
+            addTechResource(t.produceResource());
+        }
     }
 
     @Override
     public String display(){
         StringBuilder sb = new StringBuilder();
         sb.append("{\n\"level\":\""+level+"\",");
-        sb.append("\n\"food\":\""+getFood().getAmount()+"\",");
-        sb.append("\n\"tech\":\""+getTech().getAmount()+"\"");
+        sb.append("\n\"food\":\""+getFoodAmount()+"\",");
+        sb.append("\n\"tech\":\""+getTechAmount()+"\"");
         sb.append("\n}");
         return sb.toString();
     }
