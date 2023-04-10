@@ -103,4 +103,7 @@ public class Player {
   public String display() {
     return "";
   }
+  public void collectResources() {
+    return;
+  }
 }

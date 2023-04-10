@@ -25,7 +25,7 @@ public class V2Player extends Player {
     public void addTechResource(int addAmount) {
         this.tech.addResource(addAmount);
     }
-
+    @Override
     public void collectResources() {
         for (Territory t : territories) {
             addFoodResource(t.produceResource());

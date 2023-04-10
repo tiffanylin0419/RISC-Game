@@ -221,6 +221,7 @@ public class ClientHandlerThread extends Thread {
         doSynchronization();
         status += 1;
         theMap.doCombats();
+        player.collectResources();
         doSynchronization();
         String outcome = theMap.getOutcome();
         System.out.println("outcome:" + player.getColor() + " " +status);
