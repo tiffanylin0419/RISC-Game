@@ -21,7 +21,7 @@ public class StartPageController {
     }
 
     @FXML
-    public void login() throws IOException {
+    public void start() throws IOException {
         System.out.println("click on log in");
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/LoginSignupPage.fxml"));
         loaderStart.setControllerFactory(c-> new LoginSignupController(stage,serverStream,""));
