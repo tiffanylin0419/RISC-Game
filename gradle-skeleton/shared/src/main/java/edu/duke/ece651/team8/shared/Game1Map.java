@@ -2,7 +2,6 @@ package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.SimpleTimeZone;
 
 public class Game1Map implements Map {
   // field
@@ -10,7 +9,7 @@ public class Game1Map implements Map {
 
   private ArrayList<Player> players;
 
-  private final ActionRuleChecker checker;
+  private final MovableActionRuleChecker checker;
   private String combatOutcome;
   private boolean doneCombat;
 
@@ -77,7 +76,7 @@ public class Game1Map implements Map {
   }
 
   @Override
-  public ActionRuleChecker getChecker(){return checker;}
+  public MovableActionRuleChecker getChecker(){return checker;}
 
   /**
    * if the size of unit in one territory is greater than 1, than let them do combats

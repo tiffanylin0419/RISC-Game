@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MoveActionTest {
+class MoveMovableActionTest {
     @Test
     public void test_doAction() {
         V1MapFactory factory = new V1MapFactory();
@@ -20,7 +20,7 @@ class MoveActionTest {
         s.moveIn(new BasicArmy(4,players.get(0)));
         d.moveIn(new BasicArmy(5,players.get(0)));
 
-        Action action1=new MoveAction(players.get(0),"a1","a5",3,map);
+        MovableAction action1=new MoveAction(players.get(0),"a1","a5",3,map);
         assertEquals("a1",action1.getSourceText());
         assertEquals("a5",action1.getDestinationText());
         assertNull(map.getChecker().checkAllRule(action1));
@@ -28,7 +28,7 @@ class MoveActionTest {
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(8,d.getUnitAmount(0));
 
-        Action action2=new MoveAction(players.get(0),"a1","a5",1,map);
+        MovableAction action2=new MoveAction(players.get(0),"a1","a5",1,map);
         assertNull(map.getChecker().checkAllRule(action2));
         action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
@@ -49,21 +49,21 @@ class MoveActionTest {
         s.moveIn(new BasicArmy(4,players.get(0)));
         d.moveIn(new BasicArmy(5,players.get(1)));
 
-        Action action1=new MoveAction(players.get(0),"a1","b2",3,map);
+        MovableAction action1=new MoveAction(players.get(0),"a1","b2",3,map);
         assertTrue(action1.isValidSource());
 
-        Action action2=new MoveAction(players.get(1),"a1","b2",3,map);
+        MovableAction action2=new MoveAction(players.get(1),"a1","b2",3,map);
         assertFalse(action2.isValidSource());
 
-        Action action3=new MoveAction(players.get(1),"a1","b2",3,map);
+        MovableAction action3=new MoveAction(players.get(1),"a1","b2",3,map);
         assertTrue(action3.isValidDestination());
 
-        Action action4=new MoveAction(players.get(0),"a1","b2",3,map);
+        MovableAction action4=new MoveAction(players.get(0),"a1","b2",3,map);
         assertFalse(action4.isValidDestination());
         assertFalse(action4.isValidPath());
 
 
-        Action action5=new MoveAction(players.get(0),"a2","a3",3,map);
+        MovableAction action5=new MoveAction(players.get(0),"a2","a3",3,map);
         action5.getSource().moveIn(new BasicArmy(4,players.get(0)));
         action5.getDestination().moveIn(new BasicArmy(6,players.get(0)));
         assertTrue(action5.isValidPath());

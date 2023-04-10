@@ -38,7 +38,7 @@ public interface Map {
   /**
    * @return checker
    */
-  ActionRuleChecker getChecker();
+  MovableActionRuleChecker getChecker();
 
   /**
    * Do combats in all territory
