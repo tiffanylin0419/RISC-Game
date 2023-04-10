@@ -10,7 +10,7 @@ public class TerritoryRuleChecker extends ActionRuleChecker {
      * @param action the action to check
      * @return null if valid
      */
-    protected String checkMyRule(Action action){
+    protected String checkMyRule(MovableAction action){
         if(action.getSource()==null){
             return "Source "+action.getSourceText()+" not in map";
         }

@@ -10,7 +10,7 @@ public class OwnershipRuleChecker extends ActionRuleChecker {
      * @param action the action to be checked
      * @return null if valid
      */
-    protected String checkMyRule(Action action){
+    protected String checkMyRule(MovableAction action){
         if(!action.isValidSource()){
             return "Cannot choose "+action.getSourceText()+" as source for this action";
         }

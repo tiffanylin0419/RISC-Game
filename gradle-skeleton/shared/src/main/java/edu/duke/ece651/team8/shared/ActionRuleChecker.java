@@ -14,13 +14,13 @@ public abstract class ActionRuleChecker {
      * @param action the action to be checked
      * @return null if obey rule, return String as the error message if it does not obey
      */
-    protected abstract String checkMyRule(Action action);
+    protected abstract String checkMyRule(MovableAction action);
 
     /**
      * check one rule
      * @return null if obey rule, return String as the error message if it does not obey
      */
-    public String checkAllRule( Action action){
+    public String checkAllRule( MovableAction action){
         // if we fail our own rule: stop the placement is not legal
         String s = checkMyRule(action);
         if (s != null) {

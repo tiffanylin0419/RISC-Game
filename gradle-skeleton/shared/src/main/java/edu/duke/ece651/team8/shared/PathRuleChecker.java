@@ -9,7 +9,7 @@ public class PathRuleChecker  extends ActionRuleChecker {
      * check if the source can connect to destination
      * @param action the action to be checked
      */
-    protected String checkMyRule(Action action){
+    protected String checkMyRule(MovableAction action){
         if(action.isValidPath()){
             return null;
         }

@@ -21,13 +21,13 @@ class OwnershipRuleCheckerTest {
         theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
 
         ActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(null))) ;
-        Action action1 =new MoveAction(p1,"a1","b1",3,theMap);
+        MovableAction action1 =new MoveAction(p1,"a1","b1",3,theMap);
         assertEquals("Cannot choose b1 as destination for this action",checker.checkAllRule(action1));
 
-        Action action2 =new MoveAction(p1,"b1","a2",3,theMap);
+        MovableAction action2 =new MoveAction(p1,"b1","a2",3,theMap);
         assertEquals("Cannot choose b1 as source for this action",checker.checkAllRule(action2));
 
-        Action action3 =new MoveAction(p1,"a1","a2",3,theMap);
+        MovableAction action3 =new MoveAction(p1,"a1","a2",3,theMap);
         assertNull(checker.checkAllRule(action3));
 
     }

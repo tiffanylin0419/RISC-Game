@@ -10,7 +10,7 @@ public class NumberRuleChecker extends ActionRuleChecker {
      * @param action the action to be checked
      * @return null if valid
      */
-    protected String checkMyRule(Action action){
+    protected String checkMyRule(MovableAction action){
         if(action.getCount()<0){
             return "Unit number need to be positive";
         }
