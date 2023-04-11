@@ -179,8 +179,11 @@ public class ActionController extends GameController implements Initializable {
         serverStream.send("R");
         if(!serverStream.read().equals("")){
             setErrorMessage(serverStream.getBuffer());
+        }else{
+            setErrorMessage("action succeed");
         }
-        setErrorMessage("action succeed");
+        System.out.println("2\n"+serverStream.read());
+
     }
     @FXML
     public void doneAction()throws IOException{
