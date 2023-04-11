@@ -7,6 +7,7 @@ public class ResearchAction extends BasicAction{
     }
     @Override
     public void doAction() {
-
+        player.hasResearchedThisTurn = true;
+        player.upgradeTechLevel();
     }
 }

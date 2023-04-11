@@ -327,6 +327,15 @@ public class Client {
                         System.out.println("Action failed\n");
                     }
                     break;
+                case "R":
+                    if (doOneResearch().equals("")) {
+                        System.out.println("Successfully researched\n");
+                    }
+                    else{
+                        System.out.println("Action failed\n");
+                    }
+                    break;
+
                 case "D":
                     break label;
             }
@@ -348,7 +357,7 @@ public class Client {
             serverStream.send(s);
             return s;
         }else{
-            throw new IllegalArgumentException("Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)");
+            throw new IllegalArgumentException("Action should be \"M\"(move), \"A\"(attack), \"R\"(research), \"U\"(update) or \"D\"(done)");
         }
     }
 
@@ -358,7 +367,7 @@ public class Client {
      * @return true valid. Otherwise, false
      */
     public boolean isValidChoice(String s){
-        return s.equals("M")||s.equals("A")||s.equals("D");
+        return s.equals("M")||s.equals("A")||s.equals("R")||s.equals("U")||s.equals("D");
     }
 
     /**
@@ -369,6 +378,12 @@ public class Client {
         trySendUnitNumber(serverStream.read());
         trySendTerritory(serverStream.read());
         trySendTerritory(serverStream.read());
+        if(!serverStream.read().equals("")){
+            out.println(serverStream.getBuffer());
+        }
+        return serverStream.getBuffer();
+    }
+    public String doOneResearch()throws IOException{
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }

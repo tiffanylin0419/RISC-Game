@@ -308,8 +308,10 @@ public class ClientHandlerThread extends Thread {
     public void researchActionRuleCheck(ResearchAction rs){
         String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
         if(errorMessage==null) {
-            send("", output);
+            send("player.hasResearchedThisTurn.toString()", output);
+            System.out.println();
             rs.doAction();
+            System.out.println(player.hasResearchedThisTurn.toString());
         }
         else{
             send(errorMessage, output);
