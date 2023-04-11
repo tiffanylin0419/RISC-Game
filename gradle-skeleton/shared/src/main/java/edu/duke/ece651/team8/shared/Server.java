@@ -216,6 +216,7 @@ public class Server {
                 while (true) {
                     GameThread game = findMatch(account);
                     while(game.isAlive()) {}
+                    System.out.println("start new game!!!");
                     games.remove(game);
                 }
             } catch(IOException e) {

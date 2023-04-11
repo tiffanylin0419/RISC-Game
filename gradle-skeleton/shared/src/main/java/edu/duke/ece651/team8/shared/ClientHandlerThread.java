@@ -54,6 +54,12 @@ public class ClientHandlerThread extends Thread {
                 issueOrders();
                 reportResult();
             }
+            status = -1;
+            System.out.println("end!!!!!");
+            doSynchronization();
+    }
+    public int getStatus() {
+        return status;
     }
     public void reconnect(PrintWriter out, BufferedReader in) {
         if(player.isConnected()) {

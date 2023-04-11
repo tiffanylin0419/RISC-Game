@@ -114,13 +114,14 @@ public class GameThread extends Thread {
         try {
             System.out.println("game thread start");
             while (true) {
-                if(!checkAlive()) break;
                 for (Thread t : clientThreads) {
                     while (t.getState() != Thread.State.WAITING) {
                     }
                 }
+                if(!checkFinish()) break;
                 notifyClients();
             }
+            System.out.println("game end!!!");
             //add stop thread
         } finally {
             for (int i = 0; i < accounts.size(); i++) {
@@ -140,9 +141,9 @@ public class GameThread extends Thread {
     public int getRoomNumber() {
         return roomNumber;
     }
-    public boolean checkAlive() {
-        for(Thread t : clientThreads) {
-            if(t.isAlive()) return true;
+    public boolean checkFinish() {
+        for(ClientHandlerThread t : clientThreads) {
+            if(t.getStatus() != -1) return true;
         }
         return false;
     }

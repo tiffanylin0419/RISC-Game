@@ -45,14 +45,21 @@ public class Client {
     public void run() {
         try {
             doLoginOrSignup();
-            doChooseGame();
-            receiveColor();
-            doInitialPlacement();
-            receivePlacementResult();
-            doAllTurns();
-            serverStream.close();
+            while (true) {
+                doChooseGame();
+                receiveColor();
+                doInitialPlacement();
+                receivePlacementResult();
+                doAllTurns();
+            }
         } catch (IOException e) {
             out.println(e.getMessage());
+        } finally {
+            try {
+                serverStream.close();
+            } catch (IOException e) {
+                out.println(e.getMessage());
+            }
         }
     }
 
