@@ -71,7 +71,7 @@ class PlayerAccountTest {
         AbstractMapFactory f = new V2MapFactory();
         GameThread th = new GameThread(2, f, 0);
         acc.addJoinGame(th, 0);
-        assertEquals("0. Game 0: 2 players", acc.displayGameList());
+        assertEquals("0. Game 0: 2 players\n", acc.displayGameList());
 //        assertEquals(th, acc.select(0));
         acc.deleteEndGame(th, 0);
         assertEquals("", acc.displayGameList());
