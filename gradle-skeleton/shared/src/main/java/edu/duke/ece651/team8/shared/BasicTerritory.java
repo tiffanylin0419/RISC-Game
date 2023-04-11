@@ -268,4 +268,16 @@ public class BasicTerritory implements Territory {
   public int produceResource() {
     return 0;
   }
+
+  @Override
+  public void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel) {
+    Army target = null;
+    for (Army army : this.armies) {
+      if (army.getOwner().equals(player)) {
+        target = army;
+        break;
+      }
+    }
+    target.upgradeUnits(unitAmount, startLevel, nextLevel);
+  }
 }

@@ -16,7 +16,15 @@ public class UpgradeAction extends BasicAction {
     }
 
     private int costTechResource() {
-        return 0;
+        int eachCost = 0;
+        int diffLevel = nextLevel - startLevel;
+        int curLevel = startLevel;
+        while (diffLevel > 0) {
+            --diffLevel;
+            eachCost += this.costs[curLevel];
+            ++curLevel;
+        }
+        return eachCost * unitAmount;
     }
 
     /**
@@ -27,9 +35,6 @@ public class UpgradeAction extends BasicAction {
     public void doAction() {
         int totalCost = costTechResource();
         this.player.addTechResource(-totalCost);
-    }
-
-    public int getCost(int index) {
-        return this.costs[index];
+        this.territory.upgradeUnits(this.player, this.unitAmount, this.startLevel, this.nextLevel);
     }
 }

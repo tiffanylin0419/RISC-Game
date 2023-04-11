@@ -55,4 +55,6 @@ public interface Army {
    * @return a random number from 0~19(inclusive)
    */
   int doRoll();
+
+  public void upgradeUnits(int unitAmount, int startLevel, int nextLevel);
 }

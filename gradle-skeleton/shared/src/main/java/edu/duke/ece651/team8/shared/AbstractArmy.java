@@ -72,4 +72,24 @@ public abstract class AbstractArmy implements Army{
         return count;
     }
 
+    @Override
+    public void upgradeUnits(int unitAmount, int startLevel, int nextLevel) {
+        int cur = unitAmount;
+        for (Unit unit : units) {
+            if (cur <= 0) {
+                break;
+            }
+            if (unit.getLevel() == startLevel) {
+                upgradeOneUnit(unit, nextLevel - startLevel);
+                --cur;
+            }
+        }
+
+    }
+
+    private void upgradeOneUnit(Unit unit, int diff) {
+        while (diff > 0) {
+            unit = unit.upgrade();
+        }
+    }
 }
