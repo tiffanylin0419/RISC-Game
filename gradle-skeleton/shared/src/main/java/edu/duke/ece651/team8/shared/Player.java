@@ -137,4 +137,11 @@ public class Player {
       addTechResource(t.produceResource());
     }
   }
+
+  public int getFoodAmount() {
+    return 0;
+  }
+
+  public void addFoodResource(int amount) {
+  }
 }
