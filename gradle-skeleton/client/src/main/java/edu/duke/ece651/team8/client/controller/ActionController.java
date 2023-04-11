@@ -121,10 +121,10 @@ public class ActionController extends GameController implements Initializable {
             actionMoveAttack();
             attackButtonPressed=false;
         }
-        else if (researchButtonPressed){
-            serverStream.send("R");
-            actionResearch();
-            researchButtonPressed=false;
+        else if (upgradeButtonPressed){
+            serverStream.send("U");
+            actionUpgrade();
+            upgradeButtonPressed=false;
         }
         notSeeInput();
     }
@@ -144,12 +144,10 @@ public class ActionController extends GameController implements Initializable {
         serverStream.receive();
     }
 
-    private void actionResearch() throws IOException{
+    private void actionUpgrade() throws IOException{
         //todo
     }
-    private void actionUpdate() throws IOException{
-        //todo
-    }
+
 
     @FXML
     public void infoAction() {
@@ -171,14 +169,18 @@ public class ActionController extends GameController implements Initializable {
     @FXML
     public void upgradeAction()  throws IOException{
         upgradeButtonPressed=true;
-        actionUpdate();
-        serverStream.send("U");
+        canSeeInput("amount","prev_level","next_level");
+        actionUpgrade();
+        //todo
     }
 
     @FXML
-    public void researchAction(){
-        researchButtonPressed=true;
-        canSeeInput("amount","prev_level","next_level");
+    public void researchAction() throws IOException {
+        serverStream.send("R");
+        if(!serverStream.read().equals("")){
+            setErrorMessage(serverStream.getBuffer());
+        }
+        setErrorMessage("action succeed");
     }
     @FXML
     public void doneAction()throws IOException{
