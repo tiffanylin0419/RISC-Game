@@ -20,8 +20,8 @@ public class Player {
     this.color=color;
     this.unitMax=0;
     this.isConnected = true;
-    this.food = new FoodResource(0);
-    this.tech = new TechResource(0);
+    this.food = new FoodResource(20);
+    this.tech = new TechResource(20);
     this.level = 1;
     this.currentTurnFoodConsumingAmount = 0;
     this.currentTurnTechConsumingAmount = 0;

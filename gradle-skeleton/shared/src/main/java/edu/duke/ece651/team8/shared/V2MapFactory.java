@@ -79,7 +79,8 @@ public class V2MapFactory implements AbstractMapFactory {
     private ArrayList<Territory> createTerritories(int playerAmount) {
         ArrayList<Territory> territories = new ArrayList<>();
         for (int i = 0; i < playerAmount * this.territoryAmount; ++i) {
-            Territory t = new BasicTerritory(this.territoryNameList[i]);
+            Territory t = new ResourceTerritory(this.territoryNameList[i]);
+
             territories.add(t);
         }
         return territories;
