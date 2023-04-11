@@ -45,14 +45,21 @@ public class Client {
     public void run() {
         try {
             doLoginOrSignup();
-            doChooseGame();
-            receiveColor();
-            doInitialPlacement();
-            receivePlacementResult();
-            doAllTurns();
-            serverStream.close();
+            while (true) {
+                doChooseGame();
+                receiveColor();
+                doInitialPlacement();
+                receivePlacementResult();
+                doAllTurns();
+            }
         } catch (IOException e) {
             out.println(e.getMessage());
+        } finally {
+            try {
+                serverStream.close();
+            } catch (IOException e) {
+                out.println(e.getMessage());
+            }
         }
     }
 
@@ -88,37 +95,49 @@ public class Client {
         out.println("-------------------");
         String newOrExistingGame = input.readLine();
         serverStream.send(newOrExistingGame);
-        serverStream.receive();
 
         if(newOrExistingGame.equals("N")){
-            //seng number of how many players' game
-            // to do: add check
-            out.println(serverStream.getBuffer());
-            serverStream.send(input.readLine());
-            serverStream.receive();
-            out.println(serverStream.getBuffer());
+            joinNewGame();
         }else if(newOrExistingGame.equals("Y")){
             //send ID of game;
             //todo
-            out.println(serverStream.getBuffer());
             serverStream.receive();
-            out.println(serverStream.getBuffer());
-            serverStream.send(input.readLine());
-
-            serverStream.receive();
-            out.println(serverStream.getBuffer());
-            status = Integer.parseInt(serverStream.getBuffer());
-
-            serverStream.receive();
-            out.println(serverStream.getBuffer());
-            color = serverStream.getBuffer();
+            try {
+                int num = Integer.parseInt(serverStream.getBuffer());
+                if(num == 0) out.println("No joined game in your list");
+                joinNewGame();
+            } catch (Exception e) {
+                joinOldGame();
+            }
 
         }else{
             System.out.println("Your input is: "+ newOrExistingGame);
             throw new IllegalArgumentException("Should be L/S");
         }
     }
+    public void joinNewGame() throws IOException{
+        //seng number of how many players' game
+        // to do: add check
+        serverStream.receive();
+        out.println(serverStream.getBuffer());
+        serverStream.send(input.readLine());
+        serverStream.receive();
+        out.println(serverStream.getBuffer());
+    }
+    public void joinOldGame() throws IOException {
+        out.println(serverStream.getBuffer());
+        serverStream.receive();
+        out.println(serverStream.getBuffer());
+        serverStream.send(input.readLine());
 
+        serverStream.receive();
+        out.println(serverStream.getBuffer());
+        status = Integer.parseInt(serverStream.getBuffer());
+
+        serverStream.receive();
+        out.println(serverStream.getBuffer());
+        color = serverStream.getBuffer();
+    }
     public void receivePlacementResult() throws IOException{
         if(status > 2) return;
         out.println(serverStream.read());

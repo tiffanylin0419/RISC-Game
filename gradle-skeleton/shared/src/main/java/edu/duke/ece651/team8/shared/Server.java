@@ -58,18 +58,7 @@ public class Server {
             }
         }
     }
-    public void connectOneGame() throws IOException{
-        List<Socket> oneGameClients = new ArrayList<>();
-        for(int i = 0; i < clientNum; i++) {
-            Socket clientSocket = server.accept();
-            oneGameClients.add(clientSocket);
-            System.out.println("Client connected!");
-        }
 
-        GameThread gameThread = new GameThread(oneGameClients, factory);
-        games.add(gameThread);
-        gameThread.start();
-    }
     /**
      * Stop the server
      * @throws IOException if input/output stream error
@@ -142,22 +131,19 @@ public class Server {
         }
         return true;
     }
-    public ClientHandlerThread findMatch(PlayerAccount account) throws IOException{
+    public GameThread findMatch(PlayerAccount account) throws IOException{
         String prompt = "Join your exist game? Y/N"; // haven't dealt with Y
         send(prompt, account.getOutput());
         String res = receive(account.getReader());
 
         if(res.equals("N")) {
             System.out.println(res);
-            String joinPrompt = "Enter how many players' game you want to join"; // haven't dealt with Y
-            send(joinPrompt, account.getOutput());
-            String numString = receive(account.getReader());
-            System.out.println("--------------");
-            System.out.println(numString);
-            System.out.println("--------------");
-            int num = Integer.parseInt(numString);
-            return joinGame(num, account);
+            return receiveJoinInfo(account);
         } else {
+            if(account.isEmpty()) {
+                send(String.valueOf(0), account.getOutput());
+                return receiveJoinInfo(account);
+            }
             String joinPrompt = "Select which game you would like to return"; // haven't dealt with Y
             send(joinPrompt, account.getOutput());
             String gameInfo = account.displayGameList();
@@ -166,19 +152,29 @@ public class Server {
             return account.select(num);
         }
     }
-    public synchronized ClientHandlerThread joinGame(int num, PlayerAccount account){
+    public GameThread receiveJoinInfo(PlayerAccount account) throws IOException{
+        String joinPrompt = "Enter how many players' game you want to join"; // haven't dealt with Y
+        send(joinPrompt, account.getOutput());
+        String numString = receive(account.getReader());
+        System.out.println("--------------");
+        System.out.println(numString);
+        System.out.println("--------------");
+        int num = Integer.parseInt(numString);
+        return joinGame(num, account);
+    }
+    public synchronized GameThread joinGame(int num, PlayerAccount account){
         for(GameThread game : games) {
             if(game.getPlayerNum() == num) {
                 ClientHandlerThread clientThread = game.join(account);
                 if(clientThread == null) break;
-                return clientThread;
+                return game;
             }
         }
-        GameThread gameThread = new GameThread(num, factory);
+        GameThread gameThread = new GameThread(num, factory, games.size() - 1);
         gameThread.start();
         ClientHandlerThread clientThread = gameThread.join(account);
         games.add(gameThread);
-        return clientThread;
+        return gameThread;
     }
     public void send(String message, PrintWriter output) {
         output.println(message);
@@ -223,9 +219,15 @@ public class Server {
                     System.out.println(e.getMessage());
                 }
             }
-            while (true) {
-                ClientHandlerThread clientThread = findMatch(account);
-                while(clientThread.isAlive()) {}
+            try {
+                while (true) {
+                    GameThread game = findMatch(account);
+                    while(game.isAlive()) {}
+                    System.out.println("start new game!!!");
+                    games.remove(game);
+                }
+            } catch(IOException e) {
+                account.getOutput().close();
             }
         } catch(IOException e) {
             System.out.println("handlePlayerConnection IOException");
