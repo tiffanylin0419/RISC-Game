@@ -260,6 +260,11 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
+  public HashMap<Territory, Integer> getDistances() {
+    return this.distances;
+  }
+
+  @Override
   public int produceResource() {
     return 0;
   }

@@ -1,9 +1,11 @@
 package edu.duke.ece651.team8.shared;
 
 public class MoveAction extends MovableAction {
+    Map theMap;
 
     public MoveAction(Player player, String source, String destination, int count, Map theMap) {
         super(player, source, destination, count, theMap);
+        this.theMap = theMap;
     }
     public boolean isValidSource(){
         return getSource().isOwner(getPlayer());
@@ -13,12 +15,16 @@ public class MoveAction extends MovableAction {
     }
 
     public boolean hasEnoughFood() {
-        return super.player.getFoodAmount() >= 1;
+        MinimumPath path = new MinimumPath();
+        int minPath = path.findMinPath(getSource(), getDestination());
+        return super.player.getFoodAmount() >= (super.getCount() * minPath);
     }
     public void doAction(){
         getSource().moveOut(new BasicArmy(super.getCount(),super.getPlayer()));
         getDestination().moveIn(new BasicArmy(super.getCount(),super.getPlayer()));
-        super.player.addFoodResource(-1);
+        MinimumPath path = new MinimumPath();
+        int minPath = path.findMinPath(getSource(), getDestination());
+        super.player.addFoodResource(-(super.getCount() * minPath));
     }
     protected boolean isValidPath(){
         return getSource().isAdjacentSelf(getDestination());
