@@ -15,4 +15,7 @@ public class ResearchAction extends BasicAction{
         player.addTechResource(-researchCosts[level]);
     }
 
+    public int[] getResearchCostsList() {
+        return this.researchCosts;
+    }
 }
