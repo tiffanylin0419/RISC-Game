@@ -12,9 +12,9 @@ class NumberRuleCheckerTest {
 
         AbstractMapFactory factory = new V1MapFactory();
         Map theMap = factory.createMap(1);
-        ArrayList<Player> players=factory.createPlayers(1,theMap);
+        ArrayList<Player> players =factory.createPlayers(1,theMap);
 
-        Player p1=players.get(0);
+        Player p1= players.get(0);
         theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
         theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
         theMap.getTerritories().get(2).moveIn(new BasicArmy(3,p1));
@@ -22,14 +22,14 @@ class NumberRuleCheckerTest {
         theMap.getTerritories().get(4).moveIn(new BasicArmy(1,p1));
         theMap.getTerritories().get(5).moveIn(new BasicArmy(9,p1));
 
-        ActionRuleChecker checker= new NumberRuleChecker(null) ;
-        Action action1 =new MoveAction(p1,"a1","a3",3,theMap);
+        MovableActionRuleChecker checker= new NumberRuleChecker(null) ;
+        MovableAction action1 =new MoveAction(p1,"a1","a3",3,theMap);
         assertNull(checker.checkMyRule(action1));
 
-        Action action2 =new MoveAction(p1,"a1","a3",5,theMap);
+        MovableAction action2 =new MoveAction(p1,"a1","a3",5,theMap);
         assertNull(checker.checkAllRule(action2));
 
-        Action action3 =new MoveAction(p1,"a1","a3",6,theMap);
+        MovableAction action3 =new MoveAction(p1,"a1","a3",6,theMap);
         assertEquals("Requested 6 units, but only have 5",checker.checkAllRule(action3));
 
 

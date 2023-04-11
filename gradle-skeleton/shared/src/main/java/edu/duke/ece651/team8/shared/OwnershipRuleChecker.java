@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
-public class OwnershipRuleChecker extends ActionRuleChecker {
-    public OwnershipRuleChecker(ActionRuleChecker next){
+public class OwnershipRuleChecker extends MovableActionRuleChecker {
+    public OwnershipRuleChecker(MovableActionRuleChecker next){
         super(next);
     }
 
@@ -10,7 +10,7 @@ public class OwnershipRuleChecker extends ActionRuleChecker {
      * @param action the action to be checked
      * @return null if valid
      */
-    protected String checkMyRule(Action action){
+    protected String checkMyRule(MovableAction action){
         if(!action.isValidSource()){
             return "Cannot choose "+action.getSourceText()+" as source for this action";
         }

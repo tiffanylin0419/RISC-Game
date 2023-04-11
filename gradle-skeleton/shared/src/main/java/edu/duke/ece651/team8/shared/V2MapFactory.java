@@ -1,6 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class V2MapFactory implements AbstractMapFactory {
     private final int territoryAmount;
@@ -48,7 +49,7 @@ public class V2MapFactory implements AbstractMapFactory {
      * @return list of players
      */
     public ArrayList<Player> createPlayers(int playerAmount, Map theMap) {
-        ArrayList<Player> players=new ArrayList<>();
+        ArrayList<Player> players =new ArrayList<>();
         ArrayList<Territory> territories=theMap.getTerritories();
         for (int i = 0; i < playerAmount; ++i) {
             players.add(createPlayer(i,territories));
@@ -63,7 +64,7 @@ public class V2MapFactory implements AbstractMapFactory {
      * @return Player
      */
     private Player createPlayer(int num, ArrayList<Territory> territories){
-        Player player=new V2Player(colors[num]);
+        Player player =new Player(colors[num]);
         for (int i = 0; i < territoryAmount; ++i) {
             player.addTerritory(territories.get(this.territoryAmount * num + i));
             territories.get(this.territoryAmount * num + i).setOwner(player);
@@ -108,4 +109,5 @@ public class V2MapFactory implements AbstractMapFactory {
             }
         }
     }
+
 }

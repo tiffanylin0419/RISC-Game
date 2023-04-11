@@ -4,13 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 public class BasicArmyTest {
   @Test
   public void test_add() {
     UnitFactory uf = new UnitFactory();
-    Player player=new TextPlayer("red");
+    Player player =new TextPlayer("red");
     Army army =new BasicArmy(2, player);
     assertEquals(2, army.getAmount());
     Unit u = new BasicUnit();

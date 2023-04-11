@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
-public class TerritoryRuleChecker extends ActionRuleChecker {
-    public TerritoryRuleChecker(ActionRuleChecker next){
+public class TerritoryRuleChecker extends MovableActionRuleChecker {
+    public TerritoryRuleChecker(MovableActionRuleChecker next){
         super(next);
     }
 
@@ -10,7 +10,7 @@ public class TerritoryRuleChecker extends ActionRuleChecker {
      * @param action the action to check
      * @return null if valid
      */
-    protected String checkMyRule(Action action){
+    protected String checkMyRule(MovableAction action){
         if(action.getSource()==null){
             return "Source "+action.getSourceText()+" not in map";
         }

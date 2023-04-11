@@ -1,11 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
 import java.io.*;
-import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ClientHandlerThread extends Thread {
     private final Object lock = new Object();
@@ -41,8 +37,8 @@ public class ClientHandlerThread extends Thread {
     public ClientHandlerThread(PrintWriter output, BufferedReader reader, Map theMap, Player player, GameThread gameServer) {
         this.output = output;
         this.reader = reader;
-        this.theMap = theMap;
         this.player = player;
+        this.theMap = theMap;
         this.mapView = new MapGuiView();
         this.mapInfo = mapView.displayMap(theMap);
         this.winnerName = "";
@@ -51,7 +47,6 @@ public class ClientHandlerThread extends Thread {
     }
     @Override
     public void run() {
-        try {
             sendGameLoading();
             sendInitialConfig();
             doInitialPlacement();
@@ -59,9 +54,12 @@ public class ClientHandlerThread extends Thread {
                 issueOrders();
                 reportResult();
             }
-        } finally {
-            output.close();
-        }
+            status = -1;
+            System.out.println("end!!!!!");
+            doSynchronization();
+    }
+    public int getStatus() {
+        return status;
     }
     public void reconnect(PrintWriter out, BufferedReader in) {
         if(player.isConnected()) {
@@ -221,6 +219,7 @@ public class ClientHandlerThread extends Thread {
         doSynchronization();
         status += 1;
         theMap.doCombats();
+        player.collectResources();
         doSynchronization();
         String outcome = theMap.getOutcome();
         System.out.println("outcome:" + player.getColor() + " " +status);
@@ -271,7 +270,7 @@ public class ClientHandlerThread extends Thread {
      */
     public void doOneCommit() throws IOException {
         while(true) {
-            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one\n";
+            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade(D)one\n";
             send(prompt, output);
             receive(reader);
             if (buffer.equals("D")) {
@@ -280,6 +279,8 @@ public class ClientHandlerThread extends Thread {
                 doMoveOrder();
             } else if (buffer.equals("A")) {
                 doAttackOrder();
+            } else if (buffer.equals("R")) {
+                doResearchOrder();
             }
         }
     }
@@ -294,8 +295,8 @@ public class ClientHandlerThread extends Thread {
         receive(reader);
         System.out.println("receive from client: "+buffer);
     }
-    public String orderRuleCheck(Action ac) {
-        String errorMessage=theMap.getChecker().checkAllRule(ac);
+    public void movableActionRuleCheck(MovableAction ac) {
+        String errorMessage=theMap.getMovableChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", output);
             ac.doAction();
@@ -303,13 +304,22 @@ public class ClientHandlerThread extends Thread {
         else{
             send(errorMessage, output);
         }
-        return errorMessage;
+    }
+    public void researchActionRuleCheck(ResearchAction rs){
+        String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
+        if(errorMessage==null) {
+            send("", output);
+            rs.doAction();
+        }
+        else{
+            send(errorMessage, output);
+        }
     }
     /**
      * Conduct move order with move message from client
      * @throws IOException
      */
-    public String doMoveOrder() throws IOException{
+    public void doMoveOrder() throws IOException{
         doOneTransmission("Please enter the number of units to move:");
         int num=-1;
         if(isPositiveInt(buffer)){
@@ -319,8 +329,8 @@ public class ClientHandlerThread extends Thread {
         String source = buffer;
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
-        Action ac = new MoveAction(player, source, destination, num, theMap);
-        return orderRuleCheck(ac);
+        MovableAction ac = new MoveAction(player, source, destination, num, theMap);
+        movableActionRuleCheck(ac);
     }
 
     /**
@@ -328,7 +338,7 @@ public class ClientHandlerThread extends Thread {
      * @return current step attack action
      * @throws IOException
      */
-    public String doAttackOrder() throws IOException{
+    public void doAttackOrder() throws IOException{
         doOneTransmission("Please enter the number of units to attack:");
         int num=-1;
         if(isPositiveInt(buffer)){
@@ -339,8 +349,14 @@ public class ClientHandlerThread extends Thread {
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(player, source, destination, num, theMap); //Change move to attack
-        return orderRuleCheck(ac);
+        movableActionRuleCheck(ac);
     }
+
+    public void doResearchOrder() throws IOException{
+        ResearchAction rs = new ResearchAction(player);
+        researchActionRuleCheck(rs);
+    }
+
     /**
      * Send information to one client
      */

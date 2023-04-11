@@ -6,18 +6,28 @@ public class Player {
   private String color;
   private int unitMax;
   private boolean isConnected;
+
+  private FoodResource food;
+  private TechResource tech;
+
+  public int currentTurnTechConsumingAmount;
+  public int currentTurnFoodConsumingAmount;
+  private int level;
   //constructor
   public Player(String color){
     this.territories=new ArrayList<>();
     this.color=color;
     this.unitMax=0;
     this.isConnected = true;
+    this.food = new FoodResource(0);
+    this.tech = new TechResource(0);
+    this.level = 1;
+    this.currentTurnFoodConsumingAmount = 0;
+    this.currentTurnTechConsumingAmount = 0;
   }
-
   public void disconnect() {
     isConnected = false;
   }
-
   public void connect() {
     isConnected = true;
   }
@@ -92,15 +102,39 @@ public class Player {
     }
     return false;
   }
-
   public boolean isDefeated(){
     return territories.size()==0;
   }
-
   public boolean isWinner(int amount) {
     return this.territories.size() == amount;
   }
-  public String display() {
-    return "";
+  public String display(){
+    StringBuilder sb = new StringBuilder();
+    sb.append("{\n\"level\":\""+level+"\",");
+    sb.append("\n\"food\":\""+getFoodAmount()+"\",");
+    sb.append("\n\"tech\":\""+getTechAmount()+"\"");
+    sb.append("\n}");
+    return sb.toString();
+  }
+
+  public int getFoodAmount() {
+    return this.food.getAmount();
+  }
+  public int getTechAmount() {
+    return this.tech.getAmount();
+  }
+  public int getLevel(){return this.level;}
+
+  public void addTechResource(int addAmount) {
+    this.tech.addResource(addAmount);
+  }
+  public void addFoodResource(int amount) {
+    this.food.addResource(amount);
+  }
+  public void collectResources() {
+    for (Territory t : territories) {
+      addFoodResource(t.produceResource());
+      addTechResource(t.produceResource());
+    }
   }
 }
