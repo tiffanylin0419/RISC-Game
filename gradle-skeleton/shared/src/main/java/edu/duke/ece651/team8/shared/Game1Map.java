@@ -20,7 +20,7 @@ public class Game1Map implements Map {
     this.territories = new ArrayList<>();
     this.players = new ArrayList<>();
     this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
-    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null), getResearchCostsOfEachLevelHashTable()),6);
+    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -30,7 +30,7 @@ public class Game1Map implements Map {
     this.players = new ArrayList<>();
     this.territories = territories;
     this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
-    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null), getResearchCostsOfEachLevelHashTable()),6);
+    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -133,15 +133,10 @@ public class Game1Map implements Map {
     t2.setDistance(t1, distance);
   }
 
-  public HashMap<Integer,Integer> getResearchCostsOfEachLevelHashTable(){
-    return new HashMap<Integer,Integer>() {{
-      put(1,20);
-      put(2,40);
-      put(3,80);
-      put(4,160);
-      put(5,320);
-    }};
-  }
+//  public int[] getResearchCostsList(){
+//    int[] researchCosts = {0, 20, 40, 80, 160, 320};
+//    return researchCosts;
+//  }
 
 }
 

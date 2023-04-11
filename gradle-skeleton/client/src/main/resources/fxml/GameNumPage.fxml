@@ -13,13 +13,9 @@
             </font>
         </Label>
         <Label fx:id="message" text="" />
-        <GridPane alignment="TOP_CENTER" hgap="5" vgap="10">
-            <TextField fx:id="username" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        </GridPane>
-        <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <HBox  fx:id="buttons"  alignment="CENTER">
 
-
-        <Label fx:id="errorMessage" text="" ></Label>
+        </HBox>
     </VBox>
 
 </StackPane>

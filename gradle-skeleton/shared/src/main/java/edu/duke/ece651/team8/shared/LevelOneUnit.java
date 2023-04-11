@@ -7,6 +7,8 @@ public class LevelOneUnit implements Unit{
     private final String type = "Assassin";
     private final int bonus = 1;
     private final int upgradeCost = 8;
+
+    private int[] costs = {0, 3, 8, 19, 25, 35, 50};
     //constructor
 
     @Override
@@ -46,4 +48,5 @@ public class LevelOneUnit implements Unit{
     public int compareTo(@NotNull Unit o) {
         return this.getBonus() - o.getBonus();
     }
+
 }
