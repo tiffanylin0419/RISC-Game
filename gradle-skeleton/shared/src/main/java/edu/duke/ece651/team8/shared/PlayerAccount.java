@@ -36,7 +36,7 @@ public class PlayerAccount {
         output = out;
         reader = r;
     }
-    public void updatePassword(String password) {}
+    public boolean isEmpty() {return joinedThread.size() == 0;}
     public PrintWriter getOutput() {
         return output;
     }

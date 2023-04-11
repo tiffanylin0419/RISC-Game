@@ -138,15 +138,12 @@ public class Server {
 
         if(res.equals("N")) {
             System.out.println(res);
-            String joinPrompt = "Enter how many players' game you want to join"; // haven't dealt with Y
-            send(joinPrompt, account.getOutput());
-            String numString = receive(account.getReader());
-            System.out.println("--------------");
-            System.out.println(numString);
-            System.out.println("--------------");
-            int num = Integer.parseInt(numString);
-            return joinGame(num, account);
+            return receiveJoinInfo(account);
         } else {
+            if(account.isEmpty()) {
+                send(String.valueOf(0), account.getOutput());
+                return receiveJoinInfo(account);
+            }
             String joinPrompt = "Select which game you would like to return"; // haven't dealt with Y
             send(joinPrompt, account.getOutput());
             String gameInfo = account.displayGameList();
@@ -154,6 +151,16 @@ public class Server {
             int num = Integer.parseInt(receive(account.getReader()));
             return account.select(num);
         }
+    }
+    public GameThread receiveJoinInfo(PlayerAccount account) throws IOException{
+        String joinPrompt = "Enter how many players' game you want to join"; // haven't dealt with Y
+        send(joinPrompt, account.getOutput());
+        String numString = receive(account.getReader());
+        System.out.println("--------------");
+        System.out.println(numString);
+        System.out.println("--------------");
+        int num = Integer.parseInt(numString);
+        return joinGame(num, account);
     }
     public synchronized GameThread joinGame(int num, PlayerAccount account){
         for(GameThread game : games) {
