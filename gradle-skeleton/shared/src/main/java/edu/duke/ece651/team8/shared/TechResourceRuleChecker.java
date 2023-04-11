@@ -16,3 +16,4 @@ public class TechResourceRuleChecker extends ResearchActionRuleChecker{
         return null;
     }
 }
+
