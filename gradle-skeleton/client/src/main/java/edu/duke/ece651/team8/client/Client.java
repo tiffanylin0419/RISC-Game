@@ -101,9 +101,18 @@ public class Client {
             //send ID of game;
             //todo
             out.println(serverStream.getBuffer());
-            serverStream.send(input.readLine());
             serverStream.receive();
             out.println(serverStream.getBuffer());
+            serverStream.send(input.readLine());
+
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            status = Integer.parseInt(serverStream.getBuffer());
+
+            serverStream.receive();
+            out.println(serverStream.getBuffer());
+            color = serverStream.getBuffer();
+
         }else{
             System.out.println("Your input is: "+ newOrExistingGame);
             throw new IllegalArgumentException("Should be L/S");
