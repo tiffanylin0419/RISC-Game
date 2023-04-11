@@ -273,14 +273,19 @@ public class ClientHandlerThread extends Thread {
             String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade(D)one\n";
             send(prompt, output);
             receive(reader);
-            if (buffer.equals("D")) {
-                return;
-            } else if (buffer.equals("M")) {
-                doMoveOrder();
-            } else if (buffer.equals("A")) {
-                doAttackOrder();
-            } else if (buffer.equals("R")) {
-                doResearchOrder();
+            switch (buffer) {
+                case "D":
+                    player.hasResearchedThisTurn = false;
+                    return;
+                case "M":
+                    doMoveOrder();
+                    break;
+                case "A":
+                    doAttackOrder();
+                    break;
+                case "R":
+                    doResearchOrder();
+                    break;
             }
         }
     }
