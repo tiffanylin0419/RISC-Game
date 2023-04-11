@@ -25,7 +25,7 @@ public class OldNewGameController {
         try {
             int num = Integer.parseInt(serverStream.read());
             if(num == 0) System.out.println("No joined game in your list");
-            newGame();
+            newPage();
         } catch (Exception e) {
             System.out.println(serverStream.getBuffer());
             String s=serverStream.read();
@@ -37,7 +37,13 @@ public class OldNewGameController {
         }
     }
     @FXML
-    public void newGame() throws IOException {
+    public void newGame()  throws IOException{
+        serverStream.receive();
+        serverStream.send("N");
+        newPage();
+    }
+
+    public void newPage()throws IOException{
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/PlayerNumPage.fxml"));
         loaderStart.setControllerFactory(c->{
             return new PlayerNumController(stage,serverStream);

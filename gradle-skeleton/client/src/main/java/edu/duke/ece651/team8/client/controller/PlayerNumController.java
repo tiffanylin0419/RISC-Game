@@ -33,8 +33,6 @@ public class PlayerNumController {
 
     private void pAny(String num, int n)throws IOException {
         serverStream.receive();
-        serverStream.send("N");
-        serverStream.receive();
         serverStream.send(num);
         serverStream.receive();
 
