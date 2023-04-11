@@ -13,6 +13,7 @@ public class Player {
   public int currentTurnTechConsumingAmount;
   public int currentTurnFoodConsumingAmount;
   private int level;
+  public Boolean hasResearchedThisTurn;
   //constructor
   public Player(String color){
     this.territories=new ArrayList<>();
@@ -24,6 +25,7 @@ public class Player {
     this.level = 1;
     this.currentTurnFoodConsumingAmount = 0;
     this.currentTurnTechConsumingAmount = 0;
+    this.hasResearchedThisTurn = false;
   }
   public void disconnect() {
     isConnected = false;
@@ -136,5 +138,8 @@ public class Player {
       addFoodResource(t.produceResource());
       addTechResource(t.produceResource());
     }
+  }
+  public void upgradeTechLevel(){
+    level++;
   }
 }

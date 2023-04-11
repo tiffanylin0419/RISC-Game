@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class ActionController extends GameController implements Initializable {
     private String winner="no winner";
-    private boolean isDefeated=false;
+    public boolean isDefeated=false;
     private boolean infoButtonPressed=false, moveButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
 
     @FXML
@@ -31,9 +31,37 @@ public class ActionController extends GameController implements Initializable {
     TextField input1, input2, input3;
 
 
+
     public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS,String mapS, int playerNum) {
         super(stage,ss,colorS,messageS,playerInfoS, mapS,playerNum);
     }
+
+    public ActionController(Stage stage, ServerStream ss, String colorS, String messageS, String playerInfoS,String mapS, int playerNum,String loseStatus, String winnerS) throws IOException {
+        this(stage,ss,colorS,messageS,playerInfoS, mapS,playerNum);
+        this.winner=winnerS;
+        if(loseStatus.equals("lose")){
+            setMessage("You lose.");
+        }
+        if(isOver()){
+            if(colorS.equals(winner)){
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
+                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "Congratulations! You win!"));
+                Scene scene = new Scene(loaderStart.load());
+                stage.setScene(scene);
+                stage.show();
+            }else {
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
+                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "You lose. Player "+winner+" wins."));
+                Scene scene = new Scene(loaderStart.load());
+                stage.setScene(scene);
+                stage.show();
+            }
+        }if(!isOver() && !isDefeated){
+            serverStream.receive();
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize();
@@ -180,6 +208,7 @@ public class ActionController extends GameController implements Initializable {
         serverStream.receive();
         serverStream.send(s);
     }
+
     private void reportResult() throws IOException {
         setPlayer(serverStream.read());
 
@@ -208,6 +237,7 @@ public class ActionController extends GameController implements Initializable {
                 stage.show();
             }
         }
+
         /*else if(isDefeated){
             System.out.println("1\n"+serverStream.read());
             System.out.println("2\n"+serverStream.read());
@@ -225,13 +255,14 @@ public class ActionController extends GameController implements Initializable {
             System.out.println("14\n"+serverStream.read());
             System.out.println("15\n"+serverStream.read());
             System.out.println("16\n"+serverStream.read());
+            System.out.println("12\n"+serverStream.read());
         }*/
     }
-    private boolean isOver(){
+    public boolean isOver(){
         return !winner.equals("no winner");
     }
-    private void receiveWinner() throws IOException{winner=serverStream.read();}
-    private void receiveLoseStatus() throws IOException{
+    public void receiveWinner() throws IOException{winner=serverStream.read();}
+    public void receiveLoseStatus() throws IOException{
         if(serverStream.read().equals("lose")){
             isDefeated = true;
         }

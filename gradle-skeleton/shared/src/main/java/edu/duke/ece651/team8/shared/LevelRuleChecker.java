@@ -15,6 +15,6 @@ public class LevelRuleChecker extends ResearchActionRuleChecker{
         }else if(action.player.getLevel() < 1){
             return "Your level must be positive Integer!";
         }
-        return "";
+        return null;
     }
 }
