@@ -163,14 +163,15 @@ public class Server {
         return joinGame(num, account);
     }
     public synchronized GameThread joinGame(int num, PlayerAccount account){
+        System.out.println("games size: "+ games.size());
         for(GameThread game : games) {
             if(game.getPlayerNum() == num) {
                 ClientHandlerThread clientThread = game.join(account);
-                if(clientThread == null) break;
+                if(clientThread == null) continue;
                 return game;
             }
         }
-        GameThread gameThread = new GameThread(num, factory, games.size() - 1);
+        GameThread gameThread = new GameThread(num, factory, games.size());
         gameThread.start();
         ClientHandlerThread clientThread = gameThread.join(account);
         games.add(gameThread);

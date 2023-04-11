@@ -133,5 +133,10 @@ public class Game1Map implements Map {
     t2.setDistance(t1, distance);
   }
 
+//  public int[] getResearchCostsList(){
+//    int[] researchCosts = {0, 20, 40, 80, 160, 320};
+//    return researchCosts;
+//  }
+
 }
 
