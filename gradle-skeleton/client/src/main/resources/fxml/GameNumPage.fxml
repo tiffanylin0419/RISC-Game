@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane alignment="CENTER" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="edu.duke.ece651.team8.client.controller.GameNumController">
+    <VBox alignment="CENTER" spacing="10">
+        <Label styleClass="title" text="Choose Game" >
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+        <Label fx:id="message" text="" />
+        <GridPane alignment="TOP_CENTER" hgap="5" vgap="10">
+            <TextField fx:id="username" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        </GridPane>
+        <Button fx:id="enter" mnemonicParsing="false" onAction="#enter" text="Enter" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+
+        <Label fx:id="errorMessage" text="" ></Label>
+    </VBox>
+
+</StackPane>
