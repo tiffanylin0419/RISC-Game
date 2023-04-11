@@ -21,4 +21,7 @@ public class BasicArmy extends AbstractArmy {
     return rand.nextInt(20); 
   }
 
+  public int getAmount() {
+    return super.getAmount(0);
+  }
 }

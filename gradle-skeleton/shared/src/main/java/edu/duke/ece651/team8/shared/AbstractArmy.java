@@ -47,7 +47,7 @@ public abstract class AbstractArmy implements Army{
     }
 
     @Override
-    public int getAmount() {
+    public int getAmount(){
         return units.size();
     }
     @Override
@@ -59,6 +59,17 @@ public abstract class AbstractArmy implements Army{
     public int doRoll() {
         Random rand = new Random();
         return rand.nextInt(20);
+    }
+
+    @Override
+    public int getAmount(int n) {
+        int count=0;
+        for(Unit u:units){
+            if(u.getLevel()==n){
+                count++;
+            }
+        }
+        return count;
     }
 
 }

@@ -37,9 +37,14 @@ public interface Army {
   List<Unit> getList();
 
   /**
-   * @return amount of units
+   *
    */
   int getAmount();
+
+  /**
+   * @return amount of units
+   */
+  int getAmount(int n);
 
   /**
    * @return True if amount>0, else otherwise
