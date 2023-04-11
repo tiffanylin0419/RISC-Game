@@ -47,8 +47,19 @@ public abstract class AbstractArmy implements Army{
     }
 
     @Override
-    public int getAmount() {
+    public int getAmount(){
         return units.size();
+    }
+
+    @Override
+    public int getAmount(int n) {
+        int count=0;
+        for(Unit u:units){
+            if(u.getLevel()==n){
+                count++;
+            }
+        }
+        return count;
     }
 
 }
