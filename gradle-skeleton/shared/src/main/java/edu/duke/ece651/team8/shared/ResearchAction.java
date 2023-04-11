@@ -7,7 +7,6 @@ public class ResearchAction extends BasicAction{
     public ResearchAction(Player player){
         this.player = player;
     }
-
     @Override
     public void doAction() {
         player.hasResearchedThisTurn = true;
@@ -15,4 +14,5 @@ public class ResearchAction extends BasicAction{
         int level = player.getLevel();
         player.addTechResource(-researchCosts[level]);
     }
+
 }
