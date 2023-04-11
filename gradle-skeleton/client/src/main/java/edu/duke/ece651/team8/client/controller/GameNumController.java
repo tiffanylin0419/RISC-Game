@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,14 +18,16 @@ public class GameNumController{
     public ServerStream serverStream;
 
     @FXML
-    TextField username;
-    @FXML
     Label message;
+
+    @FXML
+    HBox buttons;
 
     public GameNumController(Stage stage, ServerStream ss, String message) {
         this.stage = stage;
         this.serverStream = ss;
         setMessage(message);
+        addButton(message);
     }
 
     public void setMessage(String messages){
@@ -32,11 +35,26 @@ public class GameNumController{
             message.setText(messages);
         });
     }
-
-    @FXML
-    public void enter() throws IOException {
-        serverStream.send(username.getText());
-
+    public void addButton(String messages){
+        Platform.runLater(() -> {
+            int count = messages.split("\n", -1).length - 1;
+            System.out.println(count);
+            for (int i = 0; i < count; i++) {
+                Button button = new Button("Game " + i);
+                int tempI=i;
+                button.setOnAction(event -> {
+                    try {
+                        handleButtonClick(tempI);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                buttons.getChildren().add(button);
+            }
+        });
+    }
+    private void handleButtonClick(int n) throws IOException{
+        serverStream.send(""+n);
         serverStream.receive();
         System.out.println(serverStream.getBuffer());
         int status = Integer.parseInt(serverStream.getBuffer());
@@ -69,9 +87,5 @@ public class GameNumController{
         Scene scene = new Scene(loaderStart.load());
         stage.setScene(scene);
         stage.show();
-
     }
-
-
-
 }
