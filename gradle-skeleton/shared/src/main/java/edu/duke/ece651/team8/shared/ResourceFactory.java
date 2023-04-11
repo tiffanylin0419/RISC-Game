@@ -2,6 +2,11 @@ package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
 
-public interface ResourceFactory {
-    public Resource produce(int amount);
+public abstract class ResourceFactory {
+    public  int amount;
+    public ResourceFactory(int amount) {
+        this.amount=amount;
+    }
+
+    public abstract void produce(Resource resource) ;
 }

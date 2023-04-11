@@ -3,35 +3,21 @@ package edu.duke.ece651.team8.shared;
 public class ResourceTerritory extends BasicTerritory {
     private FoodFactory foodFactory;
     private TechFactory techFactory;
+
+    private int addFood=5;
+    private int addTech=5;
     public ResourceTerritory(String name) {
         super(name);
-        this.foodFactory = new FoodFactory();
-        this.techFactory = new TechFactory();
+        this.foodFactory = new FoodFactory(addFood);
+        this.techFactory = new TechFactory(addTech);
     }
-    public ResourceTerritory(String name, Player player) {
-        super(name, player);
-        this.foodFactory = new FoodFactory();
-        this.techFactory = new TechFactory();
-    }
-
-    public Resource initFoodResource() {
-        return foodFactory.produce(10);
-    }
-
-    public Resource initTechResource() {
-        return techFactory.produce(10);
-    }
-
-    public Resource produceFoodResource() {
-        return foodFactory.produce(5);
-    }
-
-    public Resource produceTechResource() {
-        return techFactory.produce(5);
-    }
-
     @Override
-    public int produceResource() {
-        return 5;
+    public void produceFoodResource(Resource resource) {
+        foodFactory.produce(resource);
     }
+    @Override
+    public void produceTechResource(Resource resource) {
+        techFactory.produce(resource);
+    }
+
 }

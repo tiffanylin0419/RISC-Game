@@ -129,7 +129,8 @@ public interface Territory {
 
   public Integer getDistance(Territory t);
 
-  public int produceResource();
+  public void produceFoodResource(Resource resource);
+  public void produceTechResource(Resource resource);
 
   public HashMap<Territory, Integer> getDistances();
 
