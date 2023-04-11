@@ -297,7 +297,7 @@ public class ClientHandlerThread extends Thread {
     }
     public void movableActionRuleCheck(MovableAction ac) {
         String errorMessage=theMap.getMovableChecker().checkAllRule(ac);
-        if(errorMessage==null) {
+        if(errorMessage== null) {
             send("", output);
             ac.doAction();
         }
@@ -307,8 +307,9 @@ public class ClientHandlerThread extends Thread {
     }
     public void researchActionRuleCheck(ResearchAction rs){
         String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
-        if(errorMessage==null) {
+        if(errorMessage== null) {
             send("", output);
+            System.out.println();
             rs.doAction();
         }
         else{

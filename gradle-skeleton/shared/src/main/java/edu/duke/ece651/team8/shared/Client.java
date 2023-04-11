@@ -296,7 +296,12 @@ public class Client {
                         continue;
                     }
                     break;
-                case "R": break;
+                case "R":
+                    if (doOneResearch().equals("")) {
+                        System.out.println("Successfully attacked\n");
+                        continue;
+                    }
+                    break;
                 case "D":
                     break label;
             }
@@ -352,6 +357,13 @@ public class Client {
         trySendSourceTerritory(buffer,input);
         receive();
         trySendDestinationTerritory(buffer,input);
+        receive();
+        if(!buffer.equals("")){
+            out.println(buffer);
+        }
+        return buffer;
+    }
+    public String doOneResearch()throws IOException{
         receive();
         if(!buffer.equals("")){
             out.println(buffer);
