@@ -30,7 +30,7 @@ public class Game1Map implements Map {
     this.players = new ArrayList<>();
     this.territories = territories;
     this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
-    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(null, getResearchCostsOfEachLevelHashTable()),6);
+    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null), getResearchCostsOfEachLevelHashTable()),6);
     this.combatOutcome = "";
     this.doneCombat = false;
   }

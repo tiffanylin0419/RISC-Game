@@ -11,7 +11,7 @@ public class ResearchTurnLimitChecker extends  ResearchActionRuleChecker{
         if(action.player.hasResearchedThisTurn){
             return "You can only research once a turn!";
         }else{
-            return "";
+            return null;
         }
     }
 }

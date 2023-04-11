@@ -14,6 +14,6 @@ public class TechResourceRuleChecker extends ResearchActionRuleChecker{
         if(action.player.getTechAmount() < researchCostsOfEachLevel.get(action.player.getLevel())+action.player.currentTurnTechConsumingAmount){
             return "You do not have enough technique resource for this action!";
         }
-        return "";
+        return null;
     }
 }
