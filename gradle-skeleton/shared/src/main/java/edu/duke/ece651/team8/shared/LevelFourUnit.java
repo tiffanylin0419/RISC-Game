@@ -2,16 +2,16 @@ package edu.duke.ece651.team8.shared;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LevelThreeUnit implements Unit{
-    private final int level = 3;
-    private final String type = "Lancer";
-    private final int bonus = 5;
-    private final int upgradeCost = 25;
+public class LevelFourUnit implements Unit{
+    private final int level = 4;
+    private final String type = "Archer";
+    private final int bonus = 8;
+    private final int upgradeCost = 35;
     //constructor
 
     @Override
     public Unit upgrade() {
-        return new LevelFourUnit(); //change to level four later
+        return new LevelFiveUnit(); //change to level four later
     }
 
     @Override
@@ -45,4 +45,5 @@ public class LevelThreeUnit implements Unit{
     public int compareTo(@NotNull Unit o) {
         return this.getBonus() - o.getBonus();
     }
+
 }

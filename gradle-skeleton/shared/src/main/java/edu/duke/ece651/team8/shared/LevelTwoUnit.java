@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class LevelTwoUnit implements Unit{
     private final int level = 2;
-    private final String type = "Caster";
+    private final String type = "Rider";
     private final int bonus = 3;
     private final int upgradeCost = 19;
     //constructor
