@@ -16,10 +16,6 @@ public class PlayerAccount {
     private String password;
     private List<GameThread> joinedThread;
     private List<Integer> numList;
-    /**
-     * No. of player in current game thread, start from 0
-     */
-    private int currNum;
     public PlayerAccount(PrintWriter output, BufferedReader reader, String username, String password) {
         this.username = username;
         this.password = password;
@@ -52,17 +48,26 @@ public class PlayerAccount {
         joinedThread.add(th);
         numList.add(currNum);
     }
+    public void deleteEndGame(GameThread th, int currNum) {
+        for(int i = 0; i < joinedThread.size(); i++) {
+            if(th.equals(joinedThread.get(i))) {
+                joinedThread.remove(i);
+                numList.remove(i);
+            }
+        }
+    }
     public String displayGameList() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < joinedThread.size(); i++) {
             GameThread th = joinedThread.get(i);
-            sb.append(i + ". Game " + th.getName() + ": " + th.getPlayerNum() + " players");
+            sb.append(i + ". Game " + th.getRoomNumber() + ": " + th.getPlayerNum() + " players");
         }
         return sb.toString();
     }
-    public ClientHandlerThread select(int index) {
-        ClientHandlerThread cli = joinedThread.get(index).backToGame(numList.get(index), output, reader);
-        return cli;
+    public GameThread select(int index) {
+        GameThread game = joinedThread.get(index);
+        ClientHandlerThread cli = game.backToGame(numList.get(index), output, reader);
+        return game;
     }
 
 }

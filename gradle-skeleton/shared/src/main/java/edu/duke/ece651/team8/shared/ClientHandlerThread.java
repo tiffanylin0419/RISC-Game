@@ -47,7 +47,6 @@ public class ClientHandlerThread extends Thread {
     }
     @Override
     public void run() {
-        try {
             sendGameLoading();
             sendInitialConfig();
             doInitialPlacement();
@@ -55,9 +54,6 @@ public class ClientHandlerThread extends Thread {
                 issueOrders();
                 reportResult();
             }
-        } finally {
-            output.close();
-        }
     }
     public void reconnect(PrintWriter out, BufferedReader in) {
         if(player.isConnected()) {
