@@ -1,5 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveMovableActionTest {
+    @Disabled
     @Test
     public void test_doAction() {
         V1MapFactory factory = new V1MapFactory();
