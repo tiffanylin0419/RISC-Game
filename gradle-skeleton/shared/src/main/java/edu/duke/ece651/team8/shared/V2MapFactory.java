@@ -1,6 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class V2MapFactory implements AbstractMapFactory {
     private final int territoryAmount;
@@ -108,4 +109,5 @@ public class V2MapFactory implements AbstractMapFactory {
             }
         }
     }
+
 }

@@ -2,6 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ClientHandlerThread extends Thread {
     private final Object lock = new Object();
@@ -37,7 +38,6 @@ public class ClientHandlerThread extends Thread {
     public ClientHandlerThread(PrintWriter output, BufferedReader reader, Map theMap, Player player, GameThread gameServer) {
         this.output = output;
         this.reader = reader;
-        this.theMap = theMap;
         this.player = player;
         this.mapView = new MapGuiView();
         this.mapInfo = mapView.displayMap(theMap);
@@ -277,6 +277,8 @@ public class ClientHandlerThread extends Thread {
                 doMoveOrder();
             } else if (buffer.equals("A")) {
                 doAttackOrder();
+            } else if (buffer.equals("R")) {
+                doResearchOrder();
             }
         }
     }
@@ -291,8 +293,8 @@ public class ClientHandlerThread extends Thread {
         receive(reader);
         System.out.println("receive from client: "+buffer);
     }
-    public String orderRuleCheck(MovableAction ac) {
-        String errorMessage=theMap.getChecker().checkAllRule(ac);
+    public void orderRuleCheck(MovableAction ac) {
+        String errorMessage=theMap.getMovableChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", output);
             ac.doAction();
@@ -300,13 +302,12 @@ public class ClientHandlerThread extends Thread {
         else{
             send(errorMessage, output);
         }
-        return errorMessage;
     }
     /**
      * Conduct move order with move message from client
      * @throws IOException
      */
-    public String doMoveOrder() throws IOException{
+    public void doMoveOrder() throws IOException{
         doOneTransmission("Please enter the number of units to move:");
         int num=-1;
         if(isPositiveInt(buffer)){
@@ -317,7 +318,7 @@ public class ClientHandlerThread extends Thread {
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         MovableAction ac = new MoveAction(player, source, destination, num, theMap);
-        return orderRuleCheck(ac);
+        orderRuleCheck(ac);
     }
 
     /**
@@ -325,7 +326,7 @@ public class ClientHandlerThread extends Thread {
      * @return current step attack action
      * @throws IOException
      */
-    public String doAttackOrder() throws IOException{
+    public void doAttackOrder() throws IOException{
         doOneTransmission("Please enter the number of units to attack:");
         int num=-1;
         if(isPositiveInt(buffer)){
@@ -336,8 +337,14 @@ public class ClientHandlerThread extends Thread {
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(player, source, destination, num, theMap); //Change move to attack
-        return orderRuleCheck(ac);
+        orderRuleCheck(ac);
     }
+
+    public void doResearchOrder() throws IOException{
+        ResearchAction rs = new ResearchAction(player);
+
+    }
+
     /**
      * Send information to one client
      */

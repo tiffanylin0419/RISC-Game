@@ -4,6 +4,7 @@ package edu.duke.ece651.team8.shared;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameThread extends Thread {
@@ -29,6 +30,7 @@ public class GameThread extends Thread {
     private final int unitAmount = 36;
     private String winnerName;
     private boolean isStart;
+    private HashMap<Integer, Integer> researchCostsOfEachLevel;
     public GameThread(int playerNum, AbstractMapFactory factory) {
         this.outputs = new ArrayList<>();
         this.readers = new ArrayList<>();
