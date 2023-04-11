@@ -60,7 +60,7 @@ public class PlayerAccount {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < joinedThread.size(); i++) {
             GameThread th = joinedThread.get(i);
-            sb.append(i + ". Game " + th.getRoomNumber() + ": " + th.getPlayerNum() + " players");
+            sb.append(i + ". Game " + th.getRoomNumber() + ": " + th.getPlayerNum() + " players\n");
         }
         return sb.toString();
     }
