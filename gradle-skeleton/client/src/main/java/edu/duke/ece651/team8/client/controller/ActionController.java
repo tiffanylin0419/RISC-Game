@@ -208,6 +208,7 @@ public class ActionController extends GameController implements Initializable {
         serverStream.receive();
         serverStream.send(s);
     }
+
     private void reportResult() throws IOException {
         setPlayer(serverStream.read());
 
@@ -236,6 +237,7 @@ public class ActionController extends GameController implements Initializable {
                 stage.show();
             }
         }
+
         /*else if(isDefeated){
             System.out.println("1\n"+serverStream.read());
             System.out.println("2\n"+serverStream.read());
@@ -253,6 +255,7 @@ public class ActionController extends GameController implements Initializable {
             System.out.println("14\n"+serverStream.read());
             System.out.println("15\n"+serverStream.read());
             System.out.println("16\n"+serverStream.read());
+            System.out.println("12\n"+serverStream.read());
         }*/
     }
     public boolean isOver(){
