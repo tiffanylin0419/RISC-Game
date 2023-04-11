@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.AbstractMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -27,8 +28,11 @@ class PlayerAccountTest {
         when(socket.getInputStream()).thenReturn(mock(InputStream.class));
         PlayerAccount acc = new PlayerAccount(writer, reader, "asd", "123");
         assertEquals(true, acc.match("asd", "123"));
+        assertEquals(false, acc.match("ad", "123"));
         assertEquals("asd", acc.getUsername());
         assertEquals(true, acc.isEmpty());
+        acc.getOutput();
+        acc.getReader();
     }
 
     @Test
@@ -52,7 +56,25 @@ class PlayerAccountTest {
     }
 
     @Test
-    void addJoinGame() {
+    void addJoinGame() throws IOException{
+        // Mock the PrintWriter and BufferedReader
+        writer = mock(PrintWriter.class);
+        reader = mock(BufferedReader.class);
+
+        // Create a socket for testing
+        socket = mock(Socket.class);
+        when(socket.getOutputStream()).thenReturn(mock(OutputStream.class));
+        when(socket.getInputStream()).thenReturn(mock(InputStream.class));
+        PlayerAccount acc = new PlayerAccount(writer, reader, "asd", "123");
+
+
+        AbstractMapFactory f = new V2MapFactory();
+        GameThread th = new GameThread(2, f, 0);
+        acc.addJoinGame(th, 0);
+        assertEquals("0. Game 0: 2 players", acc.displayGameList());
+//        assertEquals(th, acc.select(0));
+        acc.deleteEndGame(th, 0);
+        assertEquals("", acc.displayGameList());
     }
 
     @Test

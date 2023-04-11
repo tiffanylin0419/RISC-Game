@@ -25,7 +25,7 @@ public class ClientHandlerThread extends Thread {
     private final int unitAmount = 36;
     private String winnerName;
     private GameThread gameServer;
-    private int status;
+    public int status;
     /**
      * Constructor of the ClientHandlerThread
      * @param output
