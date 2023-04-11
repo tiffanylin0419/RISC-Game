@@ -1,6 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -129,4 +130,6 @@ public interface Territory {
   public Integer getDistance(Territory t);
 
   public int produceResource();
+
+  public HashMap<Territory, Integer> getDistances();
 }

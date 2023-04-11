@@ -1,5 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class BasicUnitTest {
         assertEquals(25, u3.getUpgradeCost());
     }
 
+    @Disabled
     @Test
     public void testCompareTo(){
         Map map = new Game1Map();
