@@ -15,109 +15,36 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ClientHandlerThreadTest {
-//
-//    public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException {
-//        BufferedReader input = new BufferedReader(new StringReader(inputData));
-//        PrintStream out = new PrintStream(bytes, true);
-//        return  new Client(port, host, out, input);
-//    }
-//    private void doClientAction(Client cli, ClientHandlerThread th) throws Exception {
-//        cli.receiveColor();
-//        cli.receiveMap();
-//        cli.displayColor();
-//        cli.displayMap();
-//        cli.doInitialPlacement();
-//        cli.receivePlacementResult();
-//        Thread.sleep(20);
-//        th.setWinner("Green");
-//        cli.doOneTurn();
-//        cli.reportResult();
-//    }
-//
-//    @Test
-//    public void testRun() throws Exception {
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        ServerSocket ss = new ServerSocket(1231);
-//        AbstractMapFactory factory = new V1MapFactory();
-//
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        Client cli = createClient(1231,"localhost", bytes, "1\n2\n3\n4\n5\n6\nM\n1\na1\na2\nD\n");
-//
-//        Socket cliSocket = ss.accept();
-//        List<Socket> clis = new ArrayList<>();
-//
-//        clis.addAmount(cliSocket);
-//        GameThread th = new GameThread(clis, factory);
-//        th.start();
-//
-//        ClientHandlerThread cliTh =  th.getClients().get(0);
-//        doClientAction(cli, cliTh);
-//
-//        th.interrupt();
-//        th.join();
-//        ss.close();
-//        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//
-//        assertEquals("Green\n" +
-//                "Green Player:\n" +
-//                "-------------\n" +
-//                "0 units in a1 (next to: a2)\n" +
-//                "0 units in a2 (next to: a1, a3)\n" +
-//                "0 units in a3 (next to: a2, a4)\n" +
-//                "0 units in a4 (next to: a3, a5)\n" +
-//                "0 units in a5 (next to: a4, a6)\n" +
-//                "0 units in a6 (next to: a5)\n" +
-//                "Please enter the units you would like to place in a1 (36 units)\n" +
-//                "valid\n" +
-//                "\n" +
-//                "Please enter the units you would like to place in a2 (35 units)\n" +
-//                "valid\n" +
-//                "\n" +
-//                "Please enter the units you would like to place in a3 (33 units)\n" +
-//                "valid\n" +
-//                "\n" +
-//                "Please enter the units you would like to place in a4 (30 units)\n" +
-//                "valid\n" +
-//                "\n" +
-//                "Please enter the units you would like to place in a5 (26 units)\n" +
-//                "valid\n" +
-//                "\n" +
-//                "Placement phase is done!\n" +
-//                "\n" +
-//                "Green Player:\n" +
-//                "-------------\n" +
-//                "1 units in a1 (next to: a2)\n" +
-//                "2 units in a2 (next to: a1, a3)\n" +
-//                "3 units in a3 (next to: a2, a4)\n" +
-//                "4 units in a4 (next to: a3, a5)\n" +
-//                "5 units in a5 (next to: a4, a6)\n" +
-//                "21 units in a6 (next to: a5)\n" +
-//                "You are the Green player, what would you like to do?\n" +
-//                "(M)ove\n" +
-//                "(A)ttack\n" +
-//                "(D)one\n"+
-//                "Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)\n" +
-//                "You are the Green player, what would you like to do?\n" +
-//                "(M)ove\n" +
-//                "(A)ttack\n" +
-//                "(D)one\n"+
-//                "Please enter the number of units to move:\n" +
-//                "Please enter the source territory:\n" +
-//                "Please enter the destination territory:\n" +
-//                "You are the Green player, what would you like to do?\n" +
-//                "(M)ove\n" +
-//                "(A)ttack\n" +
-//                "(D)one\n" +
-//                "\n"+
-//                "Green Player:\n" +
-//                "-------------\n" +
-//                "1 units in a1 (next to: a2)\n" +
-//                "4 units in a2 (next to: a1, a3)\n" +
-//                "4 units in a3 (next to: a2, a4)\n" +
-//                "5 units in a4 (next to: a3, a5)\n" +
-//                "6 units in a5 (next to: a4, a6)\n" +
-//                "22 units in a6 (next to: a5)\nCongratulations! You win!\n", actual);
-//    }
+
+    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes,InputStream inputStream,PrintWriter output, String inputData)throws IOException{
+        BufferedReader input = new BufferedReader(new StringReader(inputData));
+        PrintStream out = new PrintStream(bytes, true);
+        return  new Client(s, inputStream, mockRB, out, input, output);
+    }
+
+    @Test
+    public void testSendInitialCommit() throws Exception {
+        PrintWriter output = mock(PrintWriter.class);
+        InputStream inputStream = mock(InputStream.class);
+        BufferedReader reader = mock(BufferedReader.class);
+
+        PrintWriter output1 = mock(PrintWriter.class);
+        InputStream inputStream1 = mock(InputStream.class);
+        BufferedReader reader1 = mock(BufferedReader.class);
+
+        GameThread th = new GameThread(2, new V2MapFactory(), 0);
+        th.start();
+        PlayerAccount account = new PlayerAccount(output, reader, "asd", "1");
+        PlayerAccount account1 = new PlayerAccount(output1, reader1, "as", "2");
+
+
+        ClientHandlerThread handler = th.join(account);
+        ClientHandlerThread handler1 = th.join(account1);
+        handler1.status = -1;
+        handler.status = -1;
+        th.interrupt();
+
+    }
 //    @Test
 //    public void testIOExceptionInRun() throws Exception {
 //        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
