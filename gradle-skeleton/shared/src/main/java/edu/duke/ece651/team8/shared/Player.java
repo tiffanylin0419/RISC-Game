@@ -10,8 +10,11 @@ public class Player {
   private FoodResource food;
   private TechResource tech;
 
+<<<<<<< HEAD
   public int currentTurnTechConsumingAmount;
   public int currentTurnFoodConsumingAmount;
+=======
+>>>>>>> 20193cb (Add action interface)
   private int level;
   //constructor
   public Player(String color){
@@ -22,8 +25,11 @@ public class Player {
     this.food = new FoodResource(0);
     this.tech = new TechResource(0);
     this.level = 1;
+<<<<<<< HEAD
     this.currentTurnFoodConsumingAmount = 0;
     this.currentTurnTechConsumingAmount = 0;
+=======
+>>>>>>> 20193cb (Add action interface)
   }
   public void disconnect() {
     isConnected = false;
@@ -115,6 +121,7 @@ public class Player {
     sb.append("\n\"tech\":\""+getTechAmount()+"\"");
     sb.append("\n}");
     return sb.toString();
+<<<<<<< HEAD
   }
 
   public int getFoodAmount() {
@@ -136,12 +143,28 @@ public class Player {
       addFoodResource(t.produceResource());
       addTechResource(t.produceResource());
     }
+=======
+>>>>>>> 20193cb (Add action interface)
   }
 
   public int getFoodAmount() {
-    return 0;
+    return this.food.getAmount();
   }
+  public int getTechAmount() {
+    return this.tech.getAmount();
+  }
+  public int getLevel(){return this.level;}
 
+  public void addTechResource(int addAmount) {
+    this.tech.addResource(addAmount);
+  }
   public void addFoodResource(int amount) {
+    this.food.addResource(amount);
+  }
+  public void collectResources() {
+    for (Territory t : territories) {
+      addFoodResource(t.produceResource());
+      addTechResource(t.produceResource());
+    }
   }
 }

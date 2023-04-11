@@ -12,8 +12,11 @@ public class LevelRuleChecker extends ResearchActionRuleChecker{
     protected String checkMyRule(ResearchAction action) {
         if(action.player.getLevel() >= MAX_LEVEL){
             return "Research action is valid since your level can not be greater than the max level: "+ MAX_LEVEL + "!";
+<<<<<<< HEAD
         }else if(action.player.getLevel() < 1){
             return "Your level must be positive Integer!";
+=======
+>>>>>>> 20193cb (Add action interface)
         }
         return "";
     }
