@@ -121,7 +121,7 @@ public class ClientHandlerThread extends Thread {
     }
     private void setUnitInTerritory(Territory t) {
         int amount = Integer.parseInt(buffer);
-        Army army = new BasicArmy(amount, t.getOwner());
+        Army army = new EvolvableArmy(amount, t.getOwner());
         t.moveIn(army);
     }
 
@@ -200,7 +200,7 @@ public class ClientHandlerThread extends Thread {
                 }
             }
         }
-        Army army = new BasicArmy(curr, territories.get(size - 1).getOwner());
+        Army army = new EvolvableArmy(curr, territories.get(size - 1).getOwner());
         territories.get(size - 1).moveIn(army);
     }
     public void setWinner(String winner) {

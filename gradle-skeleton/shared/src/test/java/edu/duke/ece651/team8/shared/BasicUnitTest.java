@@ -29,7 +29,8 @@ public class BasicUnitTest {
         assertEquals(25, u3.getUpgradeCost());
     }
 
-    @Disabled
+
+//    @Disabled
     @Test
     public void testCompareTo(){
         Map map = new Game1Map();
@@ -41,11 +42,11 @@ public class BasicUnitTest {
         Player player1 = new TextPlayer("p1");
         Player player2 = new TextPlayer("p2");
         Player player3 = new TextPlayer("p3");
-        territory1.moveIn(new BasicArmy(20, player1));
+        territory1.moveIn(new EvolvableArmy(20, player1));
         map.doCombats();
         map.getOutcome();
         assertEquals(21, territory1.getUnitAmount(0));
-        Army player2Army = new BasicArmy(4, player2);
+        Army player2Army = new EvolvableArmy(4, player2);
         Unit UpgradedPlayer = player2Army.getList().get(3).upgrade().upgrade().upgrade();
         player2Army.getList().set(3,UpgradedPlayer);
         System.out.println(player2Army.getList().get(3));
@@ -55,8 +56,8 @@ public class BasicUnitTest {
             listOfUnits.add(new LevelThreeUnit());
         }
 
-        territory1.moveIn(new BasicArmy(1000, player2));
-        territory1.moveIn(new BasicArmy(player3,listOfUnits));
+        territory1.moveIn(new EvolvableArmy(1000, player2));
+        territory1.moveIn(new EvolvableArmy(player3,listOfUnits));
         map.doCombats();
         assertEquals("Player p3 wins combat in a\n", map.getOutcome());
 
