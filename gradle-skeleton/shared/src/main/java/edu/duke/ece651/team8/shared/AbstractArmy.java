@@ -50,5 +50,15 @@ public abstract class AbstractArmy implements Army{
     public int getAmount() {
         return units.size();
     }
+    @Override
+    public boolean isSurvive(){
+        return units.size()>0;
+    }
+
+    @Override
+    public int doRoll() {
+        Random rand = new Random();
+        return rand.nextInt(20);
+    }
 
 }
