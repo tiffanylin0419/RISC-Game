@@ -10,6 +10,8 @@ public class Player {
   private FoodResource food;
   private TechResource tech;
 
+  public int currentTurnTechConsumingAmount;
+  public int currentTurnFoodConsumingAmount;
   private int level;
   //constructor
   public Player(String color){
@@ -20,6 +22,8 @@ public class Player {
     this.food = new FoodResource(0);
     this.tech = new TechResource(0);
     this.level = 1;
+    this.currentTurnFoodConsumingAmount = 0;
+    this.currentTurnTechConsumingAmount = 0;
   }
   public void disconnect() {
     isConnected = false;

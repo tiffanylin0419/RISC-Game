@@ -1,6 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Game1Map implements Map {
@@ -9,7 +10,8 @@ public class Game1Map implements Map {
 
   private ArrayList<Player> players;
 
-  private final MovableActionRuleChecker checker;
+  private final MovableActionRuleChecker movableChecker;
+  private final ResearchActionRuleChecker researchActionRuleChecker;
   private String combatOutcome;
   private boolean doneCombat;
 
@@ -17,7 +19,8 @@ public class Game1Map implements Map {
   public Game1Map() {
     this.territories = new ArrayList<>();
     this.players = new ArrayList<>();
-    this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(null, getResearchCostsOfEachLevelHashTable()),6);
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -26,7 +29,8 @@ public class Game1Map implements Map {
   public Game1Map(ArrayList<Territory> territories) {
     this.players = new ArrayList<>();
     this.territories = territories;
-    this.checker=new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(null, getResearchCostsOfEachLevelHashTable()),6);
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -76,7 +80,12 @@ public class Game1Map implements Map {
   }
 
   @Override
-  public MovableActionRuleChecker getChecker(){return checker;}
+  public MovableActionRuleChecker getMovableChecker(){return movableChecker;}
+
+  @Override
+  public ResearchActionRuleChecker getResearchRuleChecker() {
+    return researchActionRuleChecker;
+  }
 
   /**
    * if the size of unit in one territory is greater than 1, than let them do combats
@@ -123,5 +132,16 @@ public class Game1Map implements Map {
     t1.setDistance(t2, distance);
     t2.setDistance(t1, distance);
   }
+
+  public HashMap<Integer,Integer> getResearchCostsOfEachLevelHashTable(){
+    return new HashMap<Integer,Integer>() {{
+      put(1,20);
+      put(2,40);
+      put(3,80);
+      put(4,160);
+      put(5,320);
+    }};
+  }
+
 }
 

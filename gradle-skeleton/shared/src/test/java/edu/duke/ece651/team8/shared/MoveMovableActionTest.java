@@ -23,13 +23,13 @@ class MoveMovableActionTest {
         MovableAction action1=new MoveAction(players.get(0),"a1","a5",3,map);
         assertEquals("a1",action1.getSourceText());
         assertEquals("a5",action1.getDestinationText());
-        assertNull(map.getChecker().checkAllRule(action1));
+        assertNull(map.getMovableChecker().checkAllRule(action1));
         action1.doAction();
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(8,d.getUnitAmount(0));
 
         MovableAction action2=new MoveAction(players.get(0),"a1","a5",1,map);
-        assertNull(map.getChecker().checkAllRule(action2));
+        assertNull(map.getMovableChecker().checkAllRule(action2));
         action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
         s.attack();

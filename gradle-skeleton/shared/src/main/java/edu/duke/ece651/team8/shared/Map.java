@@ -38,8 +38,9 @@ public interface Map {
   /**
    * @return checker
    */
-  MovableActionRuleChecker getChecker();
+  MovableActionRuleChecker getMovableChecker();
 
+  ResearchActionRuleChecker getResearchRuleChecker();
   /**
    * Do combats in all territory
    * @return the outcome information for all the combats

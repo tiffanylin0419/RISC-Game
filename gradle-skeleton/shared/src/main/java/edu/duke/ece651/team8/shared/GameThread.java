@@ -6,6 +6,7 @@ import org.checkerframework.checker.units.qual.A;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameThread extends Thread {
