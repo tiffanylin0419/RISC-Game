@@ -19,8 +19,11 @@ public class MapGuiView implements View {
 
     @Override
     public void displayUnitInfo(StringBuilder sb, Territory t) {
-        String s=""+t.getOwnerUnitAmount();
-        sb.append("    \"army\":\"").append(s).append("\"\n");
+        sb.append("    \"army\":\"");
+        for(int i=1;i<=5;i++){
+            sb.append("L"+i+": "+t.getOwnerUnitLevelAmount(i)+"\\n");
+        }
+        sb.append("\"\n");
     }
 
     public void displayTerritoryInfo(StringBuilder sb, Territory t) {

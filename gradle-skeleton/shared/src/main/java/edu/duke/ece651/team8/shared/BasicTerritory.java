@@ -27,7 +27,7 @@ public class BasicTerritory implements Territory {
   public BasicTerritory(String name, Player owner){
     this(name);
     this.owner=owner;
-     owner.addTerritory(this);
+    owner.addTerritory(this);
   }
   
   //get
@@ -279,5 +279,14 @@ public class BasicTerritory implements Territory {
       }
     }
     target.upgradeUnits(unitAmount, startLevel, nextLevel);
+  }
+  @Override
+  public int getOwnerUnitLevelAmount(int level){
+    for(Army army : armies){
+      if(army.getOwner().equals(owner)){
+        return army.getAmount(level);
+      }
+    }
+    return 0;
   }
 }
