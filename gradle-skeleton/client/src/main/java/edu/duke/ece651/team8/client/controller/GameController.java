@@ -66,6 +66,7 @@ public abstract class GameController {
             color.setText("Player: " + colors);
         });
     }
+
     public void setMessage(String messages){
         Platform.runLater(() -> {
             message.setText("Message: " + messages);
@@ -115,34 +116,40 @@ public abstract class GameController {
         }
     }
     public void setMap(String map){
-        mapS=map;
-        parseMap();
-        int i=0;
-        for(Circle c: circles){
-            if(territoryColors.get(i).equals("Green")){
-                c.setFill(Color.GREEN);
+        Platform.runLater(() -> {
+            mapS=map;
+            parseMap();
+            int i=0;
+            for(Circle c: circles){
+                if(territoryColors.get(i).equals("Green")){
+                    c.setFill(Color.GREEN);
+                }
+                else if(territoryColors.get(i).equals("Red")){
+                    c.setFill(Color.RED);
+                }
+                else if(territoryColors.get(i).equals("Blue")){
+                    c.setFill(Color.BLUE);
+                }
+                else if(territoryColors.get(i).equals("Yellow")){
+                    c.setFill(Color.YELLOW);
+                }
+                i++;
+                if(i>=6*playerNum){
+                    break;
+                }
             }
-            else if(territoryColors.get(i).equals("Red")){
-                c.setFill(Color.RED);
-            }
-            else if(territoryColors.get(i).equals("Blue")){
-                c.setFill(Color.BLUE);
-            }
-            else if(territoryColors.get(i).equals("Yellow")){
-                c.setFill(Color.YELLOW);
-            }
-            i++;
-            if(i>=6*playerNum){
-                break;
-            }
-        }
-        System.out.println(map);
+            System.out.println(map);
+        });
+
     }
     public void setPlayer(String playerInfo){
-        JSONObject jsonObj = new JSONObject(playerInfo);
-        setFood(jsonObj.getString("food"));
-        setLevel(jsonObj.getString("level"));
-        setTech(jsonObj.getString("tech"));
+        Platform.runLater(() -> {
+            JSONObject jsonObj = new JSONObject(playerInfo);
+            setFood(jsonObj.getString("food"));
+            setLevel(jsonObj.getString("level"));
+            setTech(jsonObj.getString("tech"));
+        });
+
     }
     public void disappearCircle(){
         int i=0;

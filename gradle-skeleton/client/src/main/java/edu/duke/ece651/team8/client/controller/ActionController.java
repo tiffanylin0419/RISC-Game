@@ -1,6 +1,7 @@
 package edu.duke.ece651.team8.client.controller;
 
 import edu.duke.ece651.team8.client.ServerStream;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.URL;
@@ -206,6 +208,24 @@ public class ActionController extends GameController implements Initializable {
                 stage.show();
             }
         }
+        /*else if(isDefeated){
+            System.out.println("1\n"+serverStream.read());
+            System.out.println("2\n"+serverStream.read());
+            System.out.println("3\n"+serverStream.read());
+            System.out.println("4\n"+serverStream.read());
+            System.out.println("5\n"+serverStream.read());
+            System.out.println("6\n"+serverStream.read());
+            System.out.println("7\n"+serverStream.read());
+            System.out.println("8\n"+serverStream.read());
+            System.out.println("9\n"+serverStream.read());
+            System.out.println("10\n"+serverStream.read());
+            System.out.println("11\n"+serverStream.read());
+            System.out.println("12\n"+serverStream.read());
+            System.out.println("13\n"+serverStream.read());
+            System.out.println("14\n"+serverStream.read());
+            System.out.println("15\n"+serverStream.read());
+            System.out.println("16\n"+serverStream.read());
+        }*/
     }
     private boolean isOver(){
         return !winner.equals("no winner");
