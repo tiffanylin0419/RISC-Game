@@ -3,21 +3,19 @@ package edu.duke.ece651.team8.shared;
 public class ResearchAction extends BasicAction{
     protected Player player;
 
-    int[] researchCosts;
+    static int[] researchCosts = {0, 20, 40, 80, 160, 320};
     public ResearchAction(Player player){
         this.player = player;
-        this.researchCosts = getResearchCostsList();
     }
     @Override
     public void doAction() {
         player.hasResearchedThisTurn = true;
         player.upgradeTechLevel();
-        // todo
-        //  cost technology resource of the player
+        int level = player.getLevel();
+        player.addTechResource(-researchCosts[level]);
     }
 
-    public int[] getResearchCostsList(){
-        int[] researchCosts = {0, 20, 40, 80, 160, 320};
-        return researchCosts;
+    public int[] getResearchCostsList() {
+        return this.researchCosts;
     }
 }
