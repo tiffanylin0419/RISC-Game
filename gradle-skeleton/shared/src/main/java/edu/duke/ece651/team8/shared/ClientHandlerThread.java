@@ -2,7 +2,6 @@ package edu.duke.ece651.team8.shared;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ClientHandlerThread extends Thread {
     private final Object lock = new Object();
@@ -39,6 +38,7 @@ public class ClientHandlerThread extends Thread {
         this.output = output;
         this.reader = reader;
         this.player = player;
+        this.theMap = theMap;
         this.mapView = new MapGuiView();
         this.mapInfo = mapView.displayMap(theMap);
         this.winnerName = "";
@@ -268,7 +268,7 @@ public class ClientHandlerThread extends Thread {
      */
     public void doOneCommit() throws IOException {
         while(true) {
-            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(D)one\n";
+            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade(D)one\n";
             send(prompt, output);
             receive(reader);
             if (buffer.equals("D")) {
@@ -293,11 +293,21 @@ public class ClientHandlerThread extends Thread {
         receive(reader);
         System.out.println("receive from client: "+buffer);
     }
-    public void orderRuleCheck(MovableAction ac) {
+    public void movableActionRuleCheck(MovableAction ac) {
         String errorMessage=theMap.getMovableChecker().checkAllRule(ac);
         if(errorMessage==null) {
             send("", output);
             ac.doAction();
+        }
+        else{
+            send(errorMessage, output);
+        }
+    }
+    public void researchActionRuleCheck(ResearchAction rs){
+        String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
+        if(errorMessage==null) {
+            send("", output);
+            rs.doAction();
         }
         else{
             send(errorMessage, output);
@@ -318,7 +328,7 @@ public class ClientHandlerThread extends Thread {
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         MovableAction ac = new MoveAction(player, source, destination, num, theMap);
-        orderRuleCheck(ac);
+        movableActionRuleCheck(ac);
     }
 
     /**
@@ -337,12 +347,12 @@ public class ClientHandlerThread extends Thread {
         doOneTransmission("Please enter the destination territory:");
         String destination = buffer;
         AttackAction ac = new AttackAction(player, source, destination, num, theMap); //Change move to attack
-        orderRuleCheck(ac);
+        movableActionRuleCheck(ac);
     }
 
     public void doResearchOrder() throws IOException{
         ResearchAction rs = new ResearchAction(player);
-
+        researchActionRuleCheck(rs);
     }
 
     /**

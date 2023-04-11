@@ -296,6 +296,7 @@ public class Client {
                         continue;
                     }
                     break;
+                case "R": break;
                 case "D":
                     break label;
             }
@@ -319,7 +320,7 @@ public class Client {
             send(s);
             return s;
         }else{
-            throw new IllegalArgumentException("Action should be \"M\"(move) \"A\"(attack) or \"D\"(done)");
+            throw new IllegalArgumentException("Action should be \"M\"(move), \"A\"(attack), \"R\"(research), \"U\"(update) or \"D\"(done)");
         }
     }
 
@@ -329,7 +330,7 @@ public class Client {
      * @return true valid. Otherwise, false
      */
     public boolean isValidChoice(String s){
-        return s.equals("M")||s.equals("A")||s.equals("D");
+        return s.equals("M")||s.equals("A")||s.equals("R")||s.equals("U")||s.equals("D");
     }
 
     /**
