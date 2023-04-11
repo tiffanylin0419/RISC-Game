@@ -133,5 +133,9 @@ public interface Territory {
 
   public HashMap<Territory, Integer> getDistances();
 
+
   public void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel);
+
+  public int getOwnerUnitLevelAmount(int level);
+
 }
