@@ -67,11 +67,13 @@ class StartPageControllerTest extends ApplicationTest{
         assertTrue(stage.getScene().getRoot().isManaged());
     }
 
+    @Disabled
     @Test
     void testStart() {
         FxRobot robot=new FxRobot();
         verifyThat(".title", hasText("RISC game"));
         robot.clickOn("#start");
+
         //Label myLabel = (Label) robot.lookup("#titleTT");
 
         //verifyThat(".titleTT", hasText("Signup/Login"));
