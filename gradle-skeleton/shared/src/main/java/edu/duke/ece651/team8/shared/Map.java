@@ -41,6 +41,8 @@ public interface Map {
   MovableActionRuleChecker getMovableChecker();
 
   ResearchActionRuleChecker getResearchRuleChecker();
+
+//  UpgradeActionRuleChecker getUpgradeRuleChecker();
   /**
    * Do combats in all territory
    * @return the outcome information for all the combats
