@@ -19,5 +19,12 @@ public class ResourceTerritory extends BasicTerritory {
     public void produceTechResource(Resource resource) {
         techFactory.produce(resource);
     }
+    public int getAddFood(){
+        return addFood;
+    }
+
+    public int getAddTech(){
+        return addTech;
+    }
 
 }

@@ -22,8 +22,10 @@ public class MapGuiView implements View {
         sb.append("    \"army\":\"");
         for(int i=0;i<=6;i++){
             sb.append("L"+i+": "+t.getOwnerUnitLevelAmount(i)+"\\n");
-            //sb.append(t.produceResource());
         }
+        ResourceTerritory tt=(ResourceTerritory) t;
+        sb.append("Food: "+tt.getAddFood()+"\\n");
+        sb.append("Tech: "+tt.getAddTech()+"\\n");
         sb.append("\"\n");
     }
 
