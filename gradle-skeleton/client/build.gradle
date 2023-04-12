@@ -53,9 +53,8 @@ test {
         showStandardStreams = true
         exceptionFormat = 'full'
     }
-    //testRuntime 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
-    systemProperty "testfx.headless", "true"
-    systemProperty "testfx.robot", "glass"
+    //systemProperty "testfx.headless", "true"
+    //systemProperty "testfx.robot", "glass"
 
 }
 clover {
