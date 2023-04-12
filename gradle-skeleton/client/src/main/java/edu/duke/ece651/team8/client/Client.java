@@ -337,6 +337,7 @@ public class Client {
                         System.out.println("Successfully attacked\n");
                     }
                     else{
+                        System.out.println(serverStream.getBuffer());
                         System.out.println("Action failed\n");
                     }
                     break;
@@ -424,6 +425,7 @@ public class Client {
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
+        System.out.println(serverStream.getBuffer());
         return serverStream.getBuffer();
     }
 

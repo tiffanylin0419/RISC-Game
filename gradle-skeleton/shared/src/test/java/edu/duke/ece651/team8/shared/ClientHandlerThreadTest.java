@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -66,7 +67,7 @@ class ClientHandlerThreadTest {
 
         ClientHandlerThread handler = th.join(account);
         ClientHandlerThread handler1 = th.join(account1);
-
+        sleep(500);
         th.shutDown();
 
     }

@@ -75,12 +75,14 @@ public class ClientTest {
                 thenReturn("map").thenReturn("END_OF_TURN").thenReturn("notlose").thenReturn("END_OF_TURN").
                 thenReturn("no winner").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
                 thenReturn("unitnumber").thenReturn("END_OF_TURN").thenReturn("source").thenReturn("END_OF_TURN").
-                thenReturn("target").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
+                thenReturn("target").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").
+                thenReturn("color").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
                 thenReturn("unitnumber").thenReturn("END_OF_TURN").thenReturn("source").thenReturn("END_OF_TURN").
-                thenReturn("target").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
+                thenReturn("target").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").
+                thenReturn("color").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
                 thenReturn("terri").thenReturn("END_OF_TURN").thenReturn("number").thenReturn("END_OF_TURN").
                 thenReturn("level").thenReturn("END_OF_TURN").thenReturn("level").thenReturn("END_OF_TURN").
-                thenReturn("").thenReturn("END_OF_TURN").
+                thenReturn("").thenReturn("END_OF_TURN").thenReturn("color").thenReturn("END_OF_TURN").
                 thenReturn("playerinfo").thenReturn("END_OF_TURN").thenReturn("outcome").thenReturn("END_OF_TURN").
                 thenReturn("map").thenReturn("END_OF_TURN").thenReturn("notlose").thenReturn("END_OF_TURN").
                 thenReturn("winner").thenReturn("END_OF_TURN");
