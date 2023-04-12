@@ -33,11 +33,10 @@ class StartPageControllerTest extends ApplicationTest{
     private Stage stage;
     private ServerStream serverStream;
     private StartPageController startPageController;
-    private Server server;
-    ServerSocket ss;
-    private Thread serverThread;
-    /*@BeforeAll
-    void setUp() throws Exception {
+    static Server server;
+    private static Thread serverThread;
+    @BeforeAll
+    static void setUp() throws Exception {
         AbstractMapFactory factory = new V2MapFactory();
         server = new Server(8080,  factory);
         serverThread = new Thread(() -> {
@@ -80,9 +79,9 @@ class StartPageControllerTest extends ApplicationTest{
     }
 
     @AfterAll
-    void tearDown() throws IOException, InterruptedException {
+    static void tearDown() throws IOException, InterruptedException {
         server.stop();
         serverThread.join();
-    }*/
+    }
 
 }
