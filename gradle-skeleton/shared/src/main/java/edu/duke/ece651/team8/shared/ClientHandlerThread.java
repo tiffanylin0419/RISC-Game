@@ -277,7 +277,10 @@ public class ClientHandlerThread extends Thread {
             receive(reader);
             switch (buffer) {
                 case "D":
-                    player.hasResearchedThisTurn = false;
+                    if(player.hasResearchedThisTurn){
+                        player.upgradeTechLevel();
+                        player.hasResearchedThisTurn = false;
+                    }
                     return;
                 case "M":
                     doMoveOrder();
