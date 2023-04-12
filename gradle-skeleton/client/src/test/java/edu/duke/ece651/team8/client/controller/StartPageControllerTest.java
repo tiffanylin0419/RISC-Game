@@ -73,16 +73,14 @@ class StartPageControllerTest extends ApplicationTest{
     void testStart() {
         FxRobot robot=new FxRobot();
         verifyThat("#title", hasText("RISC game"));
-
         robot.clickOn("#start");
-        //Label myLabel = (Label) robot.lookup("#titleTT");
         verifyThat("#titleTT", hasText("Signup/Login"));
     }
 
     @AfterAll
     static void tearDown() throws IOException, InterruptedException {
-        server.stop();
         serverThread.interrupt();
+        server.stop();
         serverThread.join();
     }
 
