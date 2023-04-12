@@ -13,7 +13,7 @@ public class MinimumPath {
 
 
     public int findMinPath(Territory source, Territory destination) {
-        if (source.equals(destination)) {
+        if (source == destination) {
             return 0;
         }
         this.player = source.getOwner();
