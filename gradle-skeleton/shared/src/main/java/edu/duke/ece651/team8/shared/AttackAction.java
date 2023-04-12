@@ -14,16 +14,14 @@ public class AttackAction extends MovableAction {
     }
 
     public boolean hasEnoughFood() {
-        MinimumPath path = new MinimumPath(player, theMap);
-        int minPath = path.findMinPath(getSource(), getDestination());
-        return super.player.getFoodAmount() >= (super.getCount() * minPath);
+        int distance = getSource().getDistance(getDestination());
+        return super.player.getFoodAmount() >= (super.getCount() * distance);
     }
     public void doAction(){
         getSource().moveOut(new BasicArmy(super.getCount(),super.getPlayer()));
         getDestination().moveIn(new BasicArmy(super.getCount(),super.getPlayer()));
-        MinimumPath path = new MinimumPath(player, theMap);
-        int minPath = path.findMinPath(getSource(), getDestination());
-        super.player.addFoodResource(-(super.getCount() * minPath));
+        int distance = getSource().getDistance(getDestination());
+        super.player.addFoodResource(-(super.getCount() * distance));
     }
     protected boolean isValidPath(){
         return getSource().isAdjacentEnemy(getDestination());
