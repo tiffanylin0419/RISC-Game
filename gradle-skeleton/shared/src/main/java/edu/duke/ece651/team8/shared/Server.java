@@ -64,15 +64,15 @@ public class Server {
      * @throws IOException if input/output stream error
      */
     public void stop() throws IOException {
-        isListening = false;
-        // Close the server socket
-        server.close();
 
         // Interrupt all client threads and remove them from the list
         for (GameThread game : games) {
-            game.interrupt();
+            game.shutDown();
         }
         games.clear();
+        isListening = false;
+        // Close the server socket
+        server.close();
     }
     public PlayerAccount processSignup(PrintWriter out, BufferedReader reader) throws IOException, SignUpException{
         String prompt = "Create username";

@@ -20,23 +20,23 @@ public class ClientTest {
 //        PrintStream out = new PrintStream(bytes, true);
 //        return  new Client(s, inputStream, mockRB, out, input, output);
 //    }
-//    @Test
-//    public void testConstructor() throws Exception {
-//        AbstractMapFactory factory = new V1MapFactory();
-//        ServerSocket ss = new ServerSocket(1237);
-//
-//        Server s = new Server(ss, 1, factory);
-//        Thread serverThread = new Thread(() -> {
-//            s.run();
-//        });
-//        serverThread.start();
-//
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        Client c = new Client(1237, "localhost",in);
-//        s.stop();
-//        serverThread.join();
-//        ss.close();
-//    }
+    @Test
+    public void testConstructor() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
+        ServerSocket ss = new ServerSocket(1237);
+
+        Server s = new Server(ss, factory);
+        Thread serverThread = new Thread(() -> {
+            s.run();
+        });
+        serverThread.start();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        Client c = new Client(1237, "localhost",in);
+        s.stop();
+        serverThread.join();
+        ss.close();
+    }
 //
 //    @Test()
 //    public void testIOException() throws Exception {

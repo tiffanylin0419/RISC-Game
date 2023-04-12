@@ -50,7 +50,7 @@ public class ClientHandlerThread extends Thread {
         sendGameLoading();
         sendInitialConfig();
         doInitialPlacement();
-        while(this.winnerName == "") {//keep running if no one wins
+        while(this.winnerName == "" && status != -1) {//keep running if no one wins
             issueOrders();
             reportResult();
         }
