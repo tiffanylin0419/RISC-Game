@@ -16,12 +16,6 @@ import static org.mockito.Mockito.when;
 
 class ClientHandlerThreadTest {
 
-    public Client createClient(BufferedReader mockRB, Socket s,OutputStream bytes,InputStream inputStream,PrintWriter output, String inputData)throws IOException{
-        BufferedReader input = new BufferedReader(new StringReader(inputData));
-        PrintStream out = new PrintStream(bytes, true);
-        return  new Client(s, inputStream, mockRB, out, input, output);
-    }
-
     @Test
     public void testSendInitialCommit() throws Exception {
         PrintWriter output = mock(PrintWriter.class);
@@ -40,6 +34,39 @@ class ClientHandlerThreadTest {
 
         ClientHandlerThread handler = th.join(account);
         ClientHandlerThread handler1 = th.join(account1);
+        th.shutDown();
+
+    }
+    @Test
+    public void testReconnect() throws Exception {
+        PrintWriter output = mock(PrintWriter.class);
+        BufferedReader reader = mock(BufferedReader.class);
+
+        PrintWriter output1 = mock(PrintWriter.class);
+        BufferedReader reader1 = mock(BufferedReader.class);
+
+        GameThread th = new GameThread(2, new V2MapFactory(), 0);
+        th.start();
+        PlayerAccount account = new PlayerAccount(output, reader, "asd", "1");
+        PlayerAccount account1 = new PlayerAccount(output1, reader1, "as", "2");
+
+        when(reader.readLine()).thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").
+                thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").
+                thenReturn("M").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
+                thenReturn("a1").thenReturn("END_OF_TURN").thenReturn("a2").thenReturn("END_OF_TURN").
+                thenReturn("A").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
+                thenReturn("a1").thenReturn("END_OF_TURN").thenReturn("b1").thenReturn("END_OF_TURN");
+
+        when(reader1.readLine()).thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").
+                thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").
+                thenReturn("U").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
+                thenReturn("0").thenReturn("END_OF_TURN").thenReturn("1").thenReturn("END_OF_TURN").
+                thenReturn("R").thenReturn("END_OF_TURN");
+
+
+        ClientHandlerThread handler = th.join(account);
+        ClientHandlerThread handler1 = th.join(account1);
+
         th.shutDown();
 
     }
