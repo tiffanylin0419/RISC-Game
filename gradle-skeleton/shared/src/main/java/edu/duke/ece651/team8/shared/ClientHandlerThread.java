@@ -354,6 +354,7 @@ public class ClientHandlerThread extends Thread {
         String destination = buffer;
         MovableAction ac = new MoveAction(player, source, destination, num, theMap);
         movableActionRuleCheck(ac);
+        send(player.display(),output);//?
     }
 
     /**
