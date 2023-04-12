@@ -145,11 +145,13 @@ public class ClientHandlerThread extends Thread {
         if(player.isConnected()) { //!!!
             send(num, output);
             placeUnitForTerritories(prompt, num);
+            System.out.println("place unit done");
             doSynchronization();
             endPlacementPhase();
         }
         // wait for the server to finish processing messages
         status += 1;
+
     }
 
     private void getWinner() {

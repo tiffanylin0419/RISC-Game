@@ -32,7 +32,7 @@ public class ClientTest {
         serverThread.start();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        Client c = new Client(1237, "localhost",in);
+        Socket clis = new Socket("localhost", 1237);
         s.stop();
         serverThread.join();
         ss.close();
