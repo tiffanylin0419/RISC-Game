@@ -57,7 +57,7 @@ class StartPageControllerTest extends ApplicationTest{
         stage.setScene(scene);
         stage.show();
     }
-    @Disabled
+
     @Test
     public void testStartPageLoads() throws IOException, InterruptedException {
         // check that the start page loads successfully
@@ -68,14 +68,13 @@ class StartPageControllerTest extends ApplicationTest{
 
     }
 
-    //@Disabled
+
     @Test
     void testStart() {
-        /*FxRobot robot=new FxRobot();
+        FxRobot robot=new FxRobot();
         verifyThat("#title", hasText("RISC game"));
         robot.clickOn("#start");
-        verifyThat("#titleTT", hasText("Signup/Login"));*/
-
+        verifyThat("#titleTT", hasText("Signup/Login"));
     }
 
     @AfterAll
