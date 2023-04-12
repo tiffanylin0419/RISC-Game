@@ -335,7 +335,13 @@ public class Client {
                         System.out.println("Action failed\n");
                     }
                     break;
-
+                case "U":
+                    if (doOneUpgrade().equals("")) {
+                        System.out.println("Successfully upgraded\n");
+                    }
+                    else {
+                        System.out.println("Action failed\n");
+                    }
                 case "D":
                     break label;
             }
@@ -390,6 +396,17 @@ public class Client {
         return serverStream.getBuffer();
     }
 
+    public String doOneUpgrade() throws IOException {
+        trySendTerritory(serverStream.read());
+        trySendUnitNumber(serverStream.read());
+        trySendUnitLevel(serverStream.read());
+        trySendUnitLevel(serverStream.read());
+        if(!serverStream.read().equals("")){
+            out.println(serverStream.getBuffer());
+        }
+        return serverStream.getBuffer();
+    }
+
     /**
      * try to send a valid unit number
      * @param prompt the prompt for input
@@ -413,6 +430,11 @@ public class Client {
         serverStream.send(s);
     }
 
+    public void trySendUnitLevel(String prompt) throws IOException {
+        out.println(prompt);
+        String s = input.readLine();
+        serverStream.send(s);
+    }
 
     /**
      * user do attack phase

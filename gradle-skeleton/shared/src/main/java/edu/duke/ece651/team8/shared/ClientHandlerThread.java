@@ -286,6 +286,9 @@ public class ClientHandlerThread extends Thread {
                 case "R":
                     doResearchOrder();
                     break;
+                case "U":
+                    doUpgradeOrder();
+                    break;
             }
         }
     }
@@ -310,6 +313,18 @@ public class ClientHandlerThread extends Thread {
             send(errorMessage, output);
         }
     }
+
+//    public void upgradeRuleChecker(UpgradeAction action) {
+//        String errorMessage = theMap.getUpgradeChecker().checkAllRule(action);
+//        if(errorMessage == null) {
+//            send("", output);
+//            action.doAction();
+//        }
+//        else{
+//            send(errorMessage, output);
+//        }
+//    }
+
     public void researchActionRuleCheck(ResearchAction rs){
         String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
         if(errorMessage== null) {
@@ -363,6 +378,28 @@ public class ClientHandlerThread extends Thread {
         researchActionRuleCheck(rs);
     }
 
+    public void doUpgradeOrder() throws IOException {
+        doOneTransmission("Please enter the target territory:");
+        String territoryText = buffer;
+        doOneTransmission("Please enter the unit amount you would like to upgrade:");
+        int unitAmount = -1;
+        if (isPositiveInt(buffer)) {
+            unitAmount = Integer.parseInt(buffer);
+        }
+        doOneTransmission("Please enter the current level of the unit:");
+        int startLevel = -1;
+        if (isPositiveInt(buffer)) {
+            startLevel = Integer.parseInt(buffer);
+        }
+        doOneTransmission("Please enter the upgraded level of the unit:");
+        int upgradedLevel = -1;
+        if (isPositiveInt(buffer)) {
+            upgradedLevel = Integer.parseInt(buffer);
+        }
+        UpgradeAction action = new UpgradeAction(player, territoryText, unitAmount, startLevel, upgradedLevel);
+//        upgradeRuleChecker(action);
+    }
+
     /**
      * Send information to one client
      */
@@ -404,5 +441,4 @@ public class ClientHandlerThread extends Thread {
             return false;
         }
     }
-
 }
