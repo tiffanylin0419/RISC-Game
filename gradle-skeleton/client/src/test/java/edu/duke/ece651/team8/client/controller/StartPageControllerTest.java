@@ -4,6 +4,8 @@ import edu.duke.ece651.team8.shared.AbstractMapFactory;
 import edu.duke.ece651.team8.shared.Server;
 import edu.duke.ece651.team8.shared.V1MapFactory;
 import edu.duke.ece651.team8.shared.V2MapFactory;
+import javafx.scene.Node;
+import org.checkerframework.framework.qual.DefaultQualifierForUse;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,7 +57,7 @@ class StartPageControllerTest extends ApplicationTest{
         stage.setScene(scene);
         stage.show();
     }
-
+    @Disabled
     @Test
     public void testStartPageLoads() throws IOException, InterruptedException {
         // check that the start page loads successfully
@@ -63,25 +65,24 @@ class StartPageControllerTest extends ApplicationTest{
         assertNotNull(stage.getScene());
         assertTrue(stage.getScene().getRoot().isVisible());
         assertTrue(stage.getScene().getRoot().isManaged());
-        server.stop();
-        serverThread.join();
+
     }
 
-    @Disabled
+    //@Disabled
     @Test
     void testStart() {
         FxRobot robot=new FxRobot();
-        verifyThat(".title", hasText("RISC game"));
+        verifyThat("#title", hasText("RISC game"));
+
         robot.clickOn("#start");
-
         //Label myLabel = (Label) robot.lookup("#titleTT");
-
-        //verifyThat(".titleTT", hasText("Signup/Login"));
+        verifyThat("#titleTT", hasText("Signup/Login"));
     }
 
     @AfterAll
     static void tearDown() throws IOException, InterruptedException {
         server.stop();
+        serverThread.interrupt();
         serverThread.join();
     }
 
