@@ -390,14 +390,17 @@ public class Client {
         }
         String message=serverStream.getBuffer();
         color = serverStream.read();
-        displayColor();//?
+        displayColor();
         return message;
     }
     public String doOneResearch()throws IOException{
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
-        return serverStream.getBuffer();
+        String message=serverStream.getBuffer();
+        color = serverStream.read();
+        displayColor();
+        return message;
     }
 
     public String doOneUpgrade() throws IOException {
