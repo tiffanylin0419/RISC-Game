@@ -121,6 +121,7 @@ public class GameThread extends Thread {
                     }
                 }
                 if(!checkFinish()) break;
+                while(!checkConnection()) {}
                 notifyClients();
             }
             System.out.println("game end!!!");
@@ -146,6 +147,12 @@ public class GameThread extends Thread {
     public boolean checkFinish() {
         for(ClientHandlerThread t : clientThreads) {
             if(t.getStatus() != -1) return true;
+        }
+        return false;
+    }
+    public boolean checkConnection() {
+        for(Player p : players) {
+            if(p.isConnected()) return true;
         }
         return false;
     }
