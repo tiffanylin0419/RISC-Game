@@ -149,7 +149,6 @@ public abstract class GameController {
             setLevel(jsonObj.getString("level"));
             setTech(jsonObj.getString("tech"));
         });
-        System.out.println(playerInfo);
 
     }
     public void disappearCircle(){
