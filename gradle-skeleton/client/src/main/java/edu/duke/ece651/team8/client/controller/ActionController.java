@@ -139,9 +139,12 @@ public class ActionController extends GameController implements Initializable {
         String errorMessage=serverStream.read();
         if(errorMessage.equals("")){
             errorMessage="action succeed";
+        }else{
+            setErrorMessage(errorMessage);
         }
-        setErrorMessage(errorMessage);
+        setPlayer(serverStream.read());
         serverStream.receive();
+
     }
 
     private void actionUpgrade() throws IOException{
@@ -182,7 +185,8 @@ public class ActionController extends GameController implements Initializable {
         }else{
             setErrorMessage("action succeed");
         }
-        System.out.println("2\n"+serverStream.read());
+        setPlayer(serverStream.read());
+        serverStream.receive();
 
     }
     @FXML
