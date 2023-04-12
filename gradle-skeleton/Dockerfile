@@ -17,7 +17,11 @@ RUN apt-get update && apt-get -yq dist-upgrade \
      unzip \
      openjdk-17-jdk-headless \
      emacs-nox \
-     xvfb
+     xvfb \
+     libxext6 \
+     libxrender1 \
+     libxtst6 \
+     libxi6
 
 ENV DISPLAY=:99
 RUN Xvfb $DISPLAY -ac &
