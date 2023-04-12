@@ -39,7 +39,13 @@ public class Client {
         this.winner = "no winner";
         this.status = 0;
     }
-
+    public Client(BufferedReader in, BufferedReader serverin, PrintStream out, PrintWriter output) throws IOException {
+        this.serverStream=new ServerStream(serverin, output);
+        this.out = out;
+        this.input = in;
+        this.winner = "no winner";
+        this.status = 0;
+    }
 
     /** execute the client */
     public void run() {

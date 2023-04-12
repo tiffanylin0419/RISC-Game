@@ -27,8 +27,12 @@ public class ServerStream {
         this.reader = new BufferedReader(new InputStreamReader(inputStream));
         this.output = new PrintWriter(s.getOutputStream());
     }
+    public ServerStream(BufferedReader reader, PrintWriter p) {
+        this.reader = reader;
+        this.output = p;
+    }
 
-    public ServerStream(Socket s, PrintWriter p, InputStream i, String b){
+    public ServerStream(Socket s, PrintWriter p,  InputStream i, String b){
         this.socket = s;
         this.output = p;
         this.inputStream = i;
