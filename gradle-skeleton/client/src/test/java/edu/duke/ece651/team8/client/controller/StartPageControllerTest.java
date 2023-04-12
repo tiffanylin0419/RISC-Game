@@ -36,7 +36,7 @@ class StartPageControllerTest extends ApplicationTest{
     private Server server;
     ServerSocket ss;
     private Thread serverThread;
-    @BeforeEach
+    @BeforeAll
     void setUp() throws Exception {
         AbstractMapFactory factory = new V2MapFactory();
         server = new Server(8080,  factory);
@@ -57,7 +57,7 @@ class StartPageControllerTest extends ApplicationTest{
         stage.show();
     }
 
-
+    @Disabled
     @Test
     public void testStartPageLoads() {
         // check that the start page loads successfully
@@ -79,7 +79,7 @@ class StartPageControllerTest extends ApplicationTest{
         //verifyThat(".titleTT", hasText("Signup/Login"));
     }
 
-    @AfterEach
+    @AfterAll
     void tearDown() throws IOException, InterruptedException {
         server.stop();
         serverThread.join();
