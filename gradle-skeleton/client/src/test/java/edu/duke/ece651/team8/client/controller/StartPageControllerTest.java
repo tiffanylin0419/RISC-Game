@@ -57,12 +57,14 @@ class StartPageControllerTest extends ApplicationTest{
     }
 
     @Test
-    public void testStartPageLoads() {
+    public void testStartPageLoads() throws IOException, InterruptedException {
         // check that the start page loads successfully
         assertNotNull(stage);
         assertNotNull(stage.getScene());
         assertTrue(stage.getScene().getRoot().isVisible());
         assertTrue(stage.getScene().getRoot().isManaged());
+        server.stop();
+        serverThread.join();
     }
 
     @Disabled
