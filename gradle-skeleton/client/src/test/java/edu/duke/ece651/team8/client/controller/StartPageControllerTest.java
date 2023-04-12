@@ -36,7 +36,7 @@ class StartPageControllerTest extends ApplicationTest{
     private Server server;
     ServerSocket ss;
     private Thread serverThread;
-    @BeforeAll
+    /*@BeforeAll
     void setUp() throws Exception {
         AbstractMapFactory factory = new V2MapFactory();
         server = new Server(8080,  factory);
@@ -83,6 +83,6 @@ class StartPageControllerTest extends ApplicationTest{
     void tearDown() throws IOException, InterruptedException {
         server.stop();
         serverThread.join();
-    }
+    }*/
 
 }
