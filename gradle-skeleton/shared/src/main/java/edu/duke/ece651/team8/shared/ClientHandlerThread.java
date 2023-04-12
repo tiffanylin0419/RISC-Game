@@ -354,6 +354,7 @@ public class ClientHandlerThread extends Thread {
         String destination = buffer;
         MovableAction ac = new MoveAction(player, source, destination, num, theMap);
         movableActionRuleCheck(ac);
+        send(player.display(),output);//?
     }
 
     /**
@@ -373,11 +374,13 @@ public class ClientHandlerThread extends Thread {
         String destination = buffer;
         AttackAction ac = new AttackAction(player, source, destination, num, theMap); //Change move to attack
         movableActionRuleCheck(ac);
+        send(player.display(),output);
     }
 
     public void doResearchOrder() throws IOException{
         ResearchAction rs = new ResearchAction(player);
         researchActionRuleCheck(rs);
+        send(player.display(),output);
     }
 
     public void doUpgradeOrder() throws IOException {
