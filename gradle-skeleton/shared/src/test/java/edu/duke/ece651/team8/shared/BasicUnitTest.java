@@ -49,6 +49,7 @@ public class BasicUnitTest {
         assertEquals(true, u5.equals(u4.upgrade()));
         assertEquals(11, u5.getBonus());
         Unit u6 = u5.upgrade();
+        assertEquals(6, u6.upgrade().getLevel());
         assertEquals(6, u6.getLevel());
         assertEquals("Saber", u6.getType());
         assertEquals(0, u6.getUpgradeCost());

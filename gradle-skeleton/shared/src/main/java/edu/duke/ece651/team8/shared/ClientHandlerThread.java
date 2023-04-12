@@ -314,16 +314,16 @@ public class ClientHandlerThread extends Thread {
         }
     }
 
-//    public void upgradeRuleChecker(UpgradeAction action) {
-//        String errorMessage = theMap.getUpgradeChecker().checkAllRule(action);
-//        if(errorMessage == null) {
-//            send("", output);
-//            action.doAction();
-//        }
-//        else{
-//            send(errorMessage, output);
-//        }
-//    }
+    public void upgradeRuleChecker(UpgradeAction action) {
+        String errorMessage = theMap.getUpgradeRuleChecker().checkAllRule(action);
+        if(errorMessage == null) {
+            send("", output);
+            action.doAction();
+        }
+        else{
+            send(errorMessage, output);
+        }
+    }
 
     public void researchActionRuleCheck(ResearchAction rs){
         String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
@@ -397,7 +397,7 @@ public class ClientHandlerThread extends Thread {
             upgradedLevel = Integer.parseInt(buffer);
         }
         UpgradeAction action = new UpgradeAction(player, territoryText, unitAmount, startLevel, upgradedLevel);
-//        upgradeRuleChecker(action);
+        upgradeRuleChecker(action);
     }
 
     /**

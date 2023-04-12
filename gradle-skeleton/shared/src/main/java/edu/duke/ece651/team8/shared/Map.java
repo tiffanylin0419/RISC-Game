@@ -42,7 +42,7 @@ public interface Map {
 
   ResearchActionRuleChecker getResearchRuleChecker();
 
-//  UpgradeActionRuleChecker getUpgradeRuleChecker();
+  UpgradeActionRuleChecker getUpgradeRuleChecker();
   /**
    * Do combats in all territory
    * @return the outcome information for all the combats

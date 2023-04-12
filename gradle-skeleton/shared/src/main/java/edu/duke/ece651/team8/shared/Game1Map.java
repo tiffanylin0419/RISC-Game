@@ -13,7 +13,7 @@ public class Game1Map implements Map {
   private final MovableActionRuleChecker movableChecker;
   private final ResearchActionRuleChecker researchActionRuleChecker;
 
-//  private final UpgradeActionRuleChecker upgradeActionRuleChecker;
+  private final UpgradeActionRuleChecker upgradeActionRuleChecker;
   private String combatOutcome;
   private boolean doneCombat;
 
@@ -23,7 +23,7 @@ public class Game1Map implements Map {
     this.players = new ArrayList<>();
     this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
     this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
-//    this.upgradeActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(), 6);
+    this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeCostRuleChecker(null)));
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -34,6 +34,7 @@ public class Game1Map implements Map {
     this.territories = territories;
     this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
     this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
+    this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeCostRuleChecker(null)));
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -90,10 +91,10 @@ public class Game1Map implements Map {
     return researchActionRuleChecker;
   }
 
-//  @Override
-//  public UpgradeActionRuleChecker getUpgradeRuleChecker() {
-//    return upgradeActionRuleChecker;
-//  }
+  @Override
+  public UpgradeActionRuleChecker getUpgradeRuleChecker() {
+    return upgradeActionRuleChecker;
+  }
 
   /**
    * if the size of unit in one territory is greater than 1, than let them do combats
