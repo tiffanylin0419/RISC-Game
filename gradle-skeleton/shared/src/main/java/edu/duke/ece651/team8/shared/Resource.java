@@ -1,10 +1,22 @@
 package edu.duke.ece651.team8.shared;
 
-public interface Resource {
+public abstract class Resource {
 
-    public void setResource(int amount);
+    private int amount;
 
-    public void addResource(int amount);
+    public Resource(int amount){
+        this.amount=amount;
+    }
+    public void setResource(int amount) {
+        this.amount = amount;
+    }
 
-    public int getAmount();
+    public void addResource(int amount) {
+        this.amount += amount;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
 }

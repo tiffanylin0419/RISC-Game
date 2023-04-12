@@ -2,13 +2,13 @@ package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
 
-public class FoodFactory implements ResourceFactory {
-//    private int amount;
-    public FoodFactory() {
-    }
+public class FoodFactory extends ResourceFactory {
+   public FoodFactory(int amount){
+       super(amount);
+   }
 
-    @Override
-    public Resource produce(int amount) {
-        return new FoodResource(amount);
-    }
+   @Override
+   public void produce(Resource resource) {
+       resource.addResource(amount);
+   }
 }

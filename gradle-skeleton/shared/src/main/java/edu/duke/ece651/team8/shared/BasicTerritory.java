@@ -265,9 +265,9 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public int produceResource() {
-    return 0;
-  }
+  public void produceFoodResource(Resource resource){return;}
+  @Override
+  public void produceTechResource(Resource resource){return;}
 
   @Override
   public void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel) {

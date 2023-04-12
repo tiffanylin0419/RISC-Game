@@ -135,8 +135,8 @@ public class Player {
   }
   public void collectResources() {
     for (Territory t : territories) {
-      addFoodResource(t.produceResource());
-      addTechResource(t.produceResource());
+      t.produceFoodResource(food);
+      t.produceTechResource(tech);
     }
   }
   public void upgradeTechLevel(){

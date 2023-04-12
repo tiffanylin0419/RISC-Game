@@ -69,7 +69,7 @@ public class ActionController extends GameController implements Initializable {
     }
 
     private void setTerritoryInfo(String s){
-        territoryInfo.setText("Info: "+s);
+        territoryInfo.setText("Info: \n"+s);
     }
 
     private void seeInput(boolean canSee){
