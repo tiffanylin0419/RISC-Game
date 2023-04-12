@@ -10,9 +10,12 @@ public class PathRuleChecker  extends MovableActionRuleChecker {
      * @param action the action to be checked
      */
     protected String checkMyRule(MovableAction action){
-        if(action.isValidPath()){
-            return null;
+        if(!action.isValidPath()){
+            return "Units in "+action.getSourceText()+" cannot go to "+action.getDestinationText();
         }
-        return "Units in "+action.getSourceText()+" cannot go to "+action.getDestinationText();
+        if (!action.hasEnoughFood()) {
+            return "Do not have enough food";
+        }
+        return null;
     }
 }
