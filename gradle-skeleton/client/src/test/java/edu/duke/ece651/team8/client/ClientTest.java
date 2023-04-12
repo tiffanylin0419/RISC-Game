@@ -32,53 +32,7 @@ public class ClientTest {
         serverThread.join();
         ss.close();
     }
-//
-//    @Test()
-//    public void testIOException() throws Exception {
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        AbstractMapFactory factory = new V1MapFactory();
-//        ServerSocket ss = new ServerSocket(1239);
-//
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        PrintStream output = new PrintStream(bytes, true);
-//
-//        Server s = new Server(ss, 1, factory);
-//        Thread serverThread = new Thread(() -> {
-//            s.run();
-//        });
-//        serverThread.start();
-//
-//        Socket cl_s = new Socket("localhost", 1239);
-//        Client cli = new Client(cl_s, output,in);
-//        cl_s.close();
-//        cli.run();
-//        s.stop();
-//        serverThread.join();
-//        ss.close();
-//        String actual = bytes.toString().replaceAll("\\r\\n|\\r|\\n", "\n");
-//        assertEquals("Socket closed\n", actual);
-//    }
-//
-//    @Test
-//    public void testIisNonNegativeInt()throws IOException{
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        ServerSocket ss = new ServerSocket(1244);
-//        AbstractMapFactory factory = new V1MapFactory();
-//
-//        Server s = new Server(ss, 1, factory);
-//        Thread serverThread = new Thread(() -> {
-//            s.run();
-//        });
-//        serverThread.start();
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        PrintStream output = new PrintStream(bytes, true);
-//        Socket client = new Socket("localhost", 1244);
-//        Client cli = new Client(client, output, in);
-//        assertThrows(NumberFormatException.class,()->cli.isPositiveInt("svin"));
-//        assertFalse(cli.isPositiveInt("-10"));
-//        assertTrue(cli.isPositiveInt("123"));
-//    }
-//
+
     @Test
     public void testjoinNewGame() throws Exception {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -87,7 +41,8 @@ public class ClientTest {
         PrintWriter out = mock(PrintWriter.class);
         BufferedReader clientReader = mock(BufferedReader.class);
         BufferedReader ServerReader = mock(BufferedReader.class);
-        Client client = new Client(clientReader, ServerReader, output, out);
+        InputStream instream = mock(InputStream.class);
+        Client client = new Client(clientReader, ServerReader, output, out, instream);
         when(ServerReader.readLine()).thenReturn("L/S").thenReturn("END_OF_TURN").thenReturn("username").thenReturn("END_OF_TURN").thenReturn("password").
                 thenReturn("END_OF_TURN").thenReturn("Successfully login!").thenReturn("END_OF_TURN").thenReturn("choosegame").thenReturn("END_OF_TURN").
                 thenReturn("number").thenReturn("END_OF_TURN").thenReturn("wait").thenReturn("END_OF_TURN");
@@ -104,24 +59,62 @@ public class ClientTest {
 //        assertEquals("abc\n123\n", actual);
     }
     @Test
-    public void testJoinOldGame() throws Exception {
+    public void testJoinOldGameAndRun() throws Exception {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
 //
         PrintWriter out = mock(PrintWriter.class);
         BufferedReader clientReader = mock(BufferedReader.class);
         BufferedReader ServerReader = mock(BufferedReader.class);
-        Client client = new Client(clientReader, ServerReader, output, out);
+        InputStream instream = mock(InputStream.class);
+        Client client = new Client(clientReader, ServerReader, output, out, instream);
         when(ServerReader.readLine()).thenReturn("L/S").thenReturn("END_OF_TURN").thenReturn("username").thenReturn("END_OF_TURN").thenReturn("password").
                 thenReturn("END_OF_TURN").thenReturn("Successfully login!").thenReturn("END_OF_TURN").thenReturn("choosegame").thenReturn("END_OF_TURN").
-                thenReturn("gamelist").thenReturn("END_OF_TURN").thenReturn("0.game").thenReturn("END_OF_TURN").thenReturn("0").thenReturn("END_OF_TURN").
-                thenReturn("blue").thenReturn("END_OF_TURN");
+                thenReturn("gamelist").thenReturn("END_OF_TURN").thenReturn("0.game").thenReturn("END_OF_TURN").thenReturn("4").thenReturn("END_OF_TURN").
+                thenReturn("blue").thenReturn("END_OF_TURN").thenReturn("playerinfo").thenReturn("END_OF_TURN").thenReturn("outcome").thenReturn("END_OF_TURN").
+                thenReturn("map").thenReturn("END_OF_TURN").thenReturn("notlose").thenReturn("END_OF_TURN").
+                thenReturn("no winner").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
+                thenReturn("unitnumber").thenReturn("END_OF_TURN").thenReturn("source").thenReturn("END_OF_TURN").
+                thenReturn("target").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
+                thenReturn("unitnumber").thenReturn("END_OF_TURN").thenReturn("source").thenReturn("END_OF_TURN").
+                thenReturn("target").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").
+                thenReturn("terri").thenReturn("END_OF_TURN").thenReturn("number").thenReturn("END_OF_TURN").
+                thenReturn("level").thenReturn("END_OF_TURN").thenReturn("level").thenReturn("END_OF_TURN").
+                thenReturn("").thenReturn("END_OF_TURN").
+                thenReturn("playerinfo").thenReturn("END_OF_TURN").thenReturn("outcome").thenReturn("END_OF_TURN").
+                thenReturn("map").thenReturn("END_OF_TURN").thenReturn("notlose").thenReturn("END_OF_TURN").
+                thenReturn("winner").thenReturn("END_OF_TURN");
 
-        when(clientReader.readLine()).thenReturn("L").thenReturn("qwe").thenReturn("123").thenReturn("Y").
-                thenReturn("2").thenReturn("0");
+                when(clientReader.readLine()).thenReturn("L").thenReturn("qwe").thenReturn("123").thenReturn("Y").
+                        thenReturn("2").thenReturn("0").thenReturn("M").thenReturn("2").thenReturn("a1").thenReturn("a2").
+                thenReturn("A").thenReturn("3").thenReturn("a1").thenReturn("b1").
+                thenReturn("U").thenReturn("a1").thenReturn("3").thenReturn("0").thenReturn("1").thenReturn("D");
+        client.stop();
+        client.run();
+    }
+    @Test
+    public void testInitialPlacement() throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+//
+        PrintWriter out = mock(PrintWriter.class);
+        BufferedReader clientReader = mock(BufferedReader.class);
+        BufferedReader ServerReader = mock(BufferedReader.class);
+        InputStream instream = mock(InputStream.class);
+        Client client = new Client(clientReader, ServerReader, output, out, instream);
+        when(ServerReader.readLine()).thenReturn("3").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").thenReturn("valid\n").
+                thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").thenReturn("valid\n").thenReturn("END_OF_TURN").
+                thenReturn("prompt").thenReturn("END_OF_TURN").thenReturn("result").thenReturn("END_OF_TURN").thenReturn("map").thenReturn("END_OF_TURN");
 
-        client.doLoginOrSignup();
-        client.doChooseGame();
+        when(clientReader.readLine()).thenReturn("3").thenReturn("3");
+
+        client.doInitialPlacement();
+        client.receivePlacementResult();
+//        when(clientReader.readLine()).thenReturn("abc").thenReturn("123").thenReturn("").thenReturn(client.END_OF_TURN);
+//        client.mapInfo = "abc\n123";
+//        client.displayMap();
+//        String actual = bytes.toString();
+//        assertEquals("abc\n123\n", actual);
     }
 //
 //    @Test
