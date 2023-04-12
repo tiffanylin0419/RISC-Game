@@ -70,4 +70,110 @@ class MoveMovableActionTest {
         action5.getDestination().moveIn(new BasicArmy(6, players.get(0)));
         assertTrue(action5.isValidPath());
     }
+
+    @Test
+    public void testIsValidPath_IsolatedTerritory() {
+        ArrayList<Territory> gameMap = createIsolatedTerritories();
+        Map theMap = new Game1Map(gameMap);
+        MinimumPath path = new MinimumPath(gameMap.get(0).getOwner(), theMap);
+        int distance = path.findMinPath(theMap.getTerritories().get(0), theMap.getTerritories().get(2));
+        gameMap.get(0).moveIn(new BasicArmy(6, gameMap.get(0).getOwner()));
+        MovableAction action = new MoveAction(gameMap.get(0).getOwner(), "a", "c", 4, theMap);
+        MovableAction action2 = new MoveAction(gameMap.get(0).getOwner(), "a", "a", 4, theMap);
+        assertTrue(action2.isValidPath());
+        assertFalse(action.isValidPath());
+    }
+
+
+    @Test
+    public void testHasEnoughFood() {
+        ArrayList<Territory> gameMap = createTerritories();
+        Map theMap = new Game1Map(gameMap);
+        Player player = gameMap.get(0).getOwner();
+        Territory t = gameMap.get(0);
+        player.addFoodResource(8);
+        t.moveIn(new BasicArmy(6, player));
+        MovableAction action = new MoveAction(player, "a", "c", 1, theMap);
+        MovableAction action2 = new MoveAction(player, "a", "c", 5, theMap);
+        action.doAction();
+        assertEquals(22, player.getFoodAmount());
+        assertEquals("a", action.getSourceText());
+        assertEquals("c", action.getDestinationText());
+        assertTrue(action.hasEnoughFood());
+        assertFalse(action2.hasEnoughFood());
+    }
+
+    private ArrayList<Territory> createTerritories() {
+        Territory t1 = new ResourceTerritory("a");
+        Territory t2 = new ResourceTerritory("b");
+        Territory t3 = new ResourceTerritory("c");
+        Territory t4 = new ResourceTerritory("d");
+        Player player = new Player("Green");
+        Player player2 = new Player("Yellow");
+
+        t1.setOwner(player);
+        t2.setOwner(player);
+        t3.setOwner(player);
+        t4.setOwner(player2);
+
+        t1.addAdjacent(t2);
+        t1.addAdjacent(t3);
+        t2.addAdjacent(t3);
+        t1.addAdjacent(t4);
+        t3.addAdjacent(t4);
+
+        t1.setDistance(t2, 3);
+        t2.setDistance(t1, 3);
+        t1.setDistance(t3, 7);
+        t3.setDistance(t1, 7);
+        t2.setDistance(t3, 3);
+        t3.setDistance(t2, 3);
+        t1.setDistance(t4, 2);
+        t4.setDistance(t1, 2);
+        t3.setDistance(t4, 2);
+        t4.setDistance(t3, 2);
+
+        ArrayList<Territory> testMap = new ArrayList<>();
+        testMap.add(t1);
+        testMap.add(t2);
+        testMap.add(t3);
+        testMap.add(t4);
+        return testMap;
+    }
+
+    private ArrayList<Territory> createIsolatedTerritories() {
+        Territory t1 = new ResourceTerritory("a");
+        Territory t2 = new ResourceTerritory("b");
+        Territory t3 = new ResourceTerritory("c");
+        Territory t4 = new ResourceTerritory("d");
+        Player player = new Player("Green");
+        Player player2 = new Player("Yellow");
+
+        t1.setOwner(player);
+        t2.setOwner(player2);
+        t3.setOwner(player);
+        t4.setOwner(player2);
+
+        t1.addAdjacent(t2);
+        t2.addAdjacent(t3);
+        t1.addAdjacent(t4);
+        t3.addAdjacent(t4);
+
+        t1.setDistance(t2, 3);
+        t2.setDistance(t1, 3);
+        t2.setDistance(t3, 3);
+        t3.setDistance(t2, 3);
+        t1.setDistance(t4, 2);
+        t4.setDistance(t1, 2);
+        t3.setDistance(t4, 2);
+        t4.setDistance(t3, 2);
+
+        ArrayList<Territory> testMap = new ArrayList<>();
+        testMap.add(t1);
+        testMap.add(t2);
+        testMap.add(t3);
+        testMap.add(t4);
+        return testMap;
+    }
+
 }
