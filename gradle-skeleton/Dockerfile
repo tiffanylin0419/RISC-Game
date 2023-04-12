@@ -16,12 +16,15 @@ RUN apt-get update && apt-get -yq dist-upgrade \
      git \
      unzip \
      openjdk-17-jdk-headless \
-     emacs-nox
+     emacs-nox \
+     xvfb \
+     libxext6 \
+     libxrender1 \
+     libxtst6 \
+     libxi6
 
-RUN apt-get update && apt-get install -y xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps
 ENV DISPLAY=:99
-CMD ["Xvfb", ":99", "-screen", "0", "1024x768x16", "&"]
-
+RUN Xvfb $DISPLAY -ac &
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
