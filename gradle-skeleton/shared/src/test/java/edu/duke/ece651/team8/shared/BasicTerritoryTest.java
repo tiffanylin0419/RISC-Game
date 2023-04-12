@@ -211,4 +211,23 @@ public class BasicTerritoryTest {
 
     assertEquals(7, territory.getUnitAmount(0));
   }
+
+  @Test
+  public void testDistance() {
+    Territory t1 = new BasicTerritory("a");
+    Territory t2 = new BasicTerritory("b");
+    Territory t3 = new BasicTerritory("c");
+    Territory t4 = new BasicTerritory("d");
+    t1.setDistance(t2, 6);
+    t2.setDistance(t1, 6);
+    t1.setDistance(t3, 4);
+    t3.setDistance(t1, 4);
+    t1.addAdjacent(t2);
+    t2.addAdjacent(t1);
+    t1.addAdjacent(t3);
+    t3.addAdjacent(t1);
+    assertEquals(6, t2.getDistance(t1));
+    assertEquals(6, t1.getDistance(t2));
+    assertEquals(2, t1.getDistances().size());
+  }
 }
