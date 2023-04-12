@@ -56,7 +56,6 @@ class StartPageControllerTest extends ApplicationTest{
         stage.show();
     }
 
-    @Disabled
     @Test
     public void testStartPageLoads() {
         // check that the start page loads successfully
