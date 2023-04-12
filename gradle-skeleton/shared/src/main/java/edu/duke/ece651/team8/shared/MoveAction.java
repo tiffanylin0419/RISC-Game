@@ -15,14 +15,14 @@ public class MoveAction extends MovableAction {
     }
 
     public boolean hasEnoughFood() {
-        MinimumPath path = new MinimumPath();
+        MinimumPath path = new MinimumPath(player, theMap);
         int minPath = path.findMinPath(getSource(), getDestination());
         return super.player.getFoodAmount() >= (super.getCount() * minPath);
     }
     public void doAction(){
         getSource().moveOut(new BasicArmy(super.getCount(),super.getPlayer()));
         getDestination().moveIn(new BasicArmy(super.getCount(),super.getPlayer()));
-        MinimumPath path = new MinimumPath();
+        MinimumPath path = new MinimumPath(player, theMap);
         int minPath = path.findMinPath(getSource(), getDestination());
         super.player.addFoodResource(-(super.getCount() * minPath));
     }
