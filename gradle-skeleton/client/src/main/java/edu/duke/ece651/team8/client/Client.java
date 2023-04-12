@@ -342,6 +342,7 @@ public class Client {
                     else {
                         System.out.println("Action failed\n");
                     }
+                    break;
                 case "D":
                     break label;
             }
