@@ -25,7 +25,7 @@ class PathRuleCheckerTest {
 
         MovableActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
         MovableAction action1 =new MoveAction(p1,"a1","a4",3,theMap);
-        assertNull(checker.checkAllRule(action1));
+        assertEquals("Do not have enough food", checker.checkAllRule(action1));
         theMap.getTerritories().get(0).moveOut(new BasicArmy(4,p1));
         theMap.getTerritories().get(0).attack();
         //assertFalse(theMap.getTerritories().get(1).isOwner(p1));
