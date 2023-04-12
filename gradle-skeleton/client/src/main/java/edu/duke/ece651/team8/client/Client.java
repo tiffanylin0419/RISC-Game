@@ -26,6 +26,7 @@ public class Client {
 
     protected String winner;
     private int status;
+    private boolean isRunning;
     /**
      * Constructs a server with specified port
      *
@@ -38,8 +39,16 @@ public class Client {
         this.input = in;
         this.winner = "no winner";
         this.status = 0;
+        this.isRunning = true;
     }
-
+    public Client(BufferedReader in, BufferedReader serverin, PrintStream out, PrintWriter output, InputStream inputStr) throws IOException {
+        this.serverStream=new ServerStream(serverin, output, inputStr);
+        this.out = out;
+        this.input = in;
+        this.winner = "no winner";
+        this.status = 0;
+        this.isRunning = true;
+    }
 
     /** execute the client */
     public void run() {
@@ -51,6 +60,7 @@ public class Client {
                 doInitialPlacement();
                 receivePlacementResult();
                 doAllTurns();
+                if(!isRunning) break;
             }
         } catch (IOException e) {
             out.println(e.getMessage());
@@ -62,7 +72,9 @@ public class Client {
             }
         }
     }
-
+    public void stop() {
+        isRunning = false;
+    }
     public void doLoginOrSignup() throws IOException{
         String loginStatus;
         do {
@@ -251,6 +263,7 @@ public class Client {
         serverStream.receive();
         int i=0;
         while(i < placementTimes-1){
+            System.out.println(serverStream.getBuffer() + " value" + i);
             if(serverStream.getBuffer().equals("valid\n")){
                 serverStream.receive();
                 i++;
