@@ -53,8 +53,8 @@ test {
         showStandardStreams = true
         exceptionFormat = 'full'
     }
-    systemProperty "testfx.headless", "true"
-    systemProperty "testfx.robot", "glass"
+    //systemProperty "testfx.headless", "true"
+    //systemProperty "testfx.robot", "glass"
 
 }
 clover {
