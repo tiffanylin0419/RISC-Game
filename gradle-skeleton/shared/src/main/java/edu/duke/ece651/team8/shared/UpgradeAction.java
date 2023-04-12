@@ -2,9 +2,9 @@ package edu.duke.ece651.team8.shared;
 
 public class UpgradeAction extends BasicAction {
     private Territory territory;
-    private int unitAmount;
-    private int startLevel;
-    private int nextLevel;
+    public int unitAmount;
+    public int startLevel;
+    public int nextLevel;
 
     private int[] costs = {0, 3, 8, 19, 25, 35, 50};
     public UpgradeAction(Player player, String territoryText, int unitAmount, int startLevel, int nextLevel) {
@@ -19,8 +19,9 @@ public class UpgradeAction extends BasicAction {
             }
         }
     }
-
-    private int costTechResource() {
+    public Territory getTerritory() {return territory;}
+    public Player getPlayer() {return player;}
+    public int costTechResource() {
         int eachCost = 0;
         int diffLevel = nextLevel - startLevel;
         int curLevel = startLevel;

@@ -5,14 +5,16 @@ import java.util.*;
 public abstract class AbstractArmy implements Army{
     protected Player owner;
     protected List<Unit> units;
+    protected UnitFactory uf;
 
     public AbstractArmy(Player owner, List<Unit> units){
         this.owner = owner;
         this.units = units;
+        this.uf = new UnitFactory();
     }
     public AbstractArmy(int amount, Player owner){
         this(owner,null);
-        UnitFactory uf = new UnitFactory();
+        this.uf = new UnitFactory();
         this.units = uf.makeBasicUnits(amount);
     }
     @Override
@@ -75,21 +77,23 @@ public abstract class AbstractArmy implements Army{
     @Override
     public void upgradeUnits(int unitAmount, int startLevel, int nextLevel) {
         int cur = unitAmount;
-        for (Unit unit : units) {
-            if (cur <= 0) {
-                break;
-            }
-            if (unit.getLevel() == startLevel) {
-                upgradeOneUnit(unit, nextLevel - startLevel);
-                --cur;
-            }
+        for(int i = 0; i < cur; i++) {
+            Unit unit = getLevelUnit(startLevel);
+            upgradeOneUnit(unit, nextLevel - startLevel);
         }
 
     }
-
-    private void upgradeOneUnit(Unit unit, int diff) {
-        while (diff > 0) {
-            unit = unit.upgrade();
+    private Unit getLevelUnit(int level) {
+        for(Unit u : units) {
+            if(u.getLevel() == level) {
+                return u;
+            }
         }
+        return null;
+    }
+    private void upgradeOneUnit(Unit unit, int diff) {
+        units.remove(unit);
+        Unit upgradedUnit = uf.upgradeTo(diff, unit);
+        units.add(upgradedUnit);
     }
 }

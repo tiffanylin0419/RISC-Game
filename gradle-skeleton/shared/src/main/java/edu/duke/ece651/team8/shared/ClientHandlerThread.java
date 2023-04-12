@@ -270,7 +270,7 @@ public class ClientHandlerThread extends Thread {
      */
     public void doOneCommit() throws IOException {
         while(true) {
-            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade(D)one\n";
+            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade\n(D)one\n";
             send(prompt, output);
             receive(reader);
             switch (buffer) {
@@ -314,16 +314,16 @@ public class ClientHandlerThread extends Thread {
         }
     }
 
-//    public void upgradeRuleChecker(UpgradeAction action) {
-//        String errorMessage = theMap.getUpgradeChecker().checkAllRule(action);
-//        if(errorMessage == null) {
-//            send("", output);
-//            action.doAction();
-//        }
-//        else{
-//            send(errorMessage, output);
-//        }
-//    }
+    public void upgradeRuleChecker(UpgradeAction action) {
+        String errorMessage = theMap.getUpgradeRuleChecker().checkAllRule(action);
+        if(errorMessage == null) {
+            send("", output);
+            action.doAction();
+        }
+        else{
+            send(errorMessage, output);
+        }
+    }
 
     public void researchActionRuleCheck(ResearchAction rs){
         String errorMessage=theMap.getResearchRuleChecker().checkAllRule(rs);
@@ -388,16 +388,16 @@ public class ClientHandlerThread extends Thread {
         }
         doOneTransmission("Please enter the current level of the unit:");
         int startLevel = -1;
-        if (isPositiveInt(buffer)) {
+        if (isInt(buffer)) {
             startLevel = Integer.parseInt(buffer);
         }
         doOneTransmission("Please enter the upgraded level of the unit:");
         int upgradedLevel = -1;
-        if (isPositiveInt(buffer)) {
+        if (isInt(buffer)) {
             upgradedLevel = Integer.parseInt(buffer);
         }
         UpgradeAction action = new UpgradeAction(player, territoryText, unitAmount, startLevel, upgradedLevel);
-//        upgradeRuleChecker(action);
+        upgradeRuleChecker(action);
     }
 
     /**
@@ -437,6 +437,12 @@ public class ClientHandlerThread extends Thread {
      */
     public boolean isPositiveInt(String number){
         try{return Integer.parseInt(number) > 0;}
+        catch(Exception e) {
+            return false;
+        }
+    }
+    public boolean isInt(String number){
+        try{return Integer.parseInt(number) >= 0;}
         catch(Exception e) {
             return false;
         }

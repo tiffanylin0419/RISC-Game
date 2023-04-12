@@ -40,10 +40,21 @@ class ClientHandlerThreadTest {
 
         ClientHandlerThread handler = th.join(account);
         ClientHandlerThread handler1 = th.join(account1);
-        handler1.status = -1;
-        handler.status = -1;
-        th.interrupt();
+        th.shutDown();
 
+    }
+    @Test
+    public void testCheckUnitNumValid() {
+        PrintWriter output = mock(PrintWriter.class);
+        BufferedReader reader = mock(BufferedReader.class);
+
+        GameThread th = new GameThread(2, new V2MapFactory(), 0);
+        th.start();
+        PlayerAccount account = new PlayerAccount(output, reader, "asd", "1");
+
+        ClientHandlerThread handler = th.join(account);
+        handler.buffer = "1";
+        assertEquals(true, handler.checkUnitNumValid(3, 3, 4));
     }
 //    @Test
 //    public void testIOExceptionInRun() throws Exception {
