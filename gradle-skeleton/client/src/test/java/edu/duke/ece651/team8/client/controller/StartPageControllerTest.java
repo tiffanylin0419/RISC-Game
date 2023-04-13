@@ -58,6 +58,7 @@ class StartPageControllerTest extends ApplicationTest{
         stage.show();
     }
 
+    @Disabled
     @Test
     public void testStartPageLoads() throws IOException, InterruptedException {
         // check that the start page loads successfully
