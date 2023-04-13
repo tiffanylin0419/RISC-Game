@@ -188,7 +188,7 @@
     </center>
     <bottom>
         <HBox>
-            <VBox prefHeight="46.0" prefWidth="450.0">
+            <VBox prefHeight="46.0" prefWidth="400.0">
                 <Label fx:id="message" text="Message: ">
                     <VBox.margin>
                         <Insets left="20.0" />
@@ -198,7 +198,10 @@
                         <Insets left="20.0" />
                     </VBox.margin></Label>
             </VBox>
-
+            <VBox>
+                <Label fx:id="in4" text="territory" />
+                <TextField fx:id="input4" prefHeight="26.0" prefWidth="50.0" />
+            </VBox>
             <VBox>
                 <Label fx:id="in1" text="amount" />
                 <TextField fx:id="input1" prefHeight="26.0" prefWidth="50.0" />
