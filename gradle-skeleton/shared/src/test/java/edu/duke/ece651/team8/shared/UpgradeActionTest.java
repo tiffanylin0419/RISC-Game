@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UpgradeActionTest {
-
-    @Disabled
     @Test
     void getTerritory() {
         Player p = new Player("Green");
@@ -18,8 +16,6 @@ class UpgradeActionTest {
         assertEquals(16, ua.costTechResource());
     }
 
-
-    @Disabled
     @Test
     void doAction() {
         Player p = new Player("Green");
@@ -34,7 +30,6 @@ class UpgradeActionTest {
         assertEquals(2, t.getOwnerUnitLevelAmount(2));
     }
 
-    @Disabled
     @Test
     public void testUpgradeAction() {
         Territory territory = new ResourceTerritory("a");
@@ -42,9 +37,9 @@ class UpgradeActionTest {
         territory.setOwner(player);
         player.addTerritory(territory);
         territory.moveIn(new BasicArmy(6, player));
-        UpgradeAction action = new UpgradeAction(player, "a", 3, 0, 2);
-        assertEquals(9, action.costTechResource());
+        UpgradeAction action = new UpgradeAction(player, "a", 1, 0, 2);
+        assertEquals(11, action.costTechResource());
         action.doAction();
-        assertEquals(11, player.getTechAmount());
+        assertEquals(9, player.getTechAmount());
     }
 }
