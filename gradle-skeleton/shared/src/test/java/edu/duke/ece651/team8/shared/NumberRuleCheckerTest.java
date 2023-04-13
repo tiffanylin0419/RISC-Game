@@ -23,16 +23,20 @@ class NumberRuleCheckerTest {
         theMap.getTerritories().get(5).moveIn(new BasicArmy(9,p1));
 
         MovableActionRuleChecker checker= new NumberRuleChecker(null) ;
-        MovableAction action1 =new MoveAction(p1,"a1","a3",3,theMap);
+
+        MovableAction action1 = new MoveAction(p1,"a1","a3",3,theMap);
         assertNull(checker.checkMyRule(action1));
 
-        MovableAction action2 =new MoveAction(p1,"a1","a3",5,theMap);
+        MovableAction action2 = new MoveAction(p1,"a1","a3",5,theMap);
         assertNull(checker.checkAllRule(action2));
 
-        MovableAction action3 =new MoveAction(p1,"a1","a3",6,theMap);
+        MovableAction action3 = new MoveAction(p1,"a1","a3",6,theMap);
         assertEquals("Requested 6 units, but only have 5",checker.checkAllRule(action3));
 
 
+
+        MovableAction action4 = new MoveAction(p1,"a1","a3",-1,theMap);
+        assertEquals("Unit number need to be positive",checker.checkAllRule(action4));
 
     }
 }
