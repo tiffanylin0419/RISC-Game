@@ -32,11 +32,11 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StartPageControllerTest extends ApplicationTest{
-//    private Stage stage;
-//    private ServerStream serverStream;
-//    private StartPageController startPageController;
-//    static Server server;
-//    private static Thread serverThread;
+    private Stage stage;
+    private ServerStream serverStream;
+    private StartPageController startPageController;
+    static Server server;
+    private static Thread serverThread;
 //    @BeforeAll
 //    static void setUp() throws Exception {
 //        AbstractMapFactory factory = new V2MapFactory();
