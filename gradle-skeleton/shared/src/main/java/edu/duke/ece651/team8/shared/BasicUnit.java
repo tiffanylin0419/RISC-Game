@@ -3,11 +3,25 @@ package edu.duke.ece651.team8.shared;
 import org.jetbrains.annotations.NotNull;
 
 public class BasicUnit implements Unit{
-    private final int level = 0;
-    private final String type = "Servant";
-    private final int bonus = 0;
-    private final int upgradeCost = 3;
+    private final int level;
+    private final String type;
+    private final int bonus;
+    private final int upgradeCost;
     //constructor
+
+    public BasicUnit() {
+        this.level = 0;
+        this.type = "Servant";
+        this.bonus = 0;
+        this.upgradeCost = 3;
+    }
+
+    public BasicUnit(int level, String type, int bonus, int upgradeCost) {
+        this.level = level;
+        this.type = type;
+        this.bonus = bonus;
+        this.upgradeCost = upgradeCost;
+    }
 
     @Override
     public Unit upgrade() {
