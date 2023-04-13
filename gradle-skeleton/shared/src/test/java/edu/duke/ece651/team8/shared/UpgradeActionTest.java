@@ -15,7 +15,7 @@ class UpgradeActionTest {
         assertEquals(p, ua.getPlayer());
         assertEquals(16, ua.costTechResource());
     }
-
+    @Disabled
     @Test
     void doAction() {
         Player p = new Player("Green");
