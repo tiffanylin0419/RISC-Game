@@ -13,4 +13,11 @@ class LoginMessageTest {
 
     }
 
+    @Test void Test(){
+        LoginMessage lm = new LoginMessage();
+        lm.setMessage("123","qwe");
+        assertEquals(lm.getMessage()[0],"123");
+        assertEquals(lm.getMessage()[1],"qwe");
+    }
+
 }

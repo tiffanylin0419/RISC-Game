@@ -36,11 +36,19 @@ class PlayerAccountTest {
     }
 
     @Test
-    void getUsername() {
-    }
+    void updateIO()throws IOException{
+        // Mock the PrintWriter and BufferedReader
+        writer = mock(PrintWriter.class);
+        reader = mock(BufferedReader.class);
+        PrintWriter writer1 = mock(PrintWriter.class);
+        BufferedReader reader1 = mock(BufferedReader.class);
 
-    @Test
-    void updateIO() {
+        // Create a socket for testing
+        socket = mock(Socket.class);
+        when(socket.getOutputStream()).thenReturn(mock(OutputStream.class));
+        when(socket.getInputStream()).thenReturn(mock(InputStream.class));
+        PlayerAccount acc = new PlayerAccount(writer, reader, "asd", "123");
+        acc.updateIO(writer1,reader1);
     }
 
     @Test

@@ -16,7 +16,7 @@ public class LoginMessage {
         return ans;
     }
 
-    public void setMessage(String userName, String password) {
+    public synchronized void setMessage(String userName, String password) {
         this.account = userName;
         this.password = password;
         notify();
