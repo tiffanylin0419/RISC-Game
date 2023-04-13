@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GameThread extends Thread {
     private List<ClientHandlerThread> clientThreads;
-    private final Object lock = new Object();
+    private Object lock = new Object();
     /** streams pass to client*/
     private List<PrintWriter> outputs;
     /** Reader for clients message*/
@@ -22,17 +22,17 @@ public class GameThread extends Thread {
     final String END_OF_TURN = "END_OF_TURN";
     private String mapInfo;
     /** Map of the game */
-    private final Map theMap;
+    private Map theMap;
     /** View of the map */
     protected View mapView;
 
-    private final ArrayList<Player> players;
-    private final List<PlayerAccount> accounts;
+    private ArrayList<Player> players;
+    private List<PlayerAccount> accounts;
 
-    private final int placementTimes = 5;
-    private final int unitAmount = 36;
+    private int placementTimes = 5;
+    private int unitAmount = 36;
     private String winnerName;
-    private final int roomNumber;
+    private int roomNumber;
     private boolean isStart;
     public GameThread(int playerNum, AbstractMapFactory factory, int roomNumber) {
         this.outputs = new ArrayList<>();

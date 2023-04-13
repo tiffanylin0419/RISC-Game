@@ -2,6 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 
 import java.io.*;
@@ -9,15 +10,65 @@ import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-//@ExtendWith(MockitoExtension.class)
-class GameThreadTest {
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 //
+@ExtendWith(MockitoExtension.class)
+class GameThreadTest {
+    @Spy
+    private List<ClientHandlerThread> clientThreads =  new ArrayList<>();
+    @Mock
+    private Object lock;
+    @Mock
+    /** streams pass to client*/
+    private List<PrintWriter> outputs;
+    @Mock
+    /** Reader for clients message*/
+    private List<BufferedReader> readers;
+    @Mock
+    /** Map of the game */
+    private Map theMap;
+    @Mock
+    /** View of the map */
+    protected View mapView;
+    @Mock
+    private ArrayList<Player> players;
+    @Mock
+    private List<PlayerAccount> accounts;
+
+    private static class TestGameThread extends GameThread{
+        public TestGameThread(){
+            super(2,new V2MapFactory(),0);
+
+        }
+    }
+    @InjectMocks
+    private TestGameThread testGameThread;
+
+    @Test
+    public void TestCheckFinish(){
+        ClientHandlerThread cht = mock(ClientHandlerThread.class);
+        ClientHandlerThread cht1 = mock(ClientHandlerThread.class);
+        clientThreads.add(cht);
+        clientThreads.add(cht1);
+        when(cht.getStatus()).thenReturn(-1,-1);
+        when(cht1.getStatus()).thenReturn(-1,1);
+
+        assertEquals(testGameThread.checkFinish(),false);
+        assertEquals(testGameThread.checkFinish(),true);
+
+    }
 //    public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException{
 //        BufferedReader input = new BufferedReader(new StringReader(inputData));
 //        PrintStream out = new PrintStream(bytes, true);
