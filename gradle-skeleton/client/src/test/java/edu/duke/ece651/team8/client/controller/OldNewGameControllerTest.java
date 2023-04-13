@@ -1,5 +1,6 @@
 package edu.duke.ece651.team8.client.controller;
 
+import edu.duke.ece651.team8.client.Client;
 import edu.duke.ece651.team8.client.ServerStream;
 import edu.duke.ece651.team8.shared.AbstractMapFactory;
 import edu.duke.ece651.team8.shared.Server;
@@ -11,14 +12,16 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
@@ -29,6 +32,7 @@ class OldNewGameControllerTest extends ApplicationTest {
 
     static Server server;
     private static Thread serverThread;
+
 
     @BeforeAll
     static void setUp() throws Exception {
@@ -44,7 +48,7 @@ class OldNewGameControllerTest extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        this.serverStream = new ServerStream("localhost",8080);
+        this.serverStream=new ServerStream("localhost",8080);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginSignupPage.fxml"));
         loader.setControllerFactory(c -> new LoginSignupController(stage, serverStream,"errorMessage"));
         Scene scene = new Scene(loader.load());
@@ -74,11 +78,12 @@ class OldNewGameControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testNew() {
+    void testNew() throws IOException {
         FxRobot robot=new FxRobot();
         robot.clickOn("#signup");
         robot.clickOn("#new");
         verifyThat("#p2", hasText("2 Player"));
+
     }
 
 

@@ -14,9 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import java.io.IOException;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
@@ -28,6 +29,7 @@ class PlayerNumControllerTest extends ApplicationTest {
     static Server server;
     private static Thread serverThread;
 
+    BufferedReader ServerReader;
     @BeforeAll
     static void setUp() throws Exception {
         AbstractMapFactory factory = new V2MapFactory();
@@ -42,7 +44,11 @@ class PlayerNumControllerTest extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        this.serverStream = new ServerStream("localhost",8080);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintWriter out = mock(PrintWriter.class);
+        ServerReader = mock(BufferedReader.class);
+        InputStream instream = mock(InputStream.class);
+        this.serverStream = new ServerStream(ServerReader, out, instream);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PlayerNumPage.fxml"));
         loader.setControllerFactory(c -> new PlayerNumController(stage, serverStream));
         Scene scene = new Scene(loader.load());
@@ -62,8 +68,9 @@ class PlayerNumControllerTest extends ApplicationTest {
 
 
     @Test
-    void testp2() {
+    void testp2() throws IOException {
         FxRobot robot=new FxRobot();
+        //when(ServerReader.readLine()).thenReturn("3").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").thenReturn("valid\n");
         //robot.clickOn("#p2");
     }
 
