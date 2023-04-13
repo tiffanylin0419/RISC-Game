@@ -84,34 +84,22 @@ class OldNewGameControllerTest extends ApplicationTest {
 
 
     /*@Test
-    void testOld() throws IOException {
+    void testOld() {
         FxRobot robot=new FxRobot();
         robot.clickOn("#username").write("a");
         robot.clickOn("#signup");
         robot.clickOn("#old");
         verifyThat("#p2", hasText("2 Player"));
         Thread playerThread = new Thread(() -> {
-            try {
-                while (!Thread.currentThread().isInterrupted()) {
-                    robot.clickOn("#p2");
-                }
-            } catch (Exception e) {}
+            robot.clickOn("#p2");
         });
         playerThread.start();
-        long timeout = System.currentTimeMillis() + 500;
-
-        while (playerThread.isAlive() && System.currentTimeMillis() < timeout) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                // ignore
-            }
-        }
+        sleep(1000);
         playerThread.interrupt();
     }
 
     @Test
-    void testNew() throws IOException {
+    void testNew() {
         FxRobot robot=new FxRobot();
         robot.clickOn("#signup");
         robot.clickOn("#new");
@@ -120,19 +108,11 @@ class OldNewGameControllerTest extends ApplicationTest {
             robot.clickOn("#p2");
         });
         playerThread.start();
-        long timeout = System.currentTimeMillis() + 500;
-
-        while (playerThread.isAlive() && System.currentTimeMillis() < timeout) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                // ignore
-            }
-        }
+        sleep(1000);
         playerThread.interrupt();
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testExistOld(){
         FxRobot robot=new FxRobot();
         robot.clickOn("#username").write("a");
