@@ -18,8 +18,9 @@ public class AttackAction extends MovableAction {
         return super.player.getFoodAmount() >= (super.getCount() * distance);
     }
     public void doAction(){
-        getSource().moveOut(new BasicArmy(super.getCount(),super.getPlayer()));
-        getDestination().moveIn(new BasicArmy(super.getCount(),super.getPlayer()));
+        Army eArmy = getSource().getArmy(super.getCount(),super.getPlayer());
+        getSource().moveOut(eArmy);
+        getDestination().moveIn(eArmy);
         int distance = getSource().getDistance(getDestination());
         super.player.addFoodResource(-(super.getCount() * distance));
     }

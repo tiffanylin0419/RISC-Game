@@ -21,8 +21,9 @@ public class MoveAction extends MovableAction {
         return super.player.getFoodAmount() >= (super.getCount() * minPath);
     }
     public void doAction(){
-        getSource().moveOut(new BasicArmy(super.getCount(),super.getPlayer()));
-        getDestination().moveIn(new BasicArmy(super.getCount(),super.getPlayer()));
+        Army eArmy = getSource().getArmy(super.getCount(),super.getPlayer());
+        getSource().moveOut(eArmy);
+        getDestination().moveIn(eArmy);
         MinimumPath path = new MinimumPath(player, theMap);
         int minPath = path.findMinPath(getSource(), getDestination());
         super.player.addFoodResource(-(super.getCount() * minPath));

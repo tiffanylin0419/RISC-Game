@@ -289,4 +289,18 @@ public class BasicTerritory implements Territory {
     }
     return 0;
   }
+  @Override
+  public Army getArmy(int count, Player p) {
+    Army moveArmy = new EvolvableArmy(0, p);
+    for(Army army : armies){
+      if(army.getOwner()== p){
+        for(Unit u : army.getList()) {
+          if(moveArmy.getAmount() == count) break;
+          moveArmy.addOne(u);
+        }
+
+      }
+    }
+    return moveArmy;
+  }
 }

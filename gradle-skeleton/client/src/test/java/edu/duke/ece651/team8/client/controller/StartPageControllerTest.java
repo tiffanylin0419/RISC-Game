@@ -1,3 +1,4 @@
+
 package edu.duke.ece651.team8.client.controller;
 
 import edu.duke.ece651.team8.shared.AbstractMapFactory;
@@ -14,6 +15,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -30,6 +32,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.*;
 
 class StartPageControllerTest extends ApplicationTest{
@@ -38,6 +41,7 @@ class StartPageControllerTest extends ApplicationTest{
     private StartPageController startPageController;
     static Server server;
     private static Thread serverThread;
+
 //    @BeforeAll
 //    static void setUp() throws Exception {
 //        AbstractMapFactory factory = new V2MapFactory();
@@ -82,9 +86,10 @@ class StartPageControllerTest extends ApplicationTest{
 //    @AfterAll
 //    static void tearDown() throws IOException, InterruptedException {
 //        serverThread.interrupt();
+
 //        server.stop();
-//        serverThread.join();
 //    }
+
 
 
     /*@Override
