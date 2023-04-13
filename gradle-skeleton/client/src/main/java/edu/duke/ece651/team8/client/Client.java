@@ -425,8 +425,11 @@ public class Client {
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
-//        System.out.println(serverStream.getBuffer());
-        return serverStream.getBuffer();
+        System.out.println(serverStream.getBuffer());
+        String message=serverStream.getBuffer();
+        color = serverStream.read();
+        displayColor();
+        return message;
     }
 
     /**

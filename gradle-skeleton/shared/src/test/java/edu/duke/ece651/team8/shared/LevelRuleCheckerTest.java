@@ -16,7 +16,16 @@ class LevelRuleCheckerTest {
         p.upgradeTechLevel();
         p.upgradeTechLevel();
         assertEquals("Research action is invalid since your level can not be greater than the max level: 2!", ch.checkMyRule(ac));
-
+    }
+    @Test
+    void TestCheckMyRule2() {
+        Player p = new Player();
+        p.setLevel(0);
+        ResearchAction as = new ResearchAction(p);
+        LevelRuleChecker lrc = new LevelRuleChecker(null, 6);
+        assertEquals("Your level must be positive Integer!",lrc.checkMyRule(as));
+        p.setLevel(6);
+        assertEquals("Research action is valid since your level can not be greater than the max level: 6!",lrc.checkMyRule(as));
 
     }
 }

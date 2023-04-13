@@ -26,9 +26,9 @@ public class ActionController extends GameController implements Initializable {
     @FXML
     Button info, move, attack, done, upgrade, research;
     @FXML
-    Label in1, in2, in3, territoryInfo;
+    Label in1, in2, in3, in4, territoryInfo;
     @FXML
-    TextField input1, input2, input3;
+    TextField input1, input2, input3, input4;
 
 
 
@@ -83,9 +83,12 @@ public class ActionController extends GameController implements Initializable {
     }
     private void notSeeInput(){
         seeInput(false);
+        in4.setVisible(false);
+        input4.setVisible(false);
         input1.clear();
         input2.clear();
         input3.clear();
+        input4.clear();
     }
     private void canSeeInput(String s1, String s2, String s3){
         seeInput(true);
@@ -93,6 +96,12 @@ public class ActionController extends GameController implements Initializable {
         in2.setText(s2);
         in3.setText(s3);
     }
+    private void upgradeInput(){
+        canSeeInput("amount","prev_level","next_level");
+        in4.setVisible(true);
+        input4.setVisible(true);
+    }
+
     private void see1input(String s1){
         in3.setVisible(true);
         input3.setVisible(true);
@@ -139,16 +148,29 @@ public class ActionController extends GameController implements Initializable {
         String errorMessage=serverStream.read();
         if(errorMessage.equals("")){
             errorMessage="action succeed";
-        }else{
-            setErrorMessage(errorMessage);
         }
+        setErrorMessage(errorMessage);
         setPlayer(serverStream.read());
         serverStream.receive();
 
     }
 
     private void actionUpgrade() throws IOException{
-        //todo
+        String territory =input4.getText();
+        String amount =input1.getText();
+        String prev_level =input2.getText();
+        String next_level =input3.getText();
+        trySendTerritory(territory);
+        trySendUnitNumber(amount);
+        trySendUnitNumber(prev_level);
+        trySendUnitNumber(next_level);
+        String errorMessage=serverStream.read();
+        if(errorMessage.equals("")){
+            errorMessage="action succeed";
+        }
+        setErrorMessage(errorMessage);
+        setPlayer(serverStream.read());
+        serverStream.receive();
     }
 
 
@@ -170,11 +192,9 @@ public class ActionController extends GameController implements Initializable {
     }
 
     @FXML
-    public void upgradeAction()  throws IOException{
+    public void upgradeAction(){
         upgradeButtonPressed=true;
-        canSeeInput("amount","prev_level","next_level");
-        actionUpgrade();
-        //todo
+        upgradeInput();
     }
 
     @FXML
