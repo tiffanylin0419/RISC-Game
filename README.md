@@ -31,6 +31,7 @@ as-intended.
 
 [Project Task List](https://docs.google.com/spreadsheets/d/1T11l-u_cKE7usFyzeh6nFgeQg2giplyMUG1rpR9TXeo/edit#gid=0)
 
+[Prototype](https://www.icloud.com/keynote/061JqScAnVkA7e9KYzufytFaw#%E7%B0%A1%E5%A0%B1)
 
 ## Coverage
 [Detailed coverage](https://ys386.pages.oit.duke.edu/ece651-sp23-team8-riskgame/dashboard.html)
