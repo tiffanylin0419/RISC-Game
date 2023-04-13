@@ -68,13 +68,14 @@ class StartPageControllerTest extends ApplicationTest{
 
     }
 
-    @Disabled
+    //@Disabled
     @Test
     void testStart() {
         FxRobot robot=new FxRobot();
         verifyThat("#title", hasText("RISC game"));
         robot.clickOn("#start");
-        verifyThat("#titleTT", hasText("Signup/Login"));
+        verifyThat("#title", hasText("Signup/Login"));
+
     }
 
     @AfterAll
