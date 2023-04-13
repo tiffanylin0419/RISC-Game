@@ -33,14 +33,8 @@ class ResultControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testConstructor() throws IOException {
+    public void testContent() throws IOException {
         verifyThat("#message", hasText("hi"));
     }
-
-   /* @Test
-    public void testContent() throws IOException {
-        verifyThat("#message", hasText("message"));
-    }*/
-
 
 }
