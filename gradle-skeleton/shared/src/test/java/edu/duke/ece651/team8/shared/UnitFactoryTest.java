@@ -19,8 +19,6 @@ class UnitFactoryTest {
     public void testCanUpgradeTo() {
         UnitFactory uf = new UnitFactory();
         Unit u = new BasicUnit();
-        assertEquals(0, uf.canUpgradeTo(2, 11, u));
-        assertEquals(1, uf.canUpgradeTo(2, 12, u));
-        assertEquals(-1, uf.canUpgradeTo(2, 10, u));
+        assertEquals(11, uf.canUpgradeTo(2, u));
     }
 }

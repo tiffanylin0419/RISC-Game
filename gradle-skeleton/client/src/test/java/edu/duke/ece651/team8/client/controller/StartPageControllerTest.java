@@ -1,9 +1,7 @@
 package edu.duke.ece651.team8.client.controller;
 
-import edu.duke.ece651.team8.shared.AbstractMapFactory;
-import edu.duke.ece651.team8.shared.Server;
-import edu.duke.ece651.team8.shared.V1MapFactory;
-import edu.duke.ece651.team8.shared.V2MapFactory;
+import edu.duke.ece651.team8.shared.*;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import org.checkerframework.framework.qual.DefaultQualifierForUse;
 import org.junit.jupiter.api.*;
@@ -17,6 +15,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import edu.duke.ece651.team8.client.ServerStream;
@@ -67,7 +67,21 @@ class StartPageControllerTest extends ApplicationTest{
         assertTrue(stage.getScene().getRoot().isManaged());
 
     }
-
+//    @Test
+//    public void testController() throws IOException{
+//        Platform.runLater(() -> {
+//            try {
+//                serverStream = mock(ServerStream.class);
+//                when(serverStream.receive()).thenReturn("as");
+//                OldNewGameController oc = new OldNewGameController(stage, serverStream);
+//                oc.newPage();
+//                oc.oldGame();
+//
+//            } catch (IOException e) {
+//                System.out.println("");
+//            }
+//        });
+//    }
     @Disabled
     @Test
     void testStart() {
