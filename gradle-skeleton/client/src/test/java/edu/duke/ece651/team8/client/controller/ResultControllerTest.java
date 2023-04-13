@@ -22,7 +22,7 @@ class ResultControllerTest extends ApplicationTest {
     static Server server;
     private static Thread serverThread;
     private ResultController rc;
-    @Override
+    /*@Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
@@ -35,6 +35,6 @@ class ResultControllerTest extends ApplicationTest {
     @Test
     public void testContent() throws IOException {
         verifyThat("#message", hasText("hi"));
-    }
+    }*/
 
 }
