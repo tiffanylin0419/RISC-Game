@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 
 public class Player {
-  protected final ArrayList<Territory> territories;
+  protected ArrayList<Territory> territories;
   private String color;
   private int unitMax;
   private boolean isConnected;
@@ -16,8 +16,12 @@ public class Player {
   public Boolean hasResearchedThisTurn;
   //constructor
   public Player(String color){
+    this();
+    this.color = color;
+  }
+  public Player(){
     this.territories=new ArrayList<>();
-    this.color=color;
+    this.color="";
     this.unitMax=0;
     this.isConnected = true;
     this.food = new FoodResource(20);
@@ -142,4 +146,6 @@ public class Player {
   public void upgradeTechLevel(){
     level++;
   }
+
+  public void setLevel(int l){level = l;}
 }
