@@ -16,7 +16,8 @@ RUN apt-get update && apt-get -yq dist-upgrade \
      git \
      unzip \
      openjdk-17-jdk-headless \
-     emacs-nox
+     emacs-nox \
+     libx11-6 libxxf86vm1 libgl1-mesa-glx
 
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
