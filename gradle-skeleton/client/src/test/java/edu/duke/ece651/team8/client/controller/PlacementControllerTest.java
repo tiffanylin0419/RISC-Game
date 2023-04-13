@@ -53,7 +53,7 @@ class PlacementControllerTest extends ApplicationTest {
         InputStream instream = mock(InputStream.class);
         this.serverStream = new ServerStream(ServerReader, out, instream);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Placement.fxml"));
-        loader.setControllerFactory(c -> new PlacementController(stage, serverStream,"green","message","{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}","{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}",1,2));
+        loader.setControllerFactory(c -> new PlacementController(stage, serverStream,"green","message","{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}","{\"map\":{\"a1\":{\"color\":\"Green\",\"army\":\"\"},\"a2\":{\"color\":\"Red\",\"army\":\"\"},\"a3\":{\"color\":\"Yellow\",\"army\":\"\"},\"a4\":{\"color\":\"Blue\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}",1,2));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.show();
