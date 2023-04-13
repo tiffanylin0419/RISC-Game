@@ -92,7 +92,15 @@ class OldNewGameControllerTest extends ApplicationTest {
         verifyThat("#p2", hasText("2 Player"));
     }
 
-    //@Disabled
+    @Test
+    void testOldNum() throws IOException {
+        FxRobot robot=new FxRobot();
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").thenReturn("message").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
+        robot.clickOn("#old");
+        verifyThat("#p2", hasText("2 Player"));
+    }
+
+    @Disabled
     @Test
     void testOldExist() throws IOException {
         FxRobot robot=new FxRobot();
