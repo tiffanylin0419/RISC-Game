@@ -27,8 +27,8 @@ public class UpgradeAction extends BasicAction {
         int curLevel = startLevel;
         while (diffLevel > 0) {
             --diffLevel;
-            ++curLevel;
             eachCost += this.costs[curLevel];
+            ++curLevel;
         }
         return eachCost * unitAmount;
     }
