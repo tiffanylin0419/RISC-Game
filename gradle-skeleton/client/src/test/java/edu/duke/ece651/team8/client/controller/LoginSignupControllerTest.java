@@ -59,6 +59,7 @@ class LoginSignupControllerTest extends ApplicationTest {
 
     }
 
+
     @Test
     void testSignup() {
         FxRobot robot=new FxRobot();
