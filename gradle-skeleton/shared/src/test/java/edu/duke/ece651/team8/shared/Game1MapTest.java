@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 public class Game1MapTest {
@@ -99,5 +100,33 @@ public class Game1MapTest {
     territory1.moveIn(new BasicArmy(1000, player3));
     map.doCombats();
     assertEquals("Player p3 wins combat in a\n", map.getOutcome());
+  }
+
+  @Test
+  public void test_getWinner(){
+    Map map = new Game1Map();
+    Territory territory1 = new BasicTerritory("a");
+    Territory territory2 = new BasicTerritory("b");
+    map.addTerritory(territory1);
+    map.addTerritory(territory2);
+
+    assertEquals("",map.getWinner());
+
+    Player player1 = new TextPlayer("p1");
+    Player player2 = new TextPlayer("p2");
+    player2.addTerritory(territory1);
+    player2.addTerritory(territory2);
+    ArrayList<Player> players=new ArrayList<>();
+    players.add(player1);
+    players.add(player2);
+    map.addPlayers(players);
+    assertEquals(player2.getColor(),map.getWinner());
+  }
+
+  @Test
+  public void test(){
+    Map map = new Game1Map();
+    ResearchActionRuleChecker rarc=map.getResearchRuleChecker() ;
+
   }
 }
