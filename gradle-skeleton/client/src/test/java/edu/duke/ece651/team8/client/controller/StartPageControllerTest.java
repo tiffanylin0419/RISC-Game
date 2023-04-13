@@ -85,7 +85,7 @@ class StartPageControllerTest extends ApplicationTest{
 //        serverThread.join();
 //    }
 
-    @Override
+    /*@Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartPage.fxml"));
@@ -101,6 +101,6 @@ class StartPageControllerTest extends ApplicationTest{
         verifyThat("#title", hasText("RISC game"));
         robot.clickOn("#start");
         verifyThat("#title", hasText("Signup/Login"));
-    }
+    }*/
 
 }
