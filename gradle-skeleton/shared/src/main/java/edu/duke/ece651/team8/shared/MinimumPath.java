@@ -17,6 +17,7 @@ public class MinimumPath {
             return 0;
         }
         this.player = source.getOwner();
+
         int size = theMap.getTerritories().size();
         HashMap<Territory, Integer> distances = new HashMap<>();
         for (Territory t : theMap.getTerritories()) {
@@ -36,6 +37,7 @@ public class MinimumPath {
                 if (!visited.contains(neighbor)) {
                     if (neighbor.getOwner().getColor().equals(this.player.getColor())) {
                         if (distances.get(next) + nextDistances.get(neighbor) < distances.get(neighbor)) {
+
                             distances.put(neighbor, distances.get(next) + nextDistances.get(neighbor));
                         }
                     }

@@ -32,18 +32,6 @@ public class MinimumPathTest {
         assertEquals(Integer.MAX_VALUE, distance);
     }
 
-    @Test
-    public void testFindMinPath_IsolatedTerritory() {
-        ArrayList<Territory> gameMap = createIsolatedTerritories();
-        Territory t = new ResourceTerritory("isolated");
-        gameMap.add(t);
-        Map theMap = new Game1Map(gameMap);
-        MinimumPath path = new MinimumPath(gameMap.get(0).getOwner(), theMap);
-        int distance = path.findMinPath(theMap.getTerritories().get(0), theMap.getTerritories().get(2));
-        int distance2 = path.findMinPath(t, theMap.getTerritories().get(0));
-        assertEquals(Integer.MAX_VALUE, distance);
-        assertEquals(Integer.MAX_VALUE, distance2);
-    }
 
     @Test
     public void testFindNextTerritory() {

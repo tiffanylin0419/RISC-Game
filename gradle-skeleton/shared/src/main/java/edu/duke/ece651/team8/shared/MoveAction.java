@@ -17,6 +17,7 @@ public class MoveAction extends MovableAction {
     public boolean hasEnoughFood() {
         MinimumPath path = new MinimumPath(player, theMap);
         int minPath = path.findMinPath(getSource(), getDestination());
+//        System.out.println(super.player.getFoodAmount() + " " + minPath);
         return super.player.getFoodAmount() >= (super.getCount() * minPath);
     }
     public void doAction(){

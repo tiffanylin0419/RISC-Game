@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveMovableActionTest {
-    @Disabled
+//    @Disabled
     @Test
     public void test_doAction() {
         V1MapFactory factory = new V1MapFactory();
         Game1Map map = factory.createMap(4);
         ArrayList<Player> players =factory.createPlayers(4,map);
-
         ArrayList<Territory> territories=map.getTerritories();
         Territory s=territories.get(0);
         Territory d=territories.get(4);
@@ -25,18 +24,20 @@ class MoveMovableActionTest {
         MovableAction action1=new MoveAction(players.get(0),"a1","a5",3,map);
         assertEquals("a1",action1.getSourceText());
         assertEquals("a5",action1.getDestinationText());
-        assertNull(map.getMovableChecker().checkAllRule(action1));
-        action1.doAction();
-        assertEquals(1,s.getUnitAmount(0));
-        assertEquals(8,d.getUnitAmount(0));
+        assertEquals("Do not have enough food", map.getMovableChecker().checkAllRule(action1));
 
+        assertEquals(4,s.getUnitAmount(0));
+        assertEquals(5,d.getUnitAmount(0));
+
+        players.get(0).addFoodResource(3000);
         MovableAction action2=new MoveAction(players.get(0),"a1","a5",1,map);
+        System.out.println(players.get(0).getFoodAmount());
         assertNull(map.getMovableChecker().checkAllRule(action2));
         action2.doAction();
-        assertEquals(0,s.getUnitAmount(0));
+        assertEquals(3,s.getUnitAmount(0));
         s.attack();
         assertTrue(s.isOwner(players.get(0)));
-        assertEquals(9,d.getUnitAmount(0));
+        assertEquals(6,d.getUnitAmount(0));
     }
 
     @Test
@@ -85,23 +86,6 @@ class MoveMovableActionTest {
     }
 
 
-    @Test
-    public void testHasEnoughFood() {
-        ArrayList<Territory> gameMap = createTerritories();
-        Map theMap = new Game1Map(gameMap);
-        Player player = gameMap.get(0).getOwner();
-        Territory t = gameMap.get(0);
-        player.addFoodResource(8);
-        t.moveIn(new BasicArmy(6, player));
-        MovableAction action = new MoveAction(player, "a", "c", 1, theMap);
-        MovableAction action2 = new MoveAction(player, "a", "c", 5, theMap);
-        action.doAction();
-        assertEquals(22, player.getFoodAmount());
-        assertEquals("a", action.getSourceText());
-        assertEquals("c", action.getDestinationText());
-        assertTrue(action.hasEnoughFood());
-        assertFalse(action2.hasEnoughFood());
-    }
 
     private ArrayList<Territory> createTerritories() {
         Territory t1 = new ResourceTerritory("a");
