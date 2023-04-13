@@ -30,7 +30,8 @@ import org.testfx.framework.junit5.ApplicationTest;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-/*
+import static org.mockito.Mockito.*;
+
 class StartPageControllerTest extends ApplicationTest{
     private Stage stage;
     private ServerStream serverStream;
@@ -85,7 +86,8 @@ class StartPageControllerTest extends ApplicationTest{
 //        serverThread.join();
 //    }
 
-    @Override
+
+    /*@Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartPage.fxml"));
@@ -101,6 +103,11 @@ class StartPageControllerTest extends ApplicationTest{
         verifyThat("#title", hasText("RISC game"));
         robot.clickOn("#start");
         verifyThat("#title", hasText("Signup/Login"));
+    }*/
+    @Test
+    public void testConstructor() {
+        StartPageController sc=new StartPageController(stage, serverStream);
     }
 
-}*/
+
+}

@@ -15,26 +15,31 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
-/*class ResultControllerTest extends ApplicationTest {
+class ResultControllerTest extends ApplicationTest {
     private Stage stage;
     private ServerStream serverStream;
     private StartPageController startPageController;
     static Server server;
     private static Thread serverThread;
-    @Override
+    private ResultController rc;
+    /*@Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
-        loader.setControllerFactory(c -> new ResultController(stage, serverStream,"message"));
+        loader.setControllerFactory(c->new ResultController(stage, serverStream,"hi"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.show();
     }
 
     @Test
-    public void testConstructor() throws IOException {
-        ResultController rc=new ResultController(stage, serverStream,"message");
-        //verifyThat("#message", hasText("Message: "));
+    public void testContent() throws IOException {
+        verifyThat("#message", hasText("hi"));
+    }*/
+
+    @Test
+    public void testConstructor() {
+        ResultController sc=new ResultController(stage, serverStream ,"");
     }
 
-}*/
+}
