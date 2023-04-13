@@ -40,11 +40,9 @@ class PlayerNumControllerTest extends ApplicationTest {
         serverThread.start();
     }
 
-
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintWriter out = mock(PrintWriter.class);
         ServerReader = mock(BufferedReader.class);
         InputStream instream = mock(InputStream.class);

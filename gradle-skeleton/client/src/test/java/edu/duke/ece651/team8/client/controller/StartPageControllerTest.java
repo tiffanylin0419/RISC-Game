@@ -88,6 +88,7 @@ class StartPageControllerTest extends ApplicationTest{
     @Test
     public void testConstructor() throws IOException {
         StartPageController sc=new StartPageController(stage, serverStream);
+        assertNotNull(sc);
     }
 
 
