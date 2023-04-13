@@ -15,6 +15,6 @@ public class ResearchAction extends BasicAction{
     }
 
     public int[] getResearchCostsList() {
-        return this.researchCosts;
+        return researchCosts;
     }
 }
