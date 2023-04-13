@@ -74,7 +74,7 @@ public class LoginSignupController implements Initializable {
             stage.show();
         }else{
             FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
-            loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream));
+            loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream,""));
             Scene scene = new Scene(loaderStart.load());
             stage.setScene(scene);
             stage.show();
