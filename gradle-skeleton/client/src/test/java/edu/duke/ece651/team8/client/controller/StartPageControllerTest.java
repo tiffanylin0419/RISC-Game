@@ -105,7 +105,7 @@ class StartPageControllerTest extends ApplicationTest{
         verifyThat("#title", hasText("Signup/Login"));
     }*/
     @Test
-    public void testConstructor() throws IOException{
+    public void testConstructor() {
         StartPageController sc=new StartPageController(stage, serverStream);
     }
 

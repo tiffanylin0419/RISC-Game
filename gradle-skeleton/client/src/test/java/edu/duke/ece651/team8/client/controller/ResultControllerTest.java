@@ -37,4 +37,9 @@ class ResultControllerTest extends ApplicationTest {
         verifyThat("#message", hasText("hi"));
     }*/
 
+    @Test
+    public void testConstructor() {
+        ResultController sc=new ResultController(stage, serverStream ,"");
+    }
+
 }
