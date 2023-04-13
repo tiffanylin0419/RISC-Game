@@ -44,14 +44,14 @@ public class ActionController extends GameController implements Initializable {
         }
         if(isOver()){
             if(colorS.equals(winner)){
-                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
-                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "Congratulations! You win!"));
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
+                loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream, "Congratulations! You win!"));
                 Scene scene = new Scene(loaderStart.load());
                 stage.setScene(scene);
                 stage.show();
             }else {
-                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
-                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "You lose. Player "+winner+" wins."));
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
+                loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream, "You lose. Player "+winner+" wins."));
                 Scene scene = new Scene(loaderStart.load());
                 stage.setScene(scene);
                 stage.show();
@@ -251,14 +251,14 @@ public class ActionController extends GameController implements Initializable {
         receiveWinner();
         if(isOver()){
             if(colorS.equals(winner)){
-                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
-                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "Congratulations! You win!"));
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
+                loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream, "Congratulations! You win!"));
                 Scene scene = new Scene(loaderStart.load());
                 stage.setScene(scene);
                 stage.show();
             }else {
-                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ResultPage.fxml"));
-                loaderStart.setControllerFactory(c-> new ResultController(stage,serverStream, "You lose. Player "+winner+" wins."));
+                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
+                loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream, "You lose. Player "+winner+" wins."));
                 Scene scene = new Scene(loaderStart.load());
                 stage.setScene(scene);
                 stage.show();
