@@ -6,7 +6,7 @@ public class UpgradeAction extends BasicAction {
     public int startLevel;
     public int nextLevel;
 
-    private int[] costs = {0, 3, 8, 19, 25, 35, 50};
+    private int[] costs = {3, 8, 19, 25, 35, 50, 0};
     public UpgradeAction(Player player, String territoryText, int unitAmount, int startLevel, int nextLevel) {
         this.player = player;
         this.unitAmount = unitAmount;

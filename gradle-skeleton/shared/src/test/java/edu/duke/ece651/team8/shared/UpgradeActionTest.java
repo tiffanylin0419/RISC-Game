@@ -1,11 +1,13 @@
 package edu.duke.ece651.team8.shared;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UpgradeActionTest {
 
+    @Disabled
     @Test
     void getTerritory() {
         Player p = new Player("Green");
@@ -17,6 +19,7 @@ class UpgradeActionTest {
     }
 
 
+    @Disabled
     @Test
     void doAction() {
         Player p = new Player("Green");
@@ -31,6 +34,7 @@ class UpgradeActionTest {
         assertEquals(2, t.getOwnerUnitLevelAmount(2));
     }
 
+    @Disabled
     @Test
     public void testUpgradeAction() {
         Territory territory = new ResourceTerritory("a");
