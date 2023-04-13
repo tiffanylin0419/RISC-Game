@@ -42,24 +42,10 @@ public class ActionController extends GameController implements Initializable {
         if(loseStatus.equals("lose")){
             setMessage("You lose.");
         }
-        if(isOver()){
-            if(colorS.equals(winner)){
-                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
-                loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream, "Congratulations! You win!"));
-                Scene scene = new Scene(loaderStart.load());
-                stage.setScene(scene);
-                stage.show();
-            }else {
-                FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
-                loaderStart.setControllerFactory(c-> new OldNewGameController(stage,serverStream, "You lose. Player "+winner+" wins."));
-                Scene scene = new Scene(loaderStart.load());
-                stage.setScene(scene);
-                stage.show();
-            }
-        }if(!isOver() && !isDefeated){
+        checkOver();
+        if(!isOver() && !isDefeated){
             serverStream.receive();
         }
-
     }
 
     @Override
@@ -236,19 +222,7 @@ public class ActionController extends GameController implements Initializable {
         serverStream.send(s);
     }
 
-    private void reportResult() throws IOException {
-        setPlayer(serverStream.read());
-
-        String combatOutcome=serverStream.read();
-        System.out.println(combatOutcome);
-
-        setMap(serverStream.read());
-
-        receiveLoseStatus();
-        if (isDefeated){
-            setMessage("You lose.");
-        }
-        receiveWinner();
+    public void checkOver() throws IOException{
         if(isOver()){
             if(colorS.equals(winner)){
                 FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
@@ -264,6 +238,19 @@ public class ActionController extends GameController implements Initializable {
                 stage.show();
             }
         }
+
+    }
+    private void reportResult() throws IOException {
+        setPlayer(serverStream.read());
+        String combatOutcome=serverStream.read();
+        System.out.println(combatOutcome);
+        setMap(serverStream.read());
+        receiveLoseStatus();
+        if (isDefeated){
+            setMessage("You lose.");
+        }
+        receiveWinner();
+        checkOver();
 
         /*else if(isDefeated){
             System.out.println("1\n"+serverStream.read());
