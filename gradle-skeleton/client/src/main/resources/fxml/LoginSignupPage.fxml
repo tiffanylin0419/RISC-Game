@@ -7,7 +7,7 @@
 <StackPane alignment="CENTER" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="edu.duke.ece651.team8.client.controller.LoginSignupController">
     <VBox alignment="CENTER" spacing="10">
-        <Label styleClass="titleTT" text="Signup/Login" >
+        <Label fx:id="title" styleClass="title" text="Signup/Login" >
             <font>
                 <Font name="System Bold" size="28.0" />
             </font>

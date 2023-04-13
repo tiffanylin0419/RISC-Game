@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.application.Platform;
-
+/*
 public class GUI {
     int width;
     int height;
@@ -132,9 +132,7 @@ public class GUI {
         buttons.setSpacing(10); // Set spacing between buttons
         buttons.setAlignment(Pos.TOP_RIGHT); // Center align the HBox
 
-        /*GUI g=new GUI();
-        String imageUrl = g.getClass().getResource("/image.png").toExternalForm();
-        Image image = new Image(imageUrl);*/
+
         ImageView imageView = new ImageView(new Image("https://i.imgur.com/BOMs9ff.jpg"));
         imageView.setFitWidth(width*0.8);
         imageView.setPreserveRatio(true);
@@ -147,3 +145,4 @@ public class GUI {
         stage.setScene(scene2);
     }
 }
+*/
