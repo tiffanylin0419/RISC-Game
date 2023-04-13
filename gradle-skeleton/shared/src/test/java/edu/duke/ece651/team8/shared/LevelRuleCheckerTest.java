@@ -15,6 +15,7 @@ class LevelRuleCheckerTest {
         assertEquals("Your level must be positive Integer!",lrc.checkMyRule(as));
         p.setLevel(6);
         assertEquals("Research action is invalid since your level can not be greater than the max level: 6!",lrc.checkMyRule(as));
+
         p.setLevel(1);
         assertNull(lrc.checkMyRule(as));
     }

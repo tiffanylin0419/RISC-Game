@@ -1,12 +1,14 @@
 package edu.duke.ece651.team8.shared;
 
+import java.util.List;
+
 public class UpgradeAction extends BasicAction {
     private Territory territory;
     public int unitAmount;
     public int startLevel;
     public int nextLevel;
 
-    private int[] costs = {3, 8, 19, 25, 35, 50, 0};
+    private int[] costs = {0, 3, 8, 19, 25, 35, 50};
     public UpgradeAction(Player player, String territoryText, int unitAmount, int startLevel, int nextLevel) {
         this.player = player;
         this.unitAmount = unitAmount;
@@ -22,14 +24,10 @@ public class UpgradeAction extends BasicAction {
     public Territory getTerritory() {return territory;}
     public Player getPlayer() {return player;}
     public int costTechResource() {
-        int eachCost = 0;
         int diffLevel = nextLevel - startLevel;
-        int curLevel = startLevel;
-        while (diffLevel > 0) {
-            --diffLevel;
-            eachCost += this.costs[curLevel];
-            ++curLevel;
-        }
+        UnitFactory uf = new UnitFactory();
+        List<Unit> u = uf.makeAdvancedUnits(1, startLevel);
+        int eachCost = uf.canUpgradeTo(diffLevel, u.get(0));
         return eachCost * unitAmount;
     }
 

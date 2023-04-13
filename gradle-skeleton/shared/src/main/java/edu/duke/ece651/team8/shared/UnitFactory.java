@@ -30,13 +30,11 @@ public class UnitFactory {
 
     /**
      * Try whether unit can be upgrade to certain level
-     * @param balance is resources remaining
      * @return larger than zero: remaining resources for upgrading
      *         smaller than zero: can not be upgraded to that level
      */
-    public int canUpgradeTo(int level, int balance, Unit u) {
-        if(level == 0) return balance;
-        balance -= u.getUpgradeCost();
-        return canUpgradeTo(level-1, balance, u.upgrade());
+    public int canUpgradeTo(int level, Unit u) {
+        if(level == 0) return 0;
+        return u.getUpgradeCost() + canUpgradeTo(level-1, u.upgrade());
     }
 }
