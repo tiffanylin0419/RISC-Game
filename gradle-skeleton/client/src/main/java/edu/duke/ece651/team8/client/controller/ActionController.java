@@ -137,6 +137,17 @@ public class ActionController extends GameController implements Initializable {
         }
         notSeeInput();
     }
+
+    public void setErrorAndPlayer() throws IOException{
+        String errorMessage=serverStream.read();
+        if(errorMessage.equals("")){
+            errorMessage="action succeed";
+        }
+        setErrorMessage(errorMessage);
+        setPlayer(serverStream.read());
+        serverStream.receive();
+    }
+
     private void actionMoveAttack() throws IOException {
         String amount =input1.getText();
         String source =input2.getText();
@@ -145,14 +156,7 @@ public class ActionController extends GameController implements Initializable {
         trySendUnitNumber(amount);
         trySendTerritory(source);
         trySendTerritory(destination);
-        String errorMessage=serverStream.read();
-        if(errorMessage.equals("")){
-            errorMessage="action succeed";
-        }
-        setErrorMessage(errorMessage);
-        setPlayer(serverStream.read());
-        serverStream.receive();
-
+        setErrorAndPlayer();
     }
 
     private void actionUpgrade() throws IOException{
@@ -164,13 +168,7 @@ public class ActionController extends GameController implements Initializable {
         trySendUnitNumber(amount);
         trySendUnitNumber(prev_level);
         trySendUnitNumber(next_level);
-        String errorMessage=serverStream.read();
-        if(errorMessage.equals("")){
-            errorMessage="action succeed";
-        }
-        setErrorMessage(errorMessage);
-        setPlayer(serverStream.read());
-        serverStream.receive();
+        setErrorAndPlayer();
     }
 
 
