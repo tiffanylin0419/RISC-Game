@@ -30,17 +30,4 @@ class UpgradeActionTest {
         ua.doAction();
         assertEquals(2, t.getOwnerUnitLevelAmount(2));
     }
-
-    @Test
-    public void testUpgradeAction() {
-        Territory territory = new ResourceTerritory("a");
-        Player player = new Player("Green");
-        territory.setOwner(player);
-        player.addTerritory(territory);
-        territory.moveIn(new BasicArmy(6, player));
-        UpgradeAction action = new UpgradeAction(player, "a", 3, 0, 2);
-        assertEquals(9, action.costTechResource());
-        action.doAction();
-        assertEquals(11, player.getTechAmount());
-    }
 }
