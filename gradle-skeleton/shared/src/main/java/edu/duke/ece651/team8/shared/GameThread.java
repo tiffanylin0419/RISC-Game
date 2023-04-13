@@ -109,12 +109,12 @@ public class GameThread extends Thread {
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    System.out.println(" game thread wait error");
+                    //System.out.println(" game thread wait error");
                 }
             }
         }
         try {
-            System.out.println("game thread start");
+            //System.out.println("game thread start");
             while (true) {
                 for (Thread t : clientThreads) {
                     while (t.getState() != Thread.State.WAITING) {
@@ -124,7 +124,7 @@ public class GameThread extends Thread {
                 while(!checkConnection()) {}
                 notifyClients();
             }
-            System.out.println("game end!!!");
+            //System.out.println("game end!!!");
             //add stop thread
         } finally {
             for (int i = 0; i < accounts.size(); i++) {
