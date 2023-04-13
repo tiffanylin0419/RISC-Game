@@ -60,11 +60,18 @@ class LoginSignupControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testStart() {
+    void testSignup() {
         FxRobot robot=new FxRobot();
         verifyThat("#errorMessage", hasText("Error: errorMessage"));
         robot.clickOn("#signup");
         verifyThat("#message", hasText("Message: "));
+    }
+
+    @Test
+    void testLogin() {
+        FxRobot robot=new FxRobot();
+        robot.clickOn("#login");
+        verifyThat("#errorMessage", hasText("Error: Username or password not correct"));
 
     }
 
@@ -74,22 +81,5 @@ class LoginSignupControllerTest extends ApplicationTest {
         server.stop();
     }
 
-    /*@Override
-    public void start(Stage stage) throws Exception {
-        this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginSignupPage.fxml"));
-        loader.setControllerFactory(c -> new LoginSignupController(stage, serverStream,"errorMessage"));
-        Scene scene = new Scene(loader.load());
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @Test
-    public void testConstructor() throws IOException{
-        FxRobot robot=new FxRobot();
-        verifyThat("#errorMessage", hasText("Error: errorMessage"));
-        //robot.clickOn("#signup");
-        //verifyThat("#message", hasText("Message: "));
-    }*/
 
 }

@@ -51,6 +51,11 @@ class StartPageControllerTest extends ApplicationTest{
         serverThread.start();
     }
 
+    @AfterAll
+    static void tearDown() throws IOException, InterruptedException {
+        serverThread.interrupt();
+        server.stop();
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -78,39 +83,12 @@ class StartPageControllerTest extends ApplicationTest{
         verifyThat("#title", hasText("RISC game"));
         robot.clickOn("#start");
         verifyThat("#title", hasText("Signup/Login"));
-
-    }
-
-    @AfterAll
-    static void tearDown() throws IOException, InterruptedException {
-        serverThread.interrupt();
-        server.stop();
-    }
-
-
-
-    /*@Override
-    public void start(Stage stage) throws Exception {
-        this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartPage.fxml"));
-        loader.setControllerFactory(c -> new StartPageController(stage, serverStream));
-        Scene scene = new Scene(loader.load());
-        stage.setScene(scene);
-        stage.show();
     }
 
     @Test
-    public void testConstructor() throws IOException{
-        FxRobot robot=new FxRobot();
-        verifyThat("#title", hasText("RISC game"));
-        robot.clickOn("#start");
-        verifyThat("#title", hasText("Signup/Login"));
-    }*/
-
-    /*@Test
-    public void testConstructor() {
+    public void testConstructor() throws IOException {
         StartPageController sc=new StartPageController(stage, serverStream);
-    }*/
+    }
 
 
 }
