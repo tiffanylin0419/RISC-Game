@@ -109,6 +109,7 @@ class StartPageControllerTest extends ApplicationTest{
         robot.clickOn("#start");
         verifyThat("#title", hasText("Signup/Login"));
     }
+
     /*@Test
     public void testConstructor() {
         StartPageController sc=new StartPageController(stage, serverStream);
