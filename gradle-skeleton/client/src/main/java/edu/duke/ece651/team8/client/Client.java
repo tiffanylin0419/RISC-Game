@@ -402,19 +402,13 @@ public class Client {
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
-        String message=serverStream.getBuffer();
-        color = serverStream.read();
-        displayColor();
-        return message;
+        return sendErrorAndColor();
     }
     public String doOneResearch()throws IOException{
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
-        String message=serverStream.getBuffer();
-        color = serverStream.read();
-        displayColor();
-        return message;
+        return sendErrorAndColor();
     }
 
     public String doOneUpgrade() throws IOException {
@@ -425,11 +419,7 @@ public class Client {
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
-        System.out.println(serverStream.getBuffer());
-        String message=serverStream.getBuffer();
-        color = serverStream.read();
-        displayColor();
-        return message;
+        return sendErrorAndColor();
     }
 
     /**
@@ -459,6 +449,13 @@ public class Client {
         out.println(prompt);
         String s = input.readLine();
         serverStream.send(s);
+    }
+
+    public String sendErrorAndColor() throws IOException{
+        String message=serverStream.getBuffer();
+        color = serverStream.read();
+        displayColor();
+        return message;
     }
 
     /**
