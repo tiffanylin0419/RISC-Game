@@ -14,7 +14,7 @@ stages:
 
 build:
   tags:
-    - ece651
+    - robot
   stage: build
   script: docker build -f ./gradle-skeleton/Dockerfile --build-arg LOCAL_USER_ID=`id -u`  --tag citest ./gradle-skeleton
 
