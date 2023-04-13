@@ -33,6 +33,7 @@ class NumberRuleCheckerTest {
         MovableAction action3 = new MoveAction(p1,"a1","a3",6,theMap);
         assertEquals("Requested 6 units, but only have 5",checker.checkAllRule(action3));
 
+
         MovableAction action4 = new MoveAction(p1,"a1","a3",-1,theMap);
         assertEquals("Unit number need to be positive",checker.checkAllRule(action3));
 
