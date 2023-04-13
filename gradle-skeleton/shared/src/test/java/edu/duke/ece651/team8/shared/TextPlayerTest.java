@@ -50,4 +50,10 @@ public class TextPlayerTest {
      assertTrue(p.tryRemoveTerritory(new BasicTerritory(names[1])));
      assertFalse(p.tryRemoveTerritory(new BasicTerritory("Dkingdom")));
   }
+
+  @Test
+    public void test_display(){
+      Player p=new TextPlayer("red");
+      assertNull(p.display());
+  }
 }
