@@ -33,6 +33,7 @@ class OldNewGameControllerTest extends ApplicationTest {
     static Server server;
     private static Thread serverThread;
 
+    BufferedReader ServerReader;
 
     @BeforeAll
     static void setUp() throws Exception {
@@ -48,9 +49,14 @@ class OldNewGameControllerTest extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        this.serverStream=new ServerStream("localhost",8080);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginSignupPage.fxml"));
-        loader.setControllerFactory(c -> new LoginSignupController(stage, serverStream,"errorMessage"));
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintWriter out = mock(PrintWriter.class);
+        ServerReader = mock(BufferedReader.class);
+        InputStream instream = mock(InputStream.class);
+
+        this.serverStream = new ServerStream(ServerReader, out, instream);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/OldNewGamePage.fxml"));
+        loader.setControllerFactory(c -> new OldNewGameController(stage, serverStream,""));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.show();
@@ -69,22 +75,33 @@ class OldNewGameControllerTest extends ApplicationTest {
 
 
     @Test
-    void testOld() {
-        FxRobot robot=new FxRobot();
-        robot.clickOn("#username").write("a");
-        robot.clickOn("#signup");
-        robot.clickOn("#old");
-        verifyThat("#p2", hasText("2 Player"));
-    }
-
-    @Test
     void testNew() throws IOException {
         FxRobot robot=new FxRobot();
-        robot.clickOn("#signup");
+
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("0").thenReturn("END_OF_TURN").thenReturn("message").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
         robot.clickOn("#new");
         verifyThat("#p2", hasText("2 Player"));
 
     }
+    @Test
+    void testOld() throws IOException {
+        FxRobot robot=new FxRobot();
+
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("0").thenReturn("END_OF_TURN").thenReturn("message").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
+        robot.clickOn("#old");
+        verifyThat("#p2", hasText("2 Player"));
+    }
+
+    //@Disabled
+    @Test
+    void testOldExist() throws IOException {
+        FxRobot robot=new FxRobot();
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("2j").thenReturn("END_OF_TURN").thenReturn("message").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
+        robot.clickOn("#old");
+        verifyThat("#title", hasText("Choose Game"));
+    }
+
+
 
 
 
