@@ -32,7 +32,7 @@ test:
 pages:
   stage: coverage
   tags:
-    - ece651
+    - robot
   dependencies:
     - test
   script:
@@ -43,7 +43,7 @@ pages:
 
 deploy:
   tags:
-    - ece651
+    - robot
   stage: deploy
   script: ./gradle-skeleton/scripts/redeploy.sh
 

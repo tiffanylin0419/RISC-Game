@@ -17,7 +17,8 @@ RUN apt-get update && apt-get -yq dist-upgrade \
      unzip \
      openjdk-17-jdk-headless \
      emacs-nox\
-     libx11-6 libxxf86vm1
+     libx11-6 libxxf86vm1 \
+     xvfb x11vnc
 
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -36,6 +37,12 @@ RUN mkdir -p /home/juser/.emacs.d/dcoverage
 COPY --chown=juser scripts/dcoverage.el /home/juser/.emacs.d/dcoverage/
 RUN chmod u+x emacs-bare.sh && ./emacs-bare.sh
 
+# Start a headless X server
+ENV DISPLAY=:0
+ENV XVFB_WHD="1280x720x24"
+RUN Xvfb ${DISPLAY} -screen 0 ${XVFB_WHD}
+EXPOSE 5900
+RUN x11vnc -display ${DISPLAY} -nopw -listen localhost -xkb -forever &
 
 # we are going to do a bit of gradle first, just to speed
 # up future builds
