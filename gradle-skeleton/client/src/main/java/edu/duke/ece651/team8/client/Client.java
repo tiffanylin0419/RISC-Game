@@ -426,7 +426,10 @@ public class Client {
             out.println(serverStream.getBuffer());
         }
         System.out.println(serverStream.getBuffer());
-        return serverStream.getBuffer();
+        String message=serverStream.getBuffer();
+        color = serverStream.read();
+        displayColor();
+        return message;
     }
 
     /**

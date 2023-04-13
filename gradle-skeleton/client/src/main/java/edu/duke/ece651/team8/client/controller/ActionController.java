@@ -169,6 +169,7 @@ public class ActionController extends GameController implements Initializable {
             errorMessage="action succeed";
         }
         setErrorMessage(errorMessage);
+        setPlayer(serverStream.read());
         serverStream.receive();
     }
 

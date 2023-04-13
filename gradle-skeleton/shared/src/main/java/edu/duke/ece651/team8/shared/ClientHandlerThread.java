@@ -406,6 +406,7 @@ public class ClientHandlerThread extends Thread {
         }
         UpgradeAction action = new UpgradeAction(player, territoryText, unitAmount, startLevel, upgradedLevel);
         upgradeRuleChecker(action);
+        send(player.display(),output);
     }
 
     /**
