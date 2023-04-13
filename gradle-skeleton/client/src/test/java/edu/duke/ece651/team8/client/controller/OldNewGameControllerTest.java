@@ -4,8 +4,10 @@ import edu.duke.ece651.team8.client.ServerStream;
 import edu.duke.ece651.team8.shared.AbstractMapFactory;
 import edu.duke.ece651.team8.shared.Server;
 import edu.duke.ece651.team8.shared.V2MapFactory;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,6 +52,7 @@ class OldNewGameControllerTest extends ApplicationTest {
         stage.show();
     }
 
+
     @Test
     public void testStartPageLoads() throws IOException, InterruptedException {
         // check that the start page loads successfully
@@ -77,6 +80,66 @@ class OldNewGameControllerTest extends ApplicationTest {
         robot.clickOn("#new");
         verifyThat("#p2", hasText("2 Player"));
     }
+
+
+
+    /*@Test
+    void testOld() throws IOException {
+        FxRobot robot=new FxRobot();
+        robot.clickOn("#username").write("a");
+        robot.clickOn("#signup");
+        robot.clickOn("#old");
+        verifyThat("#p2", hasText("2 Player"));
+        Thread playerThread = new Thread(() -> {
+            try {
+                while (!Thread.currentThread().isInterrupted()) {
+                    robot.clickOn("#p2");
+                }
+            } catch (Exception e) {}
+        });
+        playerThread.start();
+        long timeout = System.currentTimeMillis() + 500;
+
+        while (playerThread.isAlive() && System.currentTimeMillis() < timeout) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }
+        playerThread.interrupt();
+    }
+
+    @Test
+    void testNew() throws IOException {
+        FxRobot robot=new FxRobot();
+        robot.clickOn("#signup");
+        robot.clickOn("#new");
+        verifyThat("#p2", hasText("2 Player"));
+        Thread playerThread = new Thread(() -> {
+            robot.clickOn("#p2");
+        });
+        playerThread.start();
+        long timeout = System.currentTimeMillis() + 500;
+
+        while (playerThread.isAlive() && System.currentTimeMillis() < timeout) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }
+        playerThread.interrupt();
+    }
+
+    @Test
+    public void testExistOld(){
+        FxRobot robot=new FxRobot();
+        robot.clickOn("#username").write("a");
+        robot.clickOn("#login");
+        robot.clickOn("#old");
+        verifyThat("#p2", hasText("2 Player"));
+    }*/
 
 
     @AfterAll
