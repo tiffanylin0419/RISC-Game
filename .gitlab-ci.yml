@@ -20,7 +20,7 @@ build:
 
 test:
   tags:
-    - ece651
+    - robot
   stage: test
   script: gradle-skeleton/scripts/run-tests-in-docker.sh
   artifacts:
