@@ -99,4 +99,22 @@ public class BasicUnitTest {
 
     }
 
+    @Test
+    public void testEquals(){
+        Unit u0 = new BasicUnit();
+        Unit u1 = new LevelOneUnit();
+        Unit u2 = new LevelTwoUnit();
+        Unit u3 = new LevelThreeUnit();
+        Unit u4 = new LevelFourUnit();
+        Unit u5 = new LevelFiveUnit();
+        Unit u6 = new LevelSixUnit();
+        assertNotEquals(u0,u1);
+        assertNotEquals(u1,u2);
+        assertNotEquals(u2,u3);
+        assertNotEquals(u3,u4);
+        assertNotEquals(u4,u5);
+        assertNotEquals(u5,u6);
+        assertNotEquals(u6,u0);
+    }
+
 }

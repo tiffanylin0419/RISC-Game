@@ -8,19 +8,11 @@ public class BasicUnit implements Unit{
     private final int bonus;
     private final int upgradeCost;
     //constructor
-
     public BasicUnit() {
         this.level = 0;
         this.type = "Servant";
         this.bonus = 0;
         this.upgradeCost = 3;
-    }
-
-    public BasicUnit(int level, String type, int bonus, int upgradeCost) {
-        this.level = level;
-        this.type = type;
-        this.bonus = bonus;
-        this.upgradeCost = upgradeCost;
     }
 
     @Override
@@ -51,6 +43,7 @@ public class BasicUnit implements Unit{
         }
         return false;
     }
+
     @Override
     public int getBonus(){
         return bonus;

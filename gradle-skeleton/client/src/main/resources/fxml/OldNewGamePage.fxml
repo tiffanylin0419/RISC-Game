@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.duke.ece651.team8.client.controller.OldNewGameController">
+<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.team8.client.controller.OldNewGameController">
+    <top>
+        <Label fx:id="message" contentDisplay="CENTER" text="" BorderPane.alignment="CENTER" />
+    </top>
     <left>
-        <Button fx:id="old" mnemonicParsing="false" onAction="#oldGame" text="Old Game" prefWidth="350" prefHeight="400" />
+        <Button fx:id="old" mnemonicParsing="false" onAction="#oldGame" prefHeight="400" prefWidth="350" text="Old Game" />
     </left>
     <right>
-        <Button fx:id="new" mnemonicParsing="false" onAction="#newGame" text="New Game" prefWidth="350" prefHeight="400" />
+        <Button fx:id="new" mnemonicParsing="false" onAction="#newGame" prefHeight="400" prefWidth="350" text="New Game" />
     </right>
 </BorderPane>

@@ -138,5 +138,6 @@ public interface Territory {
   public void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel);
 
   public int getOwnerUnitLevelAmount(int level);
+  public Army getArmy(int count, Player p);
 
 }
