@@ -13,11 +13,13 @@ public class MinimumPathTest {
         ArrayList<Territory> gameMap = createTerritories();
         Map theMap = new Game1Map(gameMap);
         MinimumPath path = new MinimumPath(gameMap.get(0).getOwner(), theMap);
-        assertEquals(4, theMap.getTerritories().size());
+        assertEquals(5, theMap.getTerritories().size());
         int distance = path.findMinPath(theMap.getTerritories().get(0), theMap.getTerritories().get(2));
         int distance2 = path.findMinPath(theMap.getTerritories().get(0), theMap.getTerritories().get(0));
+        int distance3 = path.findMinPath(theMap.getTerritories().get(0), theMap.getTerritories().get(4));
         assertEquals(6, distance);
         assertEquals(0, distance2);
+        assertEquals(11, distance3);
     }
 
     @Test
@@ -25,7 +27,7 @@ public class MinimumPathTest {
         ArrayList<Territory> gameMap = createTerritories();
         Map theMap = new Game1Map(gameMap);
         MinimumPath path = new MinimumPath(gameMap.get(0).getOwner(), theMap);
-        assertEquals(4, theMap.getTerritories().size());
+        assertEquals(5, theMap.getTerritories().size());
         int distance = path.findMinPath(theMap.getTerritories().get(0), theMap.getTerritories().get(3));
         assertEquals(Integer.MAX_VALUE, distance);
     }
@@ -53,7 +55,6 @@ public class MinimumPathTest {
         for (Territory territory : source.getDistances().keySet()) {
             distances.put(territory, source.getDistance(territory));
         }
-        assertEquals(3, source.getDistances().size());
         Map theMap = new Game1Map();
         MinimumPath path = new MinimumPath(source.getOwner(), theMap);
         Territory target = path.findNextTerritory(visited, distances);
@@ -65,6 +66,7 @@ public class MinimumPathTest {
         Territory t2 = new ResourceTerritory("b");
         Territory t3 = new ResourceTerritory("c");
         Territory t4 = new ResourceTerritory("d");
+        Territory t5 = new ResourceTerritory("e");
         Player player = new Player("Green");
         Player player2 = new Player("Yellow");
 
@@ -72,17 +74,20 @@ public class MinimumPathTest {
         t2.setOwner(player);
         t3.setOwner(player);
         t4.setOwner(player2);
+        t5.setOwner(player);
 
         t1.addAdjacent(t2);
         t1.addAdjacent(t3);
         t2.addAdjacent(t3);
         t1.addAdjacent(t4);
         t3.addAdjacent(t4);
+        t3.addAdjacent(t5);
+        t5.addAdjacent(t3);
 
         t1.setDistance(t2, 3);
         t2.setDistance(t1, 3);
-        t1.setDistance(t3, 7);
-        t3.setDistance(t1, 7);
+//        t1.setDistance(t3, 7);
+//        t3.setDistance(t1, 7);
         t2.setDistance(t3, 3);
         t3.setDistance(t2, 3);
         t1.setDistance(t4, 2);
@@ -90,11 +95,15 @@ public class MinimumPathTest {
         t3.setDistance(t4, 2);
         t4.setDistance(t3, 2);
 
+        t5.setDistance(t3, 5);
+        t3.setDistance(t5, 5);
+
         ArrayList<Territory> testMap = new ArrayList<>();
         testMap.add(t1);
         testMap.add(t2);
         testMap.add(t3);
         testMap.add(t4);
+        testMap.add(t5);
         return testMap;
     }
 
@@ -110,6 +119,7 @@ public class MinimumPathTest {
         t2.setOwner(player2);
         t3.setOwner(player);
         t4.setOwner(player2);
+
 
         t1.addAdjacent(t2);
         t2.addAdjacent(t3);

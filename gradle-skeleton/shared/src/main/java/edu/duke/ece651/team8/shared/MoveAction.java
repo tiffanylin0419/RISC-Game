@@ -29,5 +29,4 @@ public class MoveAction extends MovableAction {
     protected boolean isValidPath(){
         return getSource().isAdjacentSelf(getDestination());
     }
-
 }

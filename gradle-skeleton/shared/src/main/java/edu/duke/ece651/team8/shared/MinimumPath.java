@@ -17,7 +17,7 @@ public class MinimumPath {
             return 0;
         }
         this.player = source.getOwner();
-        int size = source.getAdjList().size();
+        int size = theMap.getTerritories().size();
         HashMap<Territory, Integer> distances = new HashMap<>();
         for (Territory t : theMap.getTerritories()) {
             distances.put(t, Integer.MAX_VALUE);
