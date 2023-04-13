@@ -30,7 +30,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-/*
+
 class StartPageControllerTest extends ApplicationTest{
     private Stage stage;
     private ServerStream serverStream;
@@ -103,4 +103,4 @@ class StartPageControllerTest extends ApplicationTest{
         verifyThat("#title", hasText("Signup/Login"));
     }
 
-}*/
+}

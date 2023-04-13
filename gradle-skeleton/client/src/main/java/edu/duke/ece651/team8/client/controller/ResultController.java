@@ -15,7 +15,7 @@ public class ResultController implements Initializable {
     @FXML
     Label message;
 
-    private void setMessage(String messages){
+    public void setMessage(String messages){
         Platform.runLater(() -> {
             message.setText(messages);
         });
