@@ -36,7 +36,7 @@ class NumberRuleCheckerTest {
 
 
         MovableAction action4 = new MoveAction(p1,"a1","a3",-1,theMap);
-        assertEquals("Unit number need to be positive",checker.checkAllRule(action3));
+        assertEquals("Unit number need to be positive",checker.checkAllRule(action4));
 
     }
 }
