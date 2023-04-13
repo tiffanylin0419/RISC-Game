@@ -263,7 +263,7 @@ public class Client {
         serverStream.receive();
         int i=0;
         while(i < placementTimes-1){
-            System.out.println(serverStream.getBuffer() + " value" + i);
+//            System.out.println(serverStream.getBuffer() + " value" + i);
             if(serverStream.getBuffer().equals("valid\n")){
                 serverStream.receive();
                 i++;
@@ -337,7 +337,7 @@ public class Client {
                         System.out.println("Successfully attacked\n");
                     }
                     else{
-                        System.out.println(serverStream.getBuffer());
+//                        System.out.println(serverStream.getBuffer());
                         System.out.println("Action failed\n");
                     }
                     break;
@@ -425,7 +425,7 @@ public class Client {
         if(!serverStream.read().equals("")){
             out.println(serverStream.getBuffer());
         }
-        System.out.println(serverStream.getBuffer());
+//        System.out.println(serverStream.getBuffer());
         return serverStream.getBuffer();
     }
 

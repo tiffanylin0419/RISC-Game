@@ -6,6 +6,9 @@ public class UpgradeUnitRuleChecker extends UpgradeActionRuleChecker{
     @Override
     protected String checkMyRule(UpgradeAction action) {
         Territory t = action.getTerritory();
+        if(action.nextLevel > action.player.getLevel()) {
+            return "Level " + action.nextLevel + " is beyond your tech level: " + action.player.getLevel();
+        }
         if(action.startLevel < 0 || action.startLevel >= 6) {
             return "Start level " + action.startLevel + " is not valid";
         }
