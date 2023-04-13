@@ -15,7 +15,7 @@ class UpgradeActionTest {
         assertEquals(p, ua.getPlayer());
         assertEquals(16, ua.costTechResource());
     }
-    @Disabled
+
     @Test
     void doAction() {
         Player p = new Player("Green");
@@ -24,7 +24,7 @@ class UpgradeActionTest {
         UpgradeAction ua = new UpgradeAction(p, "a1", 2, 0, 2);
         UpgradeActionRuleChecker checker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeCostRuleChecker(null)));
         assertEquals(20, p.getTechAmount());
-        assertEquals("Do not have 22 Technology Resources for upgrading", checker.checkAllRule(ua));
+        assertEquals("Level 2 is beyond your tech level: 1", checker.checkAllRule(ua));
         p.addTechResource(2);
         ua.doAction();
         assertEquals(2, t.getOwnerUnitLevelAmount(2));
