@@ -273,7 +273,7 @@ public class BasicTerritory implements Territory {
   public void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel) {
     Army target = null;
     for (Army army : this.armies) {
-      if (army.getOwner().equals(player)) {
+      if (army.getOwner().getColor().equals(player.getColor())) {
         target = army;
         break;
       }
