@@ -38,61 +38,58 @@ import static org.mockito.Mockito.*;
 class StartPageControllerTest extends ApplicationTest{
     private Stage stage;
     private ServerStream serverStream;
-    private StartPageController startPageController;
     static Server server;
     private static Thread serverThread;
 
-//    @BeforeAll
-//    static void setUp() throws Exception {
-//        AbstractMapFactory factory = new V2MapFactory();
-//        server = new Server(8080,  factory);
-//        serverThread = new Thread(() -> {
-//            server.run();
-//        });
-//        serverThread.start();
-//    }
-//
-//
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//        this.stage = stage;
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartPage.fxml"));
-//        loader.setControllerFactory(c -> new StartPageController(stage, serverStream));
-//        Scene scene = new Scene(loader.load());
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//
-//    @Test
-//    public void testStartPageLoads() throws IOException, InterruptedException {
-//        // check that the start page loads successfully
-//        assertNotNull(stage);
-//        assertNotNull(stage.getScene());
-//        assertTrue(stage.getScene().getRoot().isVisible());
-//        assertTrue(stage.getScene().getRoot().isManaged());
-//
-//    }
-//
-//    @Disabled
-//    @Test
-//    void testStart() {
-//        FxRobot robot=new FxRobot();
-//        verifyThat("#title", hasText("RISC game"));
-//        robot.clickOn("#start");
-//        verifyThat("#title", hasText("Signup/Login"));
-//
-//    }
-//
-//    @AfterAll
-//    static void tearDown() throws IOException, InterruptedException {
-//        serverThread.interrupt();
-
-//        server.stop();
-//    }
-
+    @BeforeAll
+    static void setUp() throws Exception {
+        AbstractMapFactory factory = new V2MapFactory();
+        server = new Server(8080,  factory);
+        serverThread = new Thread(() -> {
+            server.run();
+        });
+        serverThread.start();
+    }
 
 
     @Override
+    public void start(Stage stage) throws Exception {
+        this.stage = stage;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartPage.fxml"));
+        loader.setControllerFactory(c -> new StartPageController(stage, serverStream));
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @Test
+    public void testStartPageLoads() throws IOException, InterruptedException {
+        // check that the start page loads successfully
+        assertNotNull(stage);
+        assertNotNull(stage.getScene());
+        assertTrue(stage.getScene().getRoot().isVisible());
+        assertTrue(stage.getScene().getRoot().isManaged());
+
+    }
+
+    @Test
+    void testStart() {
+        FxRobot robot=new FxRobot();
+        verifyThat("#title", hasText("RISC game"));
+        robot.clickOn("#start");
+        verifyThat("#title", hasText("Signup/Login"));
+
+    }
+
+    @AfterAll
+    static void tearDown() throws IOException, InterruptedException {
+        serverThread.interrupt();
+        server.stop();
+    }
+
+
+
+    /*@Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartPage.fxml"));
@@ -108,7 +105,7 @@ class StartPageControllerTest extends ApplicationTest{
         verifyThat("#title", hasText("RISC game"));
         robot.clickOn("#start");
         verifyThat("#title", hasText("Signup/Login"));
-    }
+    }*/
 
     /*@Test
     public void testConstructor() {
