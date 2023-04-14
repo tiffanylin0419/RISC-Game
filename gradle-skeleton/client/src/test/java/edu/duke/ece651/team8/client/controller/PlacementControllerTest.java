@@ -69,15 +69,6 @@ class PlacementControllerTest extends ApplicationTest {
         assertTrue(stage.getScene().getRoot().isManaged());
 
     }
-/*
-    playerInfoS=serverStream.read();
-    mapS = serverStream.read();
-            System.out.println("\nhi\n"+serverStream.getBuffer());
-            serverStream.receive();
-            loaderStart.setControllerFactory(c-> new ActionController(stage,serverStream,colorS, "Please Select Action",playerInfoS, mapS,playerNum));
-    Scene scene = new Scene(loaderStart.load());
-            stage.setScene(scene);
-            stage.show();*/
 
     @Test
     public void test_enter_good() throws IOException {
