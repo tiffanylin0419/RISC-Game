@@ -56,18 +56,20 @@ class ClientHandlerThreadTest {
                 thenReturn("M").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
                 thenReturn("a1").thenReturn("END_OF_TURN").thenReturn("a2").thenReturn("END_OF_TURN").
                 thenReturn("A").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
-                thenReturn("a1").thenReturn("END_OF_TURN").thenReturn("b1").thenReturn("END_OF_TURN");
+                thenReturn("a1").thenReturn("END_OF_TURN").thenReturn("b1").thenReturn("END_OF_TURN").
+                thenReturn("D").thenReturn("END_OF_TURN");
 
         when(reader1.readLine()).thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").
                 thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").thenReturn("3").thenReturn("END_OF_TURN").
-                thenReturn("U").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
+                thenReturn("R").thenReturn("END_OF_TURN").
+                thenReturn("U").thenReturn("END_OF_TURN").thenReturn("a1").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN").
                 thenReturn("0").thenReturn("END_OF_TURN").thenReturn("1").thenReturn("END_OF_TURN").
-                thenReturn("R").thenReturn("END_OF_TURN");
+                thenReturn("D").thenReturn("END_OF_TURN");
 
 
         ClientHandlerThread handler = th.join(account);
         ClientHandlerThread handler1 = th.join(account1);
-        sleep(500);
+        sleep(1000);
         th.shutDown();
 
     }
