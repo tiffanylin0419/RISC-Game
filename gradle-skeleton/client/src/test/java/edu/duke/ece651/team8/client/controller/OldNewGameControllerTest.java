@@ -100,7 +100,7 @@ class OldNewGameControllerTest extends ApplicationTest {
         verifyThat("#p2", hasText("2 Player"));
     }
 
-    @Disabled
+    //@Disabled
     @Test
     void testOldExist() throws IOException {
         FxRobot robot=new FxRobot();
