@@ -40,14 +40,13 @@ class PlayerNumControllerTest extends ApplicationTest {
         serverThread.start();
     }
 
-
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintWriter out = mock(PrintWriter.class);
         ServerReader = mock(BufferedReader.class);
         InputStream instream = mock(InputStream.class);
+
         this.serverStream = new ServerStream(ServerReader, out, instream);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PlayerNumPage.fxml"));
         loader.setControllerFactory(c -> new PlayerNumController(stage, serverStream));
@@ -70,8 +69,22 @@ class PlayerNumControllerTest extends ApplicationTest {
     @Test
     void testp2() throws IOException {
         FxRobot robot=new FxRobot();
-        //when(ServerReader.readLine()).thenReturn("3").thenReturn("END_OF_TURN").thenReturn("prompt").thenReturn("END_OF_TURN").thenReturn("valid\n");
-        //robot.clickOn("#p2");
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("green").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
+        robot.clickOn("#p2");
+    }
+
+    @Test
+    void testp3() throws IOException {
+        FxRobot robot=new FxRobot();
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("green").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"},\"c1\":{\"color\":\"green\",\"army\":\"\"},\"c2\":{\"color\":\"green\",\"army\":\"\"},\"c3\":{\"color\":\"green\",\"army\":\"\"},\"c4\":{\"color\":\"green\",\"army\":\"\"},\"c5\":{\"color\":\"green\",\"army\":\"\"},\"c6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
+        robot.clickOn("#p3");
+    }
+
+    @Test
+    void testp4() throws IOException {
+        FxRobot robot=new FxRobot();
+        when(ServerReader.readLine()).thenReturn("").thenReturn("END_OF_TURN").thenReturn("").thenReturn("END_OF_TURN").thenReturn("green").thenReturn("END_OF_TURN").thenReturn("{\"level\":\"1\",\"food\":\"1\",\"tech\":\"1\"}").thenReturn("END_OF_TURN").thenReturn("{\"map\":{\"a1\":{\"color\":\"green\",\"army\":\"\"},\"a2\":{\"color\":\"green\",\"army\":\"\"},\"a3\":{\"color\":\"green\",\"army\":\"\"},\"a4\":{\"color\":\"green\",\"army\":\"\"},\"a5\":{\"color\":\"green\",\"army\":\"\"},\"a6\":{\"color\":\"green\",\"army\":\"\"},\"b1\":{\"color\":\"green\",\"army\":\"\"},\"b2\":{\"color\":\"green\",\"army\":\"\"},\"b3\":{\"color\":\"green\",\"army\":\"\"},\"b4\":{\"color\":\"green\",\"army\":\"\"},\"b5\":{\"color\":\"green\",\"army\":\"\"},\"b6\":{\"color\":\"green\",\"army\":\"\"},\"c1\":{\"color\":\"green\",\"army\":\"\"},\"c2\":{\"color\":\"green\",\"army\":\"\"},\"c3\":{\"color\":\"green\",\"army\":\"\"},\"c4\":{\"color\":\"green\",\"army\":\"\"},\"c5\":{\"color\":\"green\",\"army\":\"\"},\"c6\":{\"color\":\"green\",\"army\":\"\"},\"d1\":{\"color\":\"green\",\"army\":\"\"},\"d2\":{\"color\":\"green\",\"army\":\"\"},\"d3\":{\"color\":\"green\",\"army\":\"\"},\"d4\":{\"color\":\"green\",\"army\":\"\"},\"d5\":{\"color\":\"green\",\"army\":\"\"},\"d6\":{\"color\":\"green\",\"army\":\"\"}}}").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN");
+        robot.clickOn("#p4");
     }
 
 

@@ -70,13 +70,10 @@ public class GameNumController{
 
         System.out.println("map: "+serverStream.read());
         String mapS = serverStream.getBuffer();
-
-        //?
         String loseStatus=serverStream.read();
         String winner=serverStream.read();
 
         FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/ActionPage.fxml"));
-        //todo playerNum wrong
         loaderStart.setControllerFactory(c-> {
             try {
                 return new ActionController(stage,serverStream,colorS, "Please Select Action",playerInfoS, mapS,2,loseStatus,winner);

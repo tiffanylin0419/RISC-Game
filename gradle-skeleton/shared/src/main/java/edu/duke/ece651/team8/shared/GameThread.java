@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GameThread extends Thread {
     private List<ClientHandlerThread> clientThreads;
-    private final Object lock = new Object();
+    private Object lock = new Object();
     /** streams pass to client*/
     private List<PrintWriter> outputs;
     /** Reader for clients message*/
@@ -22,17 +22,17 @@ public class GameThread extends Thread {
     final String END_OF_TURN = "END_OF_TURN";
     private String mapInfo;
     /** Map of the game */
-    private final Map theMap;
+    private Map theMap;
     /** View of the map */
     protected View mapView;
 
-    private final ArrayList<Player> players;
-    private final List<PlayerAccount> accounts;
+    private ArrayList<Player> players;
+    private List<PlayerAccount> accounts;
 
-    private final int placementTimes = 5;
-    private final int unitAmount = 36;
+    private int placementTimes = 5;
+    private int unitAmount = 36;
     private String winnerName;
-    private final int roomNumber;
+    private int roomNumber;
     private boolean isStart;
     public GameThread(int playerNum, AbstractMapFactory factory, int roomNumber) {
         this.outputs = new ArrayList<>();
@@ -49,29 +49,29 @@ public class GameThread extends Thread {
         this.roomNumber = roomNumber;
     }
 
-    /**
-     * Constructor of GameThread
-     * @param clientSockets are the sockets of the game thread
-     * @param factory is factory of the game
-     */
-    public GameThread(List<Socket> clientSockets, AbstractMapFactory factory, int roomNumber) throws IOException{
-        this.outputs = new ArrayList<>();
-        this.readers = new ArrayList<>();
-        this.theMap = factory.createMap(clientSockets.size());
-        this.players = factory.createPlayers(clientSockets.size(), theMap);
-        this.mapView = new MapGuiView();
-        this.mapInfo = mapView.displayMap(theMap);
-        for(Socket cs : clientSockets){
-            outputs.add(new PrintWriter(cs.getOutputStream()));
-            InputStream is= cs.getInputStream();
-            readers.add(new BufferedReader(new InputStreamReader(is)));
-
-        }
-        this.winnerName = null;
-        this.clientThreads = new ArrayList<>();
-        this.accounts = new ArrayList<>();
-        this.roomNumber = roomNumber;
-    }
+//    /**
+//     * Constructor of GameThread
+//     * @param clientSockets are the sockets of the game thread
+//     * @param factory is factory of the game
+//     */
+//    public GameThread(List<Socket> clientSockets, AbstractMapFactory factory, int roomNumber) throws IOException{
+//        this.outputs = new ArrayList<>();
+//        this.readers = new ArrayList<>();
+//        this.theMap = factory.createMap(clientSockets.size());
+//        this.players = factory.createPlayers(clientSockets.size(), theMap);
+//        this.mapView = new MapGuiView();
+//        this.mapInfo = mapView.displayMap(theMap);
+//        for(Socket cs : clientSockets){
+//            outputs.add(new PrintWriter(cs.getOutputStream()));
+//            InputStream is= cs.getInputStream();
+//            readers.add(new BufferedReader(new InputStreamReader(is)));
+//
+//        }
+//        this.winnerName = null;
+//        this.clientThreads = new ArrayList<>();
+//        this.accounts = new ArrayList<>();
+//        this.roomNumber = roomNumber;
+//    }
     public int getPlayerNum() {
         return players.size();
     }
@@ -79,7 +79,7 @@ public class GameThread extends Thread {
         ClientHandlerThread cliTh = clientThreads.get(index);
         cliTh.reconnect(out, in);//haven't handle complete
 //        cliTh.reconnect();
-        System.out.println(players.get(index).getColor() + " reconnect");
+//        System.out.println(players.get(index).getColor() + " reconnect");
         return cliTh;
     }
     public synchronized ClientHandlerThread join(PlayerAccount account){
@@ -109,12 +109,12 @@ public class GameThread extends Thread {
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    System.out.println(" game thread wait error");
+                    //System.out.println(" game thread wait error");
                 }
             }
         }
         try {
-            System.out.println("game thread start");
+            //System.out.println("game thread start");
             while (true) {
                 for (Thread t : clientThreads) {
                     while (t.getState() != Thread.State.WAITING) {
@@ -124,7 +124,7 @@ public class GameThread extends Thread {
                 while(!checkConnection()) {}
                 notifyClients();
             }
-            System.out.println("game end!!!");
+            //System.out.println("game end!!!");
             //add stop thread
         } finally {
             for (int i = 0; i < accounts.size(); i++) {

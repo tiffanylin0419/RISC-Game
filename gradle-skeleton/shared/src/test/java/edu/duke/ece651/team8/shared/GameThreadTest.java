@@ -1,7 +1,10 @@
 package edu.duke.ece651.team8.shared;
 
+import org.checkerframework.checker.units.qual.A;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 
 import java.io.*;
@@ -9,16 +12,130 @@ import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//@ExtendWith(MockitoExtension.class)
-class GameThreadTest {
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 //
-//    public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException{
+@ExtendWith(MockitoExtension.class)
+class GameThreadTest {
+    @Spy
+    private List<ClientHandlerThread> clientThreads =  new ArrayList<>();
+    @Mock
+    private Object lock;
+    @Mock
+    /** streams pass to client*/
+    private List<PrintWriter> outputs;
+    @Mock
+    /** Reader for clients message*/
+    private List<BufferedReader> readers;
+    @Mock
+    /** Map of the game */
+    private Map theMap;
+    @Mock
+    /** View of the map */
+    protected View mapView;
+    @Spy
+    private ArrayList<Player> players = new ArrayList<>();
+    @Mock
+    private List<PlayerAccount> accounts;
+
+    private static class TestGameThread extends GameThread{
+        public TestGameThread(){
+            super(2,new V2MapFactory(),0);
+
+        }
+        public TestGameThread(int num){
+            super(2, new V2MapFactory(),num);
+        }
+    }
+    @InjectMocks
+    private TestGameThread testGameThread;
+
+    @Test
+    public void TestCheckFinish(){
+        ClientHandlerThread cht = mock(ClientHandlerThread.class);
+        ClientHandlerThread cht1 = mock(ClientHandlerThread.class);
+        clientThreads.add(cht);
+        clientThreads.add(cht1);
+        when(cht.getStatus()).thenReturn(-1,-1);
+        when(cht1.getStatus()).thenReturn(-1,1);
+
+        assertEquals(testGameThread.checkFinish(),false);
+        assertEquals(testGameThread.checkFinish(),true);
+
+    }
+
+    @Test
+    public void TestCheckConnection(){
+        Player p1 = mock(Player.class);
+        Player p2 = mock(Player.class);
+        players.add(p1);
+        players.add(p2);
+        when(p1.isConnected()).thenReturn(false,false);
+        when(p2.isConnected()).thenReturn(false,true);
+        assertEquals(testGameThread.checkConnection(),false);
+        assertEquals(testGameThread.checkConnection(),true);
+    }
+
+    @Test
+    public void TestGetClients(){
+        assertEquals(testGameThread.getClients(),clientThreads);
+    }
+    @Test
+    public void TestEquals(){
+        Integer a = 1;
+        assertFalse(testGameThread.equals(a));
+        TestGameThread testGameThread2 = new TestGameThread(2);
+        TestGameThread testGameThread3 = new TestGameThread(3);
+        assertNotEquals(testGameThread,testGameThread3);
+
+    }
+
+//     public synchronized ClientHandlerThread backToGame(int index, PrintWriter out, BufferedReader in) {
+//             ClientHandlerThread cliTh = clientThreads.get(index);
+//        80	 0	        cliTh.reconnect(out, in);//haven't handle complete
+//        81	  	//        cliTh.reconnect();
+//        82	 0	        System.out.println(players.get(index).getColor() + " reconnect");
+//        83	 0	        return cliTh;
+//        84	  	    }
+
+    @Test
+    public void TestBackToGame(){
+        ClientHandlerThread cht = mock(ClientHandlerThread.class);
+        ClientHandlerThread cht1 = mock(ClientHandlerThread.class);
+        clientThreads.add(cht);
+        clientThreads.add(cht1);
+        PrintWriter pw = mock(PrintWriter.class);
+        BufferedReader br = mock(BufferedReader.class);
+        assertEquals(testGameThread.backToGame(0,pw,br),cht);
+        verify(cht,times(1)).reconnect(pw,br);
+
+    }
+
+    @Test
+    public void TestJoin()throws Exception{
+        PrintWriter pw = mock(PrintWriter.class);
+        BufferedReader br = mock(BufferedReader.class);
+        Field f= testGameThread.getClass().getSuperclass().getDeclaredField("isStart");
+        f.setAccessible(true);
+        f.set(testGameThread,true);
+        PlayerAccount p = new PlayerAccount(pw,br,"","");
+        assertNull(testGameThread.join(p));
+
+
+
+    }
+    //    public Client createClient(int port, String host, OutputStream bytes, String inputData)throws IOException{
 //        BufferedReader input = new BufferedReader(new StringReader(inputData));
 //        PrintStream out = new PrintStream(bytes, true);
 //        return  new Client(port, host, out, input);
