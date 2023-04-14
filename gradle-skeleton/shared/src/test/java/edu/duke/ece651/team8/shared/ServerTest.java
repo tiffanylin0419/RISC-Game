@@ -7,10 +7,65 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ServerTest {
+    @Test
+    public void testSignupAndLogin() throws Exception {
+        AbstractMapFactory factory = new V1MapFactory();
+
+        // Create mock objects
+        ServerSocket mockSs = mock(ServerSocket.class);
+        Socket mockSocket = mock(Socket.class);
+        BufferedReader reader = mock(BufferedReader.class);
+        PrintWriter writer = mock(PrintWriter.class);
+        // Set up mock socket
+        when(mockSs.accept()).thenReturn(mockSocket);
+        when(reader.readLine()).thenReturn("S").thenReturn("END_OF_TURN").thenReturn("qwe").thenReturn("END_OF_TURN").thenReturn("123").
+                thenReturn("END_OF_TURN").thenReturn("L").thenReturn("END_OF_TURN").thenReturn("qwe").thenReturn("END_OF_TURN").
+                thenReturn("123").thenReturn("END_OF_TURN");
+        Server server = new Server(mockSs, factory);
+        Thread th = new Thread(() -> {
+            try {
+                server.processLoginAndSignup(writer, reader);
+                server.processLoginAndSignup(writer, reader);
+            } catch(Exception e) {}
+        });
+        th.start();
+        sleep(2000);
+        server.stop();
+        th.join();
+    }
+    @Test
+    public void testFindMatch() throws Exception {
+        AbstractMapFactory factory = new V2MapFactory();
+
+        // Create mock objects
+        ServerSocket mockSs = mock(ServerSocket.class);
+        Socket mockSocket = mock(Socket.class);
+        BufferedReader reader = mock(BufferedReader.class);
+        PrintWriter writer = mock(PrintWriter.class);
+        PlayerAccount acc = new PlayerAccount(writer, reader, "qwe", "123");
+        GameThread game = new GameThread(3, factory, 0);
+        acc.addJoinGame(game, 0);
+        // Set up mock socket
+        when(mockSs.accept()).thenReturn(mockSocket);
+        when(reader.readLine()).thenReturn("N").thenReturn("END_OF_TURN").thenReturn("2").thenReturn("END_OF_TURN")
+                .thenReturn("Y").thenReturn("END_OF_TURN").thenReturn("0").thenReturn("END_OF_TURN");
+        Server server = new Server(mockSs, factory);
+        Thread th = new Thread(() -> {
+            try {
+                server.findMatch(acc);
+                server.findMatch(acc);
+            } catch(Exception e) {}
+        });
+        th.start();
+        sleep(2000);
+        server.stop();
+        th.join();
+    }
 //    @Test
 //    public void testConstructor() throws IOException {
 //
