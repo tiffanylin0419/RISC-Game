@@ -6,7 +6,9 @@ public class LevelTwoUnit implements Unit{
     private final int level = 2;
     private final String type = "Rider";
     private final int bonus = 3;
-    private final int upgradeCost = 19;
+    private UpgradeAction upgradeAction = new UpgradeAction();
+
+    private final int upgradeCost = this.upgradeAction.getCost(2);
     //constructor
 
     @Override

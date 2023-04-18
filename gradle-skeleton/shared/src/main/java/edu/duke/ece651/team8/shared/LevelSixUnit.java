@@ -6,7 +6,9 @@ public class LevelSixUnit implements Unit{
     private final int level = 6;
     private final String type = "Saber";
     private final int bonus = 15;
-    private final int upgradeCost = 0;
+    private UpgradeAction upgradeAction = new UpgradeAction();
+
+    private final int upgradeCost = this.upgradeAction.getCost(6);
     //constructor
 
     @Override

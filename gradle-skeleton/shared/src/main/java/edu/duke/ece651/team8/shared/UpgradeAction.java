@@ -8,7 +8,15 @@ public class UpgradeAction extends BasicAction {
     public int startLevel;
     public int nextLevel;
 
-    private int[] costs = {0, 3, 8, 19, 25, 35, 50};
+    private int[] costs = {3, 8, 19, 25, 35, 50, 0};
+
+    public UpgradeAction() {
+        this.player = null;
+        this.unitAmount = 0;
+        this.startLevel = 0;
+        this.nextLevel = 0;
+        this.territory = null;
+    }
     public UpgradeAction(Player player, String territoryText, int unitAmount, int startLevel, int nextLevel) {
         this.player = player;
         this.unitAmount = unitAmount;
@@ -40,5 +48,9 @@ public class UpgradeAction extends BasicAction {
         int totalCost = costTechResource();
         this.player.addTechResource(-totalCost);
         this.territory.upgradeUnits(this.player, this.unitAmount, this.startLevel, this.nextLevel);
+    }
+
+    public int getCost(int level) {
+        return costs[level];
     }
 }
