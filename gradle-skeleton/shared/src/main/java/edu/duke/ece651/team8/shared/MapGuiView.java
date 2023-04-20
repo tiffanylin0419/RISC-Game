@@ -18,34 +18,12 @@ public class MapGuiView implements View {
         return sb.toString();
     }
 
-    /*public String displayPlayerMap(Map theMap, Player player) {
-        ArrayList<Player> players = theMap.getPlayers();
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"map\":{\n");
-        HashSet<Territory> checked_territories= new HashSet<>();
-        ArrayList<Territory> territories=new ArrayList<>();
-        for(Territory t: theMap.getTerritories()){
-            if(t.getOwner().getColor().equals(player.getColor())){
-                territories.add(t);
-            }
-        }
-        for(Territory t: territories){
-            displayTerritoryInfo(sb,t);
-        }
-        checked_territories.addAll(territories);
-
-        //black
-        for(Territory t: theMap.getTerritories()){
-            if(!checked_territories.contains(t)){
-                displayBlackTerritoryInfo(sb,t);
-            }
-        }
-        player.seen_territories.addAll(checked_territories);
-        sb.append("}\n}");
-        return sb.toString();
-
-    }*/
-
+    /**
+     * display map for different players
+     * @param theMap: map for a game
+     * @param player: the player who wants to see
+     * @return a string of map info in json format
+     */
     public String displayPlayerMap(Map theMap, Player player) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"map\":{\n");
