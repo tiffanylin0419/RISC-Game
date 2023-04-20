@@ -133,6 +133,9 @@ public abstract class GameController {
                 else if(territoryColors.get(i).equals("Yellow")){
                     c.setFill(Color.YELLOW);
                 }
+                else if(territoryColors.get(i).equals("Black")){
+                    //transparent
+                }
                 i++;
                 if(i>=6*playerNum){
                     break;
