@@ -7,19 +7,23 @@ public class MoveAction extends MovableAction {
         super(player, source, destination, count, theMap);
         this.theMap = theMap;
     }
+    @Override
     public boolean isValidSource(){
         return getSource().isOwner(getPlayer());
     }
+    @Override
     public boolean isValidDestination(){
         return getDestination().isOwner(getPlayer());
     }
 
+    @Override
     public boolean hasEnoughFood() {
         MinimumPath path = new MinimumPath(player, theMap);
         int minPath = path.findMinPath(getSource(), getDestination());
 //        System.out.println(super.player.getFoodAmount() + " " + minPath);
         return super.player.getFoodAmount() >= (super.getCount() * minPath);
     }
+    @Override
     public void doAction(){
         Army eArmy = getSource().getArmy(super.getCount(),super.getPlayer());
         getSource().moveOut(eArmy);

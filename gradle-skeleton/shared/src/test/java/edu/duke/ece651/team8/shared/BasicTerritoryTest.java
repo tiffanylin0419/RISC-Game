@@ -65,10 +65,10 @@ public class BasicTerritoryTest {
     Territory t3 = new BasicTerritory("s3");
     
     t1.addAdjacent(t2);
-    assertTrue(t1.isAdjacentEnemy(t2));
-    assertFalse(t1.isAdjacentEnemy(t3));
+    assertTrue(t1.isAdjacent(t2));
+    assertFalse(t1.isAdjacent(t3));
     t1.addAdjacent(t3);
-    assertTrue(t1.isAdjacentEnemy(t3));
+    assertTrue(t1.isAdjacent(t3));
   }
 
   @Test
@@ -98,7 +98,6 @@ public class BasicTerritoryTest {
   public void test_move(){
     Player p1=new TextPlayer("red");
     Player p2=new TextPlayer("blue");
-    Player p3=new TextPlayer("green");
     Territory territory=new BasicTerritory("a",p1);
     //move in
     territory.moveIn(new BasicArmy(5,p1));
@@ -115,7 +114,7 @@ public class BasicTerritoryTest {
 
     assertEquals(0,territory.getUnitAmount(0));
     assertEquals(2,territory.getUnitAmount(1));
-    assertEquals(0,territory.getOwnerUnitAmount());
+    assertEquals(0,territory.getPlayerMovableUnitAmount(territory.getOwner()));
     assertTrue(territory.isOwner(p1));
   }
   
@@ -144,7 +143,7 @@ public class BasicTerritoryTest {
       territory.moveIn(new BasicArmy(4,p3));
       territory.moveIn(new BasicArmy(1,p4));
       territory.moveIn(new BasicArmy(4,p5));
-      assertEquals(4,territory.getOwnerUnitAmount());
+      assertEquals(4,territory.getPlayerMovableUnitAmount(territory.getOwner()));
       territory.attack();
       assertEquals(1,territory.getUnitsSize());
       assertEquals(0,territory.getUnitAmount(1));
@@ -172,7 +171,7 @@ public class BasicTerritoryTest {
     assertEquals(1,theMap.getTerritories().get(0).getUnitsSize());
     assertEquals(3,theMap.getTerritories().get(0).getUnitAmount(0));
     assertTrue(theMap.getTerritories().get(0).isOwner(p1));
-    assertEquals(3,theMap.getTerritories().get(0).getOwnerUnitAmount());
+    assertEquals(3,theMap.getTerritories().get(0).getPlayerMovableUnitAmount(theMap.getTerritories().get(0).getOwner()));
   }
 
   @Test
@@ -193,13 +192,13 @@ public class BasicTerritoryTest {
     Player p2 = new TextPlayer("p2");
     Army army1 = new BasicArmy(6, p1);
     Army army2 = new BasicArmy(5, p2);
-    assertEquals(0, territory.getOwnerUnitAmount());
+    assertEquals(0, territory.getPlayerMovableUnitAmount(territory.getOwner()));
     territory.moveIn(army1);
     territory.moveIn(army2);
 
-    assertEquals(6, territory.getOwnerUnitAmount());
+    assertEquals(6, territory.getPlayerMovableUnitAmount(territory.getOwner()));
     territory.setOwner(p2);
-    assertEquals(5, territory.getOwnerUnitAmount());
+    assertEquals(5, territory.getPlayerMovableUnitAmount(territory.getOwner()));
   }
   @Test
   public void testAddOne() {

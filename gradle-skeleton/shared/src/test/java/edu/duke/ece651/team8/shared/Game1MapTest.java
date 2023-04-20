@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 public class Game1MapTest {
@@ -65,17 +64,17 @@ public class Game1MapTest {
     map.addAdjacency(territories[1],territories[3]);
     map.addAdjacency(territories[2],territories[4]);
     //check
-    assertTrue(territories[0].isAdjacentEnemy(territories[1]));
-    assertTrue(territories[1].isAdjacentEnemy(territories[0]));
-    assertTrue(territories[0].isAdjacentEnemy(territories[4]));
-    assertTrue(territories[4].isAdjacentEnemy(territories[0]));
-    assertTrue(territories[1].isAdjacentEnemy(territories[3]));
-    assertTrue(territories[3].isAdjacentEnemy(territories[1]));
-    assertTrue(territories[2].isAdjacentEnemy(territories[4]));
-    assertTrue(territories[4].isAdjacentEnemy(territories[2]));
+    assertTrue(territories[0].isAdjacent(territories[1]));
+    assertTrue(territories[1].isAdjacent(territories[0]));
+    assertTrue(territories[0].isAdjacent(territories[4]));
+    assertTrue(territories[4].isAdjacent(territories[0]));
+    assertTrue(territories[1].isAdjacent(territories[3]));
+    assertTrue(territories[3].isAdjacent(territories[1]));
+    assertTrue(territories[2].isAdjacent(territories[4]));
+    assertTrue(territories[4].isAdjacent(territories[2]));
 
-    assertFalse(territories[0].isAdjacentEnemy(territories[2]));
-    assertFalse(territories[4].isAdjacentEnemy(territories[1]));
+    assertFalse(territories[0].isAdjacent(territories[2]));
+    assertFalse(territories[4].isAdjacent(territories[1]));
   }
 
   @Test

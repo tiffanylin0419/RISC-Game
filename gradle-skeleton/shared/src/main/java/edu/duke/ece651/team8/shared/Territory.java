@@ -68,7 +68,7 @@ public interface Territory {
    * @return True if input is adjacent to this, False otherwise
    * adjacent mean that it is directly adjacent to this
    */
-  boolean isAdjacentEnemy(Territory adjacent);
+  boolean isAdjacent(Territory adjacent);
 
   /**
    * addAmount army_in into units
@@ -106,9 +106,9 @@ public interface Territory {
   int getUnitAmount(int n);
 
   /**
-   * @return the amount of units of the owner of the territory
+   * @return the amount of units of a player in this territory
    */
-  int getOwnerUnitAmount();
+  int getPlayerMovableUnitAmount(Player p);
 
   /**
    * @return size of units
@@ -153,9 +153,9 @@ public interface Territory {
    * @param army_out the unit to move
    */
   void spyArmiesMoveOut(Army army_out);
+  Army getSpyArmy(int count, Player p);
 
-  public int getSpyUnitAmount(int n);
+  public int getPlayerMovableSpyAmount(Player p);
 
-  public Army getSpyArmy(int count, Player p);
-
+  public Army getPlayerSpyArmy(Player p);
 }

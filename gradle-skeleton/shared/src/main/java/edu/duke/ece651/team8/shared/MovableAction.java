@@ -56,6 +56,10 @@ public abstract class MovableAction extends BasicAction {
      */
     protected abstract boolean isValidPath();
 
+    public int numberOfMovableUnits(){
+        return getSource().getPlayerMovableUnitAmount(getPlayer());
+    }
+
     public Player getPlayer(){return player;}
 
     /**
@@ -75,6 +79,7 @@ public abstract class MovableAction extends BasicAction {
      * @return source
      */
     public Territory getSource(){return source;}
+
     /**
      * @return destination
      */
