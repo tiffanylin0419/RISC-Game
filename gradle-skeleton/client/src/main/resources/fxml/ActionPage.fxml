@@ -242,6 +242,10 @@
                 <HBox.margin>
                     <Insets top="10.0" />
                 </HBox.margin></Button>
+            <Button fx:id="moveSpy" mnemonicParsing="false" onAction="#moveSpyAction" text="Move Spy">
+                <HBox.margin>
+                    <Insets top="10.0" />
+                </HBox.margin></Button>
             <Button fx:id="attack" mnemonicParsing="false" onAction="#attackAction" text="Attack">
                 <HBox.margin>
                     <Insets top="10.0" />
@@ -250,7 +254,7 @@
                 <HBox.margin>
                     <Insets top="10.0" />
                 </HBox.margin></Button>
-            <Button fx:id="spy" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#spyAction" text="Spy">
+            <Button fx:id="upgradeSpy" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#upgradeSpyAction" text="Upgrade Spy">
                 <HBox.margin>
                     <Insets top="10.0" />
                 </HBox.margin></Button>
