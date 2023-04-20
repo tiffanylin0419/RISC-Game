@@ -17,7 +17,7 @@ public class ClientHandlerThread extends Thread {
     /** Map of the game */
     private Map theMap;
     /** View of the map */
-    protected View mapView;
+    protected MapGuiView mapView;
 
     private final Player player;
 
@@ -40,7 +40,7 @@ public class ClientHandlerThread extends Thread {
         this.player = player;
         this.theMap = theMap;
         this.mapView = new MapGuiView();
-        this.mapInfo = mapView.displayMap(theMap);
+        this.mapInfo = mapView.displayPlayerMap(theMap, player);
         this.winnerName = "";
         this.gameServer = gameServer;
         this.status = 0;
@@ -128,7 +128,7 @@ public class ClientHandlerThread extends Thread {
     private void endPlacementPhase() {
         if(!player.isConnected()) return;
         String prompt = "Placement phase is done!\n";
-        mapInfo = mapView.displayMap(theMap);
+        mapInfo = mapView.displayPlayerMap(theMap, player);
         send(prompt,output);
         send(player.display(),output);
         send(mapInfo,output);
@@ -226,7 +226,7 @@ public class ClientHandlerThread extends Thread {
         String outcome = theMap.getOutcome();
         System.out.println("outcome:" + player.getColor() + " " +status);
         if(player.isConnected()) {
-            mapInfo = mapView.displayMap(theMap);
+            mapInfo = mapView.displayPlayerMap(theMap, player);
             send(player.display(),output);
             send(outcome, output);
             send(mapInfo, output);
