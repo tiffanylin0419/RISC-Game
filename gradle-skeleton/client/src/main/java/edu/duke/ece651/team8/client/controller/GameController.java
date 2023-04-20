@@ -133,8 +133,12 @@ public abstract class GameController {
                 else if(territoryColors.get(i).equals("Yellow")){
                     c.setFill(Color.YELLOW);
                 }
+                else if(territoryColors.get(i).equals("Grey")){
+                    c.setFill(Color.GREY);
+                }
                 else if(territoryColors.get(i).equals("Black")){
-                    //transparent
+                    System.out.println("hello\n");
+                    c.setFill(Color.BLACK);
                 }
                 i++;
                 if(i>=6*playerNum){

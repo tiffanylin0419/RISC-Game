@@ -18,34 +18,52 @@ public class MapGuiView implements View {
         return sb.toString();
     }
 
+    /**
+     * display map for different players
+     * @param theMap: map for a game
+     * @param player: the player who wants to see
+     * @return a string of map info in json format
+     */
     public String displayPlayerMap(Map theMap, Player player) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"map\":{\n");
+        HashSet<Territory> checked_territories= new HashSet<>();
         //own territory
         ArrayList<Territory> territories=new ArrayList<>();
-        for(Territory t: player.getTerritories()){
-            territories.add(t);
+        for(Territory t: theMap.getTerritories()){
+            if(t.isOwner(player)){
+                territories.add(t);
+            }
         }
         for(Territory t: territories){
             displayTerritoryInfo(sb,t);
         }
+        checked_territories.addAll(territories);
         //adjacent territory
         HashSet<Territory> adj_territories=new HashSet<>();
         for(Territory t: territories){
             adj_territories.addAll(t.getAdjacent());
         }
         for(Territory t: adj_territories){
-            if(!territories.contains(t)){
+            if(!checked_territories.contains(t)){
                 displayTerritoryInfo(sb,t);
             }
         }
+        checked_territories.addAll(adj_territories);
         //grey
+        for(Territory t: player.seen_territories){
+            if(!checked_territories.contains(t)){
+                displayGreyTerritoryInfo(sb,t);
+            }
+        }
+        checked_territories.addAll(player.seen_territories);
         //black
         for(Territory t: theMap.getTerritories()){
-            if(!territories.contains(t) && !adj_territories.contains(t)){
+            if(!checked_territories.contains(t)){
                 displayBlackTerritoryInfo(sb,t);
             }
         }
+        player.seen_territories.addAll(checked_territories);
         sb.append("}\n}");
         return sb.toString();
     }
@@ -66,6 +84,12 @@ public class MapGuiView implements View {
         sb.append("  \"").append(t.getName()).append("\":{\n");
         sb.append("    \"color\":\"").append(t.getOwner().getColor()).append("\",\n");
         displayUnitInfo(sb,t);
+        sb.append("  },\n");
+    }
+    public void displayGreyTerritoryInfo(StringBuilder sb, Territory t) {
+        sb.append("  \"").append(t.getName()).append("\":{\n");
+        sb.append("    \"color\":\"").append("Grey").append("\",\n");
+        sb.append("    \"army\":\"Do not have info\"");
         sb.append("  },\n");
     }
 
