@@ -326,7 +326,8 @@ public class BasicTerritory implements Territory {
   public int getSpyAmount(Player player){
     for(Army spyArmy : spyArmies){
       if(spyArmy.getOwner().equals(player)){
-        return spyArmy.getAmount(-1);
+        //todo: change -1 to spy level
+        return spyArmy.getAmount(Integer.MIN_VALUE);
       }
     }
     return 0;

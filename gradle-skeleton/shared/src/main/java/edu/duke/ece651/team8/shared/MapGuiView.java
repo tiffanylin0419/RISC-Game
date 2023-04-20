@@ -50,6 +50,19 @@ public class MapGuiView implements View {
             }
         }
         checked_territories.addAll(adj_territories);
+        //spy territory
+        HashSet<Territory> spy_territories=new HashSet<>();
+        for(Territory t: territories){
+            if(t.getPlayerSpyArmy(player).getAllAmount()>0){
+                spy_territories.add(t);
+            }
+        }
+        for(Territory t: spy_territories){
+            if(!checked_territories.contains(t)){
+                displayPlayerTerritoryInfo(sb,t, player);
+            }
+        }
+        checked_territories.addAll(spy_territories);
         //grey
         for(Territory t: player.seen_territories){
             if(!checked_territories.contains(t)){

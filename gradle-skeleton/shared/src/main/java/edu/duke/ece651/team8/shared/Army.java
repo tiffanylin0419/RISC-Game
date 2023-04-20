@@ -46,6 +46,7 @@ public interface Army {
    */
   int getAmount(int n);
 
+  int getAllAmount();
   /**
    * @return True if amount>0, else otherwise
    */
