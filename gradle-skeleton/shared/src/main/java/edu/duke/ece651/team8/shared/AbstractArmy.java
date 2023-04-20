@@ -75,6 +75,15 @@ public abstract class AbstractArmy implements Army{
     }
 
     @Override
+    public int getAllAmount() {
+        int count = 0;
+        for(Unit u:units){
+            count++;
+        }
+        return count;
+    }
+
+    @Override
     public void upgradeUnits(int unitAmount, int startLevel, int nextLevel) {
         int cur = unitAmount;
         for(int i = 0; i < cur; i++) {

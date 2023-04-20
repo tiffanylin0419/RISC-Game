@@ -197,7 +197,8 @@ public class ActionController extends GameController implements Initializable {
         upgradeInput();
         in3.setVisible(false);
         input3.setVisible(false);
-        input3.setText("-1");//todo
+        input3.setText(""+Integer.MIN_VALUE);
+        //todo: change -1 to spy level
     }
 
     @FXML
