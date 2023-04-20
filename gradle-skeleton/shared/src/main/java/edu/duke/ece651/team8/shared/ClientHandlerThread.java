@@ -468,7 +468,7 @@ public class ClientHandlerThread extends Thread {
         }
     }
     public boolean isInt(String number){
-        try{return Integer.parseInt(number) >= 0;}
+        try{return Integer.parseInt(number) >= 0||Integer.parseInt(number)==Integer.MIN_VALUE;}
         catch(Exception e) {
             return false;
         }
