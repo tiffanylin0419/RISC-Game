@@ -36,7 +36,7 @@ public class MapGuiView implements View {
             }
         }
         for(Territory t: territories){
-            displayTerritoryInfo(sb,t);
+            displayPlayerTerritoryInfo(sb,t,player);
         }
         checked_territories.addAll(territories);
         //adjacent territory
@@ -46,7 +46,7 @@ public class MapGuiView implements View {
         }
         for(Territory t: adj_territories){
             if(!checked_territories.contains(t)){
-                displayTerritoryInfo(sb,t);
+                displayPlayerTerritoryInfo(sb,t, player);
             }
         }
         checked_territories.addAll(adj_territories);
@@ -80,12 +80,33 @@ public class MapGuiView implements View {
         sb.append("\"\n");
     }
 
+
+    public void displayPlayerUnitInfo(StringBuilder sb, Territory t, Player player) {
+        sb.append("    \"army\":\"");
+        for(int i=0;i<=6;i++){
+            sb.append("L"+i+": "+t.getOwnerUnitLevelAmount(i)+"\\n");
+        }
+        sb.append("My Spy: "+t.getSpyAmount(player)+"\\n");
+        ResourceTerritory tt=(ResourceTerritory) t;
+        sb.append("Food: "+tt.getAddFood()+"\\n");
+        sb.append("Tech: "+tt.getAddTech()+"\\n");
+        sb.append("\"\n");
+    }
+
     public void displayTerritoryInfo(StringBuilder sb, Territory t) {
         sb.append("  \"").append(t.getName()).append("\":{\n");
         sb.append("    \"color\":\"").append(t.getOwner().getColor()).append("\",\n");
         displayUnitInfo(sb,t);
         sb.append("  },\n");
     }
+
+    public void displayPlayerTerritoryInfo(StringBuilder sb, Territory t, Player player) {
+        sb.append("  \"").append(t.getName()).append("\":{\n");
+        sb.append("    \"color\":\"").append(t.getOwner().getColor()).append("\",\n");
+        displayPlayerUnitInfo(sb,t, player);
+        sb.append("  },\n");
+    }
+
     public void displayGreyTerritoryInfo(StringBuilder sb, Territory t) {
         sb.append("  \"").append(t.getName()).append("\":{\n");
         sb.append("    \"color\":\"").append("Grey").append("\",\n");

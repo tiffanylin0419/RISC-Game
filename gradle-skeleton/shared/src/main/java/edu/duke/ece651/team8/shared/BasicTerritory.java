@@ -321,6 +321,17 @@ public class BasicTerritory implements Territory {
     }
     return 0;
   }
+
+  @Override
+  public int getSpyAmount(Player player){
+    for(Army spyArmy : spyArmies){
+      if(spyArmy.getOwner().equals(player)){
+        return spyArmy.getAmount(-1);
+      }
+    }
+    return 0;
+  }
+
   @Override
   public Army getArmy(int count, Player p) {
     Army moveArmy = new EvolvableArmy(0, p);

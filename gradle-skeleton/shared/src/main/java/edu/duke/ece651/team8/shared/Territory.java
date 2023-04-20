@@ -157,5 +157,7 @@ public interface Territory {
 
   public int getPlayerMovableSpyAmount(Player p);
 
+  public int getSpyAmount(Player player);
+
   public Army getPlayerSpyArmy(Player p);
 }

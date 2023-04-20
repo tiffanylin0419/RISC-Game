@@ -28,6 +28,7 @@ public class MapTextView implements View {
         sb.append(num).append(" units in ");
     }
 
+
     /**
      * append adjacent territories info to string
      * @param t territory to display
