@@ -10,18 +10,5 @@ public class BasicArmy extends AbstractArmy {
     super(amount, owner);
   }
 
-  @Override
-  public boolean isSurvive(){
-    return units.size()>0;
-  }
-  
-  @Override
-  public int doRoll() {
-    Random rand = new Random();
-    return rand.nextInt(20); 
-  }
 
-  public int getAmount() {
-    return super.getAmount(0);
-  }
 }

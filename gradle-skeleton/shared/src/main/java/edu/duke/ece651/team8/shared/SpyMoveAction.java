@@ -6,21 +6,29 @@ public class SpyMoveAction extends MoveAction{
     }
 
     @Override
+    public boolean isValidSource(){
+        return true;
+    }
+    @Override
     public boolean isValidDestination(){
         return true;
     }
 
     @Override
     public void doAction(){
-        Army eArmy = getSource().getSpyArmy(super.getCount(),super.getPlayer());
+        Army eArmy = getSource().getSpyArmy(getCount(),getPlayer());
+        eArmy.setMoved();
         getSource().spyArmiesMoveOut(eArmy);
         getDestination().spyArmiesMoveIn(eArmy);
-        MinimumPath path = new MinimumPath(player, theMap);
-        int minPath = path.findMinPath(getSource(), getDestination());
-        super.player.addFoodResource(-(super.getCount() * minPath));
+        player.addFoodResource(-(getCount()));
     }
     @Override
     protected boolean isValidPath(){
-        return true;
+        return getSource().isAdjacent(getDestination());
+    }
+
+    @Override
+    public int numberOfMovableUnits(){
+        return getSource().getPlayerMovableSpyAmount(getPlayer());
     }
 }

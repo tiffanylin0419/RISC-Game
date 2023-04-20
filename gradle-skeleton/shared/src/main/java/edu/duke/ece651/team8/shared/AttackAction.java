@@ -25,7 +25,8 @@ public class AttackAction extends MovableAction {
         super.player.addFoodResource(-(super.getCount() * distance));
     }
     protected boolean isValidPath(){
-        return getSource().isAdjacentEnemy(getDestination());
+        return getSource().isAdjacent(getDestination());
     }
+
 
 }

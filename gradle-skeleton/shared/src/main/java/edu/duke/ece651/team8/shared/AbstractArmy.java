@@ -50,7 +50,7 @@ public abstract class AbstractArmy implements Army{
 
     @Override
     public int getAmount(){
-        return units.size();
+        return getAmount(0);
     }
     @Override
     public boolean isSurvive(){
@@ -95,5 +95,18 @@ public abstract class AbstractArmy implements Army{
         units.remove(unit);
         Unit upgradedUnit = uf.upgradeTo(diff, unit);
         units.add(upgradedUnit);
+    }
+
+    @Override
+    public void setMoved(){
+        for(Unit u: units){
+            u.setMoved();
+        }
+    }
+    @Override
+    public void setUnmoved(){
+        for(Unit u: units){
+            u.setUnmoved();
+        }
     }
 }

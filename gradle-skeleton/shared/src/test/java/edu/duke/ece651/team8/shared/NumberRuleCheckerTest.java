@@ -31,7 +31,7 @@ class NumberRuleCheckerTest {
         assertNull(checker.checkAllRule(action2));
 
         MovableAction action3 = new MoveAction(p1,"a1","a3",6,theMap);
-        assertEquals("Requested 6 units, but only have 5",checker.checkAllRule(action3));
+        assertEquals("Requested 6 units, but only 5 units are movable",checker.checkAllRule(action3));
 
 
 

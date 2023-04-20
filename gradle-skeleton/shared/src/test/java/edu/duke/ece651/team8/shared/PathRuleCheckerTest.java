@@ -29,7 +29,7 @@ class PathRuleCheckerTest {
         theMap.getTerritories().get(0).moveOut(new BasicArmy(4,p1));
         theMap.getTerritories().get(0).attack();
         //assertFalse(theMap.getTerritories().get(1).isOwner(p1));
-        assertEquals("Requested 3 units, but only have 1",checker.checkAllRule(action1));
+        assertEquals("Requested 3 units, but only 1 units are movable",checker.checkAllRule(action1));
 
         MovableAction action2 =new AttackAction(p1,"a2","b1",1,theMap);
         assertEquals("Units in a2 cannot go to b1",checker.checkAllRule(action2));

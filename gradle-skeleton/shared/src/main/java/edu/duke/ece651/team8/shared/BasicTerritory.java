@@ -77,7 +77,7 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public boolean isAdjacentEnemy(Territory adjacent){
+  public boolean isAdjacent(Territory adjacent){
     return adjacent_territory.contains(adjacent);
   }
 
@@ -217,14 +217,37 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public int getOwnerUnitAmount(){
+  public int getPlayerMovableUnitAmount(Player p ){
     for(Army army : armies){
-      if(army.getOwner().equals(owner)){
-        return army.getAmount();
+      if(army.getOwner().equals(p)){
+        int count = 0;
+        for(Unit u:army.getList()){
+          if(!u.hasMoved()){
+            count++;
+          }
+        }
+        return count;
       }
     }
     return 0;
   }
+  @Override
+  public int getPlayerMovableSpyAmount(Player p ){
+    for(Army army : spyArmies){
+      if(army.getOwner().equals(p)){
+        int count = 0;
+        for(Unit u:army.getList()){
+          if(!u.hasMoved()){
+            count++;
+          }
+        }
+        return count;
+      }
+    }
+    return 0;
+  }
+
+
 
   @Override
   public int getUnitsSize(){
@@ -334,12 +357,12 @@ public class BasicTerritory implements Territory {
     }
 
   }
-  public int getSpyUnitAmount(int n){
-    if(n>= spyArmies.size()){
-      return 0;
-    }
-    return spyArmies.get(n).getAmount();
-  }
+//  public int getSpyUnitAmount(int n){
+//    if(n>= spyArmies.size()){
+//      return 0;
+//    }
+//    return spyArmies.get(n).getAmount();
+//  }
   public Army getSpyArmy(int count, Player p){
     Army moveArmy = new SpyArmy(0, p);
     for(Army army : spyArmies){
@@ -348,6 +371,16 @@ public class BasicTerritory implements Territory {
           if(moveArmy.getAmount() == count) break;
           moveArmy.addOne(u);
         }
+      }
+    }
+    return moveArmy;
+  }
+
+  public Army getPlayerSpyArmy(Player p){
+    Army moveArmy = new SpyArmy(0, p);
+    for(Army army : spyArmies){
+      if(army.getOwner()== p){
+        return army;
       }
     }
     return moveArmy;
