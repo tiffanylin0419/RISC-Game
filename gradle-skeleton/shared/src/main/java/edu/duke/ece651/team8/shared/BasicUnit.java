@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import org.jetbrains.annotations.NotNull;
 
-public class BasicUnit implements Unit{
+public class BasicUnit implements Unit,Spyable{
     private final int level;
     private final String type;
     private final int bonus;
@@ -55,5 +55,10 @@ public class BasicUnit implements Unit{
     @Override
     public int compareTo(@NotNull Unit o) {
         return this.getBonus() - o.getBonus();
+    }
+
+    @Override
+    public Spy becomeSpy() {
+        return new Spy();
     }
 }

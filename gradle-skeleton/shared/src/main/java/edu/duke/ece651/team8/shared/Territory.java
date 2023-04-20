@@ -125,19 +125,37 @@ public interface Territory {
    * @param t
    * @param distance
    */
-  public void setDistance(Territory t, int distance);
+  void setDistance(Territory t, int distance);
 
-  public Integer getDistance(Territory t);
+  Integer getDistance(Territory t);
 
-  public void produceFoodResource(Resource resource);
-  public void produceTechResource(Resource resource);
+  void produceFoodResource(Resource resource);
+  void produceTechResource(Resource resource);
 
-  public HashMap<Territory, Integer> getDistances();
+  HashMap<Territory, Integer> getDistances();
 
 
-  public void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel);
+  void upgradeUnits(Player player, int unitAmount, int startLevel, int nextLevel);
 
-  public int getOwnerUnitLevelAmount(int level);
-  public Army getArmy(int count, Player p);
+  int getOwnerUnitLevelAmount(int level);
+  Army getArmy(int count, Player p);
+
+  /**
+   * addAmount army_in into units
+   * will modify existing list if units have unit that has the same owner
+   * @param army_in the unit to move
+   */
+  void spyArmiesMoveIn(Army army_in);
+
+  /**
+   * move out the amount of units
+   *
+   * @param army_out the unit to move
+   */
+  void spyArmiesMoveOut(Army army_out);
+
+  public int getSpyUnitAmount(int n);
+
+  public Army getSpyArmy(int count, Player p);
 
 }
