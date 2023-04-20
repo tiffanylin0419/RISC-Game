@@ -15,7 +15,7 @@ public class UpgradeUnitRuleChecker extends UpgradeActionRuleChecker{
         if(action.unitAmount > t.getOwnerUnitLevelAmount(action.startLevel)) {
             return "You have less than " + action.unitAmount + " units on level " + action.startLevel;
         }
-        if((action.nextLevel <= action.startLevel&&action.nextLevel!=-1) || action.nextLevel > 6) {
+        if((action.nextLevel <= action.startLevel&&action.nextLevel!=Integer.MIN_VALUE) || action.nextLevel > 6) {
             return "Next level " + action.nextLevel + " is not valid";
         }
         return null;

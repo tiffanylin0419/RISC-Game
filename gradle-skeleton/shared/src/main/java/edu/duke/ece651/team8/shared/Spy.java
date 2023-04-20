@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public class Spy extends AbstractUnit {
 
     public Spy() {
-        super(-1, "Spy", 0);
+        super(Integer.MIN_VALUE, "Spy", 0);
     }
 
 }

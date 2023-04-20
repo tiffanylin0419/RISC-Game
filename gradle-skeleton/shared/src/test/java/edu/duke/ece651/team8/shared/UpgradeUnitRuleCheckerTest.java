@@ -35,7 +35,7 @@ public class UpgradeUnitRuleCheckerTest {
         assertEquals(null, message);
         assertEquals("Level 2 is beyond your tech level: 1", message2);
         assertEquals("Start level -1 is not valid", message3);
-        assertEquals("Do not have 80 Technology Resources for upgrading", message4);
+        assertEquals("Next level -1 is not valid", message4);
         assertEquals("You have less than 1 units on level 1", message5);
     }
 }
