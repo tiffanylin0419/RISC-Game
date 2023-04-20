@@ -57,4 +57,8 @@ public interface Army {
   int doRoll();
 
   void upgradeUnits(int unitAmount, int startLevel, int nextLevel);
+
+  void setMoved();
+
+  void setUnmoved();
 }

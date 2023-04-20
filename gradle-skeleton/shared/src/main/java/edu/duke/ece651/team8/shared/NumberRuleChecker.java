@@ -14,11 +14,11 @@ public class NumberRuleChecker extends MovableActionRuleChecker {
         if(action.getCount()<0){
             return "Unit number need to be positive";
         }
-        if(action.getCount()<=action.getSource().getOwnerUnitAmount()){
+        if(action.getCount()<=action.numberOfMovableUnits()){
             return null;
         }
         else{
-            return "Requested "+action.getCount()+" units, but only have "+action.getSource().getOwnerUnitAmount();
+            return "Requested "+action.getCount()+" units, but only "+action.numberOfMovableUnits() + " units are movable";
         }
     }
 }

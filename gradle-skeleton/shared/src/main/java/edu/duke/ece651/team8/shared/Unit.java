@@ -26,7 +26,12 @@ public interface Unit extends Comparable<Unit>{
      */
     public String getType();
 
-    public int getBonus();
+    int getBonus();
 
+    boolean hasMoved();
 //    public int getCostOfCurrentLevel(int index);
+
+    void setMoved();
+
+    void setUnmoved();
 }

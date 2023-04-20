@@ -279,6 +279,9 @@ public class ClientHandlerThread extends Thread {
                         player.upgradeTechLevel();
                         player.hasResearchedThisTurn = false;
                     }
+                    for(Territory t:theMap.getTerritories()){
+                        t.getPlayerSpyArmy(player).setUnmoved();
+                    }
                     return;
                 case "M":
                     doMoveOrder();
