@@ -2,23 +2,20 @@ package edu.duke.ece651.team8.shared;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LevelThreeUnit implements Unit,Spyable{
-    private final int level = 3;
-    private final String type = "Lancer";
-    private final int bonus = 5;
-    private UpgradeAction upgradeAction = new UpgradeAction();
-
-    private final int upgradeCost = this.upgradeAction.getCost(3);
+public class Spy implements Unit{
+    private final int level = -1;
+    private final String type = "Spy";
+    private final int bonus = 1000;
     //constructor
 
     @Override
     public Unit upgrade() {
-        return new LevelFourUnit(); //change to level four later
+        return this; //change to level four later
     }
 
     @Override
     public int getUpgradeCost() {
-        return upgradeCost;
+        return 0;
     }
 
     @Override
@@ -30,6 +27,7 @@ public class LevelThreeUnit implements Unit,Spyable{
     public String getType() {
         return type;
     }
+
     @Override
     public boolean equals(Object other) {
         if(other != null && other.getClass().equals(getClass())) {
@@ -38,6 +36,7 @@ public class LevelThreeUnit implements Unit,Spyable{
         }
         return false;
     }
+
     @Override
     public int getBonus(){
         return bonus;
@@ -48,8 +47,4 @@ public class LevelThreeUnit implements Unit,Spyable{
         return this.getBonus() - o.getBonus();
     }
 
-    @Override
-    public Spy becomeSpy() {
-        return new Spy();
-    }
 }

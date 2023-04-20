@@ -8,7 +8,9 @@ public class UpgradeAction extends BasicAction {
     public int startLevel;
     public int nextLevel;
 
-    private int[] costs = {3, 8, 19, 25, 35, 50, 0};
+    static private int[] costs = {3, 8, 19, 25, 35, 50, 0};
+
+    static private int spyCost = 80;
 
     public UpgradeAction() {
         this.player = null;
@@ -32,6 +34,9 @@ public class UpgradeAction extends BasicAction {
     public Territory getTerritory() {return territory;}
     public Player getPlayer() {return player;}
     public int costTechResource() {
+        if(nextLevel == -1){
+            return spyCost*unitAmount;
+        }
         int diffLevel = nextLevel - startLevel;
         UnitFactory uf = new UnitFactory();
         List<Unit> u = uf.makeAdvancedUnits(1, startLevel);

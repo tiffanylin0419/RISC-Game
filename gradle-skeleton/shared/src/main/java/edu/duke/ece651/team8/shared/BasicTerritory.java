@@ -7,14 +7,15 @@ import java.util.HashSet;
 
 public class BasicTerritory implements Territory {
   //field
-  private final String name;
-  private Player owner;
-  private final HashSet<Territory> adjacent_territory;
+  protected final String name;
+  protected Player owner;
+  protected final HashSet<Territory> adjacent_territory;
 
-  private final HashMap<Territory, Integer> distances;
+  protected final HashMap<Territory, Integer> distances;
 
-  private final ArrayList<Territory> adjList;
-  private final ArrayList<Army> armies;
+  protected final ArrayList<Territory> adjList;
+  protected final ArrayList<Army> armies;
+  private final ArrayList<Army> spyArmies;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
@@ -23,6 +24,7 @@ public class BasicTerritory implements Territory {
     this.distances = new HashMap<>();
     this.adjList = new ArrayList<>();
     this.armies =new ArrayList<>();
+    this.spyArmies = new ArrayList<>();
   }
   public BasicTerritory(String name, Player owner){
     this(name);
@@ -278,7 +280,14 @@ public class BasicTerritory implements Territory {
         break;
       }
     }
-    target.upgradeUnits(unitAmount, startLevel, nextLevel);
+    if(nextLevel != -1){
+      target.upgradeUnits(unitAmount, startLevel, nextLevel);
+    }else{
+      target.remove(target.getList().subList(0,unitAmount));
+      Army army = new SpyArmy(unitAmount, player);
+      spyArmiesMoveIn(army);
+    }
+
   }
   @Override
   public int getOwnerUnitLevelAmount(int level){
@@ -303,4 +312,45 @@ public class BasicTerritory implements Territory {
     }
     return moveArmy;
   }
+  public void spyArmiesMoveIn(Army army_in) {
+    if(this.spyArmies.isEmpty()){
+      this.spyArmies.add(army_in);
+      return;
+    }
+    for(Army army : this.spyArmies){
+      if(army.getOwner()== army_in.getOwner()){
+        army.add(army_in.getList());
+        return;
+      }
+    }
+    this.spyArmies.add(army_in);
+  }
+  public void spyArmiesMoveOut(Army army_out){
+    for(Army army : spyArmies){
+      if(army.getOwner()== army_out.getOwner()){
+        army.remove(army_out.getList());
+        return;
+      }
+    }
+
+  }
+  public int getSpyUnitAmount(int n){
+    if(n>= spyArmies.size()){
+      return 0;
+    }
+    return spyArmies.get(n).getAmount();
+  }
+  public Army getSpyArmy(int count, Player p){
+    Army moveArmy = new SpyArmy(0, p);
+    for(Army army : spyArmies){
+      if(army.getOwner()== p){
+        for(Unit u : army.getList()) {
+          if(moveArmy.getAmount() == count) break;
+          moveArmy.addOne(u);
+        }
+      }
+    }
+    return moveArmy;
+  }
+
 }

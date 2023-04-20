@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LevelFourUnit implements Unit{
+public class LevelFourUnit implements Unit,Spyable{
     private final int level = 4;
     private final String type = "Archer";
     private final int bonus = 8;
@@ -48,4 +48,8 @@ public class LevelFourUnit implements Unit{
         return this.getBonus() - o.getBonus();
     }
 
+    @Override
+    public Spy becomeSpy() {
+        return new Spy();
+    }
 }

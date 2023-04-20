@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LevelTwoUnit implements Unit{
+public class LevelTwoUnit implements Unit,Spyable{
     private final int level = 2;
     private final String type = "Rider";
     private final int bonus = 3;
@@ -46,5 +46,10 @@ public class LevelTwoUnit implements Unit{
     @Override
     public int compareTo(@NotNull Unit o) {
         return this.getBonus() - o.getBonus();
+    }
+
+    @Override
+    public Spy becomeSpy() {
+        return new Spy();
     }
 }

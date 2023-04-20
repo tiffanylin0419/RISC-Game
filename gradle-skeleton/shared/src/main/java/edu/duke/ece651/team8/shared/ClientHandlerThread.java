@@ -124,7 +124,6 @@ public class ClientHandlerThread extends Thread {
         Army army = new EvolvableArmy(amount, t.getOwner());
         t.moveIn(army);
     }
-
     private void endPlacementPhase() {
         if(!player.isConnected()) return;
         String prompt = "Placement phase is done!\n";
@@ -133,7 +132,6 @@ public class ClientHandlerThread extends Thread {
         send(player.display(),output);
         send(mapInfo,output);
     }
-
     /**
      * init placement of units
      */
@@ -272,7 +270,7 @@ public class ClientHandlerThread extends Thread {
      */
     public void doOneCommit() throws IOException {
         while(true) {
-            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade\n(D)one\n";
+            String prompt = "You are the " + player.getColor() + " player, what would you like to do?\n(M)ove\n(A)ttack\n(R)esearch\n(U)pgrade\n(T)rainSpy\n(S)endSpy\n(D)one\n";
             send(prompt, output);
             receive(reader);
             switch (buffer) {
@@ -294,6 +292,8 @@ public class ClientHandlerThread extends Thread {
                 case "U":
                     doUpgradeOrder();
                     break;
+                case "S":
+                    doSendSpyOrder();
             }
         }
     }
@@ -319,7 +319,7 @@ public class ClientHandlerThread extends Thread {
         }
     }
 
-    public void upgradeRuleChecker(UpgradeAction action) {
+    public void upgradeRuleCheck(UpgradeAction action) {
         String errorMessage = theMap.getUpgradeRuleChecker().checkAllRule(action);
         if(errorMessage == null) {
             send("", output);
@@ -358,6 +358,20 @@ public class ClientHandlerThread extends Thread {
         MovableAction ac = new MoveAction(player, source, destination, num, theMap);
         movableActionRuleCheck(ac);
         send(player.display(),output);//?
+    }
+    public void doSendSpyOrder() throws  IOException{
+        doOneTransmission("Please enter the number of spies to move:");
+        int num = -1;
+        if(isPositiveInt(buffer)){
+            num = Integer.parseInt(buffer);
+        }
+        doOneTransmission("Please enter the source territory:");
+        String source = buffer;
+        doOneTransmission("Please enter the destination territory:");
+        String destination = buffer;
+        MovableAction ac = new SpyMoveAction(player, source, destination, num, theMap);
+        movableActionRuleCheck(ac);
+        send(player.display(),output);
     }
 
     /**
@@ -405,7 +419,7 @@ public class ClientHandlerThread extends Thread {
             upgradedLevel = Integer.parseInt(buffer);
         }
         UpgradeAction action = new UpgradeAction(player, territoryText, unitAmount, startLevel, upgradedLevel);
-        upgradeRuleChecker(action);
+        upgradeRuleCheck(action);
         send(player.display(),output);
     }
 
