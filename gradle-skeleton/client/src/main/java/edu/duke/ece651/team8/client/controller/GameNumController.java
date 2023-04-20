@@ -1,6 +1,7 @@
 package edu.duke.ece651.team8.client.controller;
 
 import edu.duke.ece651.team8.client.ServerStream;
+import edu.duke.ece651.team8.shared.Territory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ public class GameNumController{
     private Stage stage;
 
     public ServerStream serverStream;
+
 
     @FXML
     Label message;
