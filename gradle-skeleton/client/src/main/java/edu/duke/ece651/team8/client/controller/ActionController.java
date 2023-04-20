@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public class ActionController extends GameController implements Initializable {
     private String winner="no winner";
     public boolean isDefeated=false;
-    private boolean infoButtonPressed=false, moveButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
+    private boolean infoButtonPressed=false, moveButtonPressed=false, moveSpyButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
 
     @FXML
     Button info, move, attack, done, upgrade, research;
@@ -106,10 +106,14 @@ public class ActionController extends GameController implements Initializable {
                 setErrorMessage("");
             }
             infoButtonPressed=false;
-        }else if(moveButtonPressed){
+        }else if(moveButtonPressed) {
             serverStream.send("M");
             actionMoveAttack();
-            moveButtonPressed=false;
+            moveButtonPressed = false;
+        }else if(moveSpyButtonPressed){
+            serverStream.send("S");
+            actionMoveAttack();
+            moveSpyButtonPressed=false;
         }
         else if(attackButtonPressed){
             serverStream.send("A");
@@ -170,6 +174,12 @@ public class ActionController extends GameController implements Initializable {
     }
 
     @FXML
+    public void moveSpyAction(){
+        moveSpyButtonPressed=true;
+        canSeeInput("amount","source","destination");
+    }
+
+    @FXML
     public void attackAction(){
         attackButtonPressed=true;
         canSeeInput("amount","source","destination");
@@ -179,6 +189,15 @@ public class ActionController extends GameController implements Initializable {
     public void upgradeAction(){
         upgradeButtonPressed=true;
         upgradeInput();
+    }
+
+    @FXML
+    public void upgradeSpyAction(){
+        upgradeButtonPressed=true;
+        upgradeInput();
+        in3.setVisible(false);
+        input3.setVisible(false);
+        input3.setText("-1");//todo
     }
 
     @FXML
