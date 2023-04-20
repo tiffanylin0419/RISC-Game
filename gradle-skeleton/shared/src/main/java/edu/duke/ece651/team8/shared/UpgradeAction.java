@@ -34,7 +34,7 @@ public class UpgradeAction extends BasicAction {
     public Territory getTerritory() {return territory;}
     public Player getPlayer() {return player;}
     public int costTechResource() {
-        if(nextLevel == -1){
+        if(nextLevel == Integer.MIN_VALUE){
             return spyCost*unitAmount;
         }
         int diffLevel = nextLevel - startLevel;

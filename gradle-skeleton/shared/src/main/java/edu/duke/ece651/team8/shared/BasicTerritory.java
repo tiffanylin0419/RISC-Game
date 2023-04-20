@@ -303,7 +303,7 @@ public class BasicTerritory implements Territory {
         break;
       }
     }
-    if(nextLevel != -1){
+    if(nextLevel != Integer.MIN_VALUE){
       target.upgradeUnits(unitAmount, startLevel, nextLevel);
     }else{
       target.remove(target.getList().subList(0,unitAmount));
