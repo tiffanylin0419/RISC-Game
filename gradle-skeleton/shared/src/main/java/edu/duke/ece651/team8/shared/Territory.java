@@ -158,4 +158,6 @@ public interface Territory {
 
   public Army getSpyArmy(int count, Player p);
 
+  public int getSpyAmount(Player player);
+
 }
