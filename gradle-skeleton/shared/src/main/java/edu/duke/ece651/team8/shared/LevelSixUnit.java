@@ -13,7 +13,7 @@ public class LevelSixUnit implements Unit,Spyable{
 
     @Override
     public Unit upgrade() {
-        return new Spy(); //change to level four later
+        return this; //change to level four later
     }
 
     @Override
