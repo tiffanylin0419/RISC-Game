@@ -182,6 +182,15 @@ public class ActionController extends GameController implements Initializable {
     }
 
     @FXML
+    public void spyAction(){
+        upgradeButtonPressed=true;
+        upgradeInput();
+        in3.setVisible(false);
+        input3.setVisible(false);
+        input3.setText("-1");
+    }
+
+    @FXML
     public void researchAction() throws IOException {
         serverStream.send("R");
         setErrorAndPlayer();

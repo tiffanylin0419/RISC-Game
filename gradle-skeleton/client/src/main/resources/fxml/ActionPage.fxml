@@ -240,23 +240,27 @@
                 </HBox.margin></Button>
             <Button fx:id="move" mnemonicParsing="false" onAction="#moveAction" text="Move">
                 <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
+                    <Insets top="10.0" />
                 </HBox.margin></Button>
             <Button fx:id="attack" mnemonicParsing="false" onAction="#attackAction" text="Attack">
                 <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
+                    <Insets top="10.0" />
                 </HBox.margin></Button>
             <Button fx:id="upgrade" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#upgradeAction" text="Upgrade">
                 <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
+                    <Insets top="10.0" />
+                </HBox.margin></Button>
+            <Button fx:id="spy" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#spyAction" text="Spy">
+                <HBox.margin>
+                    <Insets top="10.0" />
                 </HBox.margin></Button>
             <Button fx:id="research" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#researchAction" text="Research">
                 <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
+                    <Insets top="10.0" />
                 </HBox.margin></Button>
             <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#doneAction" text="Done">
                 <HBox.margin>
-                    <Insets left="30.0" top="10.0" />
+                    <Insets top="10.0" />
                 </HBox.margin></Button>
 
         </HBox>
