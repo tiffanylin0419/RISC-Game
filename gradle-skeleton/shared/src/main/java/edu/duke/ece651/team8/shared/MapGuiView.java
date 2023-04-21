@@ -103,6 +103,12 @@ public class MapGuiView implements View {
         ResourceTerritory tt=(ResourceTerritory) t;
         sb.append("Food: "+tt.getAddFood()+"\\n");
         sb.append("Tech: "+tt.getAddTech()+"\\n");
+        if(tt.isCloaking()){
+            sb.append("Is cloaked: true\\n");
+        }
+        else{
+            sb.append("Is cloaked: false\\n");
+        }
         sb.append("\"\n");
     }
 

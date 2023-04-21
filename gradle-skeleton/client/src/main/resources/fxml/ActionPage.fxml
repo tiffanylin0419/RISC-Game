@@ -262,6 +262,10 @@
                 <HBox.margin>
                     <Insets top="10.0" />
                 </HBox.margin></Button>
+            <Button fx:id="cloak" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#cloakAction" text="Cloak">
+                <HBox.margin>
+                    <Insets top="10.0" />
+                </HBox.margin></Button>
             <Button fx:id="done" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#doneAction" text="Done">
                 <HBox.margin>
                     <Insets top="10.0" />
