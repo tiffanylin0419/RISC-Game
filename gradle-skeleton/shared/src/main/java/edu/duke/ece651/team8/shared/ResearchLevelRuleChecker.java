@@ -1,9 +1,9 @@
 package edu.duke.ece651.team8.shared;
 
-public class LevelRuleChecker extends ResearchActionRuleChecker{
+public class ResearchLevelRuleChecker extends ResearchActionRuleChecker{
     protected final int MAX_LEVEL;
 
-    public LevelRuleChecker(ResearchActionRuleChecker next, int maxLevel) {
+    public ResearchLevelRuleChecker(ResearchActionRuleChecker next, int maxLevel) {
         super(next);
         MAX_LEVEL = maxLevel;
     }

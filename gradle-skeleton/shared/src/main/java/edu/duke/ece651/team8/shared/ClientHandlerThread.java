@@ -22,7 +22,7 @@ public class ClientHandlerThread extends Thread {
     private final Player player;
 
     private final int placementTimes = 5;
-    private final int unitAmount = 36;
+    private final int initialUnitAmount = 36;
     private String winnerName;
     private GameThread gameServer;
     public int status;
@@ -161,7 +161,7 @@ public class ClientHandlerThread extends Thread {
      * @param prompt is prompt of the step to print out
      */
     public void placeUnitForTerritories(String prompt, String num) {
-        int curr = this.unitAmount;
+        int curr = this.initialUnitAmount;
         ArrayList<Territory> territories = player.getTerritories();
         int size = territories.size();
         for (int j = 0; j < size - 1; ++j) {
@@ -275,12 +275,22 @@ public class ClientHandlerThread extends Thread {
             receive(reader);
             switch (buffer) {
                 case "D":
+                    //clear players' research tags
                     if(player.hasResearchedThisTurn){
                         player.upgradeTechLevel();
                         player.hasResearchedThisTurn = false;
                     }
+                    //clear spies' movable tags
                     for(Territory t:theMap.getTerritories()){
                         t.getPlayerSpyArmy(player).setUnmoved();
+                    }
+                    //update territories' cloaking tags
+                    for(Territory t:theMap.getTerritories()){
+                        if(t.isDoingCloaking()){
+                            t.setCloakingStatus();
+                            t.resetDoCloaking();
+                        }
+                        t.updateCloakingStatus();
                     }
                     return;
                 case "M":
@@ -297,6 +307,8 @@ public class ClientHandlerThread extends Thread {
                     break;
                 case "S":
                     doSendSpyOrder();
+                case "C":
+                    doCloakOrder();
             }
         }
     }
@@ -312,7 +324,7 @@ public class ClientHandlerThread extends Thread {
         System.out.println("receive from client: "+buffer);
     }
     public void movableActionRuleCheck(MovableAction ac) {
-        String errorMessage=theMap.getMovableChecker().checkAllRule(ac);
+        String errorMessage=theMap.getMovableRuleChecker().checkAllRule(ac);
         if(errorMessage== null) {
             send("", output);
             ac.doAction();
@@ -322,7 +334,7 @@ public class ClientHandlerThread extends Thread {
         }
     }
 
-    public void upgradeRuleCheck(UpgradeAction action) {
+    public void upgradeActionRuleCheck(UpgradeAction action) {
         String errorMessage = theMap.getUpgradeRuleChecker().checkAllRule(action);
         if(errorMessage == null) {
             send("", output);
@@ -339,6 +351,17 @@ public class ClientHandlerThread extends Thread {
             send("", output);
             System.out.println();
             rs.doAction();
+        }
+        else{
+            send(errorMessage, output);
+        }
+    }
+    public void cloakActionRuleCheck(CloakAction ca){
+        String errorMessage = theMap.getCloakActionRuleChecker().checkAllRule(ca);
+        if(errorMessage== null) {
+            send("", output);
+            System.out.println();
+            ca.doAction();
         }
         else{
             send(errorMessage, output);
@@ -422,7 +445,14 @@ public class ClientHandlerThread extends Thread {
             upgradedLevel = Integer.parseInt(buffer);
         }
         UpgradeAction action = new UpgradeAction(player, territoryText, unitAmount, startLevel, upgradedLevel);
-        upgradeRuleCheck(action);
+        upgradeActionRuleCheck(action);
+        send(player.display(),output);
+    }
+    public void doCloakOrder() throws IOException{
+        doOneTransmission("Please enter the target territory:");
+        String territoryText = buffer;
+        CloakAction action = new CloakAction(player, territoryText);
+        cloakActionRuleCheck(action);
         send(player.display(),output);
     }
 

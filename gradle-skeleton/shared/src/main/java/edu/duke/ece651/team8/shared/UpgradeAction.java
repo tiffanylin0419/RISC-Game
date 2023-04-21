@@ -2,7 +2,7 @@ package edu.duke.ece651.team8.shared;
 
 import java.util.List;
 
-public class UpgradeAction extends BasicAction {
+public class UpgradeAction extends AbstractAction {
     private Territory territory;
     public int unitAmount;
     public int startLevel;
@@ -32,7 +32,6 @@ public class UpgradeAction extends BasicAction {
         }
     }
     public Territory getTerritory() {return territory;}
-    public Player getPlayer() {return player;}
     public int costTechResource() {
         if(nextLevel == Integer.MIN_VALUE){
             return spyCost*unitAmount;

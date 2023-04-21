@@ -1,7 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Game1Map implements Map {
@@ -10,10 +9,10 @@ public class Game1Map implements Map {
 
   private ArrayList<Player> players;
 
-  private final MovableActionRuleChecker movableChecker;
+  private final MovableActionRuleChecker movableActionRuleChecker;
   private final ResearchActionRuleChecker researchActionRuleChecker;
-
   private final UpgradeActionRuleChecker upgradeActionRuleChecker;
+  private final CloakActionRuleChecker cloakActionRuleChecker;
   private String combatOutcome;
   private boolean doneCombat;
 
@@ -21,9 +20,10 @@ public class Game1Map implements Map {
   public Game1Map() {
     this.territories = new ArrayList<>();
     this.players = new ArrayList<>();
-    this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
-    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
-    this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeCostRuleChecker(null)));
+    this.movableActionRuleChecker =new MovableTerritoryRuleChecker(new MovableOwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.researchActionRuleChecker = new ResearchLevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
+    this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeFoodResourceRuleChecker(null)));
+    this.cloakActionRuleChecker =new CloakLevelRuleChecker(new CloakTerritoryRuleChecker(new CloakTechResourceRuleChecker(null)),3);
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -32,9 +32,10 @@ public class Game1Map implements Map {
   public Game1Map(ArrayList<Territory> territories) {
     this.players = new ArrayList<>();
     this.territories = territories;
-    this.movableChecker =new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
-    this.researchActionRuleChecker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
-    this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeCostRuleChecker(null)));
+    this.movableActionRuleChecker =new MovableTerritoryRuleChecker(new MovableOwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.researchActionRuleChecker = new ResearchLevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
+    this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeFoodResourceRuleChecker(null)));
+    this.cloakActionRuleChecker =new CloakLevelRuleChecker(new CloakTerritoryRuleChecker(new CloakTechResourceRuleChecker(null)),3);
     this.combatOutcome = "";
     this.doneCombat = false;
   }
@@ -84,7 +85,7 @@ public class Game1Map implements Map {
   }
 
   @Override
-  public MovableActionRuleChecker getMovableChecker(){return movableChecker;}
+  public MovableActionRuleChecker getMovableRuleChecker(){return movableActionRuleChecker;}
 
   @Override
   public ResearchActionRuleChecker getResearchRuleChecker() {
@@ -94,6 +95,11 @@ public class Game1Map implements Map {
   @Override
   public UpgradeActionRuleChecker getUpgradeRuleChecker() {
     return upgradeActionRuleChecker;
+  }
+
+  @Override
+  public CloakActionRuleChecker getCloakActionRuleChecker() {
+    return cloakActionRuleChecker;
   }
 
   /**

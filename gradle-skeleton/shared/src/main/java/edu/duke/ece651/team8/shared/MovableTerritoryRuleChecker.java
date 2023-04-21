@@ -1,7 +1,7 @@
 package edu.duke.ece651.team8.shared;
 
-public class TerritoryRuleChecker extends MovableActionRuleChecker {
-    public TerritoryRuleChecker(MovableActionRuleChecker next){
+public class MovableTerritoryRuleChecker extends MovableActionRuleChecker {
+    public MovableTerritoryRuleChecker(MovableActionRuleChecker next){
         super(next);
     }
 

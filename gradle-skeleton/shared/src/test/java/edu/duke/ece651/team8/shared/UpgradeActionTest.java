@@ -1,6 +1,5 @@
 package edu.duke.ece651.team8.shared;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +21,7 @@ class UpgradeActionTest {
         Territory t = new BasicTerritory("a1", p);
         t.moveIn(new EvolvableArmy(3, p));
         UpgradeAction ua = new UpgradeAction(p, "a1", 2, 0, 2);
-        UpgradeActionRuleChecker checker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeCostRuleChecker(null)));
+        UpgradeActionRuleChecker checker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeFoodResourceRuleChecker(null)));
         assertEquals(20, p.getTechAmount());
         assertEquals("Level 2 is beyond your tech level: 1", checker.checkAllRule(ua));
         p.addTechResource(2);
