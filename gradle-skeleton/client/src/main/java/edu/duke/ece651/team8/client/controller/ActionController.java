@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public class ActionController extends GameController implements Initializable {
     private String winner="no winner";
     public boolean isDefeated=false;
-    private boolean infoButtonPressed=false, moveButtonPressed=false, moveSpyButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false;
+    private boolean infoButtonPressed=false, moveButtonPressed=false, moveSpyButtonPressed=false, attackButtonPressed=false, upgradeButtonPressed=false, researchButtonPressed=false, cloakButtonPressed=false;
 
     @FXML
     Button info, move, attack, done, upgrade, research;
@@ -125,6 +125,13 @@ public class ActionController extends GameController implements Initializable {
             actionUpgrade();
             upgradeButtonPressed=false;
         }
+        else if(cloakButtonPressed){
+            serverStream.send("C");
+            serverStream.receive();
+            serverStream.send(input3.getText());
+            setErrorAndPlayer();
+            cloakButtonPressed=false;
+        }
         notSeeInput();
     }
 
@@ -207,6 +214,12 @@ public class ActionController extends GameController implements Initializable {
         setErrorAndPlayer();
     }
 
+    @FXML
+    public void cloakAction() throws IOException {
+        cloakButtonPressed=true;
+        see1input("territory");
+
+    }
 
 
     @FXML
