@@ -27,7 +27,29 @@ public class MapGuiView implements View {
     public String displayPlayerMap(Map theMap, Player player) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"map\":{\n");
+        //all territory
         HashSet<Territory> checked_territories= new HashSet<>();
+        //cloaked territory
+        HashSet<Territory> cloak_territories=new HashSet<>();
+        for(Territory t: theMap.getTerritories()){
+            if(t.isCloaking()){
+                cloak_territories.add(t);
+            }
+        }
+
+        //spy territory
+        HashSet<Territory> spy_territories=new HashSet<>();
+        for(Territory t: theMap.getTerritories()){
+            if(t.getPlayerSpyArmy(player).getAllAmount()>0){
+                spy_territories.add(t);
+            }
+        }
+        for(Territory t: spy_territories){
+            if(!checked_territories.contains(t)){
+                displayPlayerTerritoryInfo(sb,t, player);
+                checked_territories.add(t);
+            }
+        }
         //own territory
         ArrayList<Territory> territories=new ArrayList<>();
         for(Territory t: theMap.getTerritories()){
@@ -36,33 +58,22 @@ public class MapGuiView implements View {
             }
         }
         for(Territory t: territories){
-            displayPlayerTerritoryInfo(sb,t,player);
+            if(!checked_territories.contains(t)){
+                displayPlayerTerritoryInfo(sb,t, player);
+                checked_territories.add(t);
+            }
         }
-        checked_territories.addAll(territories);
         //adjacent territory
         HashSet<Territory> adj_territories=new HashSet<>();
         for(Territory t: territories){
             adj_territories.addAll(t.getAdjacent());
         }
         for(Territory t: adj_territories){
-            if(!checked_territories.contains(t)){
+            if(!checked_territories.contains(t) && !cloak_territories.contains(t)){
                 displayPlayerTerritoryInfo(sb,t, player);
+                checked_territories.add(t);
             }
         }
-        checked_territories.addAll(adj_territories);
-        //spy territory
-        HashSet<Territory> spy_territories=new HashSet<>();
-        for(Territory t: territories){
-            if(t.getPlayerSpyArmy(player).getAllAmount()>0){
-                spy_territories.add(t);
-            }
-        }
-        for(Territory t: spy_territories){
-            if(!checked_territories.contains(t)){
-                displayPlayerTerritoryInfo(sb,t, player);
-            }
-        }
-        checked_territories.addAll(spy_territories);
         //grey
         for(Territory t: player.seen_territories){
             if(!checked_territories.contains(t)){
@@ -103,7 +114,7 @@ public class MapGuiView implements View {
         ResourceTerritory tt=(ResourceTerritory) t;
         sb.append("Food: "+tt.getAddFood()+"\\n");
         sb.append("Tech: "+tt.getAddTech()+"\\n");
-        if(tt.isOwner(player) && tt.isCloaking()){
+        if(tt.isCloaking()){
             sb.append("Is cloaked\\n");
         }
         sb.append("\"\n");
