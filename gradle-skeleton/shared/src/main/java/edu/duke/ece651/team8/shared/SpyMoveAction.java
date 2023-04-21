@@ -13,18 +13,53 @@ public class SpyMoveAction extends MoveAction{
     public boolean isValidDestination(){
         return true;
     }
+    @Override
+    public boolean hasEnoughFood() {
+        int minPath;
+        if(getDestination().isOwner(getPlayer())&&getSource().isOwner(getPlayer())){
+            MinimumPath path = new MinimumPath(player, theMap);
+            minPath = path.findMinPath(getSource(), getDestination());
+        }else{
+            minPath = getSource().getDistance(getDestination());
+        }
+
+//        System.out.println(super.player.getFoodAmount() + " " + minPath);
+        return super.player.getFoodAmount() >= (super.getCount() * minPath);
+    }
 
     @Override
     public void doAction(){
         Army eArmy = getSource().getSpyArmy(getCount(),getPlayer());
         eArmy.setMoved();
         getSource().spyArmiesMoveOut(eArmy);
+        int minPath = 1;
+        if(getDestination().isOwner(getPlayer())&&getSource().isOwner(getPlayer())){
+            MinimumPath path = new MinimumPath(player, theMap);
+            minPath = path.findMinPath(getSource(), getDestination());
+        }
         getDestination().spyArmiesMoveIn(eArmy);
-        player.addFoodResource(-(getCount()));
+        player.addFoodResource(-(getCount())*minPath);
     }
+//    public void doAction(){
+//        Army eArmy = getSource().getArmy(super.getCount(),super.getPlayer());
+//        getSource().moveOut(eArmy);
+//        getDestination().moveIn(eArmy);
+//        int minPath = 1;
+//        if(getDestination().isOwner(getPlayer())&&getSource().isOwner(getPlayer())){
+//            MinimumPath path = new MinimumPath(player, theMap);
+//            minPath = path.findMinPath(getSource(), getDestination());
+//        }
+//        super.player.addFoodResource(-(super.getCount() * minPath));
+//    }
     @Override
     protected boolean isValidPath(){
-        return getSource().isAdjacent(getDestination());
+        boolean isValid;
+        if(getDestination().isOwner(getPlayer())&&getSource().isOwner(getPlayer())){
+            isValid = getSource().isAdjacentSelf(getDestination());
+        }else{
+            isValid = getSource().isAdjacent(getDestination());
+        }
+        return isValid;
     }
 
     @Override
