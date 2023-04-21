@@ -20,10 +20,10 @@ public class Game1Map implements Map {
   public Game1Map() {
     this.territories = new ArrayList<>();
     this.players = new ArrayList<>();
-    this.movableActionRuleChecker =new MovableTerritoryRuleChecker(new MovableOwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
+    this.movableActionRuleChecker = new MovableTerritoryRuleChecker(new MovableOwnershipRuleChecker(new NumberRuleChecker(new PathRuleChecker(null)))) ;
     this.researchActionRuleChecker = new ResearchLevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
     this.upgradeActionRuleChecker = new UpgradeTerritoryRuleChecker(new UpgradeUnitRuleChecker(new UpgradeFoodResourceRuleChecker(null)));
-    this.cloakActionRuleChecker =new CloakLevelRuleChecker(new CloakTerritoryRuleChecker(new CloakTechResourceRuleChecker(null)),3);
+    this.cloakActionRuleChecker = new CloakLevelRuleChecker(new CloakTerritoryRuleChecker(new CloakTechResourceRuleChecker(null)),3);
     this.combatOutcome = "";
     this.doneCombat = false;
   }

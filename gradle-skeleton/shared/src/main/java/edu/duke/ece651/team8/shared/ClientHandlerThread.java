@@ -50,7 +50,7 @@ public class ClientHandlerThread extends Thread {
         sendGameLoading();
         sendInitialConfig();
         doInitialPlacement();
-        while(this.winnerName == "" && status != -1) {//keep running if no one wins
+        while(this.winnerName.equals("") && status != -1) {//keep running if no one wins
             issueOrders();
             reportResult();
         }
@@ -285,12 +285,13 @@ public class ClientHandlerThread extends Thread {
                         t.getPlayerSpyArmy(player).setUnmoved();
                     }
                     //update territories' cloaking tags
-                    for(Territory t:theMap.getTerritories()){
+                    for(Territory t:player.getTerritories()){
+                        t.updateCloakingStatus();
                         if(t.isDoingCloaking()){
                             t.setCloakingStatus();
                             t.resetDoCloaking();
                         }
-                        t.updateCloakingStatus();
+
                     }
                     return;
                 case "M":
