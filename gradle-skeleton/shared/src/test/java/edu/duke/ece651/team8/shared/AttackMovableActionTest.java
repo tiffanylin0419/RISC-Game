@@ -55,14 +55,14 @@ class AttackMovableActionTest {
         d.moveIn(new BasicArmy(5, players.get(1)));
 
         MovableAction action1=new AttackAction(players.get(0),"a1","b1",3,map);
-        assertNull(map.getMovableChecker().checkAllRule(action1));
+        assertNull(map.getMovableRuleChecker().checkAllRule(action1));
         action1.doAction();
         assertEquals(1,s.getUnitAmount(0));
         assertEquals(5,d.getUnitAmount(0));
         assertEquals(3,d.getUnitAmount(1));
 
         MovableAction action2=new AttackAction(players.get(0),"a1","b1",1,map);
-        assertNull(map.getMovableChecker().checkAllRule(action2));
+        assertNull(map.getMovableRuleChecker().checkAllRule(action2));
         action2.doAction();
         assertEquals(0,s.getUnitAmount(0));
         s.attack();

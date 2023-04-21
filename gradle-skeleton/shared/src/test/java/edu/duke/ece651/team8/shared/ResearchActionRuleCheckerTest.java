@@ -12,7 +12,7 @@ class ResearchActionRuleCheckerTest {
         Territory t = new BasicTerritory("a1", p);
         t.moveIn(new EvolvableArmy(3, p));
         ResearchAction ra = new ResearchAction(p);
-        ResearchActionRuleChecker checker = new LevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
+        ResearchActionRuleChecker checker = new ResearchLevelRuleChecker(new TechResourceRuleChecker(new ResearchTurnLimitChecker(null)),6);
         assertEquals(null, checker.checkAllRule(ra));
 
         ra.doAction();

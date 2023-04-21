@@ -1,6 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
-public abstract class MovableAction extends BasicAction {
+public abstract class MovableAction extends AbstractAction {
     private final String sourceText;
     private final String destinationText;
     private Territory source;
@@ -60,7 +60,6 @@ public abstract class MovableAction extends BasicAction {
         return getSource().getPlayerMovableUnitAmount(getPlayer());
     }
 
-    public Player getPlayer(){return player;}
 
     /**
      * @return sourceText

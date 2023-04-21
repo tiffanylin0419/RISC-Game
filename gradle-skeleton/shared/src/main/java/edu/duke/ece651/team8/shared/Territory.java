@@ -155,9 +155,17 @@ public interface Territory {
   void spyArmiesMoveOut(Army army_out);
   Army getSpyArmy(int count, Player p);
 
-  public int getPlayerMovableSpyAmount(Player p);
+  int getPlayerMovableSpyAmount(Player p);
 
-  public int getSpyAmount(Player player);
+  int getSpyAmount(Player player);
 
-  public Army getPlayerSpyArmy(Player p);
+  Army getPlayerSpyArmy(Player p);
+
+  void setCloakingStatus();
+  void updateCloakingStatus();
+
+  boolean isCloaking();
+  void setDoCloaking();
+  void resetDoCloaking();
+  boolean isDoingCloaking();
 }

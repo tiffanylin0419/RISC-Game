@@ -1,6 +1,5 @@
 package edu.duke.ece651.team8.shared;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ class MoveMovableActionTest {
         MovableAction action1=new MoveAction(players.get(0),"a1","a5",3,map);
         assertEquals("a1",action1.getSourceText());
         assertEquals("a5",action1.getDestinationText());
-        assertEquals("Do not have enough food", map.getMovableChecker().checkAllRule(action1));
+        assertEquals("Do not have enough food", map.getMovableRuleChecker().checkAllRule(action1));
 
         assertEquals(4,s.getUnitAmount(0));
         assertEquals(5,d.getUnitAmount(0));
@@ -32,7 +31,7 @@ class MoveMovableActionTest {
         players.get(0).addFoodResource(3000);
         MovableAction action2=new MoveAction(players.get(0),"a1","a5",1,map);
         System.out.println(players.get(0).getFoodAmount());
-        assertNull(map.getMovableChecker().checkAllRule(action2));
+        assertNull(map.getMovableRuleChecker().checkAllRule(action2));
         action2.doAction();
         assertEquals(3,s.getUnitAmount(0));
         s.attack();

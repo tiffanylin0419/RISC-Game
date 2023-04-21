@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OwnershipRuleCheckerTest {
+class MovableOwnershipRuleCheckerTest {
 
     @Test
     void test_checkMyRule() {
@@ -20,7 +20,7 @@ class OwnershipRuleCheckerTest {
         theMap.getTerritories().get(0).moveIn(new BasicArmy(5,p1));
         theMap.getTerritories().get(1).moveIn(new BasicArmy(4,p1));
 
-        MovableActionRuleChecker checker= new TerritoryRuleChecker(new OwnershipRuleChecker(new NumberRuleChecker(null))) ;
+        MovableActionRuleChecker checker= new MovableTerritoryRuleChecker(new MovableOwnershipRuleChecker(new NumberRuleChecker(null))) ;
         MovableAction action1 =new MoveAction(p1,"a1","b1",3,theMap);
         assertEquals("Cannot choose b1 as destination for this action",checker.checkAllRule(action1));
 

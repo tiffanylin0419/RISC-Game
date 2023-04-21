@@ -16,6 +16,8 @@ public class BasicTerritory implements Territory {
   protected final ArrayList<Territory> adjList;
   protected final ArrayList<Army> armies;
   private final ArrayList<Army> spyArmies;
+  private int leftCloakingTurns;
+  private boolean doingCloakingAction;
   //constructor
   public BasicTerritory(String name){
     this.name=name;
@@ -25,6 +27,8 @@ public class BasicTerritory implements Territory {
     this.adjList = new ArrayList<>();
     this.armies =new ArrayList<>();
     this.spyArmies = new ArrayList<>();
+    this.leftCloakingTurns = 0;
+    this.doingCloakingAction = false;
   }
   public BasicTerritory(String name, Player owner){
     this(name);
@@ -398,4 +402,33 @@ public class BasicTerritory implements Territory {
     return moveArmy;
   }
 
+  @Override
+  public void setCloakingStatus() {
+    leftCloakingTurns = 3;
+  }
+
+  @Override
+  public void updateCloakingStatus() {
+    if(leftCloakingTurns>0) {leftCloakingTurns--;}
+  }
+
+  @Override
+  public boolean isCloaking() {
+    return leftCloakingTurns == 0;
+  }
+
+  @Override
+  public void setDoCloaking(){
+    this.doingCloakingAction = true;
+  }
+
+  @Override
+  public boolean isDoingCloaking(){
+    return this.doingCloakingAction;
+  }
+
+  @Override
+  public void resetDoCloaking(){
+    this.doingCloakingAction = false;
+  }
 }
