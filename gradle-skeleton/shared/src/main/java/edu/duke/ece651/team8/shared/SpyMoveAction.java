@@ -36,6 +36,8 @@ public class SpyMoveAction extends MoveAction{
         if(getDestination().isOwner(getPlayer())&&getSource().isOwner(getPlayer())){
             MinimumPath path = new MinimumPath(player, theMap);
             minPath = path.findMinPath(getSource(), getDestination());
+        }else{
+            minPath = getSource().getDistance(getDestination());
         }
         getDestination().spyArmiesMoveIn(eArmy);
         player.addFoodResource(-(getCount())*minPath);
