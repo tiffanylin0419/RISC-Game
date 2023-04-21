@@ -307,8 +307,10 @@ public class ClientHandlerThread extends Thread {
                     break;
                 case "S":
                     doSendSpyOrder();
+                    break;
                 case "C":
                     doCloakOrder();
+                    break;
             }
         }
     }

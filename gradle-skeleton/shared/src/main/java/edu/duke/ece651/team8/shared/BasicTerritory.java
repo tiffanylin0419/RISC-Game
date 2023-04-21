@@ -414,7 +414,7 @@ public class BasicTerritory implements Territory {
 
   @Override
   public boolean isCloaking() {
-    return leftCloakingTurns == 0;
+    return leftCloakingTurns != 0;
   }
 
   @Override
