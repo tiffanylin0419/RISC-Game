@@ -18,6 +18,7 @@ public class CloakAction extends AbstractAction{
     @Override
     public void doAction() {
         territory.setDoCloaking();
+        player.addTechResource(-cloakCost);
     }
     public Territory getTerritory(){
         return this.territory;
