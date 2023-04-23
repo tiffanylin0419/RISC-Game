@@ -7,4 +7,8 @@ public class LevelSixUnit extends AbstractUnit{
         super(6, "Saber", 15);
     }
 
+    @Override
+    public Unit downgrade() {
+        return new LevelFiveUnit();
+    }
 }

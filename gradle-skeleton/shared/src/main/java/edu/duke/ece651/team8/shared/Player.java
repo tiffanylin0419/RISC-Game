@@ -143,8 +143,16 @@ public class Player {
   }
   public void collectResources() {
     for (Territory t : territories) {
-      t.produceFoodResource(food);
-      t.produceTechResource(tech);
+      if (!t.getStarvationStatus()) {
+        t.produceFoodResource(food);
+        t.produceTechResource(tech);
+      } else {
+        t.downgradeUnits();
+      }
+      if (t.getMeteorStatus()) {
+        // todo
+        t.killAllUnits();
+      }
     }
   }
   public void upgradeTechLevel(){

@@ -291,7 +291,8 @@ public class ClientHandlerThread extends Thread {
                             t.setCloakingStatus();
                             t.resetDoCloaking();
                         }
-
+                        // reset the status of the territory (starvation, freeze, and meteor)
+                        t.resetStatus();
                     }
                     return;
                 case "M":

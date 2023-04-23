@@ -14,5 +14,8 @@ public class LevelFourUnit extends AbstractUnit{
         return new LevelFiveUnit(); //change to level four later
     }
 
-
+    @Override
+    public Unit downgrade() {
+        return new LevelThreeUnit();
+    }
 }

@@ -15,7 +15,7 @@ public class BasicTerritory implements Territory {
 
   protected final ArrayList<Territory> adjList;
   protected final ArrayList<Army> armies;
-  private final ArrayList<Army> spyArmies;
+  protected final ArrayList<Army> spyArmies;
   private int leftCloakingTurns;
   private boolean doingCloakingAction;
   //constructor
@@ -430,5 +430,33 @@ public class BasicTerritory implements Territory {
   @Override
   public void resetDoCloaking(){
     this.doingCloakingAction = false;
+  }
+
+  @Override
+  public boolean getStarvationStatus() {
+    return false;
+  }
+
+  @Override
+  public boolean getFreezeStatus() {
+    return false;
+  }
+
+  @Override
+  public boolean getMeteorStatus() {
+    return false;
+  }
+
+  @Override
+  public void resetStatus(){return;}
+
+  @Override
+  public void downgradeUnits() {
+    return;
+  }
+
+  @Override
+  public void killAllUnits() {
+    return;
   }
 }
