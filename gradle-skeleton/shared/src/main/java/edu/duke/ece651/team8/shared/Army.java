@@ -62,4 +62,6 @@ public interface Army {
   void setMoved();
 
   void setUnmoved();
+
+  public void downgradeUnits();
 }

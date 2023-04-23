@@ -28,6 +28,10 @@ public class UnitFactory {
         return upgradeTo(level - 1, u.upgrade());
     }
 
+    public Unit downgrade(Unit u) {
+        return u.downgrade();
+    }
+
     /**
      * Try whether unit can be upgrade to certain level
      * @return larger than zero: remaining resources for upgrading

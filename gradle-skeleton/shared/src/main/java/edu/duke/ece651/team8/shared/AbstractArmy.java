@@ -92,6 +92,21 @@ public abstract class AbstractArmy implements Army{
         }
 
     }
+
+    @Override
+    public void downgradeUnits() {
+        Set<Unit> set = new HashSet<>();
+        for (Unit unit : units) {
+            set.add(unit);
+        }
+        for (Unit unit : set) {
+            if (unit.getLevel() != 0) {
+                units.remove(unit);
+                Unit newUnit = uf.downgrade(unit);
+                units.add(newUnit);
+            }
+        }
+    }
     private Unit getLevelUnit(int level) {
         for(Unit u : units) {
             if(u.getLevel() == level) {

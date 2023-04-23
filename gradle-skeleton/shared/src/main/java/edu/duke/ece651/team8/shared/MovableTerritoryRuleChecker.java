@@ -16,6 +16,8 @@ public class MovableTerritoryRuleChecker extends MovableActionRuleChecker {
         }
         else if(action.getDestination()==null){
             return "Destination "+action.getDestinationText()+" not in map";
+        } else if (action.getSource().getFreezeStatus()) {
+            return "Source "+action.getSourceText()+" is frozen now";
         }
         return null;
     }

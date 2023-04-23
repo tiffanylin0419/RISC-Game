@@ -31,6 +31,11 @@ public abstract class AbstractUnit implements Unit{
         return this;
     }
 
+    @Override
+    public Unit downgrade() {
+        return this;
+    }
+
 
     @Override
     public int getUpgradeCost() {

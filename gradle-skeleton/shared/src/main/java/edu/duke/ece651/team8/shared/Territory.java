@@ -168,4 +168,14 @@ public interface Territory {
   void setDoCloaking();
   void resetDoCloaking();
   boolean isDoingCloaking();
+
+  public boolean getStarvationStatus();
+  public boolean getFreezeStatus();
+  public boolean getMeteorStatus();
+
+  public void resetStatus();
+
+  public void downgradeUnits();
+
+  public void killAllUnits();
 }

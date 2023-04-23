@@ -7,6 +7,9 @@ public interface Unit extends Comparable<Unit>{
      */
     public Unit upgrade();
 
+    public Unit downgrade();
+
+//    public Unit downgrade();
 
     /**
      * get the cost for upgrade
