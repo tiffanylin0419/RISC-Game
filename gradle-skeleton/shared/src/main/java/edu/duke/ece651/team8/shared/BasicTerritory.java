@@ -456,7 +456,7 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public void killAllUnits() {
+  public void removeAllUnits() {
     return;
   }
 }
