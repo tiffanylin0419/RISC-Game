@@ -177,5 +177,5 @@ public interface Territory {
 
   public void downgradeUnits();
 
-  public void killAllUnits();
+  public void removeAllUnits();
 }

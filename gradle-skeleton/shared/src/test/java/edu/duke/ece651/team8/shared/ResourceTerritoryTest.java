@@ -19,8 +19,8 @@ public class ResourceTerritoryTest {
     }
 
     @Test
-    public void testKillAllUnits() {
+    public void testRemoveAllUnits() {
         ResourceTerritory territory = new ResourceTerritory("a");
-        territory.killAllUnits();
+        territory.removeAllUnits();
     }
 }

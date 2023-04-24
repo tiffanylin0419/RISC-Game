@@ -78,21 +78,21 @@ public class ResourceTerritory extends BasicTerritory {
         }
     }
 
-//    @Override
-//    public void killAllUnits() {
-//        for (Army army : this.armies) {
-//            List<Unit> units = army.getList();
-//            for (Unit unit : units) {
-//                units.remove(unit);
-//            }
-////            army.remove(army.getList());
-//        }
+    @Override
+    public void removeAllUnits() {
+        for (Army army : this.armies) {
+            List<Unit> units = army.getList();
+            for (Unit unit : units) {
+                army.removeOne(unit);
+            }
+//            army.remove(army.getList());
+        }
 //        for (Army army : this.spyArmies) {
 //            List<Unit> units = army.getList();
 //            for (Unit unit : units) {
 //                units.remove(unit);
 //            }
-////            army.remove(army.getList());
-//        }
-//    }
+//            army.remove(army.getList());
+        }
+    }
 }
