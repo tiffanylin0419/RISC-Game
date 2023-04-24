@@ -1,5 +1,6 @@
 package edu.duke.ece651.team8.shared;
 
+import java.util.List;
 import java.util.Random;
 
 public class ResourceTerritory extends BasicTerritory {
@@ -80,10 +81,18 @@ public class ResourceTerritory extends BasicTerritory {
     @Override
     public void killAllUnits() {
         for (Army army : this.armies) {
-            army.remove(army.getList());
+            List<Unit> units = army.getList();
+            for (Unit unit : units) {
+                units.remove(unit);
+            }
+//            army.remove(army.getList());
         }
         for (Army army : this.spyArmies) {
-            army.remove(army.getList());
+            List<Unit> units = army.getList();
+            for (Unit unit : units) {
+                units.remove(unit);
+            }
+//            army.remove(army.getList());
         }
     }
 }

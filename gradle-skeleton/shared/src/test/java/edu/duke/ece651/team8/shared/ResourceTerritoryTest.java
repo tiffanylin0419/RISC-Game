@@ -17,4 +17,10 @@ public class ResourceTerritoryTest {
         r.produceTechResource(tr);
 
     }
+
+    @Test
+    public void testKillAllUnits() {
+        ResourceTerritory territory = new ResourceTerritory("a");
+        territory.killAllUnits();
+    }
 }
