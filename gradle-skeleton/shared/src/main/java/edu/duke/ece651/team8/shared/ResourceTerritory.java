@@ -71,28 +71,28 @@ public class ResourceTerritory extends BasicTerritory {
         getNewStatus();
     }
 
-//    @Override
-//    public void downgradeUnits() {
-//        for (Army army : this.armies) {
-//            army.downgradeUnits();
-//        }
-//    }
-
     @Override
-    public void killAllUnits() {
+    public void downgradeUnits() {
         for (Army army : this.armies) {
-            List<Unit> units = army.getList();
-            for (Unit unit : units) {
-                units.remove(unit);
-            }
-//            army.remove(army.getList());
-        }
-        for (Army army : this.spyArmies) {
-            List<Unit> units = army.getList();
-            for (Unit unit : units) {
-                units.remove(unit);
-            }
-//            army.remove(army.getList());
+            army.downgradeUnits();
         }
     }
+
+//    @Override
+//    public void killAllUnits() {
+//        for (Army army : this.armies) {
+//            List<Unit> units = army.getList();
+//            for (Unit unit : units) {
+//                units.remove(unit);
+//            }
+////            army.remove(army.getList());
+//        }
+//        for (Army army : this.spyArmies) {
+//            List<Unit> units = army.getList();
+//            for (Unit unit : units) {
+//                units.remove(unit);
+//            }
+////            army.remove(army.getList());
+//        }
+//    }
 }
