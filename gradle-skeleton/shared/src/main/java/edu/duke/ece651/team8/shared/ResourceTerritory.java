@@ -83,7 +83,8 @@ public class ResourceTerritory extends BasicTerritory {
         for (Army army : this.armies) {
             List<Unit> units = army.getList();
             for (Unit unit : units) {
-                army.removeOne(unit);
+//                army.removeOne(unit);
+                units.remove(unit);
             }
 //            army.remove(army.getList());
         }
