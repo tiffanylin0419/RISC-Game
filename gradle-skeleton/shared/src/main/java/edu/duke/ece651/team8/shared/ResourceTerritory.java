@@ -71,12 +71,12 @@ public class ResourceTerritory extends BasicTerritory {
         getNewStatus();
     }
 
-    @Override
-    public void downgradeUnits() {
-        for (Army army : this.armies) {
-            army.downgradeUnits();
-        }
-    }
+//    @Override
+//    public void downgradeUnits() {
+//        for (Army army : this.armies) {
+//            army.downgradeUnits();
+//        }
+//    }
 
     @Override
     public void killAllUnits() {
