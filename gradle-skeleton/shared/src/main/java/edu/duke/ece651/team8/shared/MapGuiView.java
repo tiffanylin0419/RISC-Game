@@ -75,19 +75,28 @@ public class MapGuiView implements View {
             }
         }
         //grey
-        for(Territory t: player.seen_territories){
+        HashSet<Territory> seen_territories2=new HashSet<>();
+        for(Territory t: theMap.getTerritories()){
+            if(player.seen_territories.contains(t.getName())){
+                seen_territories2.add(t);
+            }
+        }
+        for(Territory t: seen_territories2){
             if(!checked_territories.contains(t)){
                 displayGreyTerritoryInfo(sb,t);
             }
         }
-        checked_territories.addAll(player.seen_territories);
+        checked_territories.addAll(seen_territories2);
         //black
         for(Territory t: theMap.getTerritories()){
             if(!checked_territories.contains(t)){
                 displayBlackTerritoryInfo(sb,t);
             }
         }
-        player.seen_territories.addAll(checked_territories);
+        //add checked to seen
+        for(Territory t: checked_territories){
+            player.seen_territories.add(t.getName());
+        }
         sb.append("}\n}");
         return sb.toString();
     }

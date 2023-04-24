@@ -1,11 +1,12 @@
 package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Player {
   protected ArrayList<Territory> territories;
 
-  public HashSet<Territory> seen_territories;
+  public Set<String> seen_territories;
   private String color;
   private int unitMax;
   private boolean isConnected;
