@@ -93,6 +93,6 @@ public class ResourceTerritory extends BasicTerritory {
 //                units.remove(unit);
 //            }
 //            army.remove(army.getList());
-        }
+//        }
     }
 }
