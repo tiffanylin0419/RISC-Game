@@ -1,11 +1,14 @@
 package edu.duke.ece651.team8.shared;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Player {
   protected ArrayList<Territory> territories;
 
-  public HashSet<Territory> seen_territories;
+  public Map<String,String> seen_territories;
   private String color;
   private int unitMax;
   private boolean isConnected;
@@ -24,7 +27,7 @@ public class Player {
   }
   public Player(){
     this.territories=new ArrayList<>();
-    this.seen_territories=new HashSet<>();
+    this.seen_territories=new HashMap<>();
     this.color="";
     this.unitMax=0;
     this.isConnected = true;
