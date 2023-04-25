@@ -78,19 +78,14 @@ public class ResourceTerritory extends BasicTerritory {
         }
     }
 
-//    @Override
-//    public void removeAllUnits() {
-//        for (Army army : this.armies) {
-//            List<Unit> units = army.getList();
-//            if (units.size() == 0) {
-//                continue;
-//            }
-//            for (Unit unit : units) {
-//                units.remove(unit);
-//                units.remove(unit);
-//            }
-////            army.remove(army.getList());
-//        }
+    @Override
+    public void removeAllUnits() {
+        for (Army army : this.armies) {
+            List<Unit> units = army.getList();
+            while (!units.isEmpty()) {
+                units.remove(0);
+            }
+        }
 //        for (Army army : this.spyArmies) {
 //            List<Unit> units = army.getList();
 //            for (Unit unit : units) {
@@ -98,5 +93,5 @@ public class ResourceTerritory extends BasicTerritory {
 //            }
 //            army.remove(army.getList());
 //        }
-//    }
+    }
 }

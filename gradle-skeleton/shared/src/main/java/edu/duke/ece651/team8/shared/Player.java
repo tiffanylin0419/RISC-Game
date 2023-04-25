@@ -154,7 +154,7 @@ public class Player {
       }
       if (t.getMeteorStatus()) {
         // todo
-//        t.removeAllUnits();
+        t.removeAllUnits();
       }
     }
   }
