@@ -85,7 +85,7 @@ public class ResourceTerritory extends BasicTerritory {
 //            while (!units.isEmpty()) {
 //                units.remove(0);
 //            }
-            while (units.size() > 0) {
+            while (units.size() > 1) {
                 units.remove(0);
             }
         }
