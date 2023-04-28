@@ -61,6 +61,25 @@ public class GameNumController{
         System.out.println(serverStream.getBuffer());
         int status = Integer.parseInt(serverStream.getBuffer());
 
+        /*if(status<2){
+            System.out.println("1: "+serverStream.read());
+            System.out.println("2: "+serverStream.read());
+            System.out.println("3: "+serverStream.read());
+            System.out.println("4: "+serverStream.read());
+
+            String colorss = serverStream.read();
+            String playerInfos=serverStream.read();
+            String maps = serverStream.read();
+            int placeNums=Integer.parseInt(serverStream.read());
+            String messages=serverStream.read();
+
+            FXMLLoader loaderStart = new FXMLLoader(getClass().getResource("/fxml/Placement.fxml"));
+            loaderStart.setControllerFactory(c-> new PlacementController(stage,serverStream, colorss, messages, playerInfos,maps, placeNums,n));
+            Scene scene = new Scene(loaderStart.load());
+            stage.setScene(scene);
+            stage.show();
+        }*/
+
         System.out.println("color: "+serverStream.read());
         String colorS = serverStream.getBuffer();
 

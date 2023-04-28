@@ -137,14 +137,14 @@ public class Client {
         out.println(serverStream.getBuffer());
     }
     public void joinOldGame() throws IOException {
-        out.println(serverStream.getBuffer());
+        out.println(serverStream.getBuffer());//prompt
         serverStream.receive();
-        out.println(serverStream.getBuffer());
+        out.println(serverStream.getBuffer());//num
         serverStream.send(input.readLine());
 
         serverStream.receive();
-        out.println(serverStream.getBuffer());
-        status = Integer.parseInt(serverStream.getBuffer());
+        out.println(serverStream.getBuffer());//old game info
+        status = Integer.parseInt(serverStream.getBuffer());//status
 
         serverStream.receive();
         out.println(serverStream.getBuffer());

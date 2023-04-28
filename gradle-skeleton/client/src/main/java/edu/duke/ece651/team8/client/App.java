@@ -28,7 +28,7 @@ public class App  extends Application{
     @Override
     public void start(Stage stage) throws IOException {
         try{
-            String hostname = "localhost";//"vcm-32232.vm.duke.edu";//"localhost";
+            String hostname = "localhost";//"vcm-33375.vm.duke.edu";//"localhost";
             int port = 8080; // set the port number
             this.stage = stage;
             this.serverStream = new ServerStream(hostname,port);
