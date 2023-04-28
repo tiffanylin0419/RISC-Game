@@ -125,6 +125,17 @@ public class MapGuiView implements View {
         if(tt.isCloaking()){
             sb2.append("Is cloaked\\n");
         }
+        sb2.append("Status: ");
+        ResourceTerritory territory=(ResourceTerritory)t;
+        if(territory.getStarvationStatus()){
+            sb2.append("starvation\\n");
+        }else if(territory.getFreezeStatus()){
+            sb2.append("freeze\\n");
+        }else if(territory.getMeteorStatus()){
+            sb2.append("meteor\\n");
+        }else{
+            sb2.append("normal\\n");
+        }
         sb2.append("\"\n");
         String ret=sb2.toString();
         sb.append(sb2);
