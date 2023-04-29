@@ -7,35 +7,26 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 public class SpyMoveActionTest {
     @Test
-    public void testIsValidPath() {
+    public void testDoAction() {
         V1MapFactory factory = new V1MapFactory();
         Game1Map map = factory.createMap(4);
-        ArrayList<Player> players =factory.createPlayers(4,map);
+        ArrayList<Player> players = factory.createPlayers(4,map);
 
-        ArrayList<Territory> territories=map.getTerritories();
-        Territory s=territories.get(0);
-        Territory d=territories.get(7);
-        s.moveIn(new BasicArmy(4, players.get(0)));
-        d.moveIn(new BasicArmy(5, players.get(1)));
-
-        MovableAction action1=new MoveAction(players.get(0),"a1","b2",3,map);
-        assertTrue(action1.isValidSource());
-
-        MovableAction action2=new MoveAction(players.get(1),"a1","b2",3,map);
-        assertFalse(action2.isValidSource());
-
-        MovableAction action3=new MoveAction(players.get(1),"a1","b2",3,map);
-        assertTrue(action3.isValidDestination());
-
-        MovableAction action4=new MoveAction(players.get(0),"a1","b2",3,map);
-        assertFalse(action4.isValidDestination());
-        assertFalse(action4.isValidPath());
-
-
-        MovableAction action5=new MoveAction(players.get(0),"a2","a3",3,map);
-        action5.getSource().moveIn(new BasicArmy(4, players.get(0)));
-        action5.getDestination().moveIn(new BasicArmy(6, players.get(0)));
-        assertTrue(action5.isValidPath());
+        ArrayList<Territory> territories = map.getTerritories();
+        Territory source=territories.get(0);
+        Territory destination=territories.get(7);
+        SpyArmy army1 = new SpyArmy(6, players.get(0));
+        SpyArmy army2 = new SpyArmy(6, players.get(1));
+        source.moveIn(army1);
+        destination.moveIn(army2);
+        MovableAction action = new SpyMoveAction(players.get(0),"a1","b1",1, map);
+        assertEquals(0, action.numberOfMovableUnits());
+        assertEquals(true, action.hasEnoughFood());
+        assertEquals(true, action.isValidPath());
+        assertEquals(true, action.isValidSource());
+        assertEquals(true, action.isValidDestination());
+        action.doAction();
+        assertEquals(true, action.hasEnoughFood());
     }
 
     private ArrayList<Territory> createTerritories() {
