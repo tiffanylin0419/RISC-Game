@@ -9,9 +9,9 @@ public class SpyArmy extends AbstractArmy{
         units = createSpyList(amount);
     }
 
-    public SpyArmy(Player owner, List<Unit> list){
-        super(owner,list);
-    }
+//    public SpyArmy(Player owner, List<Unit> list){
+//        super(owner,list);
+//    }
 
     protected List<Unit> createSpyList(int amount){
         List<Unit> ans = new ArrayList<>();
